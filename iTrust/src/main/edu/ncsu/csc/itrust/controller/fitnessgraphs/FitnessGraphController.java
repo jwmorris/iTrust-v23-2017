@@ -50,7 +50,7 @@ public class FitnessGraphController {
 	public LineChartModel createGraph() {
 		
 		
-		GraphDisplayModel displayModel = null;
+		GraphDisplayModel displayModel = new StepCountModel();
 		if(graphType.equals("step")) {
 			displayModel = new StepCountModel();
 		} else if (graphType.equals("stepDelta")) {

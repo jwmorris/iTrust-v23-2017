@@ -360,7 +360,11 @@ public class FitnessDataEvent implements ScheduleEvent, Serializable {
 	}
 	
 	public boolean equals(FitnessDataEvent event) {
-		return this.startDate.equals(event.getStartDate());
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTime(startDate);
+		c2.setTime(event.getStartDate());
+		return c1.equals(c2);
 	}
 	
 	public void setPatient(String pid) {
