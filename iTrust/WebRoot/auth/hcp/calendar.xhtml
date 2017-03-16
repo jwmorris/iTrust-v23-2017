@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:itrust="/WEB-INF/tags.tld">
+	
+<h:body>
+	<div>
+		
+    		
+    		<p:commandButton id="uploadFileSelect" type="" value="Upload Fitness Data" onclick="PF('fileDialog').show()">
+    		</p:commandButton>
+    		<h:form enctype="multipart/form-data" id="dialogForm">
+    		<p:dialog id="fileDialog" style="width:400px;height:400px;" modal="true" widgetVar="fileDialog" header="Upload a File" showEffect="clip" hideEffect="clip">
+    			<p:growl id="fileMessage" sticky="false" showDetail="true" life="8000"/>
+    			<p:fileUpload 
+    				id="uploadFile" 
+    				value="#{fileUpload.file}" 
+    				mode="simple" 
+    				skinSimple="true" 
+    				allowTypes="^.+\.(csv)$"
+    				invalidFileMessage="File must be a .csv  file."/>
+ 				<br/>
+    			<p:commandButton id="submitFile" value="Submit" ajax="false" actionListener="#{fileUpload.upload}" onComplete="PF('fileDialog').hide();location.reload(true);"/>
+    		</p:dialog>
+ 			
+    		
+		</h:form>
+	</div>
+	<div id="datepicker" style="height:300px;">
+	<h:form id="eventForm">
+		<h:panelGrid columnClasses="value" id="calendarGrid">
+			<h3 style="margin-top: 0">Fitness Calendar</h3>
+
+        	<p:schedule value="#{calendar.model}" timeZone="EST" widgetVar="myschedule" draggable="false" rightHeaderTemplate="month">
+        		<p:ajax event="dateSelect" listener="#{calendar.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+            <p:ajax event="eventSelect" listener="#{calendar.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+        	</p:schedule>
+
+		</h:panelGrid>
+	
+		<p:dialog id="eventDialog" widgetVar="eventDialog" header="Fitness Data" showEffect="clip" hideEffect="clip">
+        <p:growl id="dataMessage" sticky="false" showDetail="true" life="8000"/>
+        <h:panelGrid id="eventDetails" columns="4">
+            
+            <h:outputLabel value="Calories:"/>
+			<h:inputText style="width:100%;" id="calories" value="#{calendar.event.calories}"
+			converterMessage="Please enter a positive digit for Calories.">
+				
+			</h:inputText>
+			<h:outputLabel value="Activity Calories"/>
+			<h:inputText style="width:100%;" id="activeCals" value="#{calendar.event.activeCals}"
+			converterMessage="Please enter a positive digit for Activity Calories.">
+			
+			</h:inputText>
+			<h:outputLabel value="Distance:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.distance}" id="distance"
+			converterMessage="Please enter a positive digit for Distance.">
+			
+			</h:inputText>
+			<h:outputLabel value="Minutes Sedentary:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.minsSed}" id="minsSed"
+			converterMessage="Please enter a positive digit for Minutes Sedentary.">
+			
+			</h:inputText>
+			<h:outputLabel value="Steps:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.steps}" id="steps"
+			converterMessage="Please enter a positive digit for Steps."/>
+			<h:outputLabel value="Minutes Lightly Active:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.minsLA}" id="minsLA"
+			converterMessage="Please enter a positive digit for Minutes Lightly Active.">
+			
+			</h:inputText>
+			<h:outputLabel value="Floors:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.floors}" id="floors"
+			converterMessage="Please enter a positive digit for Floors.">
+			
+			</h:inputText>
+			<h:outputLabel value="Minutes Fairly Active:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.minsFA}" id="minsFA"
+			converterMessage="Please enter a positive digit for Minutes Fairly Active.">
+			
+			</h:inputText>
+			<h:outputLabel value="Activity Hours:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.activityHours}" id="activityHours"
+			converterMessage="Please enter a positive digit for Activity Hours.">
+			
+			</h:inputText>
+			<h:outputLabel value="Minutes Very Active:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.minsVA}" id="minsVA"
+			converterMessage="Please enter a positive digit for Minutes Very Active.">
+			
+			</h:inputText>
+			<h:outputLabel value="Heart Rate Low:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.hrLow}" id="hrLow"
+			converterMessage="Please enter a positive digit for Heart Rate Low.">
+			
+			</h:inputText>
+			<h:outputLabel value="Heart Rate High:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.hrHigh}" id="hrHigh"
+			converterMessage="Please enter a positive digit for Heart Rate High.">
+			
+			</h:inputText>
+			<h:outputLabel value="Average Heart Rate:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.hrAvg}" id="hrAvg" 
+			converterMessage="Please enter a positive digit for Average Heart Rate.">
+			
+			</h:inputText>
+			<h:outputLabel value="UV Exposure Minutes:"/>
+			<h:inputText style="width:100%;" value="#{calendar.event.uvExposure}" id="uvExposure" 
+			converterMessage="Please enter a positive digit for UV Exposure.">
+			
+			</h:inputText>
+ 
+            <p:commandButton type="reset" value="Reset" id="reset"/>
+            <p:commandButton type="" id="addButton" value="Save" actionListener="#{calendar.addEvent}" update="dataMessage" oncomplete="PF('myschedule').update();" >
+
+            </p:commandButton>
+        </h:panelGrid>
+        
+    </p:dialog>   
+					
+	</h:form>
+				
+	</div>
+</h:body>
+</ui:composition>

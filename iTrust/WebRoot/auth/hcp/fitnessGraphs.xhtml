@@ -1,0 +1,35 @@
+<div id="sideTabContents" xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:form id="chartForm">
+	<p:growl id="graphMessage" widgetVar="graphMessage"/>
+	<p:panel style="height:350px; width:100%;">
+	<p:chart 
+		id="fitnessGraph" 
+		type="line" 
+		widgetVar="fitnessGraph" 
+		model="#{fitnessGraphController.getModel()}" 
+		style="height:300px;" 
+		responsive="true" 
+		
+		border-style="solid">
+		
+		
+	</p:chart>
+	</p:panel>
+	<h:selectOneRadio  value="#{fitnessGraphController.graphType}" style="text-align:center; width:100%;">
+		<f:selectItem itemValue="step" itemLabel="Step Count" />
+		<f:selectItem itemValue="stepDelta" itemLabel="Step Count Delta" />
+		<f:selectItem itemValue="stepAvg" itemLabel="Step Count Averages" />
+	</h:selectOneRadio>
+	
+	<h:outputText value="Start Date (mm/dd/yyyy): " style="font-color:#000; width:170px; display:inline-block;" />
+	<p:calendar id="startDate" type="date" value="#{fitnessGraphController.startDate}" />
+	<br/>
+	<h:outputText value="End Date (mm/dd/yyyy): "  style="font-color:#000; width:170px; display:inline-block;" />
+	<p:calendar id="endDate" type="date" value="#{fitnessGraphController.endDate}" />
+	<br/>
+	<p:commandButton value="Update Graph" actionListener="#{fitnessGraphController.checkDateRange()}" update="graphMessage fitnessGraph" >
+	</p:commandButton>
+</h:form>
+
+</div>
