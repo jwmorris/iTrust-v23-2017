@@ -33,8 +33,8 @@ public class FitnessParserFactoryTest {
 		TestDataGenerator gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.standardData();
-		File f = new File("/iTrust/testing-files/fitness_data/MS_Band_Data.csv");
-		File f2 = new File("/iTrust/testing-files/fitness_data/fitbit_export_HW3.csv");
+		File f = new File("testing-files/fitness_data/MS_Band_Data.csv");
+		File f2 = new File("testing-files/fitness_data/fitbit_export_HW3.csv");
 		InputStream is = new FileInputStream(f);
 		InputStream is2 = new FileInputStream(f2);
 		microsoftFile = Mockito.mock(UploadedFile.class);
