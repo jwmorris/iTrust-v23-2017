@@ -9,8 +9,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.naming.Context;
@@ -20,8 +18,6 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
-import edu.ncsu.csc.itrust.model.fitnessData.Fitness;
-import edu.ncsu.csc.itrust.model.fitnessData.FitnessSQLLoader;
 
 /**
  * implements sql database access for obstetrics
@@ -41,9 +37,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	
 	/** database connection */
 	private Connection conn;
-	
-	/** formats date Strings */
-	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
 	/**
 	 * default constructor
@@ -127,9 +120,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, expectedWeeks, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
-					+ "multiplePregnancy, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
+					+ "multiplePregnancy, babyCount current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
 					+ "lmp=?, edd=?, expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
-					+ "deliveryType=?, multiplePregnancy=?, current=?") , op, true );
+					+ "deliveryType=?, multiplePregnancy=?, babyCount=?, current=?") , op, true );
 			
 			ps.executeUpdate();
 
@@ -149,7 +142,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET lmp=?, edd=?, "
 					+ "expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, current=? where pid=? and initDate=?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=? where pid=? and initDate=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			throw new DBException( e );

@@ -30,10 +30,10 @@ public class ObstetricsPregnancy {
 	private int concepYear;
 	
 	/** total weeks pregnant by delivery */
-	private int totalWeekPregnant;
+	private int totalWeeksPregnant;
 	
 	/** hours in labor */
-	private int hrsLabor;
+	private double hrsLabor;
 	
 	/** weight gained during pregnancy */
 	private int weightGain;
@@ -43,6 +43,9 @@ public class ObstetricsPregnancy {
 	
 	/** whether or not the pregnancy was a multiple */
 	private boolean multiplePregnancy;
+	
+	/** number of children expected from pregnancy */
+	private int babyCount;
 	
 	/** is this obstetrics patient currently pregnant */
 	private boolean current;
@@ -54,11 +57,12 @@ public class ObstetricsPregnancy {
 		edd = null;
 		expectedWeeksPregnant = 0;
 		concepYear = 0;
-		totalWeekPregnant = 0;
+		totalWeeksPregnant = 0;
 		hrsLabor = 0;
 		weightGain = 0;
 		deliveryType = null;
 		multiplePregnancy = false;
+		babyCount = 0;
 		current = true;
 	}
 	
@@ -159,7 +163,7 @@ public class ObstetricsPregnancy {
 	 * 		total weeks pregnant
 	 */
 	public int getTotalWeeksPregnant() {
-		return totalWeekPregnant;
+		return totalWeeksPregnant;
 	}
 	
 	/**
@@ -169,7 +173,7 @@ public class ObstetricsPregnancy {
 	 * 		total weeks pregnant
 	 */
 	public void setTotalWeeksPregnant( int totalWeeksPregnanat ) {
-		this.totalWeekPregnant = totalWeeksPregnanat;
+		this.totalWeeksPregnant = totalWeeksPregnanat;
 	}
 	
 	/**
@@ -178,7 +182,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		hours in labor
 	 */
-	public int getHoursInLabor() {
+	public double getHoursInLabor() {
 		return hrsLabor;
 	}
 	
@@ -188,7 +192,7 @@ public class ObstetricsPregnancy {
 	 * @param hrsLabor
 	 * 		hours in labor
 	 */
-	public void setHoursInLabor( int hrsLabor ) {
+	public void setHoursInLabor( double hrsLabor ) {
 		this.hrsLabor = hrsLabor;
 	}
 	
@@ -251,6 +255,26 @@ public class ObstetricsPregnancy {
 	 */
 	public void setMultiplePregnancy( boolean multiplePregnancy ) {
 		this.multiplePregnancy = multiplePregnancy;
+	}
+	
+	/**
+	 * expected children from pregnancy
+	 * 
+	 * @return
+	 * 		expected children from pregnancy
+	 */
+	public int getBabyCount() {
+		return babyCount;
+	}
+	
+	/**
+	 * set expected chidlren form pregnancy
+	 * 
+	 * @param babyCount
+	 * 		expected children from pregnancy
+	 */
+	public void setBabyCount( int babyCount ) {
+		this.babyCount = babyCount;
 	}
 	
 	/**
