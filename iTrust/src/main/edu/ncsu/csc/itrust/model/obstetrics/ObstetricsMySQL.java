@@ -126,8 +126,10 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		PreparedStatement ps = null;
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
-					+ ", edd, expectedWeeks, current) VALUES( ?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, lmp=?, edd=?, " 
-					+ "expectedWeeks=?, current=?") , op, true );
+					+ ", edd, expectedWeeks, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
+					+ "multiplePregnancy, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
+					+ "lmp=?, edd=?, expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
+					+ "deliveryType=?, multiplePregnancy=?, current=?") , op, true );
 			
 			ps.executeUpdate();
 
@@ -146,7 +148,8 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		PreparedStatement ps = null;
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET lmp=?, edd=?, "
-					+ "expectedWeeks=? where pid=? and initDate=?" ), op, false );
+					+ "expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
+					+ "multiplePregnancy=?, current=? where pid=? and initDate=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			throw new DBException( e );

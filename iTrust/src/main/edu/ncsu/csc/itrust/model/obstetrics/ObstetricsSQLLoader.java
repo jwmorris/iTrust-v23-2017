@@ -44,6 +44,12 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		op.setLmp( rs.getDate( "lmp" ) );
 		op.setEdd( rs.getDate( "edd" ) );
 		op.setExpectedWeeksPregnant( rs.getInt( "expectedWeeks" ) );
+		op.setYearOfConception( rs.getInt( "concepYear" ) );
+		op.setTotalWeeksPregnant( rs.getInt( "totalWeeks" ) );
+		op.setHoursInLabor( rs.getInt( "hrsLabor" ) );
+		op.setWeightGainedPregnancy( rs.getInt( "weightGain" ) );
+		op.setDeliveryType( rs.getString( "deliveryType" ) );
+		op.setMultiplePregnancy( rs.getBoolean( "multiplePregnancy" ) );
 		op.setCurrent( rs.getBoolean( "current" ) );
 	}
 
@@ -65,11 +71,23 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		ps.setDate( i++, op.getLmp() );
 		ps.setDate( i++, op.getEdd() );
 		ps.setInt( i++,  op.getExpectedWeeksPregnant() );
+		ps.setInt( i++, op.getYearOfConception() );
+		ps.setInt( i++, op.getTotalWeeksPregnant() );
+		ps.setInt( i++, op.getHoursInLabor() );
+		ps.setInt( i++, op.getWeightGainedPregnancy() );
+		ps.setString( i++, op.getDeliveryType() );
+		ps.setBoolean( i++, op.getMultiplePregnancy() );
 		ps.setBoolean( i++, op.getCurrent() );
 		if( newInstance ) {
 			ps.setDate( i++, op.getLmp() );
 			ps.setDate( i++, op.getEdd() );
 			ps.setInt( i++,  op.getExpectedWeeksPregnant() );
+			ps.setInt( i++, op.getYearOfConception() );
+			ps.setInt( i++, op.getTotalWeeksPregnant() );
+			ps.setInt( i++, op.getHoursInLabor() );
+			ps.setInt( i++, op.getWeightGainedPregnancy() );
+			ps.setString( i++, op.getDeliveryType() );
+			ps.setBoolean( i++, op.getMultiplePregnancy() );
 			ps.setBoolean( i++, op.getCurrent() );
 		}
 		if(!newInstance) {
