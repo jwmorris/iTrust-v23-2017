@@ -179,7 +179,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public List<ObstetricsPregnancy> getPastObstetricsPregnanciesForPatient( long pid ) throws DBException {
 		List<ObstetricsPregnancy> res;
 		try (
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid = ? and current = ?" ) ) {
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=?" ) ) {
 				ps.setLong( 1, pid );
 				ps.setBoolean( 2, false );
 				ResultSet rs = ps.executeQuery();
@@ -197,7 +197,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public ObstetricsPregnancy getCurrentObstetricsPregnancy( long pid ) throws DBException {
 		try {
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid = ? and current = ?" );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=?" );
 			ps.setLong( 1, pid );
 			ps.setBoolean( 2, true );
 			ResultSet rs = ps.executeQuery();
