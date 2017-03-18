@@ -74,6 +74,15 @@ public class FitnessMySQLTest {
 		f.setUVExposure(0);
 		return f;
 	}
+	
+	@Test
+	public void testConstructor() {
+		try {
+			sql = new FitnessMySQL();
+		} catch (Exception e) {
+			//pass
+		}
+	}
 
 	@Test
 	public void testGetAll() {

@@ -111,7 +111,6 @@ public class FitnessMySQL implements FitnessData, Serializable {
 
 			return true;
 		} catch ( SQLException e ) {
-			e.printStackTrace();
 			throw new DBException( e );
 		}
 	}
