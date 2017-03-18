@@ -17,9 +17,15 @@
 		</ui:define>
 		<ui:define name="mainContent">
 			<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
+			<h:panelGroup rendered="false">
+				<h4>#{mid} is not eligible for Obstetrics care. Please choose a new patient or activate #{mid} for obstetrics.</h4>
+				<h:commandButton value="New Patient"/>
+				<h:commandButton value="Activate"/>
+			</h:panelGroup>
+			<h:panelGroup rendered="true">
 			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
 			<br/>
-			<p:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy"></p:commandButton>
+			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy"></h:commandButton>
 			<br/>
 			<br/>
 			<h4>Current Pregnancy</h4>
@@ -52,7 +58,7 @@
 			<br/>
 			<h4>Prior Pregnancies</h4>
 			<br/>
-			<p:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy"></p:commandButton>
+			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy"></h:commandButton>
     		<br/>
     		<br/>
     			<h:dataTable value="#{mid}">
@@ -92,6 +98,8 @@
 						<f:facet name="header">Multiple Pregnancies</f:facet>
 					</h:column>
 				</h:dataTable>
+			</h:panelGroup>
+			
 		</ui:define> 
 	</ui:composition>
 </h:body>
