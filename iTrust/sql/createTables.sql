@@ -90,7 +90,7 @@ CREATE TABLE patients(
 	SpiritualPractices varchar(512) default '',
 	AlternateName varchar(32) default '',
 	DateOfDeactivation DATE default NULL,
-	ObstetricsPatient BOOLEAN default false;
+	ObstetricsPatient BOOLEAN default false,
 	PRIMARY KEY (MID)
 ) ENGINE=MyISAM;
 
@@ -541,7 +541,7 @@ CREATE TABLE obstetricsData
 	totalWeeks		INT NOT NULL,
 	hrsLabor		DOUBLE NOT NULL,
 	weightGain		INT NOT NULL,
-	deliveryType	VARCHAR	NOT NULL,
+	deliveryType	VARCHAR(100)	NOT NULL,
 	multiplePregnancy	BOOLEAN NOT NULL default false,
 	babyCount		INT NOT NULL,
 	current			BOOLEAN NOT NULL default true,
