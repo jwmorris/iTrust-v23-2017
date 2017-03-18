@@ -77,6 +77,7 @@ public class PatientLoader implements BeanLoader<PatientBean> {
 		p.setLanguage(rs.getString("Language"));
 		p.setSpiritualPractices(rs.getString("SpiritualPractices"));
 		p.setAlternateName(rs.getString("AlternateName"));
+		p.setObstetricsPatient( rs.getBoolean( "ObstetricsPatient" ) );
 		Date dateOfDeactivation = rs.getDate("DateOfDeactivation");
 		if (dateOfDeactivation != null){
 			p.setDateOfDeactivationStr(DATE_FORMAT.format(dateOfDeactivation));
@@ -174,6 +175,7 @@ public class PatientLoader implements BeanLoader<PatientBean> {
 			}
 		}
 		ps.setDate(i++, date);
+		ps.setBoolean( i++, p.isObstetricsPatient() );
 		return ps;
 	}
 }

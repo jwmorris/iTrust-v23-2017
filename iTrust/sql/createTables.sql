@@ -90,6 +90,7 @@ CREATE TABLE patients(
 	SpiritualPractices varchar(512) default '',
 	AlternateName varchar(32) default '',
 	DateOfDeactivation DATE default NULL,
+	ObstetricsPatient BOOLEAN default false;
 	PRIMARY KEY (MID)
 ) ENGINE=MyISAM;
 
@@ -526,4 +527,18 @@ CREATE TABLE fitnessData
 	PRIMARY KEY (id),
 	FOREIGN KEY (pid) 	REFERENCES patients(MID),
 	CONSTRAINT pid_date UNIQUE (pid, fitnessDate)
+) ENGINE=MyISAM;
+
+CREATE TABLE obstetricsData
+(
+	id 						BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid 				BIGINT		UNSIGNED NOT NULL,
+	initDate		DATE NOT NULL,
+	lmp				DATE NOT NULL,
+	edd				DATE NOT NULL,
+	expectedWeeks	INT NOT NULL,
+	current			BOOLEAN NOT NULL default true,
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID),
+	CONSTRAINT pid_date UNIQUE (pid, initDate)
 ) ENGINE=MyISAM;

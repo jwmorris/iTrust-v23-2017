@@ -137,38 +137,38 @@ public class FitnessMySQL implements FitnessData, Serializable {
 	@Override
 	public Fitness getFitnessData( String pid, String date ) throws DBException {
 		try {
-				PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ? and fitnessDate = ?" );
-				Date dateSQL = null;
-				try {
-					Long.parseLong( pid );
-				} catch ( Exception e ) {
-					return null;
-				}
-				try {
-					dateSQL = new Date( DATE_FORMAT.parse( date ).getTime() );
-				} catch ( ParseException e ) {
-					dateSQL = null;
-				}
-				ps.setString( 1, pid );
-				ps.setDate( 2, dateSQL );
-				ResultSet rs = ps.executeQuery();
-				Fitness f = rs.next() ? loader.loadSingle( rs ) : null;
-				rs.close();
-				return f;
-			} catch ( SQLException e ) {
-				throw new DBException( e );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ? and fitnessDate = ?" );
+			Date dateSQL = null;
+			try {
+				Long.parseLong( pid );
+			} catch ( Exception e ) {
+				return null;
 			}
+			try {
+				dateSQL = new Date( DATE_FORMAT.parse( date ).getTime() );
+			} catch ( ParseException e ) {
+				dateSQL = null;
+			}
+			ps.setString( 1, pid );
+			ps.setDate( 2, dateSQL );
+			ResultSet rs = ps.executeQuery();
+			Fitness f = rs.next() ? loader.loadSingle( rs ) : null;
+			rs.close();
+			return f;
+		} catch ( SQLException e ) {
+			throw new DBException( e );
+		}
 	}
 
 	@Override
 	public List<Fitness> getFitnessDataForPatient( String pid ) throws DBException {
 		List<Fitness> res;
 		try ( //Connection conn = ds.getConnection();
-				PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ?" ) ) {
-					ps.setString( 1, pid );
-					ResultSet rs = ps.executeQuery();
-					res = rs.next() ? loader.loadList( rs ) : null;
-					rs.close();
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ?" ) ) {
+				ps.setString( 1, pid );
+				ResultSet rs = ps.executeQuery();
+				res = rs.next() ? loader.loadList( rs ) : null;
+				rs.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
 		}
