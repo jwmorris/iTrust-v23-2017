@@ -17,12 +17,14 @@
 		</ui:define>
 		<ui:define name="mainContent">
 			<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
-			<h:panelGroup rendered="false">
+			<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
+				<h:form>
 				<h4>#{mid} is not eligible for Obstetrics care. Please choose a new patient or activate #{mid} for obstetrics.</h4>
 				<h:commandButton value="New Patient"/>
-				<h:commandButton value="Activate"/>
+				<h:commandButton value="Activate" action="#{obstetrics_controller.activatePatient()}"/>
+				</h:form>
 			</h:panelGroup>
-			<h:panelGroup rendered="true">
+			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
 			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
 			<br/>
 			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy"></h:commandButton>

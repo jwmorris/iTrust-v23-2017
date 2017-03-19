@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
@@ -37,25 +39,30 @@ public class ObstetricsController {
 		try {
 			sql = new ObstetricsMySQL();
 		} catch (DBException e) {
-			//bad
+			System.out.println("DB fail");
+			e.printStackTrace();
 		}
-		priorPregnancies = getPriorPregnancies();
-		currentPregnancy = getCurrentPregnancy();
 		this.utils = SessionUtils.getInstance();
 		pid = utils.getCurrentPatientMIDLong();
 		DAOFactory factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
 		personnelDAO = factory.getPersonnelDAO();
+		//priorPregnancies = getPriorPregnancies();
+		//currentPregnancy = getCurrentPregnancy();
+		
 	}
 	
 	public boolean checkPatientEligibility() {
 		boolean eligible = false;
-		try {
-			eligible = patientDAO.getPatient(pid).isObstetricsPatient();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(pid != null) {
+			try {
+				eligible = patientDAO.getPatient(pid).isObstetricsPatient();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 		return eligible;
 	}
 	
@@ -65,7 +72,7 @@ public class ObstetricsController {
 			list = sql.getPastObstetricsPregnanciesForPatient(pid);
 		} catch (DBException e) {
 			// TODO Throw error here
-		
+			e.printStackTrace();
 		}
 		return list;
 	}
@@ -76,6 +83,7 @@ public class ObstetricsController {
 			current = sql.getCurrentObstetricsPregnancy(pid);
 		} catch (DBException e) {
 			// TODO throw error here
+			e.printStackTrace();
 		}
 		return current;
 	}
@@ -92,14 +100,23 @@ public class ObstetricsController {
 	}
 	
 	public void activatePatient() {
+		System.out.println("activating");
 		try {
 			PatientBean patient = patientDAO.getPatient(pid);
 			patient.setObstetricsPatient(true);
 			patientDAO.editPatient(patient, utils.getSessionLoggedInMIDLong());
 		} catch (DBException e) {
 			//TODO throw error
+			e.printStackTrace();
 		}
-		
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		System.out.println("redirecting");
+		try {
+			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+		} catch (IOException e) {
+			// TODO ERROR
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -108,8 +125,10 @@ public class ObstetricsController {
 			sql.add(currentPregnancy);
 		} catch (DBException e) {
 			// TODO Throw exception
+			e.printStackTrace();
 		} catch (FormValidationException e) {
 			// TODO invalid data
+			e.printStackTrace();
 		}
 	}
 	
@@ -118,8 +137,10 @@ public class ObstetricsController {
 			sql.update(currentPregnancy);
 		} catch (DBException e) {
 			// TODO Throw exception
+			e.printStackTrace();
 		} catch (FormValidationException e) {
 			// TODO invalid data
+			e.printStackTrace();
 		}
 	}
 }
