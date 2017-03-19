@@ -20,7 +20,7 @@
 			<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
 				<h:form>
 				<h4>#{mid} is not eligible for Obstetrics care. Please choose a new patient or activate #{mid} for obstetrics.</h4>
-				<h:commandButton value="New Patient"/>
+				<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
 				<h:commandButton value="Activate" action="#{obstetrics_controller.activatePatient()}"/>
 				</h:form>
 			</h:panelGroup>

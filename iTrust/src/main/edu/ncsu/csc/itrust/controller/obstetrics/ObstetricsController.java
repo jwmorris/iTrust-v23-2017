@@ -12,6 +12,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
@@ -149,4 +150,5 @@ public class ObstetricsController {
 			e.printStackTrace();
 		}
 	}
+
 }
