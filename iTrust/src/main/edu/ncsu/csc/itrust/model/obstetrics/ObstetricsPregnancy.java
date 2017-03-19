@@ -15,7 +15,7 @@ public class ObstetricsPregnancy {
 	private long pid;
 
 	/** date of patient initialization visit */
-	private Date dateInitialization;
+	private Date dateInit;
 	
 	/** last menstrual period */
 	private Date lmp;
@@ -52,7 +52,7 @@ public class ObstetricsPregnancy {
 	
 	public ObstetricsPregnancy() {
 		pid = 0;
-		dateInitialization = null;
+		dateInit = null;
 		lmp = null;
 		edd = null;
 		expectedWeeksPregnant = 0;
@@ -84,14 +84,14 @@ public class ObstetricsPregnancy {
 	 * @return the dateInitialization
 	 */
 	public Date getDateInit() {
-		return dateInitialization;
+		return dateInit;
 	}
 
 	/**
 	 * @param dateInitialization the dateInitialization to set
 	 */
 	public void setDateInit( Date dateInitialization ) {
-		this.dateInitialization = dateInitialization;
+		this.dateInit = dateInitialization;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		year of conception
 	 */
-	public int getYearOfConception() {
+	public int getConcepYear() {
 		return concepYear;
 	}
 	
@@ -152,7 +152,7 @@ public class ObstetricsPregnancy {
 	 * @param concepYear
 	 * 		year of conception
 	 */
-	public void setYearOfConception( int concepYear ) {
+	public void setConcepYear( int concepYear ) {
 		this.concepYear = concepYear;
 	}
 	
@@ -182,7 +182,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		hours in labor
 	 */
-	public double getHoursInLabor() {
+	public double getHrsLabor() {
 		return hrsLabor;
 	}
 	
@@ -192,7 +192,7 @@ public class ObstetricsPregnancy {
 	 * @param hrsLabor
 	 * 		hours in labor
 	 */
-	public void setHoursInLabor( double hrsLabor ) {
+	public void setHrsLabor( double hrsLabor ) {
 		this.hrsLabor = hrsLabor;
 	}
 	
@@ -202,7 +202,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		weight gained during pregnancy
 	 */
-	public int getWeightGainedPregnancy() {
+	public int getWeightGain() {
 		return weightGain;
 	}
 	
@@ -212,7 +212,7 @@ public class ObstetricsPregnancy {
 	 * @param weightGain
 	 * 		weight gained during pregnancy
 	 */
-	public void setWeightGainedPregnancy( int weightGain ) {
+	public void setWeightGain( int weightGain ) {
 		this.weightGain = weightGain;
 	}
 	

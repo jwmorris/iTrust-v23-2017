@@ -47,8 +47,8 @@ public class ObstetricsController {
 		DAOFactory factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
 		personnelDAO = factory.getPersonnelDAO();
-		//priorPregnancies = getPriorPregnancies();
-		//currentPregnancy = getCurrentPregnancy();
+		priorPregnancies = getPriorPregnancies();
+		currentPregnancy = getCurrentPregnancy();
 		
 	}
 	
@@ -68,23 +68,29 @@ public class ObstetricsController {
 	
 	public List<ObstetricsPregnancy> getPriorPregnancies() {
 		List<ObstetricsPregnancy> list = Collections.emptyList();
-		try {
-			list = sql.getPastObstetricsPregnanciesForPatient(pid);
-		} catch (DBException e) {
-			// TODO Throw error here
-			e.printStackTrace();
+		if(pid != null){
+			try {
+				list = sql.getPastObstetricsPregnanciesForPatient(pid);
+			} catch (DBException e) {
+				// TODO Throw error here
+				e.printStackTrace();
+			}
 		}
+
 		return list;
 	}
 	
 	public ObstetricsPregnancy getCurrentPregnancy() {
 		ObstetricsPregnancy current = new ObstetricsPregnancy();
-		try {
-			current = sql.getCurrentObstetricsPregnancy(pid);
-		} catch (DBException e) {
-			// TODO throw error here
-			e.printStackTrace();
+		if(pid != null){
+			try {
+				current = sql.getCurrentObstetricsPregnancy(pid);
+			} catch (DBException e) {
+				// TODO throw error here
+				e.printStackTrace();
+			}
 		}
+
 		return current;
 	}
 	

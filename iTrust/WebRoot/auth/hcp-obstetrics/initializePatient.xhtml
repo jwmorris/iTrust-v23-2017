@@ -41,19 +41,23 @@
 				<h:outputLabel for="initialWeeksPregnant">Weeks Pregnant at initialization:</h:outputLabel>
 				<h:outputText value="" /> -->
 				
-				<h:dataTable value="#{mid}">
+				<h:dataTable value="#{obstetrics_controller.currentPregnancy}" var="current">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
+						#{current.dateInit}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Last Menstrual Period (LMP)</f:facet>
+						#{current.lmp}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Estimated Due Date (EDD)</f:facet>
+						#{current.edd}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Weeks Pregnant at initialization</f:facet>
+						#{current.expectedWeeksPregnant}
 					</h:column>
 				</h:dataTable>
 			</h:form>
@@ -63,41 +67,56 @@
 			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy"></h:commandButton>
     		<br/>
     		<br/>
-    			<h:dataTable value="#{mid}">
+    			<h:dataTable value="#{obstetrics_controller.priorPregnancies}" var="prior">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
+						#{prior.dateInit}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Last Menstrual Period (LMP)</f:facet>
+						#{prior.lmp}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Estimated Due Date (EDD)</f:facet>
+						#{prior.edd}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Weeks Pregnant at initialization</f:facet>
+						#{prior.expectedWeeksPregnant}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Year of Conception</f:facet>
+						#{prior.concepYear}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Total Weeks Pregnant</f:facet>
+						#{prior.totalWeeksPregnant}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Numbers of Hours in Labor</f:facet>
+						#{prior.hrsLabor}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Weight Gain During Pregnancy</f:facet>
+						#{prior.weightGain}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Delivery Type</f:facet>
+						#{prior.deliveryType}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Multiple Pregnancies</f:facet>
+						#{prior.multiplePregnancy}
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Number of Babies</f:facet>
+						#{prior.babyCount}
 					</h:column>
 				</h:dataTable>
 			</h:panelGroup>
