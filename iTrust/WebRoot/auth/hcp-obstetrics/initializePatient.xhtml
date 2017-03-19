@@ -27,7 +27,9 @@
 			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
 			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
 			<br/>
-			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy"></h:commandButton>
+			<h:form>
+			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="addNewPregnancy.xhtml"></h:commandButton>
+			</h:form>
 			<br/>
 			<br/>
 			<h4>Current Pregnancy</h4>
@@ -64,7 +66,9 @@
 			<br/>
 			<h4>Prior Pregnancies</h4>
 			<br/>
-			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy"></h:commandButton>
+			<h:form>
+			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy" action="editPriorPregnancy.xhtml"></h:commandButton>
+    		</h:form>
     		<br/>
     		<br/>
     			<h:dataTable value="#{obstetrics_controller.priorPregnancies}" var="prior">

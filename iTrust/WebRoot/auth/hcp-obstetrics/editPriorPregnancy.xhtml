@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:itrust="/WEB-INF/tags.tld">
+	
+
+<h:body>
+	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageTitle">iTrust - Edit Prior Pregnancy</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+			<itrust:patientNav thisTitle="Edit Prior Pregnancy" />
+			<div align="center">
+				<br />
+				<h:message for="" />
+			</div>
+				<h:form>
+				<p>Date Initialized: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_pregnancy.dateInit}" /></p>
+				<br/>
+				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_pregnancy.lmp}" /></p>
+				<br/>
+				<p>EDD: <h:inputText type="text" name="edd" value="#{obstetrics_pregnancy.edd}" /></p>
+				<br/>
+				<p>Weeks Pregnant of Recording: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_pregnancy.weeksPregnant}" /></p>
+				<br/>
+				<p>Year pf Conception: <h:inputText type="text" name="concepYear" value="#{obstetrics_pregnancy.concepYear}" /></p>
+				<br/>
+				<p>Total Weeks Pregnant: <h:inputText type="text" name="totalWeeksPregnant" value="#{obstetrics_pregnancy.totalWeeksPregnant}" /></p>
+				<br/>
+				<p>Hours in Labor: <h:inputText type="text" name="hrsLabor" value="#{obstetrics_pregnancy.hrsLabor}" /></p>
+				<br/>
+				<p>Weight Gain: <h:inputText type="text" name="weightGain" value="#{obstetrics_pregnancy.weightGain}" /></p>
+				<br/>
+				<p>Delivery Type: <h:inputText type="text" name="deliveryType" value="#{obstetrics_pregnancy.deliveryType}" /></p>
+				<br/>
+				<p>Pregnancy Multiplicity: <h:inputText type="text" name="multiplePregnancy" value="#{obstetrics_pregnancy.multiplePregnancy}" /></p>
+				<br/>
+			
+				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.editCurrentPregnancy}/></p>
+				</h:form>
+				
+				<h:form>
+				<p><h:commandButton type="submit" name="Back" value="Back" action="initializePatient.xhtml"/></p>
+				</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
