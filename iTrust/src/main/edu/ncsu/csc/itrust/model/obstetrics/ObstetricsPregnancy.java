@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.model.obstetrics;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.faces.bean.ManagedBean;
@@ -51,6 +53,9 @@ public class ObstetricsPregnancy {
 	/** is this obstetrics patient currently pregnant */
 	private boolean current;
 	
+	/** formats date Strings */
+	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	
 	public ObstetricsPregnancy() {
 		pid = 0;
 		dateInit = null;
@@ -94,6 +99,17 @@ public class ObstetricsPregnancy {
 	public void setDateInit( Date dateInitialization ) {
 		this.dateInit = dateInitialization;
 	}
+	
+	/**
+	 * @param dateInitialization the dateInitialization to set
+	 */
+	public void setDateInit( String dateInitialization ) {
+		try {
+			this.dateInit = new Date( DATE_FORMAT.parse( dateInitialization ).getTime() );
+		} catch ( ParseException e ) {
+			this.dateInit = null;
+		}
+	}
 
 	/**
 	 * @return the lmp
@@ -109,6 +125,18 @@ public class ObstetricsPregnancy {
 		this.lmp = lmp;
 		calculateAndSetEddWeeksPreg( lmp );
 	}
+	
+	/**
+	 * @param lmp the lmp to set
+	 */
+	public void setLmp( String lmp ) {
+		try {
+			this.lmp = new Date( DATE_FORMAT.parse( lmp ).getTime() );
+			calculateAndSetEddWeeksPreg( this.lmp );
+		} catch ( ParseException e ) {
+			this.lmp = null;
+		}
+	}
 
 	/**
 	 * @return the edd
@@ -122,6 +150,17 @@ public class ObstetricsPregnancy {
 	 */
 	public void setEdd( Date edd ) {
 		this.edd = edd;
+	}
+	
+	/**
+	 * @param edd the edd to set
+	 */
+	public void setEdd( String edd ) {
+		try {
+			this.edd = new Date( DATE_FORMAT.parse( edd ).getTime() );
+		} catch ( ParseException e ) {
+			this.edd = null;
+		}
 	}
 	
 	private void calculateAndSetEddWeeksPreg( Date lmp ) {
