@@ -53,5 +53,19 @@ public class FitnessParserFactoryTest {
 		
 	}
 	
+	@Test
+	public void testGetParserFail() {
+		try {
+			factory.getParser(microsoftFile);
+		} catch (Exception e) {
+			//pass
+		}
+		try {
+			factory.getParser(fitbitFile);
+		} catch (Exception e) {
+			//pass
+		}
+	}
+	
 
 }

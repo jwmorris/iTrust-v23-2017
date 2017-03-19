@@ -48,5 +48,13 @@ public class FitbitParserTest {
 		assertTrue(data.size() == 31);
 		
 	}
+	@Test
+	public void testParseFail() {
+		try {
+			new FitbitParser(file);
+		} catch (Exception e) {
+			//pass
+		}
+	}
 
 }
