@@ -536,7 +536,7 @@ CREATE TABLE obstetricsData
 	initDate		DATE NOT NULL,
 	lmp				DATE NOT NULL,
 	edd				DATE NOT NULL,
-	expectedWeeks	INT NOT NULL,
+	weeksPregnant	INT NOT NULL,
 	concepYear		INT NOT NULL,
 	totalWeeks		INT NOT NULL,
 	hrsLabor		DOUBLE NOT NULL,

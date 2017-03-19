@@ -119,9 +119,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		PreparedStatement ps = null;
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
-					+ ", edd, expectedWeeks, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
+					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
 					+ "multiplePregnancy, babyCount current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
-					+ "lmp=?, edd=?, expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
+					+ "lmp=?, edd=?, weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
 					+ "deliveryType=?, multiplePregnancy=?, babyCount=?, current=?") , op, true );
 			
 			ps.executeUpdate();
@@ -141,7 +141,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		PreparedStatement ps = null;
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET lmp=?, edd=?, "
-					+ "expectedWeeks=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
+					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=? where pid=? and initDate=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {

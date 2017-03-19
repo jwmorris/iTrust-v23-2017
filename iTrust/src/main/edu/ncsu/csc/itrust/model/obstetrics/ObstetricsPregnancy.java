@@ -1,6 +1,7 @@
 package edu.ncsu.csc.itrust.model.obstetrics;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import javax.faces.bean.ManagedBean;
 
@@ -24,7 +25,7 @@ public class ObstetricsPregnancy {
 	private Date edd;
 	
 	/** number of weeks pregnant */
-	private int expectedWeeksPregnant;
+	private int weeksPregnant;
 	
 	/** year of conception */
 	private int concepYear;
@@ -55,7 +56,7 @@ public class ObstetricsPregnancy {
 		dateInit = null;
 		lmp = null;
 		edd = null;
-		expectedWeeksPregnant = 0;
+		weeksPregnant = 0;
 		concepYear = 0;
 		totalWeeksPregnant = 0;
 		hrsLabor = 0;
@@ -106,6 +107,7 @@ public class ObstetricsPregnancy {
 	 */
 	public void setLmp( Date lmp ) {
 		this.lmp = lmp;
+		calculateAndSetEddWeeksPreg( lmp );
 	}
 
 	/**
@@ -121,19 +123,43 @@ public class ObstetricsPregnancy {
 	public void setEdd( Date edd ) {
 		this.edd = edd;
 	}
-
-	/**
-	 * @return the expectedWeeksPregnant
-	 */
-	public int getExpectedWeeksPregnant() {
-		return expectedWeeksPregnant;
+	
+	private void calculateAndSetEddWeeksPreg( Date lmp ) {
+		if ( lmp == null )
+			lmp = this.lmp;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime( lmp );
+		cal.add( Calendar.DAY_OF_YEAR, 280 );
+		setEdd( new Date( cal.getTimeInMillis() ) );
+		
+		cal = Calendar.getInstance();
+		cal.setTime( lmp );
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime( this.dateInit );
+		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
+		/*
+		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
+		StringBuilder sb = new StringBuilder();
+		sb.append( Integer.toString( w ) );
+		sb.append( Integer.toString( days ) );
+		setWeeksPregnant( Integer.parseInt( sb.toString() ) );
+		*/
+		setWeeksPregnant( w );
 	}
 
 	/**
-	 * @param expectedWeeksPregnant the expectedWeeksPregnant to set
+	 * @return the WeeksPregnant
 	 */
-	public void setExpectedWeeksPregnant( int expectedWeeksPregnant ) {
-		this.expectedWeeksPregnant = expectedWeeksPregnant;
+	public int getWeeksPregnant() {
+		return weeksPregnant;
+	}
+
+	/**
+	 * @param weeksPregnant weeksPregnant to set
+	 */
+	public void setWeeksPregnant( int weeksPregnant ) {
+		this.weeksPregnant = weeksPregnant;
 	}
 	
 	/**

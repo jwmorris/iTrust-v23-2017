@@ -43,7 +43,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		op.setDateInit( rs.getDate( "initDate" ) );
 		op.setLmp( rs.getDate( "lmp" ) );
 		op.setEdd( rs.getDate( "edd" ) );
-		op.setExpectedWeeksPregnant( rs.getInt( "expectedWeeks" ) );
+		op.setWeeksPregnant( rs.getInt( "weeksPregnant" ) );
 		op.setConcepYear( rs.getInt( "concepYear" ) );
 		op.setTotalWeeksPregnant( rs.getInt( "totalWeeks" ) );
 		op.setHrsLabor( rs.getDouble( "hrsLabor" ) );
@@ -71,7 +71,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		ps.setDate( i++, op.getDateInit() );
 		ps.setDate( i++, op.getLmp() );
 		ps.setDate( i++, op.getEdd() );
-		ps.setInt( i++,  op.getExpectedWeeksPregnant() );
+		ps.setInt( i++,  op.getWeeksPregnant() );
 		ps.setInt( i++, op.getConcepYear() );
 		ps.setInt( i++, op.getTotalWeeksPregnant() );
 		ps.setDouble( i++, op.getHrsLabor() );
@@ -83,7 +83,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		if( newInstance ) {
 			ps.setDate( i++, op.getLmp() );
 			ps.setDate( i++, op.getEdd() );
-			ps.setInt( i++,  op.getExpectedWeeksPregnant() );
+			ps.setInt( i++,  op.getWeeksPregnant() );
 			ps.setInt( i++, op.getConcepYear() );
 			ps.setInt( i++, op.getTotalWeeksPregnant() );
 			ps.setDouble( i++, op.getHrsLabor() );
