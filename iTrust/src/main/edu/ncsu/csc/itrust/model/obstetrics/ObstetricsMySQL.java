@@ -120,7 +120,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
-					+ "multiplePregnancy, babyCount current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
+					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
 					+ "lmp=?, edd=?, weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
 					+ "deliveryType=?, multiplePregnancy=?, babyCount=?, current=?") , op, true );
 			

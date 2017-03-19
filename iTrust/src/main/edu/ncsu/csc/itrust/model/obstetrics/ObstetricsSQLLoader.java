@@ -67,8 +67,9 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		int i = 1;
 		if(newInstance) {
 			ps.setLong( i++, op.getPid() );
+			ps.setDate( i++, op.getDateInit() );
 		}
-		ps.setDate( i++, op.getDateInit() );
+		
 		ps.setDate( i++, op.getLmp() );
 		ps.setDate( i++, op.getEdd() );
 		ps.setInt( i++,  op.getWeeksPregnant() );
@@ -81,6 +82,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		ps.setInt( i++, op.getBabyCount() );
 		ps.setBoolean( i++, op.getCurrent() );
 		if( newInstance ) {
+			ps.setDate( i++, op.getDateInit() );
 			ps.setDate( i++, op.getLmp() );
 			ps.setDate( i++, op.getEdd() );
 			ps.setInt( i++,  op.getWeeksPregnant() );

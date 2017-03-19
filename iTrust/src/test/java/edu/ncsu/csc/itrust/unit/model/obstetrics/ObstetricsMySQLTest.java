@@ -24,16 +24,20 @@ public class ObstetricsMySQLTest {
 	private TestDataGenerator gen;
 	@Before
 	public void setUp() throws Exception {
-		sql = null;
+		try {
+			sql = new ObstetricsMySQL( ConverterDAO.getDataSource() );
+		} catch (DBException e) {
+			fail();
+		}
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.standardData();
 	}
 	
 	private boolean equalObstetricsPregnancy( ObstetricsPregnancy op1, ObstetricsPregnancy op2 ) {
-		return op1.getDateInit() == op2.getDateInit()
-				&& op1.getLmp() == op2.getLmp()
-				&& op1.getEdd() == op2.getEdd()
+		return op1.getDateInit().toString().equals( op2.getDateInit().toString() )
+				&& op1.getLmp().toString().equals( op2.getLmp().toString() )
+				&& op1.getEdd().toString().equals( op2.getEdd().toString() )
 				&& op1.getWeeksPregnant() == op2.getWeeksPregnant()
 				&& op1.getConcepYear() == op2.getConcepYear()
 				&& op1.getTotalWeeksPregnant() == op2.getTotalWeeksPregnant()
@@ -42,6 +46,7 @@ public class ObstetricsMySQLTest {
 				&& op1.getMultiplePregnancy() == op2.getMultiplePregnancy()
 				&& op1.getBabyCount() == op2.getBabyCount()
 				&& op1.getCurrent() == op2.getCurrent();
+				
 	}
 	
 	private ObstetricsPregnancy newObstetricsPregnancy( Date initDate, Date lmp ) {
@@ -81,11 +86,6 @@ public class ObstetricsMySQLTest {
 	public void testGetAll() {
 		List<ObstetricsPregnancy> list = Collections.emptyList();
 		ObstetricsPregnancy op = null;
-		try {
-			list = sql.getAll();
-		} catch ( DBException e ) {
-			fail();
-		}
 		
 		try {
 			Calendar cal = Calendar.getInstance();
@@ -96,8 +96,9 @@ public class ObstetricsMySQLTest {
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
-		
+
 		assertTrue( equalObstetricsPregnancy( op, list.get( 0 ) ) );
+		
 	}
 
 	@Test
@@ -109,11 +110,6 @@ public class ObstetricsMySQLTest {
 	public void testAdd() {
 		List<ObstetricsPregnancy> list = Collections.emptyList();
 		ObstetricsPregnancy op = null;
-		try {
-			list = sql.getAll();
-		} catch ( DBException e ) {
-			fail();
-		}
 		
 		try {
 			Calendar cal = Calendar.getInstance();
@@ -132,12 +128,7 @@ public class ObstetricsMySQLTest {
 	public void testUpdate() {
 		List<ObstetricsPregnancy> list = Collections.emptyList();
 		ObstetricsPregnancy op = null;
-		try {
-			list = sql.getAll();
-		} catch ( DBException e ) {
-			fail();
-		}
-		
+
 		try {
 			Calendar cal = Calendar.getInstance();
 			cal.set( 2017, 1, 1 );
@@ -146,6 +137,7 @@ public class ObstetricsMySQLTest {
 			op.setBabyCount( 2 );
 			op.setMultiplePregnancy( true );
 			sql.update( op );
+			list = sql.getAll();
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
