@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -18,10 +19,20 @@ import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
+/**
+ * tests the functionality of the ObstetricsMySQL class
+ * 
+ * @author wyattmaxey
+ */
 public class ObstetricsMySQLTest {
 	
 	private ObstetricsMySQL sql;
+	
 	private TestDataGenerator gen;
+	
+	/** formats date Strings */
+	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	
 	@Before
 	public void setUp() throws Exception {
 		try {
@@ -52,8 +63,8 @@ public class ObstetricsMySQLTest {
 	private ObstetricsPregnancy newObstetricsPregnancy( Date initDate, Date lmp ) {
 		ObstetricsPregnancy op = new ObstetricsPregnancy();
 		op.setPid( 2 );
-		op.setDateInit( initDate );
-		op.setLmp( lmp );
+		op.setDateInit( DATE_FORMAT.format( initDate ) );
+		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( 0 );
 		op.setTotalWeeksPregnant( 0 );
 		op.setHrsLabor( 0 );

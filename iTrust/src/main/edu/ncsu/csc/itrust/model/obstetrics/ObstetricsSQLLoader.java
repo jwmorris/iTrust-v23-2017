@@ -4,9 +4,12 @@
 package edu.ncsu.csc.itrust.model.obstetrics;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,8 @@ import edu.ncsu.csc.itrust.model.SQLLoader;
  * @author wyattmaxey
  */
 public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
+	/** formats date Strings */
+	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 	@Override
 	public List<ObstetricsPregnancy> loadList( ResultSet rs ) throws SQLException {
@@ -40,9 +45,9 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 	 */
 	private void loadCommon( ResultSet rs, ObstetricsPregnancy op ) throws SQLException {
 		op.setPid( rs.getLong( "pid" ) );
-		op.setDateInit( rs.getDate( "initDate" ) );
-		op.setLmp( rs.getDate( "lmp" ) );
-		op.setEdd( rs.getDate( "edd" ) );
+		op.setDateInit( DATE_FORMAT.format( rs.getDate( "initDate" ) ) );
+		op.setLmp( DATE_FORMAT.format( rs.getDate( "lmp" ) ) );
+		op.setEdd( DATE_FORMAT.format( rs.getDate( "edd" ) ) );
 		op.setWeeksPregnant( rs.getInt( "weeksPregnant" ) );
 		op.setConcepYear( rs.getInt( "concepYear" ) );
 		op.setTotalWeeksPregnant( rs.getInt( "totalWeeks" ) );
@@ -65,13 +70,29 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 	public PreparedStatement loadParameters( Connection conn, PreparedStatement ps, ObstetricsPregnancy op,
 			boolean newInstance ) throws SQLException {
 		int i = 1;
-		if(newInstance) {
-			ps.setLong( i++, op.getPid() );
-			ps.setDate( i++, op.getDateInit() );
+		Date dateInit = null;
+		Date lmp = null;
+		Date edd = null;
+		
+		try {
+			dateInit = new Date( DATE_FORMAT.parse( op.getDateInit() ).getTime() );
+			lmp = new Date( DATE_FORMAT.parse( op.getLmp() ).getTime() );
+			edd = new Date( DATE_FORMAT.parse( op.getEdd() ).getTime() );
+		} catch ( ParseException e ) {
+			//Some kind of error handling done in validator
+			dateInit = null;
+			lmp = null;
+			edd = null;
+			e.printStackTrace();
 		}
 		
-		ps.setDate( i++, op.getLmp() );
-		ps.setDate( i++, op.getEdd() );
+		if(newInstance) {
+			ps.setLong( i++, op.getPid() );
+			ps.setDate( i++, dateInit );
+		}
+		
+		ps.setDate( i++, lmp );
+		ps.setDate( i++, edd );
 		ps.setInt( i++,  op.getWeeksPregnant() );
 		ps.setInt( i++, op.getConcepYear() );
 		ps.setInt( i++, op.getTotalWeeksPregnant() );
@@ -82,9 +103,9 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		ps.setInt( i++, op.getBabyCount() );
 		ps.setBoolean( i++, op.getCurrent() );
 		if( newInstance ) {
-			ps.setDate( i++, op.getDateInit() );
-			ps.setDate( i++, op.getLmp() );
-			ps.setDate( i++, op.getEdd() );
+			ps.setDate( i++, dateInit );
+			ps.setDate( i++, lmp );
+			ps.setDate( i++, edd );
 			ps.setInt( i++,  op.getWeeksPregnant() );
 			ps.setInt( i++, op.getConcepYear() );
 			ps.setInt( i++, op.getTotalWeeksPregnant() );
@@ -97,7 +118,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		}
 		if(!newInstance) {
 			ps.setLong( i++, op.getPid() );
-			ps.setDate( i++, op.getDateInit() );
+			ps.setDate( i++, dateInit );
 		}
 		
 		return ps;

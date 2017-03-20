@@ -3,7 +3,6 @@
  */
 package edu.ncsu.csc.itrust.model.obstetrics;
 
-import java.sql.Date;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -25,7 +24,7 @@ public interface ObstetricsPregnancyData extends DataBean<ObstetricsPregnancy> {
 	 * @return
 	 * 		pregnancy with matching initialization date and patient id
 	 */
-	public ObstetricsPregnancy getObstetricsPregnancy( long pid, Date initDate ) throws DBException;
+	public ObstetricsPregnancy getObstetricsPregnancy( long pid, String initDate ) throws DBException;
 	
 	/**
 	 * return all prior pregnancies for patient

@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.naming.Context;
@@ -37,6 +39,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	
 	/** database connection */
 	private Connection conn;
+	
+	/** formats date Strings */
+	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
 	/**
 	 * default constructor
@@ -154,11 +159,20 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	 * @see edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData#getObstetricsPregnancy(long, java.sql.Date)
 	 */
 	@Override
-	public ObstetricsPregnancy getObstetricsPregnancy( long pid, Date initDate ) throws DBException {
+	public ObstetricsPregnancy getObstetricsPregnancy( long pid, String initDate ) throws DBException {
+		Date dateInit = null;
+		try {
+			dateInit = new Date( DATE_FORMAT.parse( initDate ).getTime() );
+		} catch ( ParseException e ) {
+			//Some kind of error handling done in validator
+			dateInit = null;
+			e.printStackTrace();
+		}
+		
 		try {
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid = ? and initDate = ?" );
 			ps.setLong( 1, pid );
-			ps.setDate( 2, initDate );
+			ps.setDate( 2, dateInit );
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
