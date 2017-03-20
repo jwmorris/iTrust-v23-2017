@@ -34,15 +34,6 @@
 			<br/>
 			<h4>Current Pregnancy</h4>
 			<h:form>
-<!-- 				 <h:outputLabel for="dateInitialized">Date:</h:outputLabel>
-				<h:outputText value=""/>
-				<br/>
-				<h:outputLabel for="edd">Estimated Due Date:</h:outputLabel>
-				<h:outputText value="" />
-				<br/>
-				<h:outputLabel for="initialWeeksPregnant">Weeks Pregnant at initialization:</h:outputLabel>
-				<h:outputText value="" /> -->
-				
 				<h:dataTable value="#{obstetrics_controller.currentPregnancy}" var="current">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
@@ -62,6 +53,9 @@
 						#{current.weeksPregnant}
 					</h:column>
 				</h:dataTable>
+			</h:form>
+			<h:form>
+			<h:commandButton id="editCurrentPregnancy" type="" value="Edit Current Pregnancy" action="addNewPregnancy.xhtml"></h:commandButton>
 			</h:form>
 			<br/>
 			<h4>Prior Pregnancies</h4>
