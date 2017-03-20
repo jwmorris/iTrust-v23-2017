@@ -102,7 +102,20 @@ public class ObstetricsMySQLTest {
 
 	@Test
 	public void testGetByID() {
-		//fail("Not yet implemented");
+		ObstetricsPregnancy op = null;
+		ObstetricsPregnancy res = null;
+
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.set( 2017, 1, 1 );
+			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
+			sql.add( op );
+			res = sql.getByID( 1 );
+		} catch (DBException | FormValidationException e) {
+			fail();
+		}
+		
+		assertTrue( equalObstetricsPregnancy( op, res ) );
 	}
 
 	@Test
@@ -120,7 +133,11 @@ public class ObstetricsMySQLTest {
 			fail();
 		}
 		
-		assertEquals( 1, list.size() );
+		try {
+			assertTrue( equalObstetricsPregnancy( op, sql.getObstetricsPregnancy( 2, op.getDateInit() ) ) );
+		} catch (DBException e) {
+			fail();
+		}
 	}
 
 	@Test
