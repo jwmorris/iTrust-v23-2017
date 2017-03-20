@@ -153,4 +153,8 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		return ps;
 	}
 
+	public PreparedStatement loadPriorParameters(Connection conn, PreparedStatement ps, ObstetricsPregnancy op){
+		
+		return ps;
+	}
 }

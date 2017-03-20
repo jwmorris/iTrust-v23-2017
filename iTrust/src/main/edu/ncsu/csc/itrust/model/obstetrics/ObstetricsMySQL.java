@@ -219,5 +219,31 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			throw new DBException( e );
 		}
 	}
+	
+	@Override
+	public ObstetricsPregnancy priorPregnancy( long pid, String date) throws DBException {
+		Date priorDate = null;
+		try {
+			priorDate = new java.sql.Date(DATE_FORMAT.parse(date).getTime());
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND initDate=? AND current=?" );
+			ps.setLong( 1, pid );
+			ps.setDate(2, priorDate);
+			ps.setBoolean( 2, false );
+			ResultSet rs = ps.executeQuery();
+			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
+			if(op == null){
+				op = new ObstetricsPregnancy();
+			}
+			rs.close();
+			return op;
+		} catch ( SQLException e ) {
+			throw new DBException( e );
+		}
+	}
 
 }
