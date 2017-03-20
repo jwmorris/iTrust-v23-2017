@@ -33,7 +33,8 @@ public class ObstetricsController extends iTrustController {
 	
 	private ObstetricsPregnancy currentPregnancy;
 	private List<ObstetricsPregnancy> priorPregnancies;
-	public ObstetricsPregnancy newPregnancy = new ObstetricsPregnancy();
+	private ObstetricsPregnancy newPregnancy = new ObstetricsPregnancy();
+	private ObstetricsPregnancy priorPregnancy = new ObstetricsPregnancy();
 	private ObstetricsPregnancyData sql;
 	private SessionUtils utils;
 	private Long pid;
@@ -86,6 +87,16 @@ public class ObstetricsController extends iTrustController {
 		}
 
 		return list;
+	}
+	
+	// for single priorPregnancy
+	public void getSinglePregnancy(String date){
+		try {
+			priorPregnancy = sql.priorPregnancy(pid, date);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public ObstetricsPregnancy getCurrentPregnancy() {

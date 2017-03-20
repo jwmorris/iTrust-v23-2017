@@ -62,10 +62,10 @@
 			<br/>
 			<h4>Prior Pregnancies</h4>
 			<br/>
-			<h:form>
-			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy" action="editPriorPregnancy.xhtml"></h:commandButton>
-    		</h:form>
-    		<br/>
+			<form action="editPriorPregnancy.xhtml" method="GET">
+				<h:inputText type="text" id="priorDate" name="priorDate"/>
+				<button id="editPriorPregnancy" type="submit">Edit Prior Pregnancy</button>
+    		</form>    		
     		<br/>
     			<h:dataTable value="#{obstetrics_controller.priorPregnancies}" var="prior">
 					<h:column>

@@ -20,28 +20,29 @@
 				<br />
 				<h:message for="" />
 			</div>
+				<c:set var="priorDate" scope="view" value="#{param['priorDate']}" />
 				<h:form>
-				<p>Date Initialized: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_pregnancy.dateInit}" /></p>
+				<p>Date Initialized: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_controller.getSinglePregnancy(date).dateInit}" /></p>
 				<br/>
-				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_pregnancy.lmp}" /></p>
+				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_controller.getSinglePregnancy(date).lmp}" /></p>
 				<br/>
-				<p>EDD: <h:inputText type="text" name="edd" value="#{obstetrics_pregnancy.edd}" /></p>
+				<p>EDD: <h:inputText type="text" name="edd" value="#{obstetrics_controller.getSinglePregnancy(date).edd}" /></p>
 				<br/>
-				<p>Weeks Pregnant of Recording: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_pregnancy.weeksPregnant}" /></p>
+				<p>Weeks Pregnant of Recording: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_controller.getSinglePregnancy(date).weeksPregnant}" /></p>
 				<br/>
-				<p>Year of Conception: <h:inputText type="text" name="concepYear" value="#{obstetrics_pregnancy.concepYear}" /></p>
+				<p>Year of Conception: <h:inputText type="text" name="concepYear" value="#{obstetrics_controller.getSinglePregnancy(date).concepYear}" /></p>
 				<br/>
-				<p>Total Weeks Pregnant: <h:inputText type="text" name="totalWeeksPregnant" value="#{obstetrics_pregnancy.totalWeeksPregnant}" /></p>
+				<p>Total Weeks Pregnant: <h:inputText type="text" name="totalWeeksPregnant" value="#{obstetrics_controller.getSinglePregnancy(date).totalWeeksPregnant}" /></p>
 				<br/>
-				<p>Hours in Labor: <h:inputText type="text" name="hrsLabor" value="#{obstetrics_pregnancy.hrsLabor}" /></p>
+				<p>Hours in Labor: <h:inputText type="text" name="hrsLabor" value="#{obstetrics_controller.getSinglePregnancy(date).hrsLabor}" /></p>
 				<br/>
-				<p>Weight Gain: <h:inputText type="text" name="weightGain" value="#{obstetrics_pregnancy.weightGain}" /></p>
+				<p>Weight Gain: <h:inputText type="text" name="weightGain" value="#{obstetrics_controller.getSinglePregnancy(date).weightGain}" /></p>
 				<br/>
-				<p>Delivery Type: <h:inputText type="text" name="deliveryType" value="#{obstetrics_pregnancy.deliveryType}" /></p>
+				<p>Delivery Type: <h:inputText type="text" name="deliveryType" value="#{obstetrics_controller.getSinglePregnancy(date).deliveryType}" /></p>
 				<br/>
-				<p>Pregnancy Multiplicity: <h:inputText type="text" name="multiplePregnancy" value="#{obstetrics_pregnancy.multiplePregnancy}" /></p>
+				<p>Pregnancy Multiplicity: <h:inputText type="text" name="multiplePregnancy" value="#{obstetrics_controller.getSinglePregnancy(date).multiplePregnancy}" /></p>
 				<br/>
-				<p>Pregnancy Multiplicity: <h:inputText type="text" name="babyCount" value="#{obstetrics_pregnancy.babyCount}" /></p>
+				<p>Number of Babies: <h:inputText type="text" name="babyCount" value="#{obstetrics_controller.getSinglePregnancy(date).babyCount}" /></p>
 				<br/>
 				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.editCurrentPregnancy()}"/></p>
 				</h:form>
