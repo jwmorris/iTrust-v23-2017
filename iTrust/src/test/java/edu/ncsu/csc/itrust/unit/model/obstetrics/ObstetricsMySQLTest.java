@@ -51,7 +51,6 @@ public class ObstetricsMySQLTest {
 	
 	private ObstetricsPregnancy newObstetricsPregnancy( Date initDate, Date lmp ) {
 		ObstetricsPregnancy op = new ObstetricsPregnancy();
-		//need princess peach pid
 		op.setPid( 2 );
 		op.setDateInit( initDate );
 		op.setLmp( lmp );
@@ -147,17 +146,66 @@ public class ObstetricsMySQLTest {
 
 	@Test
 	public void testGetObstetricsPregnancy() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = null;
+		ObstetricsPregnancy res = null;
+
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.set( 2017, 1, 1 );
+			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
+			sql.add( op );
+			res = sql.getObstetricsPregnancy( op.getPid(), op.getDateInit() );
+		} catch (DBException | FormValidationException e) {
+			fail();
+		}
+		
+		assertTrue( equalObstetricsPregnancy( op, res ) );
 	}
 
 	@Test
 	public void testGetPastObstetricsPregnanciesForPatient() {
-		fail("Not yet implemented");
+		List<ObstetricsPregnancy> list = Collections.emptyList();
+		ObstetricsPregnancy op1 = null;
+		ObstetricsPregnancy op2 = null;
+		
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.set( 2017, 1, 1 );
+			op1 = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
+			op1.setCurrent( false );
+			sql.add( op1 );
+			
+			Calendar cal2 = Calendar.getInstance();
+			cal2.set( 2016, 1, 1 );
+			Calendar cal3 = Calendar.getInstance();
+			cal3.set( 2016, 2, 1 );
+			op2 = newObstetricsPregnancy( new Date( cal3.getTimeInMillis() ), new Date( cal2.getTimeInMillis() ) );
+			op2.setCurrent( false );
+			sql.add( op2 );
+			list = sql.getPastObstetricsPregnanciesForPatient( 2 );
+		} catch (DBException | FormValidationException e) {
+			fail();
+		}
+		
+		assertEquals( 2, list.size() );
 	}
 
 	@Test
 	public void testGetCurrentObstetricsPregnancy() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = null;
+		ObstetricsPregnancy res = null;
+
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.set( 2017, 1, 1 );
+			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
+			sql.add( op );
+			res = sql.getCurrentObstetricsPregnancy( 2 );
+		} catch (DBException | FormValidationException e) {
+			fail();
+		}
+		
+		assertTrue( equalObstetricsPregnancy( op, res ) );
 	}
 
 }
