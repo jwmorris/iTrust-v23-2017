@@ -212,6 +212,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			ps.setBoolean( 2, true );
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
+			if(op == null){
+				op = new ObstetricsPregnancy();
+			}
 			rs.close();
 			return op;
 		} catch ( SQLException e ) {

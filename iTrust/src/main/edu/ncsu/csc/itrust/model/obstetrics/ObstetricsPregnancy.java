@@ -89,11 +89,16 @@ public class ObstetricsPregnancy {
 	/**
 	 * @return the dateInitialization
 	 */
-	public String getDateInit() {
-		if ( this.dateInit == null )
-			dateInit = new Date( Calendar.getInstance().getTimeInMillis() );
-		return DATE_FORMAT.format( dateInit );
+	public Date getDateInit() {
+		return dateInit;
 	}
+
+//	/**
+//	 * @param dateInitialization the dateInitialization to set
+//	 */
+//	public void setDateInit( Date dateInitialization ) {
+//		this.dateInit = dateInitialization;
+//	}
 	
 	/**
 	 * @param dateInitialization the dateInitialization to set
@@ -104,15 +109,21 @@ public class ObstetricsPregnancy {
 		} catch ( ParseException e ) {
 			this.dateInit = null;
 		}
-	} 
+	}
 
 	/**
 	 * @return the lmp
 	 */
-	public String getLmp() {
-		if ( this.lmp == null )
-			return "";
-		return DATE_FORMAT.format( lmp );
+	public Date getLmp() {
+		return lmp;
+	}
+
+	/**
+	 * @param lmp the lmp to set
+	 */
+	public void setLmp( Date lmp ) {
+		this.lmp = lmp;
+		calculateAndSetEddWeeksPreg( lmp );
 	}
 	
 	/**
@@ -130,8 +141,15 @@ public class ObstetricsPregnancy {
 	/**
 	 * @return the edd
 	 */
-	public String getEdd() {
-		return DATE_FORMAT.format( edd );
+	public Date getEdd() {
+		return edd;
+	}
+
+	/**
+	 * @param edd the edd to set
+	 */
+	public void setEdd( Date edd ) {
+		this.edd = edd;
 	}
 	
 	/**
@@ -152,7 +170,7 @@ public class ObstetricsPregnancy {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime( lmp );
 		cal.add( Calendar.DAY_OF_YEAR, 280 );
-		setEdd( DATE_FORMAT.format( cal.getTime() ) );
+		setEdd( new Date( cal.getTimeInMillis() ) );
 		
 		cal = Calendar.getInstance();
 		cal.setTime( lmp );
