@@ -104,7 +104,7 @@ public class ObstetricsPregnancy {
 		} catch ( ParseException e ) {
 			this.dateInit = null;
 		}
-	}
+	} 
 
 	/**
 	 * @return the lmp
