@@ -539,7 +539,7 @@ CREATE TABLE obstetricsData
 	weeksPregnant	VARCHAR(20) default '',
 	concepYear		VARCHAR(20) default '',
 	totalWeeks		VARCHAR(20) default '',
-	hrsLabor		VARCHAR(20) default '',
+	hrsLabor		FLOAT default NULL,
 	weightGain		VARCHAR(20) default '',
 	deliveryType	VARCHAR(100) default '',
 	multiplePregnancy	BOOLEAN NOT NULL default false,

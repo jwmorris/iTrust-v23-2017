@@ -36,7 +36,7 @@ public class ObstetricsPregnancy {
 	private String totalWeeksPregnant;
 	
 	/** hours in labor */
-	private String hrsLabor;
+	private double hrsLabor;
 	
 	/** weight gained during pregnancy */
 	private String weightGain;
@@ -64,7 +64,7 @@ public class ObstetricsPregnancy {
 		weeksPregnant = "";
 		concepYear = "";
 		totalWeeksPregnant = "";
-		hrsLabor = "";
+		hrsLabor = 0.0;
 		weightGain = "";
 		deliveryType = "";
 		multiplePregnancy = false;
@@ -253,7 +253,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		hours in labor
 	 */
-	public String getHrsLabor() {
+	public double getHrsLabor() {
 		return hrsLabor;
 	}
 	
@@ -264,7 +264,7 @@ public class ObstetricsPregnancy {
 	 * 		hours in labor
 	 */
 	public void setHrsLabor( String hrsLabor ) {
-		this.hrsLabor = hrsLabor;
+		this.hrsLabor = Double.parseDouble(hrsLabor);
 	}
 	
 	/**
@@ -360,5 +360,23 @@ public class ObstetricsPregnancy {
 	 */
 	public void setCurrent( boolean current ) {
 		this.current = current;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		ObstetricsPregnancy op = (ObstetricsPregnancy) o;
+		return this.babyCount.equals(op.getBabyCount())
+				&& this.current == op.getCurrent()
+				&& this.multiplePregnancy == op.getMultiplePregnancy()
+				&& this.concepYear.equals(op.getConcepYear())
+				&& this.dateInit.equals(op.getDateInit())
+				&& this.deliveryType.equals(op.getDeliveryType())
+				&& this.edd.equals(op.getEdd())
+				&& this.hrsLabor == op.getHrsLabor()
+				&& this.lmp.equals(op.getLmp())
+				&& this.pid == op.getPid()
+				&& this.totalWeeksPregnant.equals(op.getTotalWeeksPregnant())
+				&& this.weeksPregnant.equals(op.getWeeksPregnant())
+				&& this.weightGain.equals(op.getWeightGain());
 	}
 }

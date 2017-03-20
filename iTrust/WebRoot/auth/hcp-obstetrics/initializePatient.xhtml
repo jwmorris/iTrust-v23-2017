@@ -26,9 +26,11 @@
 			</h:panelGroup>
 			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
 			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
+			
 			<br/>
-			<h:form>
-			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="addNewPregnancy.xhtml"></h:commandButton>
+			<h:form id="currentPregnancy">
+			<h:message for="addNewPregnancy" globalOnly="true"/>
+			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="#{obstetrics_controller.addCurrentPregnancy()}"></h:commandButton>
 			</h:form>
 			<br/>
 			<br/>

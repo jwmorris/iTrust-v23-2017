@@ -65,13 +65,13 @@ public class ObstetricsMySQLTest {
 		op.setPid( 2 );
 		op.setDateInit( DATE_FORMAT.format( initDate ) );
 		op.setLmp( DATE_FORMAT.format( lmp ) );
-		op.setConcepYear( 0 );
-		op.setTotalWeeksPregnant( 0 );
-		op.setHrsLabor( 0 );
-		op.setWeightGain( 0 );
+		op.setConcepYear( "0" );
+		op.setTotalWeeksPregnant( "0" );
+		op.setHrsLabor( "0" );
+		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
-		op.setBabyCount( 1 );
+		op.setBabyCount( "1" );
 		op.setCurrent( true );
 		return op;
 	}
@@ -161,7 +161,7 @@ public class ObstetricsMySQLTest {
 			cal.set( 2017, 1, 1 );
 			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
 			sql.add( op );
-			op.setBabyCount( 2 );
+			op.setBabyCount( "2" );
 			op.setMultiplePregnancy( true );
 			sql.update( op );
 			list = sql.getAll();
