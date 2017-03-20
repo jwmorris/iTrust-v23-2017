@@ -10,12 +10,12 @@
 
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageTitle">iTrust - Add New Pregnancy</ui:define>
+		<ui:define name="pageTitle">iTrust - Edit Current Pregnancy</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
 		<ui:define name="mainContent">
-			<itrust:patientNav thisTitle="Add New Pregnancy" />
+			<itrust:patientNav thisTitle="Edit Current Pregnancy" />
 			<div align="center">
 				<br />
 				<h:message for="" />
@@ -25,10 +25,12 @@
 				<br/>
 				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_pregnancy.lmp}" /></p>
 				<br/>
+				<p>EDD: <h:inputText type="text" name="edd" value="#{obstetrics_pregnancy.edd}" /></p>
+				<br/>
 				<p>Weeks Pregnant: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_pregnancy.weeksPregnant}" /></p>
 				<br/>
 			
-				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
+				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.editCurrentPregnancy()}"/></p>
 				</h:form>
 				
 				<h:form>
