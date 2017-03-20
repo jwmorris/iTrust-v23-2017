@@ -1,6 +1,6 @@
 package edu.ncsu.csc.itrust.model.obstetrics;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,28 +18,28 @@ public class ObstetricsPregnancy {
 	private long pid;
 
 	/** date of patient initialization visit */
-	private Date dateInit;
+	private String dateInit;
 	
 	/** last menstrual period */
-	private Date lmp;
+	private String lmp;
 	
 	/** estimated due date */
-	private Date edd;
+	private String edd;
 	
 	/** number of weeks pregnant */
-	private int weeksPregnant;
+	private String weeksPregnant;
 	
 	/** year of conception */
-	private int concepYear;
+	private String concepYear;
 	
 	/** total weeks pregnant by delivery */
-	private int totalWeeksPregnant;
+	private String totalWeeksPregnant;
 	
 	/** hours in labor */
-	private double hrsLabor;
+	private String hrsLabor;
 	
 	/** weight gained during pregnancy */
-	private int weightGain;
+	private String weightGain;
 	
 	/** delivery method */
 	private String deliveryType;
@@ -48,7 +48,7 @@ public class ObstetricsPregnancy {
 	private boolean multiplePregnancy;
 	
 	/** number of children expected from pregnancy */
-	private int babyCount;
+	private String babyCount;
 	
 	/** is this obstetrics patient currently pregnant */
 	private boolean current;
@@ -58,17 +58,17 @@ public class ObstetricsPregnancy {
 	
 	public ObstetricsPregnancy() {
 		pid = 0;
-		dateInit = null;
-		lmp = null;
-		edd = null;
-		weeksPregnant = 0;
-		concepYear = 0;
-		totalWeeksPregnant = 0;
-		hrsLabor = 0;
-		weightGain = 0;
-		deliveryType = null;
+		dateInit = "";
+		lmp = "";
+		edd = "";
+		weeksPregnant = "";
+		concepYear = "";
+		totalWeeksPregnant = "";
+		hrsLabor = "";
+		weightGain = "";
+		deliveryType = "";
 		multiplePregnancy = false;
-		babyCount = 0;
+		babyCount = "";
 		current = true;
 	}
 	
@@ -89,7 +89,7 @@ public class ObstetricsPregnancy {
 	/**
 	 * @return the dateInitialization
 	 */
-	public Date getDateInit() {
+	public String getDateInit() {
 		return dateInit;
 	}
 
@@ -104,78 +104,84 @@ public class ObstetricsPregnancy {
 	 * @param dateInitialization the dateInitialization to set
 	 */
 	public void setDateInit( String dateInitialization ) {
-		try {
-			this.dateInit = new Date( DATE_FORMAT.parse( dateInitialization ).getTime() );
-		} catch ( ParseException e ) {
-			this.dateInit = null;
-		}
+		this.dateInit = dateInitialization;
 	}
 
 	/**
 	 * @return the lmp
 	 */
-	public Date getLmp() {
+	public String getLmp() {
 		return lmp;
 	}
 
 	/**
 	 * @param lmp the lmp to set
 	 */
-	public void setLmp( Date lmp ) {
-		this.lmp = lmp;
-		calculateAndSetEddWeeksPreg( lmp );
-	}
+//	public void setLmp( Date lmp ) {
+//		this.lmp = lmp;
+////		calculateAndSetEddWeeksPreg( lmp );
+//	}
 	
 	/**
 	 * @param lmp the lmp to set
 	 */
 	public void setLmp( String lmp ) {
-		try {
-			this.lmp = new Date( DATE_FORMAT.parse( lmp ).getTime() );
-			calculateAndSetEddWeeksPreg( this.lmp );
-		} catch ( ParseException e ) {
-			this.lmp = null;
-		}
+		this.lmp = lmp;
+		calculateAndSetEddWeeksPreg(lmp);
 	}
 
 	/**
 	 * @return the edd
 	 */
-	public Date getEdd() {
+	public String getEdd() {
 		return edd;
 	}
 
 	/**
 	 * @param edd the edd to set
 	 */
-	public void setEdd( Date edd ) {
-		this.edd = edd;
+	public void setEdd() {
+		calculateAndSetEddWeeksPreg(lmp);
 	}
 	
+	public void assignEdd(String edd){
+		this.edd = edd;
+	}
 	/**
 	 * @param edd the edd to set
 	 */
-	public void setEdd( String edd ) {
-		try {
-			this.edd = new Date( DATE_FORMAT.parse( edd ).getTime() );
-		} catch ( ParseException e ) {
-			this.edd = null;
-		}
-	}
+//	public void setEdd( String edd ) {
+//		try {
+//			this.edd = new Date( DATE_FORMAT.parse( edd ).getTime() );
+//		} catch ( ParseException e ) {
+//			this.edd = null;
+//		}
+//	}
 	
-	private void calculateAndSetEddWeeksPreg( Date lmp ) {
+	private void calculateAndSetEddWeeksPreg( String lmp ) {
 		if ( lmp == null )
 			lmp = this.lmp;
-		
+		Date lmpDate = null;
+		try {
+			lmpDate = DATE_FORMAT.parse(lmp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Calendar cal = Calendar.getInstance();
-		cal.setTime( lmp );
+		cal.setTime( lmpDate );
 		cal.add( Calendar.DAY_OF_YEAR, 280 );
-		setEdd( new Date( cal.getTimeInMillis() ) );
+		assignEdd( DATE_FORMAT.format(new Date( cal.getTimeInMillis() )) );
 		
 		cal = Calendar.getInstance();
-		cal.setTime( lmp );
+		cal.setTime( lmpDate );
 		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime( this.dateInit );
+		try {
+			cal2.setTime( DATE_FORMAT.parse(this.dateInit) );
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
 		/*
 		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
@@ -184,20 +190,20 @@ public class ObstetricsPregnancy {
 		sb.append( Integer.toString( days ) );
 		setWeeksPregnant( Integer.parseInt( sb.toString() ) );
 		*/
-		setWeeksPregnant( w );
+		setWeeksPregnant( String.valueOf(w) );
 	}
 
 	/**
 	 * @return the WeeksPregnant
 	 */
-	public int getWeeksPregnant() {
+	public String getWeeksPregnant() {
 		return weeksPregnant;
 	}
 
 	/**
 	 * @param weeksPregnant weeksPregnant to set
 	 */
-	public void setWeeksPregnant( int weeksPregnant ) {
+	public void setWeeksPregnant( String weeksPregnant ) {
 		this.weeksPregnant = weeksPregnant;
 	}
 	
@@ -207,7 +213,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		year of conception
 	 */
-	public int getConcepYear() {
+	public String getConcepYear() {
 		return concepYear;
 	}
 	
@@ -217,7 +223,7 @@ public class ObstetricsPregnancy {
 	 * @param concepYear
 	 * 		year of conception
 	 */
-	public void setConcepYear( int concepYear ) {
+	public void setConcepYear( String concepYear ) {
 		this.concepYear = concepYear;
 	}
 	
@@ -227,7 +233,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		total weeks pregnant
 	 */
-	public int getTotalWeeksPregnant() {
+	public String getTotalWeeksPregnant() {
 		return totalWeeksPregnant;
 	}
 	
@@ -237,7 +243,7 @@ public class ObstetricsPregnancy {
 	 * @param totalWeeksPregnanat
 	 * 		total weeks pregnant
 	 */
-	public void setTotalWeeksPregnant( int totalWeeksPregnanat ) {
+	public void setTotalWeeksPregnant( String totalWeeksPregnanat ) {
 		this.totalWeeksPregnant = totalWeeksPregnanat;
 	}
 	
@@ -247,7 +253,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		hours in labor
 	 */
-	public double getHrsLabor() {
+	public String getHrsLabor() {
 		return hrsLabor;
 	}
 	
@@ -257,7 +263,7 @@ public class ObstetricsPregnancy {
 	 * @param hrsLabor
 	 * 		hours in labor
 	 */
-	public void setHrsLabor( double hrsLabor ) {
+	public void setHrsLabor( String hrsLabor ) {
 		this.hrsLabor = hrsLabor;
 	}
 	
@@ -267,7 +273,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		weight gained during pregnancy
 	 */
-	public int getWeightGain() {
+	public String getWeightGain() {
 		return weightGain;
 	}
 	
@@ -277,7 +283,7 @@ public class ObstetricsPregnancy {
 	 * @param weightGain
 	 * 		weight gained during pregnancy
 	 */
-	public void setWeightGain( int weightGain ) {
+	public void setWeightGain( String weightGain ) {
 		this.weightGain = weightGain;
 	}
 	
@@ -328,7 +334,7 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		expected children from pregnancy
 	 */
-	public int getBabyCount() {
+	public String getBabyCount() {
 		return babyCount;
 	}
 	
@@ -338,7 +344,7 @@ public class ObstetricsPregnancy {
 	 * @param babyCount
 	 * 		expected children from pregnancy
 	 */
-	public void setBabyCount( int babyCount ) {
+	public void setBabyCount( String babyCount ) {
 		this.babyCount = babyCount;
 	}
 	

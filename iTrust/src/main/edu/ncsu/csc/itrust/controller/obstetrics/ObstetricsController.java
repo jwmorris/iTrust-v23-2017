@@ -30,6 +30,7 @@ public class ObstetricsController {
 	
 	private ObstetricsPregnancy currentPregnancy;
 	private List<ObstetricsPregnancy> priorPregnancies;
+	public ObstetricsPregnancy newPregnancy = new ObstetricsPregnancy();
 	private ObstetricsPregnancyData sql;
 	private SessionUtils utils;
 	private Long pid;
@@ -53,6 +54,9 @@ public class ObstetricsController {
 		
 	}
 	
+	public ObstetricsPregnancy makeNewPregnancy(){
+		return newPregnancy;
+	}
 	public boolean checkPatientEligibility() {
 		boolean eligible = false;
 		if(pid != null) {
@@ -95,6 +99,10 @@ public class ObstetricsController {
 		return current;
 	}
 	
+	public ObstetricsPregnancy getSingleCurrentPregnancy(){
+		return currentPregnancy;
+	}
+	
 	public boolean checkOBGYN() {
 		boolean eligible = false;
 		try {
@@ -128,8 +136,9 @@ public class ObstetricsController {
 	}
 	
 	public void initializePregnancy() {
+		newPregnancy.setPid(pid);
 		try {
-			sql.add(currentPregnancy);
+			sql.add(newPregnancy);
 		} catch (DBException e) {
 			// TODO Throw exception
 			e.printStackTrace();

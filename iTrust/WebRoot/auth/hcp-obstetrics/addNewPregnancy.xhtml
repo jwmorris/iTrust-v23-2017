@@ -21,11 +21,11 @@
 				<h:message for="" />
 			</div>
 				<h:form>
-				<p>Date: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_controller.currentPregnancy.dateInit}" /></p>
+				<p>Date: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_controller.makeNewPregnancy().dateInit}" /></p>
 				<br/>
-				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_controller.currentPregnancy.lmp}" /></p>
+				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_controller.makeNewPregnancy().lmp}" /></p>
 				<br/>
-				<p>Weeks Pregnant: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_controller.currentPregnancy.weeksPregnant}" /></p>
+				<p>Weeks Pregnant: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_controller.makeNewPregnancy().weeksPregnant}" /></p>
 				<br/>
 			
 				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
