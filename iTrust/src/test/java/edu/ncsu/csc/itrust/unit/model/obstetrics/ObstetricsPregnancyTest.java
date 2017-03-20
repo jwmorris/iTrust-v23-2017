@@ -40,21 +40,6 @@ public class ObstetricsPregnancyTest {
 		lmp = new Date( cal.getTimeInMillis() );
 	}
 	
-	private boolean equalObstetricsPregnancy( ObstetricsPregnancy op1, ObstetricsPregnancy op2 ) {
-		return op1.getDateInit().toString().equals( op2.getDateInit().toString() )
-				&& op1.getLmp().toString().equals( op2.getLmp().toString() )
-				&& op1.getEdd().toString().equals( op2.getEdd().toString() )
-				&& op1.getWeeksPregnant() == op2.getWeeksPregnant()
-				&& op1.getConcepYear() == op2.getConcepYear()
-				&& op1.getTotalWeeksPregnant() == op2.getTotalWeeksPregnant()
-				&& op1.getHrsLabor() == op2.getHrsLabor()
-				&& op1.getDeliveryType().equals( op2.getDeliveryType() )
-				&& op1.getMultiplePregnancy() == op2.getMultiplePregnancy()
-				&& op1.getBabyCount() == op2.getBabyCount()
-				&& op1.getCurrent() == op2.getCurrent();
-				
-	}
-	
 	private ObstetricsPregnancy newObstetricsPregnancy( Date initDate, Date lmp ) {
 		ObstetricsPregnancy op = new ObstetricsPregnancy();
 		op.setPid( 2 );
@@ -96,29 +81,21 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetDateInit() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( this.initDate.toString(), op.getDateInit().toString() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setDateInit(java.sql.Date)}.
-	 */
-	@Test
-	public void testSetDateInitDate() {
-		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis( this.initDate.getTime() );
-		cal.add( Calendar.DAY_OF_YEAR, 1 );
-		this.initDate.setTime( cal.getTimeInMillis() );
-		op.setDateInit( DATE_FORMAT.format( this.initDate ) );
-		assertEquals( this.initDate.toString(), op.getDateInit().toString() );
+		assertEquals( DATE_FORMAT.format( this.initDate ), op.getDateInit() );
 	}
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setDateInit(java.lang.String)}.
 	 */
 	@Test
-	public void testSetDateInitString() {
-		fail("Not yet implemented");
+	public void testSetDateInit() {
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( this.initDate.getTime() );
+		cal.add( Calendar.DAY_OF_YEAR, 1 );
+		this.initDate.setTime( cal.getTimeInMillis() );
+		op.setDateInit( DATE_FORMAT.format( this.initDate ) );
+		assertEquals( DATE_FORMAT.format( this.initDate ), op.getDateInit() );
 	}
 
 	/**
@@ -126,7 +103,8 @@ public class ObstetricsPregnancyTest {
 	 */
 	@Test
 	public void testGetLmp() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		assertEquals( DATE_FORMAT.format( this.lmp ), op.getLmp() );
 	}
 
 	/**
@@ -134,15 +112,13 @@ public class ObstetricsPregnancyTest {
 	 */
 	@Test
 	public void testSetLmpDate() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setLmp(java.lang.String)}.
-	 */
-	@Test
-	public void testSetLmpString() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( this.lmp.getTime() );
+		cal.add( Calendar.DAY_OF_YEAR, 1 );
+		this.lmp.setTime( cal.getTimeInMillis() );
+		op.setLmp( DATE_FORMAT.format( this.lmp ) );
+		assertEquals( DATE_FORMAT.format( this.lmp ), op.getLmp() );
 	}
 
 	/**
@@ -150,23 +126,24 @@ public class ObstetricsPregnancyTest {
 	 */
 	@Test
 	public void testGetEdd() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setEdd(java.sql.Date)}.
-	 */
-	@Test
-	public void testSetEddDate() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( this.lmp.getTime() );
+		cal.add( Calendar.DAY_OF_YEAR, 280 );
+		Date temp = new Date( cal.getTimeInMillis() );
+		assertEquals( DATE_FORMAT.format( temp ), op.getEdd() );
 	}
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setEdd(java.lang.String)}.
 	 */
 	@Test
-	public void testSetEddString() {
-		fail("Not yet implemented");
+	public void testSetEdd() {
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		Date testEdd = new Date( Calendar.getInstance().getTimeInMillis() );
+		String testEddStr = DATE_FORMAT.format( testEdd );
+		op.setEdd( testEddStr );
+		assertEquals( testEddStr, op.getEdd() );
 	}
 
 	/**
@@ -174,7 +151,9 @@ public class ObstetricsPregnancyTest {
 	 */
 	@Test
 	public void testGetWeeksPregnant() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		op.setWeeksPregnant( 3 );
+		assertEquals( 3, op.getWeeksPregnant() );
 	}
 
 	/**
@@ -182,7 +161,9 @@ public class ObstetricsPregnancyTest {
 	 */
 	@Test
 	public void testSetWeeksPregnant() {
-		fail("Not yet implemented");
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		op.setWeeksPregnant( 1 );
+		assertEquals( 1, op.getWeeksPregnant() );
 	}
 
 	/**
@@ -305,7 +286,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetBabyCount() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( 0, op.getBabyCount() );
+		assertEquals( 1, op.getBabyCount() );
 	}
 
 	/**
@@ -314,8 +295,8 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testSetBabyCount() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		op.setBabyCount( 1 );
-		assertEquals( 1, op.getBabyCount() );
+		op.setBabyCount( 2 );
+		assertEquals( 2, op.getBabyCount() );
 	}
 
 	/**
