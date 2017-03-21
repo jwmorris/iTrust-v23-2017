@@ -133,7 +133,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setBoolean( i++, op.getCurrent() );
 		}
 		if(!newInstance) {
-			ps.setDate( i++, dateInit );
+			//ps.setDate( i++, dateInit );
 			ps.setDate( i++, lmp );
 			ps.setDate( i++, edd );
 			ps.setString( i++,  op.getWeeksPregnant() );

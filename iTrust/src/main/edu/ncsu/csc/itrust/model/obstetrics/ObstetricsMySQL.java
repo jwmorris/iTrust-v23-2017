@@ -142,12 +142,14 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
+		System.out.println("updating");
 		try {
-			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
+			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET  lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
+			e.printStackTrace();
 			throw new DBException( e );
 		}
 		return true;

@@ -11,7 +11,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.print.attribute.standard.Severity;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
@@ -27,8 +26,8 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
-@ManagedBean(name = "obstetrics_controller")
 @ViewScoped
+@ManagedBean(name = "obstetrics_controller")
 public class ObstetricsController extends iTrustController {
 	
 	private ObstetricsPregnancy currentPregnancy;
@@ -40,6 +39,7 @@ public class ObstetricsController extends iTrustController {
 	private Long pid;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
+	private String selectedDate;
 	
 	public ObstetricsController () {
 		try {
@@ -52,12 +52,21 @@ public class ObstetricsController extends iTrustController {
 		pid = utils.getCurrentPatientMIDLong();
 		DAOFactory factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
+		if(patientDAO == null) {
+			System.out.println("error");
+		}
 		personnelDAO = factory.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
-		
+		selectedDate = "";
 	}
 	
+	public String getSelectedDate() {
+		return selectedDate;
+	}
+	public void setSelectedDate(String date) {
+		this.selectedDate = date;
+	}
 	public ObstetricsPregnancy makeNewPregnancy(){
 		return newPregnancy;
 	}
@@ -90,13 +99,15 @@ public class ObstetricsController extends iTrustController {
 	}
 	
 	// for single priorPregnancy
-	public void getSinglePregnancy(String date){
+	public ObstetricsPregnancy getSinglePregnancy(String date){
+		
 		try {
-			priorPregnancy = sql.priorPregnancy(pid, date);
+			priorPregnancy = sql.getObstetricsPregnancy(pid, date);
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return priorPregnancy;
 	}
 	
 	public ObstetricsPregnancy getCurrentPregnancy() {
@@ -129,7 +140,6 @@ public class ObstetricsController extends iTrustController {
 	}
 	
 	public void activatePatient() {
-		System.out.println("activating");
 		try {
 			PatientBean patient = patientDAO.getPatient(pid);
 			patient.setObstetricsPatient(true);
@@ -139,7 +149,6 @@ public class ObstetricsController extends iTrustController {
 			e.printStackTrace();
 		}
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		System.out.println("redirecting");
 		try {
 			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
 		} catch (IOException e) {
@@ -160,6 +169,7 @@ public class ObstetricsController extends iTrustController {
 			// TODO invalid data
 			e.printStackTrace();
 		}
+		
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		Object req = ctx.getRequest();
 		try {
@@ -180,6 +190,34 @@ public class ObstetricsController extends iTrustController {
 			// TODO invalid data
 			e.printStackTrace();
 		}
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		Object req = ctx.getRequest();
+		try {
+			ctx.redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void editPriorPregnancy() {
+		try {
+			sql.update(priorPregnancy);
+		} catch (DBException e) {
+			// TODO Throw exception
+			e.printStackTrace();
+		} catch (FormValidationException e) {
+			// TODO invalid data
+			e.printStackTrace();
+		}
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		Object req = ctx.getRequest();
+		try {
+			ctx.redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void addCurrentPregnancy() {
@@ -198,6 +236,54 @@ public class ObstetricsController extends iTrustController {
 		} else {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to add initialize a pregnancy.", "currentPregnancy:addNewPregnancy");
 		}
+	}
+	
+	public void editCurrentButton() {
+		if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
+		}
+		else if(checkOBGYN()) {
+			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+			Object req = ctx.getRequest();
+			try {
+				ctx.redirect("/iTrust/auth/hcp-obstetrics/editCurrentPregnancy.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to add initialize a pregnancy.", "editCurrentForm:endCurrentPregnancy");
+		}
+	}
+	
+	public void editPriorPregnancyButton() {
+		System.out.println("edit prior");
+		if (selectedDate.equals("")) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There are no prior pregnancies.", "editPriorForm:endPriorPregnancy");
+		}
+		else if(checkOBGYN()) {
+			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+			Object req = ctx.getRequest();
+			try {
+				ctx.redirect("/iTrust/auth/hcp-obstetrics/editPriorPregnancy.xhtml?priorDate=" + selectedDate);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:endPriorPregnancy");
+		}
+	}
+	
+	public ObstetricsPregnancy getPriorPregnancy() {
+		return priorPregnancy;
+	}
+	
+	public void setPriorPregnancy(ObstetricsPregnancy op) {
+		this.priorPregnancy = op;
+	}
+	public List<ObstetricsPregnancy> getPriors() {
+		return priorPregnancies;
 	}
 
 }
