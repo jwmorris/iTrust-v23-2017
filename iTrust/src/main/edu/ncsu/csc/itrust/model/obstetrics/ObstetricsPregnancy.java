@@ -36,7 +36,7 @@ public class ObstetricsPregnancy {
 	private String totalWeeksPregnant;
 	
 	/** hours in labor */
-	private double hrsLabor;
+	private String hoursLabor;
 	
 	/** weight gained during pregnancy */
 	private String weightGain;
@@ -64,7 +64,7 @@ public class ObstetricsPregnancy {
 		weeksPregnant = "";
 		concepYear = "";
 		totalWeeksPregnant = "";
-		hrsLabor = 0.0;
+		hoursLabor = "0.0";
 		weightGain = "";
 		deliveryType = "";
 		multiplePregnancy = false;
@@ -253,8 +253,8 @@ public class ObstetricsPregnancy {
 	 * @return
 	 * 		hours in labor
 	 */
-	public double getHrsLabor() {
-		return hrsLabor;
+	public String getHoursLabor() {
+		return hoursLabor;
 	}
 	
 	/**
@@ -263,8 +263,8 @@ public class ObstetricsPregnancy {
 	 * @param hrsLabor
 	 * 		hours in labor
 	 */
-	public void setHrsLabor( String hrsLabor ) {
-		this.hrsLabor = Double.parseDouble(hrsLabor);
+	public void setHoursLabor( String hrsLabor ) {
+		this.hoursLabor = hrsLabor;
 	}
 	
 	/**
@@ -372,7 +372,7 @@ public class ObstetricsPregnancy {
 				&& this.dateInit.equals(op.getDateInit())
 				&& this.deliveryType.equals(op.getDeliveryType())
 				&& this.edd.equals(op.getEdd())
-				&& this.hrsLabor == op.getHrsLabor()
+				&& this.hoursLabor == op.getHoursLabor()
 				&& this.lmp.equals(op.getLmp())
 				&& this.pid == op.getPid()
 				&& this.totalWeeksPregnant.equals(op.getTotalWeeksPregnant())

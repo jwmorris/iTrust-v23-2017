@@ -202,12 +202,9 @@ public class ObstetricsController extends iTrustController {
 	
 	public void editPriorPregnancy() {
 		try {
-			sql.update(priorPregnancy);
+			sql.updatePriorPregnancy(priorPregnancy, selectedDate);
 		} catch (DBException e) {
 			// TODO Throw exception
-			e.printStackTrace();
-		} catch (FormValidationException e) {
-			// TODO invalid data
 			e.printStackTrace();
 		}
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
@@ -259,7 +256,7 @@ public class ObstetricsController extends iTrustController {
 	public void editPriorPregnancyButton() {
 		System.out.println("edit prior");
 		if (selectedDate.equals("")) {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There are no prior pregnancies.", "editPriorForm:endPriorPregnancy");
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There are no prior pregnancies.", "editPriorForm:editPriorPregnancy");
 		}
 		else if(checkOBGYN()) {
 			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
@@ -271,7 +268,7 @@ public class ObstetricsController extends iTrustController {
 				e.printStackTrace();
 			}
 		} else {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:endPriorPregnancy");
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:editPriorPregnancy");
 		}
 	}
 	
@@ -286,4 +283,7 @@ public class ObstetricsController extends iTrustController {
 		return priorPregnancies;
 	}
 
+	public void setDate(String date) {
+		this.selectedDate = date;
+	}
 }

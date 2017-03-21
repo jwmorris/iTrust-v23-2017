@@ -52,7 +52,7 @@ public class ObstetricsMySQLTest {
 				&& op1.getWeeksPregnant() == op2.getWeeksPregnant()
 				&& op1.getConcepYear() == op2.getConcepYear()
 				&& op1.getTotalWeeksPregnant() == op2.getTotalWeeksPregnant()
-				&& op1.getHrsLabor() == op2.getHrsLabor()
+				&& op1.getHoursLabor() == op2.getHoursLabor()
 				&& op1.getDeliveryType().equals( op2.getDeliveryType() )
 				&& op1.getMultiplePregnancy() == op2.getMultiplePregnancy()
 				&& op1.getBabyCount() == op2.getBabyCount()
@@ -67,7 +67,7 @@ public class ObstetricsMySQLTest {
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHrsLabor( "0" );
+		op.setHoursLabor( "0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );

@@ -66,7 +66,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		op.setWeeksPregnant( rs.getString( "weeksPregnant" ) );
 		op.setConcepYear( rs.getString( "concepYear" ) );
 		op.setTotalWeeksPregnant( rs.getString( "totalWeeks" ) );
-		op.setHrsLabor( rs.getDouble( "hrsLabor" ) + "" );
+		op.setHoursLabor( rs.getDouble( "hrsLabor" ) + "" );
 		op.setWeightGain( rs.getString( "weightGain" ) );
 		op.setDeliveryType( rs.getString( "deliveryType" ) );
 		op.setMultiplePregnancy( rs.getBoolean( "multiplePregnancy" ) );
@@ -125,7 +125,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setString( i++,  op.getWeeksPregnant() );
 			ps.setString( i++, op.getConcepYear() );
 			ps.setString( i++, op.getTotalWeeksPregnant() );
-			ps.setDouble( i++, op.getHrsLabor() );
+			ps.setDouble( i++, Double.parseDouble(op.getHoursLabor()) );
 			ps.setString( i++, op.getWeightGain() );
 			ps.setString( i++, op.getDeliveryType() );
 			ps.setBoolean( i++, op.getMultiplePregnancy() );
@@ -133,13 +133,13 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setBoolean( i++, op.getCurrent() );
 		}
 		if(!newInstance) {
-			//ps.setDate( i++, dateInit );
+			ps.setDate( i++, dateInit );
 			ps.setDate( i++, lmp );
 			ps.setDate( i++, edd );
 			ps.setString( i++,  op.getWeeksPregnant() );
 			ps.setString( i++, op.getConcepYear() );
 			ps.setString( i++, op.getTotalWeeksPregnant() );
-			ps.setDouble( i++, op.getHrsLabor() );
+			ps.setDouble( i++, Double.parseDouble(op.getHoursLabor()) );
 			ps.setString( i++, op.getWeightGain() );
 			ps.setString( i++, op.getDeliveryType() );
 			ps.setBoolean( i++, op.getMultiplePregnancy() );
@@ -147,7 +147,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setBoolean( i++, op.getCurrent() );
 			
 			ps.setLong(i++, op.getPid());
-			ps.setBoolean(i++, true);
+			ps.setBoolean(i++, op.getCurrent());
 		}
 		
 		return ps;

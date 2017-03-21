@@ -47,7 +47,7 @@ public class ObstetricsPregnancyTest {
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHrsLabor( "0" );
+		op.setHoursLabor( "0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
@@ -142,7 +142,7 @@ public class ObstetricsPregnancyTest {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		Date testEdd = new Date( Calendar.getInstance().getTimeInMillis() );
 		String testEddStr = DATE_FORMAT.format( testEdd );
-		op.setEdd( testEddStr );
+		op.setEdd();
 		assertEquals( testEddStr, op.getEdd() );
 	}
 
@@ -205,22 +205,22 @@ public class ObstetricsPregnancyTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#getHrsLabor()}.
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#getHoursLabor()}.
 	 */
 	@Test
 	public void testGetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( "0", op.getHrsLabor() );
+		assertEquals( "0", op.getHoursLabor() );
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setHrsLabor(double)}.
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setHoursLabor(double)}.
 	 */
 	@Test
 	public void testSetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		op.setHrsLabor("7.0" );
-		assertEquals( "7.0", op.getHrsLabor() );
+		op.setHoursLabor("7.0" );
+		assertEquals( "7.0", op.getHoursLabor() );
 	}
 
 	/**

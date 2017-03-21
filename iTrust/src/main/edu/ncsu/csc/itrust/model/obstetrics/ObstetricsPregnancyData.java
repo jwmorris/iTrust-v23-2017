@@ -46,5 +46,6 @@ public interface ObstetricsPregnancyData extends DataBean<ObstetricsPregnancy> {
 	 */
 	public ObstetricsPregnancy getCurrentObstetricsPregnancy( long pid ) throws DBException;
 	
-	public ObstetricsPregnancy priorPregnancy(long pid, String date) throws DBException;
+	
+	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException;
 }
