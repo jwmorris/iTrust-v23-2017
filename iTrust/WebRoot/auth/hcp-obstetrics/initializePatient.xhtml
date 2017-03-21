@@ -26,9 +26,12 @@
 			</h:panelGroup>
 			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
 			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
+			
 			<br/>
-			<h:form>
-			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="addNewPregnancy.xhtml"></h:commandButton>
+			<h:form id="currentPregnancy">
+			<h:message for="addNewPregnancy" globalOnly="true"/>
+			<br/>
+			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="#{obstetrics_controller.addCurrentPregnancy()}"></h:commandButton>
 			</h:form>
 			<br/>
 			<br/>
@@ -54,18 +57,24 @@
 					</h:column>
 				</h:dataTable>
 			</h:form>
-			<h:form>
-			<h:commandButton id="editCurrentPregnancy" type="" value="Edit Current Pregnancy" action="editCurrentPregnancy.xhtml"></h:commandButton>
+			<h:form id="editCurrentForm">
+			<h:message for="editCurrentPregnancy" />
+			<br/>
+			<h:commandButton id="editCurrentPregnancy" type="" value="Edit Current Pregnancy" action="#{obstetrics_controller.editCurrentButton()}"></h:commandButton>
 			</h:form>
 			<br/>
 			<h4>Prior Pregnancies</h4>
 			<br/>
-			<h:form>
-			<h:commandButton id="editPriorPregnancy" type="" value="Edit Prior Pregnancy" action="editPriorPregnancy.xhtml"></h:commandButton>
-    		</h:form>
+			<h:form id="editPriorForm">
+				<h:selectOneMenu id="priorDates" style="width:100px" value="#{obstetrics_controller.selectedDate}">
+					<f:selectItems value="#{obstetrics_controller.getPriors()}" var="p" 
+						itemLabel="#{p.dateInit}" itemValue="#{p.dateInit}"/>
+				</h:selectOneMenu>
+				<h:commandButton id="editPriorPregnancy" value="Edit Prior Pregnancy" action="#{obstetrics_controller.editPriorPregnancyButton()}"/>
+    			<h:message for="editPriorPregnancy" globalOnly="true"/>
+    		</h:form>    		
     		<br/>
-    		<br/>
-    			<h:dataTable value="#{obstetrics_controller.priorPregnancies}" var="prior">
+    			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
 						#{prior.dateInit}
@@ -95,7 +104,7 @@
 					
 					<h:column>
 						<f:facet name="header">Numbers of Hours in Labor</f:facet>
-						#{prior.hrsLabor}
+						#{prior.hoursLabor}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Weight Gain During Pregnancy</f:facet>

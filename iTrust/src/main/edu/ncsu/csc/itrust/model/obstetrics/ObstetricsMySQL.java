@@ -125,9 +125,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
-					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE initDate=?, "
-					+ "lmp=?, edd=?, weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, "
-					+ "deliveryType=?, multiplePregnancy=?, babyCount=?, current=?") , op, true );
+					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
 			
 			ps.executeUpdate();
 
@@ -144,15 +142,41 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
+		System.out.println("updating");
 		try {
-			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET lmp=?, edd=?, "
+			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=? where pid=? and initDate=?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
+			e.printStackTrace();
 			throw new DBException( e );
 		}
 		return true;
+	}
+	
+	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException {
+		PreparedStatement ps = null;
+		System.out.println("updating");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date sqldate = null;
+		try {
+			sqldate = DATE_FORMAT.parse(date);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String d = sdf.format(sqldate);
+		try {
+			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
+					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
+					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
+			ps.executeUpdate();
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+		//return true;
 	}
 
 	/* (non-Javadoc)
@@ -221,5 +245,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			throw new DBException( e );
 		}
 	}
+	
+	
 
 }
