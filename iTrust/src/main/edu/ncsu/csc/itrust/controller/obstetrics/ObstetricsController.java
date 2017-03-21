@@ -218,10 +218,16 @@ public class ObstetricsController extends iTrustController {
 	}
 	
 	public void addCurrentPregnancy() {
+		if(!checkOBGYN()) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a pregnancy.", "currentPregnancy:addNewPregnancy");
+			return;
+		}
+		
 		if (!getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is already an active pregnancy.", "currentPregnancy:addNewPregnancy");
+			return;
 		}
-		else if(checkOBGYN()) {
+		if(checkOBGYN()) {
 			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 			Object req = ctx.getRequest();
 			try {
@@ -230,16 +236,14 @@ public class ObstetricsController extends iTrustController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to add initialize a pregnancy.", "currentPregnancy:addNewPregnancy");
 		}
 	}
 	
 	public void editCurrentButton() {
-		if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
-		}
-		else if(checkOBGYN()) {
+		if(!checkOBGYN()) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a pregnancy.", "editCurrentForm:editCurrentPregnancy");
+			return;
+		} else if(checkOBGYN()) {
 			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 			Object req = ctx.getRequest();
 			try {
@@ -248,13 +252,16 @@ public class ObstetricsController extends iTrustController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to add initialize a pregnancy.", "editCurrentForm:endCurrentPregnancy");
-		}
+		} else if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
+		} 
 	}
 	
 	public void editPriorPregnancyButton() {
-		System.out.println("edit prior");
+		if(!checkOBGYN()) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:editPriorPregnancy");
+			return;
+		}
 		if (selectedDate.equals("")) {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There are no prior pregnancies.", "editPriorForm:editPriorPregnancy");
 		}
@@ -267,9 +274,7 @@ public class ObstetricsController extends iTrustController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:editPriorPregnancy");
-		}
+		} 
 	}
 	
 	public ObstetricsPregnancy getPriorPregnancy() {
