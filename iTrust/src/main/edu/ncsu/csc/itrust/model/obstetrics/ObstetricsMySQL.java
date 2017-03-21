@@ -40,6 +40,8 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	/** database connection */
 	private Connection conn;
 	
+	private ObstetricsValidator validator;
+	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -62,6 +64,8 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch(Exception e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
+		
+		validator = new ObstetricsValidator( this.ds );
 	}
 	
 	/**
@@ -79,6 +83,8 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch (SQLException e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
+		
+		validator = new ObstetricsValidator( this.ds );
 	}
 
 	/* (non-Javadoc)
@@ -120,9 +126,10 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	 * @see edu.ncsu.csc.itrust.model.DataBean#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add( ObstetricsPregnancy op ) throws FormValidationException, DBException {
+	public boolean add( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
-		try { 
+		validator.validate( op );
+		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
 					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
@@ -142,6 +149,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
+		validator.validate( op );
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
@@ -162,9 +170,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			dateInit = new Date( DATE_FORMAT.parse( initDate ).getTime() );
 		} catch ( ParseException e ) {
-			//Some kind of error handling done in validator
 			dateInit = null;
 			e.printStackTrace();
+			throw new DBException( new SQLException( "Invalid date format" ) );
 		}
 		
 		try {

@@ -127,7 +127,8 @@ public class ObstetricsPregnancy {
 	 */
 	public void setLmp( String lmp ) {
 		this.lmp = lmp;
-		calculateAndSetEddWeeksPreg(lmp);
+		if ( this.lmp != null )
+			calculateAndSetEddWeeksPreg(lmp);
 	}
 
 	/**
