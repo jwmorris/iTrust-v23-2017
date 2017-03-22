@@ -1,4 +1,4 @@
-package edu.ncsu.csc.itrust.controller.calendar;
+package edu.ncsu.csc.itrust.unit.controller.calendar;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.ncsu.csc.itrust.controller.calendar.FitnessDataEvent;
 
 public class FitnessDataEventTest {
 	
