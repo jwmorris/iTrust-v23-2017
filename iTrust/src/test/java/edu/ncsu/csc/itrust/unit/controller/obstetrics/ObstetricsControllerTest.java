@@ -12,6 +12,7 @@ import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsController;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class ObstetricsControllerTest {
 
@@ -22,7 +23,7 @@ public class ObstetricsControllerTest {
 	public void setUp() throws Exception {
 		long hcp = Long.parseLong("9000000012");
 		long pid = (long) 7;
-		obc = new ObstetricsController(ConverterDAO.getDataSource(),pid, hcp);
+		obc = new ObstetricsController(ConverterDAO.getDataSource(),pid, hcp, TestDAOFactory.getTestInstance());
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.standardData();
@@ -94,7 +95,7 @@ public class ObstetricsControllerTest {
 		assertTrue(obc.checkOBGYN());
 		long hcp = Long.parseLong("9000000001");
 		long pid = (long) 1;
-		ObstetricsController obc2 = new ObstetricsController(ConverterDAO.getDataSource(), pid, hcp);
+		ObstetricsController obc2 = new ObstetricsController(ConverterDAO.getDataSource(), pid, hcp,  TestDAOFactory.getTestInstance());
 		assertFalse(obc2.checkOBGYN());
 	}
 

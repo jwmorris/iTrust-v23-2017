@@ -65,7 +65,7 @@ public class ObstetricsController extends iTrustController {
 		selectedDate = "";
 	}
 	
-	public ObstetricsController(DataSource ds, Long pid, Long hcp) {
+	public ObstetricsController(DataSource ds, Long pid, Long hcp, DAOFactory df) {
 		try {
 			sql = new ObstetricsMySQL(ds);
 		} catch (DBException e) {
@@ -74,9 +74,9 @@ public class ObstetricsController extends iTrustController {
 		}
 		this.pid = pid;
 		this.hcp = hcp;
-		DAOFactory factory = TestDAOFactory.getTestInstance();
-		patientDAO = factory.getPatientDAO();
-		personnelDAO = factory.getPersonnelDAO();
+	
+		patientDAO = df.getPatientDAO();
+		personnelDAO = df.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
 		selectedDate = "";
