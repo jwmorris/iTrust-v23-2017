@@ -50,12 +50,12 @@ public class ObstetricsInitilizationStepDefs {
 		driver.findElement(By.cssSelector("h2.panel-title")).click();
 		driver.findElement(By.linkText("Patient Initialization")).click();
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("52");
-		driver.findElement(By.xpath("//input[@value='52']"));
+		/**driver.findElement(By.xpath("//input[@value='52']"));
 		try {
 			WebElement we = driver.findElement(By.className("searchResults"));
 		} catch(Exception e) {
 			Assert.assertEquals("iTrust - Please Select a Patient", driver.getTitle());
-		}
+		}*/
 		
 	}
 	
@@ -70,14 +70,19 @@ public class ObstetricsInitilizationStepDefs {
 	public void make_eligible() {
 		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
 		driver.findElement(By.name("j_idt14:j_idt17")).click();
+		System.out.println(driver.findElement(By.id("header")));
+		
+
 	}
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		System.out.println(driver.getTitle());
-		driver.findElement(By.name("currentPregnancy:addNewPregnancy")).submit();
+		//System.out.println(driver.getTitle());
+		//driver.findElement(By.id("currentPregnancy:addNewPregnancy")).submit();
+		driver.findElement(By.xpath("//input[@value='Add New Pregnancy']")).submit();
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		//driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Add New Pregnancy\"]")).submit();
+		//System.out.println(driver.getTitle());
 		driver.findElement(By.name("j_idt22:j_idt24")).sendKeys("02/12/2017");
 		driver.findElement(By.name("j_idt22:j_idt26")).sendKeys("02/11/2017");
 		driver.findElement(By.name("j_idt22:j_idt28")).sendKeys("5");
