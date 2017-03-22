@@ -126,6 +126,11 @@ public class ObstetricsPregnancy {
 	 * @param lmp the lmp to set
 	 */
 	public void setLmp( String lmp ) {
+		try {
+			DATE_FORMAT.parse(lmp);
+		} catch (ParseException e) {
+			lmp = "";
+		}
 		this.lmp = lmp;
 		if(!lmp.equals("") && lmp != null) {
 			calculateAndSetEddWeeksPreg(lmp);

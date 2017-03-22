@@ -3,6 +3,7 @@
  */
 package edu.ncsu.csc.itrust.model.obstetrics;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -45,12 +46,24 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 		//ObstetricsController occ = new ObstetricsController();
 		ErrorList errorList = new ErrorList();
 		
-		if ( op.getDateInit() == null ) {
+		if ( op.getDateInit() == null || op.getDateInit().equals("")) {
 			errorList.addIfNotNull( "Cannot add obstetrics data: Initialization Date cannot be empty" );
+		} else {
+			try {
+				DATE_FORMAT.parse(op.getDateInit());
+			} catch (ParseException e) {
+				errorList.addIfNotNull("Cannot add obstetrics data: Initialization date is invalid");
+			}
 		}
 		
 		if ( op.getLmp() == null || op.getLmp().equals("")) {
 			errorList.addIfNotNull( "Cannot add obstetrics data: LMP cannot be empty" );
+		} else {
+			try {
+				DATE_FORMAT.parse(op.getLmp());
+			} catch (ParseException e) {
+				errorList.addIfNotNull("Cannot add obstetrics data: LMP is invalid");
+			}
 		}
 		
 		if ( !op.getWeeksPregnant().equals( "" ) ) {

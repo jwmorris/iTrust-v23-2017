@@ -221,13 +221,14 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public List<ObstetricsPregnancy> getPastObstetricsPregnanciesForPatient( long pid ) throws DBException {
 		List<ObstetricsPregnancy> res;
 		try (
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=?" ) ) {
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=? ORDER BY initDate DESC" ) ) {
 				ps.setLong( 1, pid );
 				ps.setBoolean( 2, false );
 				ResultSet rs = ps.executeQuery();
 				res = rs.next() ? loader.loadList( rs ) : null;
 				rs.close();
 		} catch ( SQLException e ) {
+			e.printStackTrace();
 			throw new DBException( e );
 		}
 		return res;
