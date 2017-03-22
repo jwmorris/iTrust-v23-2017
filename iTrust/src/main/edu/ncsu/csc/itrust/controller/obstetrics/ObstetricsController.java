@@ -183,40 +183,43 @@ public class ObstetricsController extends iTrustController {
 		newPregnancy.setPid(pid);
 		try {
 			sql.add(newPregnancy);
+			currentPregnancy = newPregnancy;
+			
+			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 		} catch (DBException e) {
 			// TODO Throw exception
 			e.printStackTrace();
 		} catch (FormValidationException e) {
-			// TODO invalid data
-			e.printStackTrace();
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
-		currentPregnancy = newPregnancy;
 		
-		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 	}
 	
 	public void editCurrentPregnancy() {
 		try {
 			sql.update(currentPregnancy);
+			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 		} catch (DBException e) {
 			// TODO Throw exception
 			e.printStackTrace();
 		} catch (FormValidationException e) {
-			// TODO invalid data
-			e.printStackTrace();
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 		
-		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+		
 	}
 	
 	public void editPriorPregnancy() {
 		try {
 			sql.updatePriorPregnancy(priorPregnancy, selectedDate);
+			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 		} catch (DBException e) {
 			// TODO Throw exception
 			e.printStackTrace();
+		} catch ( FormValidationException e ) {
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
-		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+		
 	}
 	
 	public void addCurrentPregnancy() {

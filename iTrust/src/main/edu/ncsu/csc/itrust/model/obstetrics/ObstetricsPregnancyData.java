@@ -6,6 +6,7 @@ package edu.ncsu.csc.itrust.model.obstetrics;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.DataBean;
 
 /**
@@ -47,5 +48,5 @@ public interface ObstetricsPregnancyData extends DataBean<ObstetricsPregnancy> {
 	public ObstetricsPregnancy getCurrentObstetricsPregnancy( long pid ) throws DBException;
 	
 	
-	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException;
+	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException, FormValidationException;
 }
