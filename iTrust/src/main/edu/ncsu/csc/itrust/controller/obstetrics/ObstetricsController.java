@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.controller.iTrustController;
@@ -24,6 +25,7 @@ import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ViewScoped
@@ -37,6 +39,7 @@ public class ObstetricsController extends iTrustController {
 	private ObstetricsPregnancyData sql;
 	private SessionUtils utils;
 	private Long pid;
+	private Long hcp;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
 	private String selectedDate;
@@ -50,11 +53,29 @@ public class ObstetricsController extends iTrustController {
 		}
 		this.utils = SessionUtils.getInstance();
 		pid = utils.getCurrentPatientMIDLong();
+		this.hcp = utils.getSessionLoggedInMIDLong();
 		DAOFactory factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
 		if(patientDAO == null) {
 			System.out.println("error");
 		}
+		personnelDAO = factory.getPersonnelDAO();
+		priorPregnancies = getPriorPregnancies();
+		currentPregnancy = getCurrentPregnancy();
+		selectedDate = "";
+	}
+	
+	public ObstetricsController(DataSource ds, Long pid, Long hcp) {
+		try {
+			sql = new ObstetricsMySQL(ds);
+		} catch (DBException e) {
+			System.out.println("DB fail");
+			e.printStackTrace();
+		}
+		this.pid = pid;
+		this.hcp = hcp;
+		DAOFactory factory = TestDAOFactory.getTestInstance();
+		patientDAO = factory.getPatientDAO();
 		personnelDAO = factory.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
@@ -131,7 +152,7 @@ public class ObstetricsController extends iTrustController {
 	public boolean checkOBGYN() {
 		boolean eligible = false;
 		try {
-			eligible = personnelDAO.getPersonnel(utils.getSessionLoggedInMIDLong()).getSpecialty().equals("OB/GYN");
+			eligible = personnelDAO.getPersonnel(hcp).getSpecialty().equals("OB/GYN");
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,7 +164,7 @@ public class ObstetricsController extends iTrustController {
 		try {
 			PatientBean patient = patientDAO.getPatient(pid);
 			patient.setObstetricsPatient(true);
-			patientDAO.editPatient(patient, utils.getSessionLoggedInMIDLong());
+			patientDAO.editPatient(patient, hcp);
 		} catch (DBException e) {
 			//TODO throw error
 			e.printStackTrace();
@@ -158,6 +179,7 @@ public class ObstetricsController extends iTrustController {
 		
 	}
 	
+	
 	public void initializePregnancy() {
 		newPregnancy.setPid(pid);
 		try {
@@ -169,15 +191,9 @@ public class ObstetricsController extends iTrustController {
 			// TODO invalid data
 			e.printStackTrace();
 		}
+		currentPregnancy = newPregnancy;
 		
-		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-		Object req = ctx.getRequest();
-		try {
-			ctx.redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 	}
 	
 	public void editCurrentPregnancy() {
@@ -190,14 +206,8 @@ public class ObstetricsController extends iTrustController {
 			// TODO invalid data
 			e.printStackTrace();
 		}
-		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-		Object req = ctx.getRequest();
-		try {
-			ctx.redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 	}
 	
 	public void editPriorPregnancy() {
@@ -207,14 +217,7 @@ public class ObstetricsController extends iTrustController {
 			// TODO Throw exception
 			e.printStackTrace();
 		}
-		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-		Object req = ctx.getRequest();
-		try {
-			ctx.redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 	}
 	
 	public void addCurrentPregnancy() {
@@ -228,14 +231,7 @@ public class ObstetricsController extends iTrustController {
 			return;
 		}
 		if(checkOBGYN()) {
-			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-			Object req = ctx.getRequest();
-			try {
-				ctx.redirect("/iTrust/auth/hcp-obstetrics/addNewPregnancy.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			redirect("/iTrust/auth/hcp-obstetrics/addNewPregnancy.xhtml");
 		}
 	}
 	
@@ -244,14 +240,7 @@ public class ObstetricsController extends iTrustController {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a pregnancy.", "editCurrentForm:editCurrentPregnancy");
 			return;
 		} else if(checkOBGYN()) {
-			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-			Object req = ctx.getRequest();
-			try {
-				ctx.redirect("/iTrust/auth/hcp-obstetrics/editCurrentPregnancy.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			redirect("/iTrust/auth/hcp-obstetrics/editCurrentPregnancy.xhtml");
 		} else if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
 		} 
@@ -266,15 +255,19 @@ public class ObstetricsController extends iTrustController {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There are no prior pregnancies.", "editPriorForm:editPriorPregnancy");
 		}
 		else if(checkOBGYN()) {
-			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-			Object req = ctx.getRequest();
-			try {
-				ctx.redirect("/iTrust/auth/hcp-obstetrics/editPriorPregnancy.xhtml?priorDate=" + selectedDate);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			redirect("/iTrust/auth/hcp-obstetrics/editPriorPregnancy.xhtml?priorDate=" + selectedDate);
 		} 
+	}
+	
+	private void redirect(String url) {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		Object req = ctx.getRequest();
+		try {
+			ctx.redirect(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public ObstetricsPregnancy getPriorPregnancy() {
