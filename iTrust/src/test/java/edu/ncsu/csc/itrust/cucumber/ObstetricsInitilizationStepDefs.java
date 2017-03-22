@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -50,12 +51,12 @@ public class ObstetricsInitilizationStepDefs {
 		driver.findElement(By.cssSelector("h2.panel-title")).click();
 		driver.findElement(By.linkText("Patient Initialization")).click();
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("52");
-		/**driver.findElement(By.xpath("//input[@value='52']"));
+		driver.findElement(By.xpath("//input[@value='52']"));
 		try {
 			WebElement we = driver.findElement(By.className("searchResults"));
 		} catch(Exception e) {
 			Assert.assertEquals("iTrust - Please Select a Patient", driver.getTitle());
-		}*/
+		}
 		
 	}
 	
@@ -70,19 +71,11 @@ public class ObstetricsInitilizationStepDefs {
 	public void make_eligible() {
 		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
 		driver.findElement(By.name("j_idt14:j_idt17")).click();
-		System.out.println(driver.findElement(By.id("header")));
-		
-
 	}
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		//System.out.println(driver.getTitle());
-		//driver.findElement(By.id("currentPregnancy:addNewPregnancy")).submit();
-		driver.findElement(By.xpath("//input[@value='Add New Pregnancy']")).submit();
-		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-		//driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Add New Pregnancy\"]")).submit();
-		//System.out.println(driver.getTitle());
+		driver.findElement(By.id("currentPregnancy:addNewPregnancy")).click();
 		driver.findElement(By.name("j_idt22:j_idt24")).sendKeys("02/12/2017");
 		driver.findElement(By.name("j_idt22:j_idt26")).sendKeys("02/11/2017");
 		driver.findElement(By.name("j_idt22:j_idt28")).sendKeys("5");
@@ -109,28 +102,61 @@ public class ObstetricsInitilizationStepDefs {
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("1");
 		driver.findElement(By.xpath("//input[@value='1']")).submit();
 		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
-		
 	}
 	
 	
 	@And("^reselects PID 2$")
 	public void choose_obstetrics_pid() {
-		//select pid with prior pregnancy
+		driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/ul/li[1]/a")).click();
+        driver.get("http://localhost:8080/iTrust/auth/getPatientID.jsp?forward=/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+        driver.findElement(By.name("UID_PATIENTID")).sendKeys("2");
+		driver.findElement(By.xpath("//input[@value='2']")).submit();
+		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
 	}
 	
 	@And("^she edits a prior pregnancy by changing total weeks pregnant to forty$")
 	public void edit_incorrect() {
-		//edit prior pregnancy with incorrect input
+		WebElement webElement = driver.findElement(By.name("editPriorForm:priorDates"));
+		Select datePicker = new Select(webElement);
+		datePicker.selectByValue("03/19/2013");
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Edit Prior Pregnancy\"]")).submit();
+		Assert.assertTrue(driver.getTitle().equals("iTrust - Edit Prior Pregnancy"));
+		
+		// modify weeks pregnant to the word "forty"
+		driver.findElement(By.name("j_idt23:j_idt33")).clear();
+		driver.findElement(By.name("j_idt23:j_idt33")).sendKeys("forty");
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Save\"]")).submit();
+		
+		// see if the error message has appeared
+		String errorMessage = driver.findElement(By.xpath("//*[@id=\"iTrustContent\"]/div")).getText();
+		Assert.assertTrue(errorMessage.contains("This form has not been validated correctly. The following field are not properly filled in: [Total Weeks Pregnant must be numeric]"));
 	}
 	
 	@When("^Dr. Evans edits a prior pregnancy by changing total weeks pregnant to 40$")
 	public void edit_correctly() {
-		//edit prior pregnancy with correct input
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Back\"]")).submit();
+		WebElement webElement = driver.findElement(By.name("editPriorForm:priorDates"));
+		Select datePicker = new Select(webElement);
+		datePicker.selectByValue("03/19/2013");
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Edit Prior Pregnancy\"]")).submit();
+		Assert.assertTrue(driver.getTitle().equals("iTrust - Edit Prior Pregnancy"));
+		
+		// modify weeks pregnant to the value 40
+		driver.findElement(By.name("j_idt23:j_idt33")).clear();
+		driver.findElement(By.name("j_idt23:j_idt33")).sendKeys("40");
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Save\"]")).submit();
 	}
 	
 	@Then("^Princess Peach's prior pregnancy is updated$")
-	public void pregnancy_updated() {
-		//check pregnancy is updated
+	public void pregnancy_updated() throws InterruptedException {
+		WebElement babyTable = driver.findElement(By.xpath("//*[@id=\"iTrustContent\"]/table"));
+		List<WebElement> tableRows = babyTable.findElements(By.tagName("tr"));
+		String babyRow = tableRows.get(1).getText();
+		String[] actual = babyRow.split(" ");
+		String[] expected = {"03/19/2013","03/07/2013","12/12/2013","12","2013","40","13.5","100","Caesarean","Section","false","1"};
+		for(int i = 0; i < expected.length; i++) {
+			Assert.assertTrue(actual[i].equals(expected[i]));
+		}
 	}
 	
 	@After
