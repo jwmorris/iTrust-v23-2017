@@ -222,9 +222,14 @@ public class ObstetricsController extends iTrustController {
 			// TODO Throw exception
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages( true );
+			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage() ) );
+			try {
+			        FacesContext.getCurrentInstance().getExternalContext().redirect( "/iTrust/auth/hcp-obstetrics/editPriorPregnancy.xhtml?priorDate=" + selectedDate );
+			} catch (IOException e1) {
+			        redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+			}
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
-			
-			
 		}
 		
 	}
