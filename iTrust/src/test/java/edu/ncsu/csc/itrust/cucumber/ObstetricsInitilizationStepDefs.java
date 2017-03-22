@@ -74,7 +74,10 @@ public class ObstetricsInitilizationStepDefs {
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Add New Pregnancy\"]")).submit();
+		System.out.println(driver.getTitle());
+		driver.findElement(By.name("currentPregnancy:addNewPregnancy")).submit();
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		//driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Add New Pregnancy\"]")).submit();
 		driver.findElement(By.name("j_idt22:j_idt24")).sendKeys("02/12/2017");
 		driver.findElement(By.name("j_idt22:j_idt26")).sendKeys("02/11/2017");
 		driver.findElement(By.name("j_idt22:j_idt28")).sendKeys("5");
