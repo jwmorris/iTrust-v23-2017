@@ -25,6 +25,7 @@ import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ViewScoped
@@ -132,15 +133,19 @@ public class ObstetricsController extends iTrustController {
 	
 	public ObstetricsPregnancy getCurrentPregnancy() {
 		ObstetricsPregnancy current = new ObstetricsPregnancy();
-		if(pid != null){
+		
+		if(pid != null) {
 			try {
 				current = sql.getCurrentObstetricsPregnancy(pid);
 			} catch (DBException e) {
 				// TODO throw error here
 				e.printStackTrace();
 			}
+			/*if(current != null) {
+				logTransaction(TransactionType.VIEW_INITIAL_OBSTETRICS_RECORD, hcp, pid, current.getEdd());
+			}*/
 		}
-
+		
 		return current;
 	}
 	
@@ -184,7 +189,7 @@ public class ObstetricsController extends iTrustController {
 		try {
 			sql.add(newPregnancy);
 			currentPregnancy = newPregnancy;
-			
+			logTransaction(TransactionType.CREATE_INITIAL_OBSTETRICS_RECORD, hcp, pid, newPregnancy.getEdd());
 			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 		} catch (DBException e) {
 			// TODO Throw exception
@@ -218,6 +223,8 @@ public class ObstetricsController extends iTrustController {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			
+			
 		}
 		
 	}
