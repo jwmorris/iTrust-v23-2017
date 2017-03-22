@@ -74,7 +74,7 @@ public class ObstetricsInitilizationStepDefs {
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		driver.findElement(By.id("currentPregnancy:addNewPregnancy")).click();
+		driver.findElement(By.cssSelector("input[type=\"submit\"][value=\"Add New Pregnancy\"]")).submit();
 		driver.findElement(By.name("j_idt22:j_idt24")).sendKeys("02/12/2017");
 		driver.findElement(By.name("j_idt22:j_idt26")).sendKeys("02/11/2017");
 		driver.findElement(By.name("j_idt22:j_idt28")).sendKeys("5");
@@ -101,8 +101,6 @@ public class ObstetricsInitilizationStepDefs {
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("1");
 		driver.findElement(By.xpath("//input[@value='1']")).submit();
 		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
-		//driver.findElement(By.xpath("//*[@id='j_idt81']/span/a")).click();
-		//System.out.print(driver.getTitle());
 		
 	}
 	
