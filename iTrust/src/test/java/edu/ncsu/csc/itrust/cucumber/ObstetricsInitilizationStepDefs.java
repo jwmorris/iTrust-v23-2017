@@ -27,7 +27,7 @@ public class ObstetricsInitilizationStepDefs {
 
 		TestHooks.testPrep();
 		// Implicitly wait at most 2 seconds for each element to load
-		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 		
 		driver.get(ADDRESS);
 		
@@ -71,14 +71,14 @@ public class ObstetricsInitilizationStepDefs {
 	public void make_eligible() {
 		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
 		driver.findElement(By.id("obstetric:activate")).click();
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 	}
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-		driver.findElement(By.xpath("//input[@value='Add New Pregnancy']")).click();
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		driver.findElement(By.id("currentPregnancy:addNewPregnancy")).click();
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 		Assert.assertTrue(driver.getTitle().equals("iTrust - Add New Pregnancy"));
 		driver.findElement(By.id("addNewPregnancy:dateInitialization")).sendKeys("02/12/2017");
 		driver.findElement(By.id("addNewPregnancy:lmp")).sendKeys("02/11/2017");
