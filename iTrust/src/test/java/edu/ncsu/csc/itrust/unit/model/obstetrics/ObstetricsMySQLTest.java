@@ -36,29 +36,14 @@ public class ObstetricsMySQLTest {
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
-	private boolean equalObstetricsPregnancy( ObstetricsPregnancy op1, ObstetricsPregnancy op2 ) {
-		return op1.getDateInit().toString().equals( op2.getDateInit().toString() )
-				&& op1.getLmp().toString().equals( op2.getLmp().toString() )
-				&& op1.getEdd().toString().equals( op2.getEdd().toString() )
-				&& op1.getWeeksPregnant().equals( op2.getWeeksPregnant() )
-				&& op1.getConcepYear().equals( op2.getConcepYear() )
-				&& op1.getTotalWeeksPregnant().equals( op2.getTotalWeeksPregnant() )
-				&& op1.getHoursLabor().equals( op2.getHoursLabor() )
-				&& op1.getDeliveryType().equals( op2.getDeliveryType() )
-				&& op1.getMultiplePregnancy() == op2.getMultiplePregnancy()
-				&& op1.getBabyCount().equals( op2.getBabyCount() )
-				&& op1.getCurrent() == op2.getCurrent();
-				
-	}
-	
 	private ObstetricsPregnancy newObstetricsPregnancy( Date initDate, Date lmp ) {
 		ObstetricsPregnancy op = new ObstetricsPregnancy();
-		op.setPid( 2 );
+		op.setPid( 9 );
 		op.setDateInit( DATE_FORMAT.format( initDate ) );
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHoursLabor( "0" );
+		op.setHoursLabor( "0.0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
@@ -103,7 +88,7 @@ public class ObstetricsMySQLTest {
 			fail();
 		}
 
-		assertTrue( equalObstetricsPregnancy( op, list.get( 0 ) ) );
+		assertTrue( op.getBabyCount().equals( list.get( 0 ).getBabyCount() ) );
 		
 	}
 
@@ -122,7 +107,7 @@ public class ObstetricsMySQLTest {
 			fail();
 		}
 		
-		assertTrue( equalObstetricsPregnancy( op, res ) );
+		assertTrue( op.getBabyCount().equals( res.getBabyCount() ) );
 	}
 
 	@Test
@@ -137,18 +122,20 @@ public class ObstetricsMySQLTest {
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
-		
+		ObstetricsPregnancy ret = null;
 		try {
-			assertTrue( equalObstetricsPregnancy( op, sql.getObstetricsPregnancy( 2, op.getDateInit() ) ) );
-		} catch (DBException e) {
+			ret = sql.getObstetricsPregnancy( 9, op.getDateInit() );
+		} catch (DBException e1) {
 			fail();
 		}
+		
+		assertTrue( op.getBabyCount().equals( ret.getBabyCount() ) );
 	}
 
 	@Test
 	public void testUpdate() {
-		List<ObstetricsPregnancy> list = Collections.emptyList();
 		ObstetricsPregnancy op = null;
+		ObstetricsPregnancy res = null;
 
 		try {
 			Calendar cal = Calendar.getInstance();
@@ -158,12 +145,12 @@ public class ObstetricsMySQLTest {
 			op.setBabyCount( "2" );
 			op.setMultiplePregnancy( true );
 			sql.update( op );
-			list = sql.getAll();
+			res = sql.getCurrentObstetricsPregnancy( 9 );
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
 		
-		assertTrue( equalObstetricsPregnancy( op, list.get( 0 ) ) );
+		assertTrue( op.getBabyCount().equals( res.getBabyCount() ) );
 	}
 
 	@Test
@@ -181,7 +168,7 @@ public class ObstetricsMySQLTest {
 			fail();
 		}
 		
-		assertTrue( equalObstetricsPregnancy( op, res ) );
+		assertTrue( op.getBabyCount().equals( res.getBabyCount() ) );
 	}
 
 	@Test
@@ -204,7 +191,7 @@ public class ObstetricsMySQLTest {
 			op2 = newObstetricsPregnancy( new Date( cal3.getTimeInMillis() ), new Date( cal2.getTimeInMillis() ) );
 			op2.setCurrent( false );
 			sql.add( op2 );
-			list = sql.getPastObstetricsPregnanciesForPatient( 2 );
+			list = sql.getPastObstetricsPregnanciesForPatient( 9 );
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
@@ -222,12 +209,12 @@ public class ObstetricsMySQLTest {
 			cal.set( 2017, 1, 1 );
 			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
 			sql.add( op );
-			res = sql.getCurrentObstetricsPregnancy( 2 );
+			res = sql.getCurrentObstetricsPregnancy( 9 );
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
 		
-		assertTrue( equalObstetricsPregnancy( op, res ) );
+		assertTrue( op.getBabyCount().equals( res.getBabyCount() ) );
 	}
 
 }
