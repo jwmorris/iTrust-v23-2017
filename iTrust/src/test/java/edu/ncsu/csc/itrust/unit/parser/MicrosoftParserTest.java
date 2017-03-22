@@ -65,6 +65,15 @@ public class MicrosoftParserTest {
 	}
 	
 	@Test
+	public void testParseFail() {
+		try {
+			new MicrosoftParser(file);
+		} catch (Exception e) {
+			//pass
+		}
+	}
+	
+	@Test
 	public void testCommaParse() throws IOException, DBException {
 		parser2.parse("2");
 		List<Fitness> data = sql.getFitnessDataForPatient("2");

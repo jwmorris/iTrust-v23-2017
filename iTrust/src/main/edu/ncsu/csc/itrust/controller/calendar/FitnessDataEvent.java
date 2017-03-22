@@ -359,8 +359,12 @@ public class FitnessDataEvent implements ScheduleEvent, Serializable {
 
 	}
 	
-	public boolean equals(FitnessDataEvent event) {
-		return this.startDate.equals(event.getStartDate());
+	public boolean equalsDate(FitnessDataEvent event) {
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTime(startDate);
+		c2.setTime(event.getStartDate());
+		return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
 	}
 	
 	public void setPatient(String pid) {

@@ -33,8 +33,8 @@ public class FitnessParserFactoryTest {
 		TestDataGenerator gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.standardData();
-		File f = new File("C:/Users/David/Documents/CSC326/csc326-202-HW3P3-14/iTrust/testing-files/fitness_data/MS_Band_Data.csv");
-		File f2 = new File("C:/Users/David/Documents/CSC326/csc326-202-HW3P3-14/iTrust/testing-files/fitness_data/fitbit_export_HW3.csv");
+		File f = new File("testing-files/fitness_data/MS_Band_Data.csv");
+		File f2 = new File("testing-files/fitness_data/fitbit_export_HW3.csv");
 		InputStream is = new FileInputStream(f);
 		InputStream is2 = new FileInputStream(f2);
 		microsoftFile = Mockito.mock(UploadedFile.class);
@@ -51,6 +51,20 @@ public class FitnessParserFactoryTest {
 		p = factory.getParser(fitbitFile, ConverterDAO.getDataSource());
 		assertTrue(p instanceof FitbitParser);
 		
+	}
+	
+	@Test
+	public void testGetParserFail() {
+		try {
+			factory.getParser(microsoftFile);
+		} catch (Exception e) {
+			//pass
+		}
+		try {
+			factory.getParser(fitbitFile);
+		} catch (Exception e) {
+			//pass
+		}
 	}
 	
 

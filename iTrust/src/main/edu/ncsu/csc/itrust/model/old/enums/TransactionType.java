@@ -419,9 +419,9 @@ public enum TransactionType {
 	/**SUBMIT_REVIEW*/
 	SUBMIT_REVIEW(6102, "Patient submitted a review for an HCP.", "submitted review", true),
 	/**CREATE_INITIAL_OBSTETRICS_RECORD**/
-	CREATE_INITIAL_OBSTETRICS_RECORD(6300, "Create Initial Obstetric Record", "Create Initial Obstetric Record", true),
+	CREATE_INITIAL_OBSTETRICS_RECORD(9300, "Create Initial Obstetric Record", "Create Initial Obstetric Record", true),
 	/**VIEW_INITIAL_OBSTETRICS_RECORD**/
-	VIEW_INITIAL_OBSTETRICS_RECORD(6301, "View Initial Obstetric Record", "View Initial Obstetric Record", true),
+	VIEW_INITIAL_OBSTETRICS_RECORD(9301, "View Initial Obstetric Record", "View Initial Obstetric Record", true),
 	/**CREATE_INITIAL_OBSTETRICS_RECORD**/
 	CREATE_OBSTETRICS_OV(6400, "Create Obstetric Office Visit", "Create Obstetric Office Visit", true),
 	/**VIEW_INITIAL_OBSTETRICS_RECORD**/
@@ -497,7 +497,6 @@ public enum TransactionType {
 	VIEW_OPHTHALMOLOGY_SURGERY(8601, "View Ophthalmology Surgery", "View Ophthalmology Surgery", true),
 	/**EDIT_OPHTHALMOLOGY_SURGERY**/
 	EDIT_OPHTHALMOLOGY_SURGERY(8602, "Edit Ophthalmology Surgery", "Edit Ophthalmology Surgery", true),
-	/**PATIENT_VIEW_OPHTHALMOLOGY_SURGERY**/
 	;
 	/**
 	 * This string is used in the SQL statement associated with pulling events for

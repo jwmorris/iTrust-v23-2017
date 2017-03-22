@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 import javax.naming.Context;
@@ -53,7 +54,7 @@ public class FitnessSQLLoaderTest {
 
 	@Test
 	public void testLoadList() throws SQLException {
-		List<Fitness> ret = null;
+		List<Fitness> ret = Collections.emptyList();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -66,7 +67,7 @@ public class FitnessSQLLoaderTest {
 			fail("Error executing query");
 		}
 		try {
-			ret = rs.next() ? loader.loadList( rs ) : null;
+			ret = rs.next() ? loader.loadList( rs ) : Collections.emptyList();
 		} catch (SQLException e) {
 			fail("Error loading");
 		}
@@ -80,7 +81,7 @@ public class FitnessSQLLoaderTest {
 		String pid = "2";
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Date dateSQL = null;
-		Fitness f = null;
+		Fitness f = new Fitness();
 		try {
 			dateSQL = new Date(sdf.parse("02/02/2017").getTime());
 		} catch (ParseException e1) {
@@ -104,7 +105,7 @@ public class FitnessSQLLoaderTest {
 			if(rs.next()) {
 				f = loader.loadSingle(rs);
 			} else {
-				f = null;
+				//f = null;
 			}
 			//f = rs.next() ? loader.loadSingle( rs ) : null;
 		} catch (SQLException e) {
