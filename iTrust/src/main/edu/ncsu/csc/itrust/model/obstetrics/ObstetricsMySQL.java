@@ -40,6 +40,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	/** database connection */
 	private Connection conn;
 	
+	/** validates input from forms */
+	private ObstetricsValidator validator;
+	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -62,6 +65,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch(Exception e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
+		validator = new ObstetricsValidator( this.ds );
 	}
 	
 	/**
@@ -79,6 +83,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch (SQLException e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
+		validator = new ObstetricsValidator( this.ds );
 	}
 
 	/* (non-Javadoc)
@@ -122,6 +127,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean add( ObstetricsPregnancy op ) throws FormValidationException, DBException {
 		PreparedStatement ps = null;
+		validator.validate( op );
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
@@ -142,6 +148,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
+		validator.validate( op );
 		System.out.println("updating");
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
@@ -155,8 +162,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		return true;
 	}
 	
-	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException {
+	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
+		validator.validate( op );
 		System.out.println("updating");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date sqldate = null;
