@@ -18,10 +18,10 @@
 		<ui:define name="mainContent">
 			<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
 			<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
-				<h:form>
+				<h:form id="obstetric">
 				<h4>#{mid} is not eligible for Obstetrics care. Please choose a new patient or activate #{mid} for obstetrics.</h4>
 				<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
-				<h:commandButton value="Activate" action="#{obstetrics_controller.activatePatient()}"/>
+				<h:commandButton value="Activate" id="activate" name="activate" action="#{obstetrics_controller.activatePatient()}"/>
 				</h:form>
 			</h:panelGroup>
 			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
@@ -36,7 +36,7 @@
 			<br/>
 			<br/>
 			<h4>Current Pregnancy</h4>
-			<h:form>
+			<h:form id="table">
 				<h:dataTable value="#{obstetrics_controller.currentPregnancy}" var="current">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>

@@ -20,19 +20,19 @@
 				<br />
 				<h:message for="" globalOnly="true"/>
 			</div>
-				<h:form>
-				<p>Date: <h:inputText type="text" name="dateInitialization" value="#{obstetrics_controller.makeNewPregnancy().dateInit}" /></p>
+				<h:form id="addNewPregnancy">
+				<p>Date: <h:inputText type="text" id="dateInitialization" name="dateInitialization" value="#{obstetrics_controller.makeNewPregnancy().dateInit}" /></p>
 				<br/>
-				<p>LMP: <h:inputText type="text" name="lmp" value="#{obstetrics_controller.makeNewPregnancy().lmp}" /></p>
+				<p>LMP: <h:inputText type="text" id="lmp" name="lmp" value="#{obstetrics_controller.makeNewPregnancy().lmp}" /></p>
 				<br/>
-				<p>Weeks Pregnant: <h:inputText type="text" name="expectedWeeksPregnant" value="#{obstetrics_controller.makeNewPregnancy().weeksPregnant}" /></p>
+				<p>Weeks Pregnant: <h:inputText type="text" id="expectedWeeksPregnant" name="expectedWeeksPregnant" value="#{obstetrics_controller.makeNewPregnancy().weeksPregnant}" /></p>
 				<br/>
 			
-				<p><h:commandButton type="submit" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
+				<p><h:commandButton type="submit" id="Save" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
 				</h:form> 
 				
 				<h:form>
-				<p><h:commandButton type="submit" name="Back" value="Back" action="initializePatient.xhtml"/></p>
+				<p><h:commandButton type="submit" id="Back" name="Back" value="Back" action="initializePatient.xhtml"/></p>
 				</h:form>
 		</ui:define>
 	</ui:composition>
