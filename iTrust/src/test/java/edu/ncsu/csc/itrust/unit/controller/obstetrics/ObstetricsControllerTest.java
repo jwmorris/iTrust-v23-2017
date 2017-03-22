@@ -21,7 +21,7 @@ public class ObstetricsControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		long hcp = Long.parseLong("9000000012");
-		long pid = (long) 1;
+		long pid = (long) 7;
 		obc = new ObstetricsController(ConverterDAO.getDataSource(),pid, hcp);
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
