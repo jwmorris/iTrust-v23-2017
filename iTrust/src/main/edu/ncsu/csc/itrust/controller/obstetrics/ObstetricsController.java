@@ -254,6 +254,7 @@ public class ObstetricsController extends iTrustController {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a pregnancy.", "editCurrentForm:editCurrentPregnancy");
 			return;
 		} else if(checkOBGYN()) {
+			logTransaction(TransactionType.VIEW_OBSTETRICS_OV, hcp, pid, getCurrentPregnancy().getEdd());
 			redirect("/iTrust/auth/hcp-obstetrics/editCurrentPregnancy.xhtml");
 		} else if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
