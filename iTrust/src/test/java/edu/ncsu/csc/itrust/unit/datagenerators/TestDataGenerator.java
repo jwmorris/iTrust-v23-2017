@@ -57,6 +57,10 @@ public class TestDataGenerator {
 	public void additionalOfficeVisits() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ovAdditional.sql");
 	}
+	
+	public void addObstetrics() throws SQLException, FileNotFoundException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/obstetrics_test_data.sql");
+	}
 
 	public void admin1() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/admin1.sql");
@@ -911,6 +915,8 @@ public class TestDataGenerator {
 		patient10();
 		
 		multiplePatients_old();
+		
+		addObstetrics();
 	
 		// Added so that the black box test plans for Use Case 32 can be run
 		// immediately after running TestDataGenerator

@@ -40,8 +40,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	/** database connection */
 	private Connection conn;
 	
-	private ObstetricsValidator validator;
-	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -64,8 +62,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch(Exception e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
-		
-		validator = new ObstetricsValidator( this.ds );
 	}
 	
 	/**
@@ -83,8 +79,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		} catch (SQLException e) {
 			throw new DBException(new SQLException("Can't get connection"));
 		}
-		
-		validator = new ObstetricsValidator( this.ds );
 	}
 
 	/* (non-Javadoc)
@@ -126,10 +120,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	 * @see edu.ncsu.csc.itrust.model.DataBean#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add( ObstetricsPregnancy op ) throws DBException, FormValidationException {
+	public boolean add( ObstetricsPregnancy op ) throws FormValidationException, DBException {
 		PreparedStatement ps = null;
-		validator.validate( op );
-		try {
+		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
 					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
@@ -149,16 +142,41 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
-		validator.validate( op );
+		System.out.println("updating");
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
+			e.printStackTrace();
 			throw new DBException( e );
 		}
 		return true;
+	}
+	
+	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException {
+		PreparedStatement ps = null;
+		System.out.println("updating");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date sqldate = null;
+		try {
+			sqldate = DATE_FORMAT.parse(date);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String d = sdf.format(sqldate);
+		try {
+			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
+					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
+					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
+			ps.executeUpdate();
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+		//return true;
 	}
 
 	/* (non-Javadoc)
@@ -170,9 +188,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			dateInit = new Date( DATE_FORMAT.parse( initDate ).getTime() );
 		} catch ( ParseException e ) {
+			//Some kind of error handling done in validator
 			dateInit = null;
 			e.printStackTrace();
-			throw new DBException( new SQLException( "Invalid date format" ) );
 		}
 		
 		try {
@@ -228,30 +246,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		}
 	}
 	
-	@Override
-	public ObstetricsPregnancy priorPregnancy( long pid, String date) throws DBException {
-		Date priorDate = null;
-		try {
-			priorDate = new java.sql.Date(DATE_FORMAT.parse(date).getTime());
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND initDate=? AND current=?" );
-			ps.setLong( 1, pid );
-			ps.setDate(2, priorDate);
-			ps.setBoolean( 2, false );
-			ResultSet rs = ps.executeQuery();
-			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
-			if(op == null){
-				op = new ObstetricsPregnancy();
-			}
-			rs.close();
-			return op;
-		} catch ( SQLException e ) {
-			throw new DBException( e );
-		}
-	}
+	
 
 }
