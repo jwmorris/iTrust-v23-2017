@@ -3,11 +3,12 @@ package edu.ncsu.csc.itrust.unit.model.obstetrics;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,32 +31,22 @@ public class ObstetricsMySQLTest {
 	
 	private TestDataGenerator gen;
 	
+	private DataSource ds;
+	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-	
-	@Before
-	public void setUp() throws Exception {
-		try {
-			sql = new ObstetricsMySQL( ConverterDAO.getDataSource() );
-		} catch (DBException e) {
-			fail();
-		}
-		gen = new TestDataGenerator();
-		gen.clearAllTables();
-		gen.standardData();
-	}
 	
 	private boolean equalObstetricsPregnancy( ObstetricsPregnancy op1, ObstetricsPregnancy op2 ) {
 		return op1.getDateInit().toString().equals( op2.getDateInit().toString() )
 				&& op1.getLmp().toString().equals( op2.getLmp().toString() )
 				&& op1.getEdd().toString().equals( op2.getEdd().toString() )
-				&& op1.getWeeksPregnant() == op2.getWeeksPregnant()
-				&& op1.getConcepYear() == op2.getConcepYear()
-				&& op1.getTotalWeeksPregnant() == op2.getTotalWeeksPregnant()
-				&& op1.getHoursLabor() == op2.getHoursLabor()
+				&& op1.getWeeksPregnant().equals( op2.getWeeksPregnant() )
+				&& op1.getConcepYear().equals( op2.getConcepYear() )
+				&& op1.getTotalWeeksPregnant().equals( op2.getTotalWeeksPregnant() )
+				&& op1.getHrsLabor().equals( op2.getHrsLabor() )
 				&& op1.getDeliveryType().equals( op2.getDeliveryType() )
 				&& op1.getMultiplePregnancy() == op2.getMultiplePregnancy()
-				&& op1.getBabyCount() == op2.getBabyCount()
+				&& op1.getBabyCount().equals( op2.getBabyCount() )
 				&& op1.getCurrent() == op2.getCurrent();
 				
 	}
@@ -67,7 +58,7 @@ public class ObstetricsMySQLTest {
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHoursLabor( "0" );
+		op.setHrsLabor( "0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
@@ -76,8 +67,18 @@ public class ObstetricsMySQLTest {
 		return op;
 	}
 	
+	@Before
+	public void setUp() throws Exception {
+		ds = ConverterDAO.getDataSource();
+		sql = new ObstetricsMySQL( ds );
+		gen = new TestDataGenerator();
+		gen.clearAllTables();
+		gen.standardData();
+	}
+	
 	@Test
 	public void testConstructor() {
+		
 		try {
 			sql = new ObstetricsMySQL();
 			fail();
@@ -85,11 +86,6 @@ public class ObstetricsMySQLTest {
 			//should be thrown
 		}
 		
-		try {
-			sql = new ObstetricsMySQL( ConverterDAO.getDataSource() );
-		} catch (DBException e) {
-			fail();
-		}
 	}
 
 	@Test
@@ -131,7 +127,6 @@ public class ObstetricsMySQLTest {
 
 	@Test
 	public void testAdd() {
-		List<ObstetricsPregnancy> list = Collections.emptyList();
 		ObstetricsPregnancy op = null;
 		
 		try {
@@ -139,7 +134,6 @@ public class ObstetricsMySQLTest {
 			cal.set( 2017, 1, 1 );
 			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
 			sql.add( op );
-			list = sql.getAll();
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}

@@ -47,7 +47,7 @@ public class ObstetricsPregnancyTest {
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHoursLabor( "0" );
+		op.setHrsLabor( "0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
@@ -140,10 +140,23 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testSetEdd() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		Date testEdd = new Date( Calendar.getInstance().getTimeInMillis() );
-		String testEddStr = DATE_FORMAT.format( testEdd );
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( this.lmp.getTime() );
+		cal.add( Calendar.DAY_OF_YEAR, 280 );
+		Date temp = new Date( cal.getTimeInMillis() );
+		assertEquals( DATE_FORMAT.format( temp ), op.getEdd() );
 		op.setEdd();
-		assertEquals( testEddStr, op.getEdd() );
+		assertEquals( DATE_FORMAT.format( temp ), op.getEdd() );
+	}
+	
+	/**
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#assignEdd(java.lang.String)}.
+	 */
+	@Test
+	public void testAssignEdd() {
+		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
+		op.assignEdd( "03/20/2017" );
+		assertEquals( "03/20/2017", op.getEdd() );
 	}
 
 	/**
@@ -153,7 +166,7 @@ public class ObstetricsPregnancyTest {
 	public void testGetWeeksPregnant() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setWeeksPregnant( "3" );
-		assertEquals( 3, op.getWeeksPregnant() );
+		assertEquals( "3", op.getWeeksPregnant() );
 	}
 
 	/**
@@ -163,7 +176,7 @@ public class ObstetricsPregnancyTest {
 	public void testSetWeeksPregnant() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setWeeksPregnant( "1" );
-		assertEquals( 1, op.getWeeksPregnant() );
+		assertEquals( "1", op.getWeeksPregnant() );
 	}
 
 	/**
@@ -172,7 +185,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetConcepYear() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( 0, op.getConcepYear() );
+		assertEquals( "0", op.getConcepYear() );
 	}
 
 	/**
@@ -182,7 +195,7 @@ public class ObstetricsPregnancyTest {
 	public void testSetConcepYear() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setConcepYear( "2016" );
-		assertEquals( 2016, op.getConcepYear() );
+		assertEquals( "2016", op.getConcepYear() );
 	}
 
 	/**
@@ -191,7 +204,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetTotalWeeksPregnant() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( 0, op.getTotalWeeksPregnant() );
+		assertEquals( "0", op.getTotalWeeksPregnant() );
 	}
 
 	/**
@@ -201,26 +214,26 @@ public class ObstetricsPregnancyTest {
 	public void testSetTotalWeeksPregnant() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setTotalWeeksPregnant( "40" );
-		assertEquals( 40, op.getTotalWeeksPregnant() );
+		assertEquals( "40", op.getTotalWeeksPregnant() );
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#getHoursLabor()}.
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#getHrsLabor()}.
 	 */
 	@Test
 	public void testGetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( "0", op.getHoursLabor() );
+		assertEquals( "0", op.getHrsLabor() );
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setHoursLabor(double)}.
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#setHrsLabor(double)}.
 	 */
 	@Test
 	public void testSetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		op.setHoursLabor("7.0" );
-		assertEquals( "7.0", op.getHoursLabor() );
+		op.setHrsLabor( "7.0" );
+		assertEquals( "7.0", op.getHrsLabor() );
 	}
 
 	/**
@@ -229,7 +242,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetWeightGain() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( 0, op.getWeightGain() );
+		assertEquals( "0", op.getWeightGain() );
 	}
 
 	/**
@@ -239,7 +252,7 @@ public class ObstetricsPregnancyTest {
 	public void testSetWeightGain() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setWeightGain( "10" );
-		assertEquals( 10, op.getWeightGain() );
+		assertEquals( "10", op.getWeightGain() );
 	}
 
 	/**
@@ -286,7 +299,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetBabyCount() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( 1, op.getBabyCount() );
+		assertEquals( "1", op.getBabyCount() );
 	}
 
 	/**
@@ -296,7 +309,7 @@ public class ObstetricsPregnancyTest {
 	public void testSetBabyCount() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.setBabyCount( "2" );
-		assertEquals( 2, op.getBabyCount() );
+		assertEquals( "2", op.getBabyCount() );
 	}
 
 	/**
