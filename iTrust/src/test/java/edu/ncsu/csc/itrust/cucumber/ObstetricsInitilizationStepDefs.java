@@ -50,12 +50,13 @@ public class ObstetricsInitilizationStepDefs {
 		driver.findElement(By.cssSelector("h2.panel-title")).click();
 		driver.findElement(By.linkText("Patient Initialization")).click();
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("52");
-		//System.out.print(driver.getPageSource());
-		//WebElement we = driver.findElement(By.className("searchResults"));
-		//String s = we.getText();
-		//Assert.assertTrue(s.equals("Found 0 Records"));
+		driver.findElement(By.xpath("//input[@value='52']"));
+		try {
+			WebElement we = driver.findElement(By.className("searchResults"));
+		} catch(Exception e) {
+			Assert.assertEquals("iTrust - Please Select a Patient", driver.getTitle());
+		}
 		
-		Assert.assertEquals("iTrust - Please Select a Patient", driver.getTitle());
 	}
 	
 	@And("^she correctly enters Princess Peach's PID$")
@@ -73,7 +74,7 @@ public class ObstetricsInitilizationStepDefs {
 	
 	@When("^Dr. Evans initializes a current pregnancy$")
 	public void initialize_peach() {
-		driver.findElement(By.name("currentPregnancy:addNewPregnancy")).click();
+		driver.findElement(By.id("currentPregnancy:addNewPregnancy")).click();
 		driver.findElement(By.name("j_idt22:j_idt24")).sendKeys("02/12/2017");
 		driver.findElement(By.name("j_idt22:j_idt26")).sendKeys("02/11/2017");
 		driver.findElement(By.name("j_idt22:j_idt28")).sendKeys("5");
@@ -95,8 +96,16 @@ public class ObstetricsInitilizationStepDefs {
 	
 	@Given("^Kathyrn Evans selects PID 1$")
 	public void choose_wrong_patient() {
-		//correct patient is not chosen reprompt
+		driver.findElement(By.cssSelector("h2.panel-title")).click();
+		driver.findElement(By.linkText("Patient Initialization")).click();
+		driver.findElement(By.name("UID_PATIENTID")).sendKeys("1");
+		driver.findElement(By.xpath("//input[@value='1']")).submit();
+		Assert.assertEquals("iTrust - Patient Initialization Record", driver.getTitle());
+		//driver.findElement(By.xpath("//*[@id='j_idt81']/span/a")).click();
+		//System.out.print(driver.getTitle());
+		
 	}
+	
 	
 	@And("^reselects PID 2$")
 	public void choose_obstetrics_pid() {
