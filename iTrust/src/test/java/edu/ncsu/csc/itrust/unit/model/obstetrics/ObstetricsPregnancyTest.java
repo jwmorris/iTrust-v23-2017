@@ -47,13 +47,14 @@ public class ObstetricsPregnancyTest {
 		op.setLmp( DATE_FORMAT.format( lmp ) );
 		op.setConcepYear( "0" );
 		op.setTotalWeeksPregnant( "0" );
-		op.setHrsLabor( "0" );
+		op.setHoursLabor( "0" );
 		op.setWeightGain( "0" );
 		op.setDeliveryType( "" );
 		op.setMultiplePregnancy( false );
 		op.setBabyCount( "1" );
 		op.setCurrent( true );
 		return op;
+		
 	}
 
 	/**
@@ -223,7 +224,7 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testGetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		assertEquals( "0", op.getHrsLabor() );
+		assertEquals( "0", op.getHoursLabor() );
 	}
 
 	/**
@@ -232,8 +233,8 @@ public class ObstetricsPregnancyTest {
 	@Test
 	public void testSetHrsLabor() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
-		op.setHrsLabor( "7.0" );
-		assertEquals( "7.0", op.getHrsLabor() );
+		op.setHoursLabor( "7.0" );
+		assertEquals( "7.0", op.getHoursLabor() );
 	}
 
 	/**

@@ -49,7 +49,7 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 			errorList.addIfNotNull( "Cannot add obstetrics data: Initialization Date cannot be empty" );
 		}
 		
-		if ( op.getLmp() == null ) {
+		if ( op.getLmp() == null || op.getLmp().equals("")) {
 			errorList.addIfNotNull( "Cannot add obstetrics data: LMP cannot be empty" );
 		}
 		
@@ -91,10 +91,10 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 			}
 		}
 		
-		if ( !op.getHrsLabor().equals( "" ) ) {
+		if ( !op.getHoursLabor().equals( "" ) ) {
 			double hrsLabor = 0;
 			try {
-				hrsLabor = Double.parseDouble( op.getHrsLabor() );
+				hrsLabor = Double.parseDouble( op.getHoursLabor() );
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Hours in Labor must be numeric" );
 			}

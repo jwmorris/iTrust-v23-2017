@@ -28,12 +28,7 @@ public class ObstetricsValidatorTest {
 	@Test
 	public void testValidateObstetricsPregnancy() {
 		ObstetricsValidator validator = new ObstetricsValidator( ConverterDAO.getDataSource() );
-		try {
-			validator.validate( op );
-		} catch ( FormValidationException e ) {
-			System.out.println( e.getMessage() );
-			fail();
-		}
+		
 		
 		op.setDateInit( null );
 		try {
@@ -44,7 +39,7 @@ public class ObstetricsValidatorTest {
 		}
 		op.setDateInit( "03/20/2017" );
 		
-		op.setLmp( null );
+		op.setLmp( "" );
 		try {
 			validator.validate( op );
 			fail();
@@ -134,23 +129,23 @@ public class ObstetricsValidatorTest {
 		}
 		op.setTotalWeeksPregnant( "7" );
 		
-		op.setHrsLabor( "w" );
+		op.setHoursLabor( "w" );
 		try {
 			validator.validate( op );
 			fail();
 		} catch ( FormValidationException e ) {
 			assertTrue( e.getMessage().contains( "Labor" ) );
 		}
-		op.setHrsLabor( "5" );
+		op.setHoursLabor( "5" );
 		
-		op.setHrsLabor( "-1" );
+		op.setHoursLabor( "-1" );
 		try {
 			validator.validate( op );
 			fail();
 		} catch ( FormValidationException e ) {
 			assertTrue( e.getMessage().contains( "Labor" ) );
 		}
-		op.setHrsLabor( "5" );
+		op.setHoursLabor( "5" );
 		
 		op.setWeightGain( "w" );
 		try {

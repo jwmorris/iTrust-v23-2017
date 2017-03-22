@@ -127,7 +127,9 @@ public class ObstetricsPregnancy {
 	 */
 	public void setLmp( String lmp ) {
 		this.lmp = lmp;
-		calculateAndSetEddWeeksPreg(lmp);
+		if(!lmp.equals("") && lmp != null) {
+			calculateAndSetEddWeeksPreg(lmp);
+		}
 	}
 
 	/**
@@ -141,7 +143,10 @@ public class ObstetricsPregnancy {
 	 * @param edd the edd to set
 	 */
 	public void setEdd() {
-		calculateAndSetEddWeeksPreg(lmp);
+		if(!lmp.equals("") && lmp != null) {
+			calculateAndSetEddWeeksPreg(lmp);
+		}
+		
 	}
 	
 	public void assignEdd(String edd){
@@ -159,7 +164,7 @@ public class ObstetricsPregnancy {
 //	}
 	
 	private void calculateAndSetEddWeeksPreg( String lmp ) {
-		if ( lmp == null )
+		if ( lmp.equals("") || lmp == null)
 			lmp = this.lmp;
 		Date lmpDate = null;
 		try {
