@@ -35,18 +35,11 @@
 							<f:facet name="header">
 								<h:outputText value="Click to Edit"/>
 							</f:facet>
-						   <h:link outcome="officeVisitInfo" value="Edit">
+						   <h:link outcome="obstetricsVisitInfo" value="Edit">
 	      						 	<f:param name="visitID" value="" />
 	   						</h:link>
 						</h:column>	
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Click to View"/>
-							</f:facet>
-						   <h:link outcome="officeVisitInfo" value="View">
-	      						 	<f:param name="visitID" value="" />
-	   						</h:link>
-						</h:column>	
+		
 	 					<h:column>
 							<f:facet name="header">
 								<h:outputText value="Date"/>
@@ -72,7 +65,7 @@
 		</c:choose>
 		<div align="center">
 		<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
-						value="Click Here to Create a New Obstetrics Office Visit"  />
+						value="Click Here to Create a New Obstetrics Office Visit"  outcome="obstetricsVisitInfo"/>
 		</div>
 		</ui:define>
 			

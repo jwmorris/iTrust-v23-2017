@@ -11,7 +11,12 @@
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageTitle">iTrust - Obstetrics Office Visits</ui:define>
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/officevisitinfo.css" />
+			<link rel="stylesheet" href="/iTrust/css/form-layout.css" />
+			<link rel="stylesheet" href="/iTrust/css/tab-layout.css" />
+		</ui:define>
+		<ui:define name="pageTitle">iTrust - Obstetrics Office Visit</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
@@ -22,14 +27,14 @@
 				<input id="tab-general" type="radio" name="ovtabs" checked="checked" />
 				<label for="tab-general">General Information</label>
 				<input id="tab-health-metrics" type="radio" name="ovtabs" />
-				<label for="tab-health-metrics">Health Metrics</label>
+				<label for="tab-health-metrics">Ultrasound</label>
 				
 				<div class="tab-content">
 					<div class="tab-panel" id="content-general">
-						<ui:include src="/auth/hcp-uap/officeVisitForm.xhtml"></ui:include>
+						<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitForm.xhtml"></ui:include>
 					</div>
 					<div class="tab-panel" id="content-health-metrics">
-							<ui:include src="/auth/hcp-uap/basicHealthMetricsForm.xhtml"></ui:include>
+							<ui:include src="/auth/hcp-obstetrics/ultrasoundForm.xhtml"></ui:include>
 					</div>
 					
 				</div>
