@@ -74,6 +74,11 @@
     			<h:message for="editPriorPregnancy" globalOnly="true"/>
     		</h:form>    		
     		<br/>
+    		<h:form id="addPriorForm">
+				<h:commandButton id="addPriorPregnancy" value="Add Prior Pregnancy" action="#{obstetrics_controller.addPriorPregnancyButton()}"/>
+    			<h:message for="addPriorPregnancy" globalOnly="true"/>
+    		</h:form>    		
+    		<br/>
     			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>

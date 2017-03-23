@@ -36,6 +36,7 @@ public class ObstetricsController extends iTrustController {
 	private List<ObstetricsPregnancy> priorPregnancies;
 	private ObstetricsPregnancy newPregnancy = new ObstetricsPregnancy();
 	private ObstetricsPregnancy priorPregnancy = new ObstetricsPregnancy();
+	private ObstetricsPregnancy newPriorPregnancy = new ObstetricsPregnancy();
 	private ObstetricsPregnancyData sql;
 	private SessionUtils utils;
 	private Long pid;
@@ -62,6 +63,8 @@ public class ObstetricsController extends iTrustController {
 		personnelDAO = factory.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
+		newPriorPregnancy = getNewPriorPregnancy();
+		newPriorPregnancy.setCurrent( false );
 		selectedDate = "";
 	}
 	
@@ -79,6 +82,8 @@ public class ObstetricsController extends iTrustController {
 		personnelDAO = df.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
+		newPriorPregnancy = getNewPriorPregnancy();
+		newPriorPregnancy.setCurrent( false );
 		selectedDate = "";
 	}
 	
@@ -214,6 +219,19 @@ public class ObstetricsController extends iTrustController {
 		
 	}
 	
+	public void addPriorPregnancy() {
+		newPriorPregnancy.setPid( pid );
+		try {
+			sql.add( newPriorPregnancy );
+			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
+		} catch (DBException e) {
+			// TODO Throw exception
+			e.printStackTrace();
+		} catch (FormValidationException e) {
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+		}
+	}
+	
 	public void editPriorPregnancy() {
 		try {
 			sql.updatePriorPregnancy(priorPregnancy, selectedDate);
@@ -254,6 +272,7 @@ public class ObstetricsController extends iTrustController {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a pregnancy.", "editCurrentForm:editCurrentPregnancy");
 			return;
 		} else if(checkOBGYN()) {
+			logTransaction(TransactionType.VIEW_OBSTETRICS_OV, hcp, pid, getCurrentPregnancy().getEdd());
 			redirect("/iTrust/auth/hcp-obstetrics/editCurrentPregnancy.xhtml");
 		} else if (getCurrentPregnancy().equals(new ObstetricsPregnancy())) {
 			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "There is not a current pregnancy to edit.", "editCurrentForm:editCurrentPregnancy");
@@ -270,6 +289,16 @@ public class ObstetricsController extends iTrustController {
 		}
 		else if(checkOBGYN()) {
 			redirect("/iTrust/auth/hcp-obstetrics/editPriorPregnancy.xhtml?priorDate=" + selectedDate);
+		} 
+	}
+	
+	public void addPriorPregnancyButton() {
+		if(!checkOBGYN()) {
+			printFacesMessage(FacesMessage.SEVERITY_WARN, "Blocked", "You do not have access to edit a prior pregnancy.", "editPriorForm:editPriorPregnancy");
+			return;
+		}
+		else if(checkOBGYN()) {
+			redirect( "/iTrust/auth/hcp-obstetrics/addPriorPregnancy.xhtml" );
 		} 
 	}
 	
@@ -293,6 +322,10 @@ public class ObstetricsController extends iTrustController {
 	}
 	public List<ObstetricsPregnancy> getPriors() {
 		return priorPregnancies;
+	}
+	
+	public ObstetricsPregnancy getNewPriorPregnancy() {
+		return newPriorPregnancy;
 	}
 
 	public void setDate(String date) {
