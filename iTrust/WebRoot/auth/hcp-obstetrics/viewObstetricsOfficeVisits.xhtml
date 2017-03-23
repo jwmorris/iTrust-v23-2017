@@ -23,11 +23,20 @@
 				<h:message for=""/>
 			</div>
 			<c:choose>
-				<c:when test="true">
+				<!-- When the HCP is not an OBGYN do this -->
+				<c:when test ="#{obstetrics_visit_controller.isOBGYN()">
+				
+				</c:when>
+			
+				<!-- When the patient is not a valid obstetrics patient do this -->
+				<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
+			
+				</c:when>
+				<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
 				<div align="center">
 					<br />
 					<br />
-					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit/view</h2>
+					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
 					<h:dataTable id="previousVisits" styleClass="fTable" value="" 
 						var="ov"  border="1">
 						<br/>
@@ -53,6 +62,7 @@
 				<br />
 				<br />
 			</c:when>
+			
 			<c:otherwise>
 				<br />
 				<br />
