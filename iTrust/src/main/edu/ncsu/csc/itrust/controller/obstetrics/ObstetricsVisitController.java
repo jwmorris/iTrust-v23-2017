@@ -148,11 +148,13 @@ public class ObstetricsVisitController extends iTrustController {
 	 */
 	public boolean isValidObstetricsPatient() {
 		boolean obstetricEligible = false;
-		try {
-			obstetricEligible = patientDAO.getPatient(pid).isObstetricsPatient();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(pid != null){
+			try {
+				obstetricEligible = patientDAO.getPatient(pid).isObstetricsPatient();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return obstetricEligible;
 	}
