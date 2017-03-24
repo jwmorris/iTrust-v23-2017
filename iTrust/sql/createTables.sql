@@ -549,3 +549,22 @@ CREATE TABLE obstetricsData
 	FOREIGN KEY (pid) 	REFERENCES patients(MID),
 	CONSTRAINT pid_date UNIQUE (pid, initDate)
 ) ENGINE=MyISAM;
+
+CREATE TABLE ultrasoundData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid 			BIGINT		UNSIGNED,
+	dateCreated		DATE,
+	crl				FLOAT NOT NULL,
+	bpd				FLOAT NOT NULL,
+	hc				FLOAT NOT NULL,
+	fl				FLOAT NOT NULL,
+	ofd				FLOAT NOT NULL,
+	ac				FLOAT NOT NULL,
+	hl				FLOAT NOT NULL,
+	efw				FLOAT NOT NULL,
+	picPath			VARCHAR(100) default '',
+	multiNum		INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID),
+) ENGINE=MyISAM;
