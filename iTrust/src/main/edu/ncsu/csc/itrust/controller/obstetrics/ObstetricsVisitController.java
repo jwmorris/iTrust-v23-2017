@@ -7,12 +7,26 @@ import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.iTrustController;
+import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "obstetrics_visit_controller")
 @SessionScoped
 public class ObstetricsVisitController extends iTrustController {
 	
+	// id of the hcp
+	Long hcp;
+	// id of the currently selected patient
+	Long pid;
+	// Personnel Dao to get the currently logged in hcp
+	private PersonnelDAO personnelDAO;
+	// Patient DAO to get patient information
+	private PatientDAO patientDAO;
+	// DAO Factory to get other DAO
+	private DAOFactory factory;
 	//private ObstetricsVisitData obstetricsVisitData;
 	private SessionUtils sessionUtils;
 	
@@ -21,6 +35,11 @@ public class ObstetricsVisitController extends iTrustController {
 	 */
 	public ObstetricsVisitController() {
 		this.sessionUtils = SessionUtils.getInstance();
+		factory = DAOFactory.getProductionInstance();
+		personnelDAO = factory.getPersonnelDAO();
+		patientDAO = factory.getPatientDAO();
+		this.hcp = sessionUtils.getSessionLoggedInMIDLong();
+		this.pid = sessionUtils.getCurrentPatientMIDLong();
 		//this.obstetricsVisitData = newObstetricsVisitMySQL();
 	}
 
@@ -128,7 +147,14 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @return
 	 */
 	public boolean isValidObstetricsPatient() {
-		return true;
+		boolean obstetricEligible = false;
+		try {
+			obstetricEligible = patientDAO.getPatient(pid).isObstetricsPatient();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return obstetricEligible;
 	}
 	
 	/**

@@ -22,17 +22,18 @@
 			<br />
 				<h:message for=""/>
 			</div>
-			<c:choose>
-				<!-- When the HCP is not an OBGYN do this -->
-				<c:when test ="#{obstetrics_visit_controller.isOBGYN()">
+		<c:choose>
+			<!-- When the HCP is not an OBGYN do this -->
+			<c:when test ="#{obstetrics_visit_controller.isOBGYN()}">	
+			
+			</c:when>
 				
-				</c:when>
+			<!-- When the patient is not a valid obstetrics patient do this -->
+			<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
 			
-				<!-- When the patient is not a valid obstetrics patient do this -->
-				<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
+			</c:when>
 			
-				</c:when>
-				<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
+			<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
 				<div align="center">
 					<br />
 					<br />
@@ -62,7 +63,6 @@
 				<br />
 				<br />
 			</c:when>
-			
 			<c:otherwise>
 				<br />
 				<br />
