@@ -13,6 +13,10 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name="obstetrics_office_visit")
 public class ObstetricsOfficeVisit {
+	private long id;
+	
+	private long pid;
+	
 	private String visitDate;
 	
 	private String weeksPregnant;
@@ -25,16 +29,37 @@ public class ObstetricsOfficeVisit {
 	
 	private boolean multiplePregnancy;
 	
+	private int numBabies;
+	
 	private boolean lowLying;
 	
 	public ObstetricsOfficeVisit() {
+		id = 0;
+		pid = 0;
 		visitDate = "";
 		weeksPregnant = "";
 		weight = 0;
 		bp = 0;
 		fhr = 0;
 		multiplePregnancy = false;
+		numBabies = 0;
 		lowLying = false;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId( long id ) {
+		this.id = id;
+	}
+	
+	public long getPid() {
+		return pid;
+	}
+	
+	public void setPid( long pid ) {
+		this.pid = pid;
 	}
 
 	/**
@@ -120,6 +145,14 @@ public class ObstetricsOfficeVisit {
 	public void setMultiplePregnancy(boolean multiplePregnancy) {
 		this.multiplePregnancy = multiplePregnancy;
 	}
+	
+	public int getNumBabies() {
+		return numBabies;
+	}
+	
+	public void setNumBabies( int numBabies ) {
+		this.numBabies = numBabies;
+	}
 
 	/**
 	 * @return the lowLying
@@ -134,6 +167,5 @@ public class ObstetricsOfficeVisit {
 	public void setLowLying(boolean lowLying) {
 		this.lowLying = lowLying;
 	}
-	
 	
 }
