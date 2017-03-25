@@ -17,12 +17,6 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
 @SessionScoped
 public class ObstetricsVisitController extends iTrustController {
 	
-	// id of the hcp
-	Long hcp;
-	// id of the currently selected patient
-	Long pid;
-	// Personnel Dao to get the currently logged in hcp
-	private PersonnelDAO personnelDAO;
 	// Patient DAO to get patient information
 	private PatientDAO patientDAO;
 	// DAO Factory to get other DAO
@@ -36,10 +30,7 @@ public class ObstetricsVisitController extends iTrustController {
 	public ObstetricsVisitController() {
 		this.sessionUtils = SessionUtils.getInstance();
 		factory = DAOFactory.getProductionInstance();
-		personnelDAO = factory.getPersonnelDAO();
 		patientDAO = factory.getPatientDAO();
-		this.hcp = sessionUtils.getSessionLoggedInMIDLong();
-		this.pid = sessionUtils.getCurrentPatientMIDLong();
 		//this.obstetricsVisitData = newObstetricsVisitMySQL();
 	}
 
@@ -92,19 +83,19 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @param visitID The obstetrics visit ID
 	 * @return The obstetrics visit with the id
 	 */
-	public void/*ObstetricsVisit*/ getVisitByID(String visitID) {
-		
+	public Object getVisitByID(String visitID) {
+		return null;
 	}
 	
 	/**
 	 * @return Returns the obstetrics visit of the selected patient
 	 */
-	public void/*ObstetricsVisit*/ getSelectedVisit() {
+	public Object getSelectedVisit() {
 		String visitID = sessionUtils.getRequestParameter("visitID");
 		if(visitID == null || visitID.isEmpty()) {
-			//return null;
+			return null;
 		}
-		//return getVisitByID(visitID);
+		return getVisitByID(visitID);
 	}
 	
 	/**
@@ -148,7 +139,8 @@ public class ObstetricsVisitController extends iTrustController {
 	 */
 	public boolean isValidObstetricsPatient() {
 		boolean obstetricEligible = false;
-		if(pid != null){
+		Long pid = sessionUtils.getCurrentPatientMIDLong();
+		if(pid != null) {
 			try {
 				obstetricEligible = patientDAO.getPatient(pid).isObstetricsPatient();
 			} catch (DBException e) {

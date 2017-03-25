@@ -7,7 +7,11 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
 	
 	<h:form id="ultrasoundFileForm" enctype="multipart/form-data">
-		<h:inputFile id="file" value=""/>
+		<h:message for="file"/>
+		<h:inputFile id="file" value="#{obstetrics_visit_form.image}">
+			<f:validator validatorId="imageFileValidator"/>
+			
+		</h:inputFile>
 		<br/>
 		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image"/>
 	</h:form>
@@ -19,34 +23,34 @@
 		<h:panelGrid id="fetusDetails" columns="4">
             
             <h:outputLabel value="Crown Rump Length:"/>
-			<h:inputText style="width:100%;" id="CRL" value="">
+			<h:inputText style="width:100%;" id="CRL" value="#{obstetrics_visit_form.crl}">
 			</h:inputText>
 			
 			<h:outputLabel value="Biparietal Diameter:"/>
-			<h:inputText style="width:100%;" id="BPD" value="">
+			<h:inputText style="width:100%;" id="BPD" value="#{obstetrics_visit_form.bpd}">
 			</h:inputText>
 			
 			<h:outputLabel value="Head Circumference:"/>
-			<h:inputText style="width:100%;" value="" id="HC">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.hc}" id="HC">
 			</h:inputText>
 			
 			<h:outputLabel value="Femur Length:"/>
-			<h:inputText style="width:100%;" value="" id="FL">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.fl}" id="FL">
 			</h:inputText>
 			
 			<h:outputLabel value="Occipitofrontal Diameter"/>
-			<h:inputText style="width:100%;" value="" id="OFD"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.ofd}" id="OFD"/>
 			
 			<h:outputLabel value="Abdominal Circumference"/>
-			<h:inputText style="width:100%;" value="" id="AC">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.ac}" id="AC">
 			</h:inputText>
 			
 			<h:outputLabel value="Humerus Length:"/>
-			<h:inputText style="width:100%;" value="" id="HL">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.hl}" id="HL">
 			</h:inputText>
 			
 			<h:outputLabel value="Estimated Fetal Weight:"/>
-			<h:inputText style="width:100%;" value="" id="EFW">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.efw}" id="EFW">
 			</h:inputText>         
         </h:panelGrid>
         
@@ -54,7 +58,7 @@
 			<h:commandButton id="submitVisitButton" value="Save Fetus Info"
 				 />
 			<h:commandButton id="cancelVisitButton" value="Cancel"
-				 immediate="true" />
+				action="#{navigation_controller.baseObstetricsOfficeVisit}" immediate="true" />
 		</div>
 	</h:form>
 	

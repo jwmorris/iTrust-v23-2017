@@ -9,6 +9,9 @@
 	xmlns:itrust="/WEB-INF/tags.tld">
 <f:view
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+<f:metadata>
+    <f:event type="preRenderView" listener="#{obstetrics_visit_controller.logViewObstetricsOfficeVisit()}"/>
+</f:metadata>
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle">

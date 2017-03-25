@@ -10,29 +10,29 @@
 		<h:panelGrid id="visitDetails" columns="4">
             
             <h:outputLabel value="Weeks Pregnant:"/>
-			<h:inputText style="width:100%;" id="weeksPregnant" value="">
+			<h:inputText style="width:100%;" id="weeksPregnant" value="#{obstetrics_visit_form.weeksPregnant}">
 			</h:inputText>
 			
 			<h:outputLabel value="Weight (lbs):"/>
-			<h:inputText style="width:100%;" id="weight" value="">
+			<h:inputText style="width:100%;" id="weight" value="#{obstetrics_visit_form.weight}">
 			</h:inputText>
 			
 			<h:outputLabel value="Blood Pressure:"/>
-			<h:inputText style="width:100%;" value="" id="bp">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.bloodPressure}" id="bp">
 			</h:inputText>
 			
 			<h:outputLabel value="Fetal Heart Rate:"/>
-			<h:inputText style="width:100%;" value="" id="FHR">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.ftr}" id="FHR">
 			</h:inputText>
 			
 			<h:outputLabel value="More than one baby?:"/>
-			<h:selectBooleanCheckbox style="width:100%;" value="" id="multipleBabies"/>
+			<h:selectBooleanCheckbox style="width:100%;" value="#{obstetrics_visit_form.multiplePregnancy}" id="multipleBabies"/>
 			
 			<h:outputLabel value="Low Lying Placenta:"/>
-			<h:selectBooleanCheckbox style="width:100%;" value="" id="lowPlacenta"/>
+			<h:selectBooleanCheckbox style="width:100%;" value="#{obstetrics_visit_form.placenta}" id="lowPlacenta"/>
 			
 			<h:outputLabel value="Number of Babies:"/>
-			<h:inputText style="width:100%;" value="" id="babyNum">
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.babyNum}" id="babyNum">
 			</h:inputText>
 			
 			
@@ -41,8 +41,8 @@
         <div class="form-group  form-button-group">
 			<h:commandButton id="submitVisitButton" value="Save"
 				 />
-			<h:commandButton id="cancelVisitButton" value="Cancel"
-				 immediate="true" />
+			<h:commandButton id="cancelVisitButton" value="Cancel" 
+			action="#{navigation_controller.baseObstetricsOfficeVisit}" immediate="true" />
 		</div>
 	</h:form>
 </html>

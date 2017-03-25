@@ -19,62 +19,71 @@
 			<!-- Reusing code from the viewOfficeVisit.xhtml page -->
 			<itrust:patientNav thisTitle="Obstetrics Office Visit" />
 			<div align="center">
-			<br />
+				<br />
 				<h:message for=""/>
 			</div>
 		<c:choose>
-			<!-- When the HCP is not an OBGYN do this -->
-			<c:when test ="#{obstetrics_visit_controller.isOBGYN()}">	
-			</c:when>
-				
 			<!-- When the patient is not a valid obstetrics patient do this -->
 			<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
-			</c:when>
-			
-			<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
+				
+				<c:choose>
+					<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
+						<div align="center">
+							<br />
+							<br />
+							<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
+							<h:dataTable id="previousVisits" styleClass="fTable" value="" 
+								var="ov"  border="1">
+								<br/>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Click to Edit"/>
+									</f:facet>
+								   <h:link outcome="obstetricsVisitInfo" value="Edit">
+			      						 	<f:param name="visitID" value="" />
+			   						</h:link>
+								</h:column>	
+				
+			 					<h:column>
+									<f:facet name="header">
+										<h:outputText value="Date"/>
+									</f:facet>
+									<h:outputText value="">
+										<!-- <f:converter converterId="localDateTimeConverter"/>-->
+									</h:outputText>
+								</h:column>	 
+							</h:dataTable>	
+						</div>
+						<br />
+						<br />
+					</c:when>
+					<c:otherwise>
+						<br />
+						<br />
+						<div align="center">
+						<h2 style="font-size: 175%; font-weight: bold;">No Obstetrics Office Visits on Record for this Patient!</h2>
+						</div>
+						<br />
+						<br />
+					</c:otherwise>
+					
+				</c:choose>
 				<div align="center">
-					<br />
-					<br />
-					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
-					<h:dataTable id="previousVisits" styleClass="fTable" value="" 
-						var="ov"  border="1">
-						<br/>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Click to Edit"/>
-							</f:facet>
-						   <h:link outcome="obstetricsVisitInfo" value="Edit">
-	      						 	<f:param name="visitID" value="" />
-	   						</h:link>
-						</h:column>	
-		
-	 					<h:column>
-							<f:facet name="header">
-								<h:outputText value="Date"/>
-							</f:facet>
-							<h:outputText value="">
-								<!-- <f:converter converterId="localDateTimeConverter"/>-->
-							</h:outputText>
-						</h:column>	 
-					</h:dataTable>	
+						<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
+								value="Click Here to Create a New Obstetrics Office Visit"  outcome="obstetricsVisitInfo"/>
 				</div>
-				<br />
-				<br />
 			</c:when>
+			<!-- When not an obstetrics patient -->
 			<c:otherwise>
-				<br />
-				<br />
 				<div align="center">
-				<h2 style="font-size: 175%; font-weight: bold;">No Obstetrics Office Visits on Record for this Patient!</h2>
+					<h:form>
+						<h3>This is not a valid obstetrics patient please choose a new patient</h3>
+						<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
+					</h:form>
 				</div>
-				<br />
-				<br />
 			</c:otherwise>
 		</c:choose>
-		<div align="center">
-		<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
-						value="Click Here to Create a New Obstetrics Office Visit"  outcome="obstetricsVisitInfo"/>
-		</div>
+		
 		</ui:define>
 			
 	</ui:composition>

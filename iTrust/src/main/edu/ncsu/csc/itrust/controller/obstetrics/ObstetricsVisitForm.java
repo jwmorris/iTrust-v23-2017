@@ -2,8 +2,13 @@ package edu.ncsu.csc.itrust.controller.obstetrics;
 
 import java.time.LocalDateTime;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
+
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "obstetrics_visit_form")
 @ViewScoped
@@ -11,10 +16,10 @@ public class ObstetricsVisitForm {
 
 	private ObstetricsVisitController controller;
 	// obstetrics office visit object here
-	// pid of patient
-	Long pid;
+	private Object/*ObstetricsVisit*/ ov;
+	private Long pid;
 	// id of visit, might not need
-	Long visitID;
+	private Long visitID;
 	// date of visit
 	private String date;
 	// weeks pregnant at visit
@@ -25,6 +30,8 @@ public class ObstetricsVisitForm {
 	private String ftr;
 	// multiple babies?
 	private boolean multiplePregnancy;
+	//Number of babies
+	private String babyNum;
 	// low lyting placenta?
 	private boolean placenta;
 	
@@ -44,9 +51,36 @@ public class ObstetricsVisitForm {
 	private String hl;
 	// estimated fetal weight
 	private String efw;
+	//file of image upload
+	private Part image;
 	
 	// next appointment date
 	private String next;
+	
+	public ObstetricsVisitForm() {
+		this(null);
+	}
+	
+	public ObstetricsVisitForm(ObstetricsVisitController ovc) {
+		try {
+			/*controller = (ovc == null) ? new ObstetricsVisitController() : ovc;
+			ov = controller.getSelectedVisit() ? null : new ObstetricsVisit();
+			visitID = ov.getVisitID();
+			pid = ov.getPid() ? null : SessionUtils.getInstance().getCurrentPatientMIDLong();
+			date = ov.getDate();
+			weeksPregnant = ov.getWeeksPregnant();
+			weight = ov.getWeight();
+			bloodPressure = ov.getBP();
+			ftr = ov.getFtr();
+			multiplePregnancy = ov.getMultiplePregnancy();
+			babyNum = ov.getBabyNum();
+			placenta = ov.getPlacenta();*/
+		} catch (Exception e) {
+			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
+					"Obstetrics Visit Controller Error");
+			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+		}
+	}
 	
 	/**
 	 * @return the pid
@@ -149,7 +183,7 @@ public class ObstetricsVisitForm {
 	/**
 	 * @return the multiplePregnancy
 	 */
-	public boolean isMultiplePregnancy() {
+	public boolean getMultiplePregnancy() {
 		return multiplePregnancy;
 	}
 
@@ -159,11 +193,19 @@ public class ObstetricsVisitForm {
 	public void setMultiplePregnancy(boolean multiplePregnancy) {
 		this.multiplePregnancy = multiplePregnancy;
 	}
+	
+	public String getBabyNum() {
+		return babyNum;
+	}
+	
+	public void setBabyNum(String babyNum) {
+		this.babyNum = babyNum;
+	}
 
 	/**
 	 * @return the placenta
 	 */
-	public boolean isPlacenta() {
+	public boolean getPlacenta() {
 		return placenta;
 	}
 
@@ -299,7 +341,17 @@ public class ObstetricsVisitForm {
 	public void setNext(String next) {
 		this.next = next;
 	}
+	/**
+	 * 
+	 * @param image The image part that is uploaded.
+	 */
+	public void setImage(Part image) {
+		this.image = image;
+	}
 	
+	public Part getImage() {
+		return image;
+	}
 	/**
 	 * Called when user clicks on the submit button in obstetricsVisitInfo.xhtml. Takes data from form
 	 * and sends to sql/loader/validator class
@@ -315,4 +367,5 @@ public class ObstetricsVisitForm {
 	public void submitFetusInfo(){
 		
 	}
+
 }
