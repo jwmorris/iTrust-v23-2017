@@ -68,6 +68,13 @@ public class NavigationController {
 			ctx.redirect("/iTrust/auth/hcp-uap/viewOfficeVisit.xhtml");
 		}
 	}
+	
+	public static void baseObstetricsVisit() throws IOException {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		if (ctx != null) {
+			ctx.redirect("/iTrust/auth/hcp-obstetrics/viewObstetricsOfficeVisits.xhtml");
+		}
+	}
 
 	public static void editOfficeVisit() throws IOException {
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
