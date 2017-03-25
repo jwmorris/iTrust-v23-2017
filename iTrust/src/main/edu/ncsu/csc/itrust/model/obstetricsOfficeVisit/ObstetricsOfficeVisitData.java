@@ -29,7 +29,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @throws DBException
 	 * @throws FormValidationException
 	 */
-	public List<ObstetricsOfficeVisit> getOfficeVistsForPatient( long pid ) throws DBException, FormValidationException;
+	public List<ObstetricsOfficeVisit> getOfficeVistsForPatient( long pid ) throws DBException;
 	
 	/**
 	 * returns office visit for given patient from given date
@@ -43,7 +43,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @throws DBException
 	 * @throws FormValidationException
 	 */
-	public ObstetricsOfficeVisit getOfficeVisitForDate( long pid, Date date ) throws DBException, FormValidationException;
+	public ObstetricsOfficeVisit getOfficeVisitForDate( long pid, Date date ) throws DBException;
 	
 	/**
 	 * returns the ultrasound from a given date for a given date
@@ -56,7 +56,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		fetus data from a given ultrasound
 	 */
-	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException, FormValidationException;
+	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException;
 	
 	/**
 	 * returns all of the feti for a given patient
@@ -67,7 +67,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		all feti for a given ultrasound
 	 */
-	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException, FormValidationException;
+	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException;
 	
 	/**
 	 * returns a list of fetus data from a given office visit
@@ -77,7 +77,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		list of fetus data
 	 */
-	public List<Fetus> getFetiForOfficeVisit( long ovId ) throws DBException, FormValidationException;
+	public List<Fetus> getFetiForOfficeVisit( long ovId ) throws DBException;
 	
 	/**
 	 * returns a fetus data object given the office visit and the multi num, usually 0
@@ -89,7 +89,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		fetus data object
 	 */
-	public Fetus getFetusForOfficeVisit( long ovId, int multiNum ) throws DBException, FormValidationException;
+	public Fetus getFetusForOfficeVisit( long ovId, int multiNum ) throws DBException;
 	
 	/**
 	 * returns list of ultrasounds for a given patient
@@ -99,7 +99,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		list of ultrasound data objects
 	 */
-	public List<Ultrasound> getUltrasoundsForPatient( long pid );
+	public List<Ultrasound> getUltrasoundsForPatient( long pid ) throws DBException;
 	
 	/**
 	 * returns an ultrasound data object given the office visit id
@@ -109,7 +109,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		ultrasound from the office visit
 	 */
-	public Ultrasound getUltrasoundByOfficeVisitId( long ovId );
+	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
 	
 	/**
 	 * returns the ultrasound data object from the ultrasound id
@@ -119,7 +119,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		ultrasound data object
 	 */
-	public Ultrasound getUltrasoundByUltrasoundId( long usId );
+	public Ultrasound getUltrasoundByUltrasoundId( long usId ) throws DBException;
 	
 	/**
 	 * return the ultrasound data object for a given patient on the given date
@@ -131,7 +131,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		ultrasound data object
 	 */
-	public Ultrasound getUltrasoundByDate( long pid, Date date );
+	public Ultrasound getUltrasoundByDate( long pid, Date date ) throws DBException;
 	
 	/**
 	 * adds a fetus to the fetus sql database

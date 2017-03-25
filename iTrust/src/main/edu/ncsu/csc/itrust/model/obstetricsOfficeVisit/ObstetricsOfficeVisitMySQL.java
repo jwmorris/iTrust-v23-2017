@@ -9,7 +9,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.naming.Context;
@@ -19,8 +18,9 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
+import edu.ncsu.csc.itrust.model.ultasound.FetusMySQLLoader;
+import edu.ncsu.csc.itrust.model.ultasound.FetusValidator;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.model.ultasound.UltrasoundMySQLLoader;
 import edu.ncsu.csc.itrust.model.ultasound.UltrasoundValidator;
@@ -46,15 +46,12 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	private DataSource ds;
 	
 	/** validates input from forms */
-	private ObstetricsOfficeValidator ovValidator;
+	private ObstetricsOfficeVisitValidator ovValidator;
 	
 	/** validates input from forms */
 	private UltrasoundValidator usValidator;
 	
 	private FetusValidator fetusValidator;
-	
-	/** formats date Strings */
-	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
 	public ObstetricsOfficeVisitMySQL() throws DBException {
 		try {
@@ -111,14 +108,15 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean add( ObstetricsOfficeVisit ov ) throws FormValidationException, DBException {
-		ovValidator.validateAdd( ov );
+		ovValidator.validate( ov );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
 		try { 
 			conn = ds.getConnection();
 			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
-					+ "weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) VALUES(?,?,?,?,?,?,?,?,?)"),
+					+ ", visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)"),
 					ov, true );
 			
 			ps.executeUpdate();
@@ -132,7 +130,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean update( ObstetricsOfficeVisit ov ) throws DBException, FormValidationException {
-		ovValidator.validateUpdate( ov );
+		ovValidator.validateEdit( ov );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -149,7 +147,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public List<ObstetricsOfficeVisit> getOfficeVistsForPatient( long pid ) throws DBException, FormValidationException {
+	public List<ObstetricsOfficeVisit> getOfficeVistsForPatient( long pid ) throws DBException {
 		Connection conn = null;
 		List<ObstetricsOfficeVisit> res;
 		try {
@@ -168,8 +166,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public ObstetricsOfficeVisit getOfficeVisitForDate( long pid, Date date )
-			throws DBException, FormValidationException {
+	public ObstetricsOfficeVisit getOfficeVisitForDate( long pid, Date date ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -187,7 +184,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException, FormValidationException {
+	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -205,7 +202,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException, FormValidationException {
+	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException {
 		Connection conn = null;
 		List<Fetus> res;
 		try {
@@ -224,7 +221,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public List<Fetus> getFetiForOfficeVisit( long ovId ) throws DBException, FormValidationException {
+	public List<Fetus> getFetiForOfficeVisit( long ovId ) throws DBException {
 		Connection conn = null;
 		List<Fetus> res;
 		try {
@@ -244,7 +241,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Fetus getFetusForOfficeVisit( long ovId, int multiNum ) throws DBException, FormValidationException {
+	public Fetus getFetusForOfficeVisit( long ovId, int multiNum ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -264,7 +261,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public List<Ultrasound> getUltrasoundsForPatient( long pid ) {
+	public List<Ultrasound> getUltrasoundsForPatient( long pid ) throws DBException {
 		Connection conn = null;
 		List<Ultrasound> res;
 		try {
@@ -283,7 +280,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) {
+	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -301,7 +298,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Ultrasound getUltrasoundByUltrasoundId( long usId ) {
+	public Ultrasound getUltrasoundByUltrasoundId( long usId ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -319,7 +316,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Ultrasound getUltrasoundByDate( long pid, Date date ) {
+	public Ultrasound getUltrasoundByDate( long pid, Date date ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -359,7 +356,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean updateFetus( Fetus f ) throws DBException, FormValidationException {
-		fetusValidator.validate( f );
+		fetusValidator.validateEdit( f );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -377,7 +374,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean addUltrasound( Ultrasound us ) throws DBException, FormValidationException {
-		usValidator.validateAdd( us );
+		usValidator.validate( us );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try { 
@@ -396,7 +393,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean updateUltrasound( Ultrasound us ) throws DBException, FormValidationException {
-		usValidator.validateEdit( us );
+		usValidator.validate( us );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		

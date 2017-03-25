@@ -3,6 +3,9 @@
  */
 package edu.ncsu.csc.itrust.model.obstetricsOfficeVisit;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -17,32 +20,32 @@ public class ObstetricsOfficeVisit {
 	
 	private long pid;
 	
-	private String visitDate;
+	private Date visitDate;
 	
 	private String weeksPregnant;
 	
-	private int weight;
+	private String weight;
 	
-	private int bp;
+	private String bp;
 	
-	private int fhr;
+	private String fhr;
 	
 	private boolean multiplePregnancy;
 	
-	private int numBabies;
+	private String numBabies;
 	
 	private boolean lowLying;
 	
 	public ObstetricsOfficeVisit() {
 		id = 0;
 		pid = 0;
-		visitDate = "";
+		visitDate = new Date( Calendar.getInstance().getTimeInMillis() );
 		weeksPregnant = "";
-		weight = 0;
-		bp = 0;
-		fhr = 0;
+		weight = "'";
+		bp = "";
+		fhr = "";
 		multiplePregnancy = false;
-		numBabies = 0;
+		numBabies = "";
 		lowLying = false;
 	}
 	
@@ -65,14 +68,14 @@ public class ObstetricsOfficeVisit {
 	/**
 	 * @return the visitDate
 	 */
-	public String getVisitDate() {
+	public Date getVisitDate() {
 		return visitDate;
 	}
 
 	/**
 	 * @param visitDate the visitDate to set
 	 */
-	public void setVisitDate(String visitDate) {
+	public void setVisitDate( Date visitDate ) {
 		this.visitDate = visitDate;
 	}
 
@@ -86,49 +89,49 @@ public class ObstetricsOfficeVisit {
 	/**
 	 * @param weeksPregnant the weeksPregnant to set
 	 */
-	public void setWeeksPregnant(String weeksPregnant) {
+	public void setWeeksPregnant( String weeksPregnant ) {
 		this.weeksPregnant = weeksPregnant;
 	}
 
 	/**
 	 * @return the weight
 	 */
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
 	/**
 	 * @param weight the weight to set
 	 */
-	public void setWeight(int weight) {
+	public void setWeight( String weight ) {
 		this.weight = weight;
 	}
 
 	/**
 	 * @return the bp
 	 */
-	public int getBp() {
+	public String getBp() {
 		return bp;
 	}
 
 	/**
 	 * @param bp the bp to set
 	 */
-	public void setBp(int bp) {
+	public void setBp( String bp ) {
 		this.bp = bp;
 	}
 
 	/**
 	 * @return the fhr
 	 */
-	public int getFhr() {
+	public String getFhr() {
 		return fhr;
 	}
 
 	/**
 	 * @param fhr the fhr to set
 	 */
-	public void setFhr(int fhr) {
+	public void setFhr( String fhr ) {
 		this.fhr = fhr;
 	}
 
@@ -142,15 +145,15 @@ public class ObstetricsOfficeVisit {
 	/**
 	 * @param multiplePregnancy the multiplePregnancy to set
 	 */
-	public void setMultiplePregnancy(boolean multiplePregnancy) {
+	public void setMultiplePregnancy( boolean multiplePregnancy ) {
 		this.multiplePregnancy = multiplePregnancy;
 	}
 	
-	public int getNumBabies() {
+	public String getNumBabies() {
 		return numBabies;
 	}
 	
-	public void setNumBabies( int numBabies ) {
+	public void setNumBabies( String numBabies ) {
 		this.numBabies = numBabies;
 	}
 
@@ -164,7 +167,7 @@ public class ObstetricsOfficeVisit {
 	/**
 	 * @param lowLying the lowLying to set
 	 */
-	public void setLowLying(boolean lowLying) {
+	public void setLowLying( boolean lowLying ) {
 		this.lowLying = lowLying;
 	}
 	
