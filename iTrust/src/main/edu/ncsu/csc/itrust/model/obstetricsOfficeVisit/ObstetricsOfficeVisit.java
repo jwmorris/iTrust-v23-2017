@@ -26,8 +26,10 @@ public class ObstetricsOfficeVisit {
 	
 	private String weight;
 	
+	// blood pressure
 	private String bp;
 	
+	// fetal heart rate
 	private String fhr;
 	
 	private boolean multiplePregnancy;
