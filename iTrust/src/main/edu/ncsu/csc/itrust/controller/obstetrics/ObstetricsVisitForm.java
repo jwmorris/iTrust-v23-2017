@@ -9,14 +9,24 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ObstetricsVisitForm {
 
+	// Shouldn't need to initialize since it exits because of session scope
 	private ObstetricsVisitController controller;
-	// obstetrics office visit object here
+	// Office visit
+//	private ObstetricsOfficeVisit ov;
+	// Ultrasound 
+//	private Ultrasound us;
+	// Fetus
+//	private Fetus fetus;
+
+	/** Fields that can be reused*/
 	// pid of patient
 	Long pid;
 	// id of visit, might not need
 	Long visitID;
 	// date of visit
 	private String date;
+	
+	/** Fields unique to  Office Visits */
 	// weeks pregnant at visit
 	private String weeksPregnant;
 	private String weight;
@@ -28,6 +38,7 @@ public class ObstetricsVisitForm {
 	// low lyting placenta?
 	private boolean placenta;
 	
+	/** Fields unique to fetus data */ 
 	// crown rump length
 	private String crl;
 	// biparietal diameter
@@ -305,7 +316,9 @@ public class ObstetricsVisitForm {
 	 * and sends to sql/loader/validator class
 	 */
 	public void submitVisitInfo(){
+		// we set the office visit object with the  data
 		
+		// checks to see if the data is new or needs to be updated
 	}
 	
 	/**
@@ -313,6 +326,17 @@ public class ObstetricsVisitForm {
 	 * and sends to sql/loader/validator class
 	 */
 	public void submitFetusInfo(){
+		// set fetus data with data
 		
+		// check to see if data is new or needs to be updated
+	}
+	
+	/**
+	 * Not sure if we need
+	 * 
+	 * Called when user submits an ultrasound
+	 */
+	public void submitUltrasound(){
+		// sets ultrasound data
 	}
 }
