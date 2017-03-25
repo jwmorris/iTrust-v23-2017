@@ -549,3 +549,48 @@ CREATE TABLE obstetricsData
 	FOREIGN KEY (pid) 	REFERENCES patients(MID),
 	CONSTRAINT pid_date UNIQUE (pid, initDate)
 ) ENGINE=MyISAM;
+
+CREATE TABLE obstetricsOfficeVisitData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid				BIGINT	UNSIGNED,
+	visitDate		DATE,
+	weeksPregnant	VARCHAR(20) default "",
+	weight			VARCHAR(20) default "",
+	bp				VARCHAR(20) default "",
+	fhr				VARCHAR(20) default "",
+	multiPregnancy	BOOLEAN default FALSE,
+	numBabies		VARCHAR(20) default "",
+	lowPlacenta		BOOLEAN default FALSE,
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID),
+) ENGINE=MyISAM;
+
+CREATE TABLE ultrasoundData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid				BIGINT	UNSIGNED,
+	dateCreated		DATE,
+	picPath			VARCHAR(100) default '',
+	ovId			BIGINT(20)	UNSIGNED,
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID),
+	FOREIGN KEY (officeVisitId) REFERENCES obstetricsOfficeVisit,
+) ENGINE=MyISAM;
+
+CREATE TABLE fetusData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	ultrasoundId	BIGINT(20) NOT NULL,
+	crl				VARCHAR(20) default "",
+	bpd				VARCHAR(20) default "",
+	hc				VARCHAR(20) default "",
+	fl				VARCHAR(20) default "",
+	ofd				VARCHAR(20) default "",
+	ac				VARCHAR(20) default "",
+	hl				VARCHAR(20) default "",
+	efw				VARCHAR(20) default "",
+	multiNum		INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (ultrasoundId) 	REFERENCES ultrasoundData(id),
+) ENGINE=MyISAM;

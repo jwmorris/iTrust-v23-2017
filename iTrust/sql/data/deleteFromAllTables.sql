@@ -92,3 +92,6 @@ ALTER TABLE fitnessData AUTO_INCREMENT = 0;
 
 DELETE FROM obstetricsData;
 ALTER TABLE obstetricsData AUTO_INCREMENT = 0;
+
+DELETE FROM ultrasoundData;
+ALTER TABLE ultrasoundData AUTO_INCREMENT = 0;
