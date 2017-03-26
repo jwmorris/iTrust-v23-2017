@@ -5,10 +5,19 @@ package edu.ncsu.csc.itrust.unit.model.ultrasound;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ncsu.csc.itrust.model.ultrasound.Ultrasound;
+import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
+
+
 
 /**
  * tests the functionality of the Ultasound class
@@ -24,6 +33,28 @@ public class UltrasoundTest {
 	@Before
 	public void setUp() throws Exception {
 		us = new Ultrasound();
+	}
+	
+	@Test
+	public void testGetId() {
+		assertEquals( 0, us.getId() );
+	}
+	
+	@Test
+	public void testSetId() {
+		us.setId( 1 );
+		assertEquals( 1, us.getId() );
+	}
+	
+	@Test
+	public void testGetOvId() {
+		assertEquals( 0, us.getOvId() );
+	}
+	
+	@Test
+	public void testSetOvId() {
+		us.setOvId( 1 );
+		assertEquals( 1, us.getOvId() );
 	}
 
 	/**
@@ -48,7 +79,7 @@ public class UltrasoundTest {
 	 */
 	@Test
 	public void testGetDateCreated() {
-		assertTrue( us.getDateCreated().equals( "" ) );
+		assertTrue( us.getDateCreated().equals( new Date( Calendar.getInstance().getTimeInMillis() ) ) );
 	}
 
 	/**
@@ -56,178 +87,38 @@ public class UltrasoundTest {
 	 */
 	@Test
 	public void testSetDateCreated() {
-		us.setDateCreated( "03/24/2017" );
-		assertTrue( us.getDateCreated().equals( "03/24/2017" ) );
+		Date d = new Date( Calendar.getInstance().getTimeInMillis() );
+		us.setDateCreated( d );
+		assertTrue( us.getDateCreated().equals( d ) );
 	}
 
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getCrl()}.
-	 */
 	@Test
-	public void testGetCrl() {
-		assertEquals( 0, ( int )us.getCrl() );
+	public void testGetPicPath() {
+		assertTrue( us.getPicPath().equals( "" ) );
 	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setCrl(float)}.
-	 */
+	
 	@Test
-	public void testSetCrl() {
-		us.setCrl( ( float )4.0 );
-		assertEquals( 4, ( int )us.getCrl() );
+	public void testSetPicPath() {
+		us.setPicPath( "img" );
+		assertTrue( us.getPicPath().equals( "img" ) );
 	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getBpd()}.
-	 */
+	
 	@Test
-	public void testGetBpd() {
-		assertEquals( 0, ( int )us.getBpd() );
+	public void testGetImg() {
+		assertNull( us.getImg() );
 	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setBpd(float)}.
-	 */
+	
 	@Test
-	public void testSetBpd() {
-		us.setBpd( ( float )4.0 );
-		assertEquals( 4, ( int )us.getBpd() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getHc()}.
-	 */
-	@Test
-	public void testGetHc() {
-		assertEquals( 0, ( int )us.getHc() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setHc(float)}.
-	 */
-	@Test
-	public void testSetHc() {
-		us.setHc( ( float )4.0 );
-		assertEquals( 4, ( int )us.getHc() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getFl()}.
-	 */
-	@Test
-	public void testGetFl() {
-		assertEquals( 0, ( int )us.getFl() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setFl(float)}.
-	 */
-	@Test
-	public void testSetFl() {
-		us.setFl( ( float )4.0 );
-		assertEquals( 4, ( int )us.getFl() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getOfd()}.
-	 */
-	@Test
-	public void testGetOfd() {
-		assertEquals( 0, ( int )us.getOfd() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setOfd(float)}.
-	 */
-	@Test
-	public void testSetOfd() {
-		us.setOfd( ( float )4.0 );
-		assertEquals( 4, ( int )us.getOfd() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getAc()}.
-	 */
-	@Test
-	public void testGetAc() {
-		assertEquals( 0, ( int )us.getAc() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setAc(float)}.
-	 */
-	@Test
-	public void testSetAc() {
-		us.setAc( ( float )4.0 );
-		assertEquals( 4, ( int )us.getAc() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getHl()}.
-	 */
-	@Test
-	public void testGetHl() {
-		assertEquals( 0, ( int )us.getHl() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setHl(float)}.
-	 */
-	@Test
-	public void testSetHl() {
-		us.setHl( ( float )4.0 );
-		assertEquals( 4, ( int )us.getHl() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getEfw()}.
-	 */
-	@Test
-	public void testGetEfw() {
-		assertEquals( 0, ( int )us.getEfw() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setEfw(float)}.
-	 */
-	@Test
-	public void testSetEfw() {
-		us.setEfw( ( float )4.0 );
-		assertEquals( 4, ( int )us.getEfw() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getPicturePath()}.
-	 */
-	@Test
-	public void testGetPicturePath() {
-		assertTrue( us.getPicturePath().equals( "" ) );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setPicturePath(java.lang.String)}.
-	 */
-	@Test
-	public void testSetPicturePath() {
-		us.setPicturePath( "/ultrasound/photos/us1.jpg" );
-		assertTrue( us.getPicturePath().equals( "/ultrasound/photos/us1.jpg" ) );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#getMultiNum()}.
-	 */
-	@Test
-	public void testGetMultiNum() {
-		assertEquals( 0, us.getMultiNum() );
-	}
-
-	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.ultrasound.Ultrasound#setMultiNum(int)}.
-	 */
-	@Test
-	public void testSetMultiNum() {
-		us.setMultiNum( 2 );
-		assertEquals( 2, us.getMultiNum() );
+	public void testSetImg() {
+		File f = new File( "testing-files/fitness_data/fitbit_export_HW3.csv" );
+		InputStream in = null;
+		try {
+			in = new FileInputStream( f );
+		} catch (FileNotFoundException e) {
+			fail();
+		}
+		us.setImg( in );
+		assertEquals( in, us.getImg() );
 	}
 
 }
