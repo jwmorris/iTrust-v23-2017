@@ -42,7 +42,7 @@ public class FetusMySQLLoader implements SQLLoader<Fetus> {
 	 * @throws SQLException
 	 */
 	private void loadCommon( ResultSet rs, Fetus f ) throws SQLException {
-		f.setUltrasoundId( rs.getLong( "ultrasoundId" ) );
+		f.setOvId( rs.getLong( "ovId" ) );
 		f.setCrl( rs.getString( "crl" ) );
 		f.setBpd( rs.getString( "bpd" ) );
 		f.setHc( rs.getString( "hc" ) );
@@ -73,7 +73,7 @@ public class FetusMySQLLoader implements SQLLoader<Fetus> {
 		int i = 1;
 
 		if( newInstance ) {
-			ps.setLong( i++, f.getUltrasoundId() );
+			ps.setLong( i++, f.getOvId() );
 			ps.setString( i++, f.getCrl() );
 			ps.setString( i++, f.getBpd() );
 			ps.setString( i++, f.getHc() );
@@ -95,7 +95,7 @@ public class FetusMySQLLoader implements SQLLoader<Fetus> {
 			ps.setString( i++, f.getHl() );
 			ps.setString( i++, f.getEfw() );
 			
-			ps.setLong( i++, f.getUltrasoundId() );
+			ps.setLong( i++, f.getOvId() );
 			ps.setInt( i++, f.getMultiNum() );
 		}
 		

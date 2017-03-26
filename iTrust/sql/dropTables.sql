@@ -54,3 +54,5 @@ DROP TABLE IF EXISTS WardRooms;
 DROP TABLE IF EXISTS Wards;
 DROP TABLE IF EXISTS obstetricsData;
 DROP TABLE IF EXISTS ultrasoundData;
+DROP TABLE IF EXISTS obstetricsOfficeVisitData;
+DROP TABLE IF EXISTS fetusData;

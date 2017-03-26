@@ -3,6 +3,7 @@
  */
 package edu.ncsu.csc.itrust.model.ultasound;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -25,12 +26,15 @@ public class Ultrasound {
 	
 	private String picPath;
 	
+	private InputStream img;
+	
 	public Ultrasound() {
 		id = 0;
 		ovId = 0;
 		pid = 0;
 		dateCreated = new Date( Calendar.getInstance().getTimeInMillis() );
 		picPath = "";
+		img = null;
 	}
 
 	/**
@@ -101,6 +105,20 @@ public class Ultrasound {
 	 */
 	public void setPicPath(String picPath) {
 		this.picPath = picPath;
+	}
+	
+	/**
+	 * @return the img
+	 */
+	public InputStream getImg() {
+		return img;
+	}
+
+	/**
+	 * @param img the img to set
+	 */
+	public void setImg(InputStream img) {
+		this.img = img;
 	}
 	
 }

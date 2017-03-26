@@ -40,9 +40,10 @@
         </h:panelGrid>	
         <div class="form-group  form-button-group">
 			<h:commandButton id="submitVisitButton" value="Save"
+			action="#{obstetrics_visit_form.submitVisitInfo()}"
 				 />
 			<h:commandButton id="cancelVisitButton" value="Cancel" 
-			action="#{navigation_controller.baseObstetricsOfficeVisit}" immediate="true" />
+			action="#{navigation_controller.baseObstetricsVisit}" immediate="true" />
 		</div>
 	</h:form>
 </html>

@@ -16,6 +16,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.Statement;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
@@ -23,7 +25,6 @@ import edu.ncsu.csc.itrust.model.ultasound.FetusMySQLLoader;
 import edu.ncsu.csc.itrust.model.ultasound.FetusValidator;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.model.ultasound.UltrasoundMySQLLoader;
-import edu.ncsu.csc.itrust.model.ultasound.UltrasoundValidator;
 
 /**
  * provides database access for office visits, ultrasounds, and fetus data object
@@ -48,9 +49,6 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	/** validates input from forms */
 	private ObstetricsOfficeVisitValidator ovValidator;
 	
-	/** validates input from forms */
-	private UltrasoundValidator usValidator;
-	
 	private FetusValidator fetusValidator;
 	
 	public ObstetricsOfficeVisitMySQL() throws DBException {
@@ -61,14 +59,20 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
+		ovValidator = new ObstetricsOfficeVisitValidator( ds );
+		fetusValidator = new FetusValidator();
+		ovLoader = new ObstetricsOfficeVisitMySQLLoader();
+		fetusLoader = new FetusMySQLLoader();
 		usLoader = new UltrasoundMySQLLoader();
-		usValidator = new UltrasoundValidator( this.ds );
 	}
 	
 	public ObstetricsOfficeVisitMySQL( DataSource ds ) {
+		ovValidator = new ObstetricsOfficeVisitValidator( ds );
+		ovLoader = new ObstetricsOfficeVisitMySQLLoader();
+		fetusLoader = new FetusMySQLLoader();
+		fetusValidator = new FetusValidator();
 		usLoader = new UltrasoundMySQLLoader();
 		this.ds = ds;
-		usValidator  = new UltrasoundValidator( ds );
 	}
 
 	@Override
@@ -115,8 +119,8 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		try { 
 			conn = ds.getConnection();
 			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
-					+ ", visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?)"),
+					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)"),
 					ov, true );
 			
 			ps.executeUpdate();
@@ -126,6 +130,32 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			e.printStackTrace();
 			throw new DBException( e );
 		}
+	}
+	
+	public long addReturnsGeneratedId( ObstetricsOfficeVisit ov ) throws FormValidationException, DBException {
+		ovValidator.validate( ov );
+		Connection conn = null;
+		PreparedStatement ps = null;
+		long ret = 0;
+		
+		try { 
+			conn = ds.getConnection();
+			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
+					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS ),
+					ov, true );
+			
+			ps.executeUpdate();
+			ResultSet genKeys = ps.getGeneratedKeys();
+			
+			if ( genKeys.next() )
+				ret = genKeys.getLong( 1 );
+			conn.close();
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+		return ret;
 	}
 
 	@Override
@@ -137,7 +167,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		try {
 			conn = ds.getConnection();
 			ps = ovLoader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsOfficeVisitData SET weeksPregnant=?, weight=?"
-					+ ", bp=?, fhr=?, multiPregnancy=?, numBabies=?, lowPlacenta=? WHERE pid=? and visitDate=?" ), ov, false );
+					+ ", bp=?, fhr=?, multiPregnancy=?, numBabies=?, lowPlacenta=? WHERE id=?" ), ov, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -226,8 +256,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		List<Fetus> res;
 		try {
 			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT ultrasoundId, crl, bpd, hc, fl, ofd, ac, hl, efw, multiNum FROM fetusData, "
-					+ "ultrasoundData WHERE fetusData.ultrasoundId=ultrasoundData.id, ultrasoundData.ovId=?" );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fetusData WHERE ovId=?" );
 			ps.setLong( 1, ovId );
 			ResultSet rs = ps.executeQuery();
 			res = rs.next() ? fetusLoader.loadList( rs ) : null;
@@ -245,8 +274,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT ultrasoundId, crl, bpd, hc, fl, ofd, ac, hl, efw, multiNum FROM fetusData, "
-					+ "ultrasoundData WHERE fetusData.ultrasoundId=ultrasoundData.id, ultrasoundData.ovId=?, fetusData.multiNum=?" );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fetusData WHERE ovId=? AND multiNum=?" );
 			ps.setLong( 1, ovId );
 			ps.setInt( 2, multiNum );
 			ResultSet rs = ps.executeQuery();
@@ -298,24 +326,6 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Ultrasound getUltrasoundByUltrasoundId( long usId ) throws DBException {
-		Connection conn = null;
-		try {
-			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE id=?" );
-			ps.setLong( 1, usId );
-			ResultSet rs = ps.executeQuery();
-			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
-			rs.close();
-			conn.close();
-			return us;
-		} catch ( SQLException e ) {
-			e.printStackTrace();
-			throw new DBException( e );
-		}
-	}
-
-	@Override
 	public Ultrasound getUltrasoundByDate( long pid, Date date ) throws DBException {
 		Connection conn = null;
 		try {
@@ -341,7 +351,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		PreparedStatement ps = null;
 		try { 
 			conn = ds.getConnection();
-			ps = fetusLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO fetusData (ultrasoundId, "
+			ps = fetusLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO fetusData (ovId, "
 					+ "crl, bpd, hc, fl, ofd, ac, hl, efw, multiNum) VALUES(?,?,?,?,?,?,?,?,?,?)"),
 					f, true );
 			
@@ -363,7 +373,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		try {
 			conn = ds.getConnection();
 			ps = fetusLoader.loadParameters( conn, conn.prepareStatement("UPDATE fetusData SET crl=?, bpd=?, hc=?, fl=?"
-					+ ", ofd=?, ac=?, hl=?, efw=? WHERE ultrasoundId=? and multiNum=?" ), f, false );
+					+ ", ofd=?, ac=?, hl=?, efw=? WHERE ovId=? and multiNum=?" ), f, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -374,13 +384,12 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean addUltrasound( Ultrasound us ) throws DBException, FormValidationException {
-		usValidator.validate( us );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try { 
 			conn = ds.getConnection();
 			ps = usLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO ultrasoundData (pid, dateCreated"
-					+ ", picPath, ovId) VALUES(?,?,?,?)"), us, true );
+					+ ", picPath, img, ovId) VALUES(?,?,?,?,?)"), us, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -393,13 +402,12 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 
 	@Override
 	public boolean updateUltrasound( Ultrasound us ) throws DBException, FormValidationException {
-		usValidator.validate( us );
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
 		try {
 			conn = ds.getConnection();
-			ps = usLoader.loadParameters( conn, conn.prepareStatement("UPDATE ultrasoundData SET picPath=? WHERE ovId=?" ), us, false );
+			ps = usLoader.loadParameters( conn, conn.prepareStatement("UPDATE ultrasoundData SET picPath=?, img=? WHERE ovId=?" ), us, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();

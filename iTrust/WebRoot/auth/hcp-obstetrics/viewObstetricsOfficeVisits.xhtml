@@ -32,7 +32,7 @@
 							<br />
 							<br />
 							<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
-							<h:dataTable id="previousVisits" styleClass="fTable" value="" 
+							<h:dataTable id="previousVisits" styleClass="fTable" value="#{obstetrics_visit_controller.getOfficeVisitsForCurrentPatient()}" 
 								var="ov"  border="1">
 								<br/>
 								<h:column>
@@ -40,7 +40,7 @@
 										<h:outputText value="Click to Edit"/>
 									</f:facet>
 								   <h:link outcome="obstetricsVisitInfo" value="Edit">
-			      						 	<f:param name="visitID" value="" />
+			      						 	<f:param name="visitID" value="#{ov.getId()}" />
 			   						</h:link>
 								</h:column>	
 				
@@ -48,7 +48,7 @@
 									<f:facet name="header">
 										<h:outputText value="Date"/>
 									</f:facet>
-									<h:outputText value="">
+									<h:outputText value="#{ov.getVisitDate()}">
 										<!-- <f:converter converterId="localDateTimeConverter"/>-->
 									</h:outputText>
 								</h:column>	 

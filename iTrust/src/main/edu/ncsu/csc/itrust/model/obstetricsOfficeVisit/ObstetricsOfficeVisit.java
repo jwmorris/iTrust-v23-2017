@@ -43,7 +43,7 @@ public class ObstetricsOfficeVisit {
 		pid = 0;
 		visitDate = new Date( Calendar.getInstance().getTimeInMillis() );
 		weeksPregnant = "";
-		weight = "'";
+		weight = "";
 		bp = "";
 		fhr = "";
 		multiplePregnancy = false;

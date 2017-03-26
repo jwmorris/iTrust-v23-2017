@@ -13,7 +13,8 @@
 			
 		</h:inputFile>
 		<br/>
-		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image"/>
+		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image" 
+		action="#{obstetrics_visit_form.submitUltrasound()}"/>
 	</h:form>
 		
 		<br/>
@@ -56,44 +57,45 @@
         
         <div class="form-group  form-button-group">
 			<h:commandButton id="submitVisitButton" value="Save Fetus Info"
+			action="#{obstetrics_visit_form.submitFetusInfo()}" update="fetusInformation"
 				 />
 			<h:commandButton id="cancelVisitButton" value="Cancel"
-				action="#{navigation_controller.baseObstetricsOfficeVisit}" immediate="true" />
+				action="#{navigation_controller.baseObstetricsVisit}" immediate="true" />
 		</div>
 	</h:form>
 	
-		<h:dataTable id="fetusInformation" value="" var="fetus">
+		<h:dataTable id="fetusInformation" value="#{obstetrics_visit_form.getFeti()}" var="fetus">
 			<h:column>
 				<f:facet name = "header">Crown Rump Length</f:facet>
-				
+				#{fetus.getCrl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Biparietal Diameter</f:facet>
-				
+				#{fetus.getBpd()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Head Circumference</f:facet>
-				
+				#{fetus.getHc()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Femur Length</f:facet>
-				
+				#{fetus.getFl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Occipitofrontal Diameter</f:facet>
-				
+				#{fetus.getOfd()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Abdominal Circumference</f:facet>
-				
+				#{fetus.getAc()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Humerus Length</f:facet>
-				
+				#{fetus.getHl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Estimated Fetal Weight</f:facet>
-				
+				#{fetus.getEfw()}
 			</h:column>
 		</h:dataTable>
 	

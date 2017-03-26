@@ -19,6 +19,8 @@ import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
  * @author wyattmaxey
  */
 public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisit> {
+	public long addReturnsGeneratedId( ObstetricsOfficeVisit ov ) throws FormValidationException, DBException;
+	
 	/**
 	 * returns list of obstetrics office visits for the given patient
 	 * 
@@ -110,16 +112,6 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * 		ultrasound from the office visit
 	 */
 	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
-	
-	/**
-	 * returns the ultrasound data object from the ultrasound id
-	 * 
-	 * @param usId
-	 * 		ultrasound id
-	 * @return
-	 * 		ultrasound data object
-	 */
-	public Ultrasound getUltrasoundByUltrasoundId( long usId ) throws DBException;
 	
 	/**
 	 * return the ultrasound data object for a given patient on the given date
