@@ -45,7 +45,7 @@ public class UltrasoundMySQLLoader implements SQLLoader<Ultrasound> {
 		us.setPid( rs.getLong( "pid" ) );
 		us.setDateCreated( rs.getDate( "dateCreated" ) );
 		us.setPicPath( rs.getString( "picPath" ) );
-		us.setImg( ( InputStream ) rs.getBlob( "img" ) );
+		us.setImg( rs.getBlob( "img" ).getBinaryStream() );
 	}
 
 	@Override

@@ -214,12 +214,12 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException {
+	public Fetus getFetus( long ovId, int multiNum ) throws DBException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fetusData WHERE ultrasoundId = ? and multiNum = ?" );
-			ps.setLong( 1, ultrasoundId );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fetusData WHERE ovId = ? and multiNum = ?" );
+			ps.setLong( 1, ovId );
 			ps.setInt( 2, multiNum );
 			ResultSet rs = ps.executeQuery();
 			Fetus f = rs.next() ? fetusLoader.loadSingle( rs ) : null;
@@ -230,7 +230,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			throw new DBException( e );
 		}
 	}
-
+	/*
 	@Override
 	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException {
 		Connection conn = null;
@@ -249,7 +249,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		}
 		return res;
 	}
-
+	*/
 	@Override
 	public List<Fetus> getFetiForOfficeVisit( long ovId ) throws DBException {
 		Connection conn = null;
@@ -330,7 +330,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE pid=?, dateCreated=?" );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE pid=? AND dateCreated=?" );
 			ps.setLong( 1, pid );
 			ps.setDate( 2, date );
 			ResultSet rs = ps.executeQuery();
@@ -383,7 +383,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public boolean addUltrasound( Ultrasound us ) throws DBException, FormValidationException {
+	public boolean addUltrasound( Ultrasound us ) throws DBException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try { 
@@ -401,7 +401,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public boolean updateUltrasound( Ultrasound us ) throws DBException, FormValidationException {
+	public boolean updateUltrasound( Ultrasound us ) throws DBException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
