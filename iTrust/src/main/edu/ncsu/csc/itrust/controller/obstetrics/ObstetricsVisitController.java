@@ -197,8 +197,6 @@ public class ObstetricsVisitController extends iTrustController {
 			obstetricsVisitData.addUltrasound( us );
 		} catch ( DBException e ) {
 			e.printStackTrace();
-		} catch ( FormValidationException e ) {
-			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
 	
