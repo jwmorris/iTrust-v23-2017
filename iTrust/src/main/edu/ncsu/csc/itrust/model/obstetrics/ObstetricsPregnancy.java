@@ -53,6 +53,8 @@ public class ObstetricsPregnancy {
 	/** is this obstetrics patient currently pregnant */
 	private boolean current;
 	
+	private boolean rhFlag;
+	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -70,6 +72,7 @@ public class ObstetricsPregnancy {
 		multiplePregnancy = false;
 		babyCount = "";
 		current = true;
+		rhFlag = false;
 	}
 	
 	/**
@@ -372,11 +375,20 @@ public class ObstetricsPregnancy {
 		this.current = current;
 	}
 	
+	public boolean getrhFlag() {
+		return rhFlag;
+	}
+	
+	public void setrhFlag( boolean rhFlag ) {
+		this.rhFlag = rhFlag;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		ObstetricsPregnancy op = (ObstetricsPregnancy) o;
 		return this.babyCount.equals(op.getBabyCount())
 				&& this.current == op.getCurrent()
+				&& this.rhFlag == op.getrhFlag()
 				&& this.multiplePregnancy == op.getMultiplePregnancy()
 				&& this.concepYear.equals(op.getConcepYear())
 				&& this.dateInit.equals(op.getDateInit())

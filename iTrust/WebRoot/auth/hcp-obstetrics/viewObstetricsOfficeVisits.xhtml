@@ -27,6 +27,29 @@
 			<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
 				
 				<c:choose>
+					<c:when test="#{obstetrics_visit_controller.isRHChecked()}">
+					<br />
+					<br />
+					<div align= "center">
+					<h2 style="font-size: 175%; font-weight: bold;">Current Patient should be given an RH immune globulin shot if they have not already!</h2>
+					</div>
+					<br />
+					<br />
+					</c:when>
+					<c:otherwise>
+						<br />
+						<br />
+						<div align="center">
+						<h2 style="font-size: 175%; font-weight: bold;">Current Patient does not require an RH immune globulin shot!</h2>
+						</div>
+						<br />
+						<br />
+					</c:otherwise>
+					
+				</c:choose>
+			
+				
+				<c:choose>
 					<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
 						<div align="center">
 							<br />

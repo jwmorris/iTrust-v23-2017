@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitMySQL;
@@ -31,6 +33,7 @@ public class ObstetricsVisitController extends iTrustController {
 	private DAOFactory factory;
 	private ObstetricsOfficeVisitData obstetricsVisitData;
 	private SessionUtils sessionUtils;
+	private ObstetricsPregnancyData sql;
 	
 	/**
 	 * Constructor used in application
@@ -43,6 +46,12 @@ public class ObstetricsVisitController extends iTrustController {
 			this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL();
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sql = new ObstetricsMySQL();
+		} catch (DBException e) {
+			System.out.println("DB fail");
 			e.printStackTrace();
 		}
 	}
@@ -231,7 +240,40 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @return
 	 */
 	public boolean isRHChecked() {
-		return false;
+		boolean rhWeeksRequired = true;
+		boolean rhFlag = false;
+		Long pid = sessionUtils.getCurrentPatientMIDLong();
+		List<ObstetricsOfficeVisit> allDates;
+		if(pid != null) {
+			try {
+				allDates = obstetricsVisitData.getOfficeVistsForPatient(pid);
+				rhFlag = sql.getCurrentObstetricsPregnancy(pid).getrhFlag();
+				rhFlag = true;
+				if(allDates != null) {
+					ObstetricsOfficeVisit mostCurrentDate = allDates.get(allDates.size() - 1);
+					String weeksPreg = mostCurrentDate.getWeeksPregnant();
+					if(weeksPreg.equals("") || weeksPreg.equals(null)) {
+						rhWeeksRequired = false;
+					} else {
+						int weeksPrego = Integer.parseInt(weeksPreg);
+						if(weeksPrego >= 28) {
+							rhWeeksRequired = true;
+						} else {
+							rhWeeksRequired = false;
+						}
+					}
+				} else {
+					rhWeeksRequired = false;
+				}
+				
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		boolean needRH = rhWeeksRequired && rhFlag;
+		
+		return needRH;
 	}
 	
 	public void logViewObstetricsVisit() {

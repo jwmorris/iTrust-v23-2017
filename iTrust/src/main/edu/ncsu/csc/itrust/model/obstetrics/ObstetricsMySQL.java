@@ -131,7 +131,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try { 
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
-					+ "multiplePregnancy, babyCount, current) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
+					+ "multiplePregnancy, babyCount, current, rhFlag) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
 			
 			ps.executeUpdate();
 
@@ -153,7 +153,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
