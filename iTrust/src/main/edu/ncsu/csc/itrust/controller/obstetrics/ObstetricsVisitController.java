@@ -19,6 +19,7 @@ import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitMySQ
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
@@ -29,6 +30,7 @@ public class ObstetricsVisitController extends iTrustController {
 	
 	// Patient DAO to get patient information
 	private PatientDAO patientDAO;
+	private PersonnelDAO personnelDAO;
 	// DAO Factory to get other DAO
 	private DAOFactory factory;
 	private ObstetricsOfficeVisitData obstetricsVisitData;
@@ -39,9 +41,11 @@ public class ObstetricsVisitController extends iTrustController {
 	 * Constructor used in application
 	 */
 	public ObstetricsVisitController() {
+		
 		this.sessionUtils = SessionUtils.getInstance();
 		factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
+		personnelDAO = factory.getPersonnelDAO();
 		try {
 			this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL();
 		} catch (DBException e) {
@@ -71,14 +75,17 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @return The generated id
 	 */
 	public long addReturnGeneratedId( ObstetricsOfficeVisit ov ) {
+		long ret = 0;
 		try {
-			return obstetricsVisitData.addReturnsGeneratedId( ov );
+			ret = obstetricsVisitData.addReturnsGeneratedId( ov );
+			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
+
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
-		return 0;
+		return ret;
 	}
 	
 	/**
@@ -88,6 +95,8 @@ public class ObstetricsVisitController extends iTrustController {
 	public void add(ObstetricsOfficeVisit ov) {
 		try {
 			obstetricsVisitData.add( ov );
+			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
+
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
@@ -173,6 +182,8 @@ public class ObstetricsVisitController extends iTrustController {
 	public void edit( ObstetricsOfficeVisit ov ) {
 		try {
 			obstetricsVisitData.update( ov );
+			logTransaction(TransactionType.EDIT_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
+
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
@@ -204,6 +215,8 @@ public class ObstetricsVisitController extends iTrustController {
 	public void addUltrasound( Ultrasound us ) {
 		try {
 			obstetricsVisitData.addUltrasound( us );
+			logTransaction( TransactionType.ULTRASOUND, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( us.getId() ) );
+
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		}
@@ -214,7 +227,14 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @return
 	 */
 	public boolean isOBGYN() {
-		return sessionUtils.getSessionUserRole().equals("OB/GYN");
+		boolean eligible = false;
+		try {
+			eligible = personnelDAO.getPersonnel(sessionUtils.getSessionLoggedInMIDLong()).getSpecialty().equals("OB/GYN");
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return eligible;
 	}
 	
 	/**
@@ -276,8 +296,8 @@ public class ObstetricsVisitController extends iTrustController {
 		return needRH;
 	}
 	
-	public void logViewObstetricsVisit() {
-		
+	public void logViewObstetricsVisit(Long visitID) {
+		logTransaction(TransactionType.VIEW_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString(visitID));
 	}
 	
 	public void logEditObstetricsVisit() {
@@ -285,6 +305,10 @@ public class ObstetricsVisitController extends iTrustController {
 	}
 	
 	public void logCreateObstetricsVisit() {
+		
+	}
+	
+	public void logUltraSound() {
 		
 	}
 

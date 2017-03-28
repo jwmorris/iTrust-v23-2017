@@ -16,13 +16,21 @@
 		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image" 
 		action="#{obstetrics_visit_form.submitUltrasound()}" update="uploadedUltrasounds"/>
 	</h:form>
-	<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltraSounds()}" var="us">
+	
+	<div align="right" >
+		<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>
-				#{us.getPath()}
+				#{us.getPicPath()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Date Uploaded</f:facet>
+				#{us.getDateCreated()}
 		</h:column>
 	</h:dataTable>
 		
+	</div>
+	
 		<br/>
 		<br/>
 		<br/>

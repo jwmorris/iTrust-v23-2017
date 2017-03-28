@@ -22,6 +22,7 @@
 				<br />
 				<h:message for=""/>
 			</div>
+		<c:set var="obgyn" value="#{obstetrics_visit_controller.isOBGYN()}"/>
 		<c:choose>
 			<!-- When the patient is not a valid obstetrics patient do this -->
 			<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
@@ -47,8 +48,7 @@
 					</c:otherwise>
 					
 				</c:choose>
-			
-				
+
 				<c:choose>
 					<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
 						<div align="center">
@@ -59,12 +59,22 @@
 								var="ov"  border="1">
 								<br/>
 								<h:column>
-									<f:facet name="header">
-										<h:outputText value="Click to Edit"/>
-									</f:facet>
-								   <h:link outcome="obstetricsVisitInfo" value="Edit">
+									<c:if test="#{obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to Edit"/>
+										</f:facet>
+								   		<h:link outcome="obstetricsVisitInfo" value="Edit">
 			      						 	<f:param name="visitID" value="#{ov.getId()}" />
-			   						</h:link>
+			   							</h:link>
+									</c:if>
+									<c:if test="#{!obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to View"/>
+										</f:facet>
+										<h:link outcome="obstetricsVisitInfo" value="View">
+											<f:param name="visitID" value="#{ov.getId()}"/>
+										</h:link>
+									</c:if>
 								</h:column>	
 				
 			 					<h:column>
@@ -91,10 +101,25 @@
 					</c:otherwise>
 					
 				</c:choose>
-				<div align="center">
+				<c:choose>
+					<c:when test="#{obgyn}">
+						<div align="center">
 						<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
 								value="Click Here to Create a New Obstetrics Office Visit"  outcome="obstetricsVisitInfo"/>
-				</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div align="center">
+						<p>You are not eligible to create an obstetrics office visit.</p><br/>
+						<h:form>
+							<h:commandButton style="font-size: 150%; font-weight: bold;" id="newRegOfficeVisitButton"
+								value="Click Here to Create a Regular Office Visit"  action="#{navigation_controller.baseOfficeVisit()}"/>
+						</h:form>
+						
+						</div>
+					</c:otherwise>
+				</c:choose>
+				
 			</c:when>
 			<!-- When not an obstetrics patient -->
 			<c:otherwise>

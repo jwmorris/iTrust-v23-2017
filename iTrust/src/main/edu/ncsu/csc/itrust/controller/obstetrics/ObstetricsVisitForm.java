@@ -474,5 +474,12 @@ public class ObstetricsVisitForm {
 	public List<Ultrasound> getUltrasound() {
 		return controller.getUltrasounds( visitID );
 	}
+	
+	public void logViewObstetricsVisit() {
+		if(visitID != 0) {
+			controller.logViewObstetricsVisit( visitID );
+		}
+		
+	}
 
 }
