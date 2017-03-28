@@ -111,7 +111,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		ultrasound from the office visit
 	 */
-	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
+	public List<Ultrasound> getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
 	
 	/**
 	 * return the ultrasound data object for a given patient on the given date

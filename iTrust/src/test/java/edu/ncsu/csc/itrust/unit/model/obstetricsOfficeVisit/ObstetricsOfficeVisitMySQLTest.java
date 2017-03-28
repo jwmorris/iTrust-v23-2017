@@ -283,8 +283,8 @@ public class ObstetricsOfficeVisitMySQLTest {
 	public void testGetUltrasoundByOfficeVisitId() {
 		try {
 			sql.addUltrasound( us );
-			Ultrasound ret = sql.getUltrasoundByOfficeVisitId( 1 );
-			assertTrue( ret.getPicPath().equals( "testing-files/sample_img/bridge-fog.jpg" ) );
+			List<Ultrasound> ret = sql.getUltrasoundByOfficeVisitId( 1 );
+			assertTrue( ret.get(0).getPicPath().equals( "testing-files/sample_img/bridge-fog.jpg" ) );
 		} catch ( DBException e ) {
 			fail();
 		}
@@ -341,8 +341,8 @@ public class ObstetricsOfficeVisitMySQLTest {
 	public void testAddUltrasound() {
 		try {
 			sql.addUltrasound( us );
-			Ultrasound ret = sql.getUltrasoundByOfficeVisitId( 1 );
-			assertTrue( ret.getPicPath().equals( "testing-files/sample_img/bridge-fog.jpg" ) );
+			List<Ultrasound> ret = sql.getUltrasoundByOfficeVisitId( 1 );
+			assertTrue( ret.get(0).getPicPath().equals( "testing-files/sample_img/bridge-fog.jpg" ) );
 		} catch ( DBException e ) {
 			fail();
 		}
@@ -357,8 +357,8 @@ public class ObstetricsOfficeVisitMySQLTest {
 			sql.addUltrasound( us );
 			us.setPicPath( "" );
 			sql.updateUltrasound( us );
-			Ultrasound ret = sql.getUltrasoundByOfficeVisitId( 1 );
-			assertTrue( ret.getPicPath().equals( "" ) );
+			List<Ultrasound> ret = sql.getUltrasoundByOfficeVisitId( 1 );
+			assertTrue( ret.get(0).getPicPath().equals( "" ) );
 		} catch ( DBException e ) {
 			fail();
 		}

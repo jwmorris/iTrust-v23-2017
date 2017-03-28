@@ -308,17 +308,18 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
-	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException {
+	public List<Ultrasound> getUltrasoundByOfficeVisitId( long ovId ) throws DBException {
 		Connection conn = null;
+		List<Ultrasound> res;
 		try {
 			conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE ovId=?" );
 			ps.setLong( 1, ovId );
 			ResultSet rs = ps.executeQuery();
-			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
+			res = rs.next() ? usLoader.loadList( rs ) : null;
 			rs.close();
 			conn.close();
-			return us;
+			return res;
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );

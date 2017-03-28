@@ -287,5 +287,15 @@ public class ObstetricsVisitController extends iTrustController {
 	public void logCreateObstetricsVisit() {
 		
 	}
+
+	public List<Ultrasound> getUltrasounds( Long visitID ) {
+		List<Ultrasound> ret = null;
+		try {
+			ret = obstetricsVisitData.getUltrasoundByOfficeVisitId( visitID );
+		} catch ( DBException e ) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 	
 }

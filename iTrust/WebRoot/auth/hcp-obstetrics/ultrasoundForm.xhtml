@@ -14,8 +14,14 @@
 		</h:inputFile>
 		<br/>
 		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image" 
-		action="#{obstetrics_visit_form.submitUltrasound()}"/>
+		action="#{obstetrics_visit_form.submitUltrasound()}" update="uploadedUltrasounds"/>
 	</h:form>
+	<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltraSounds()}" var="us">
+		<h:column>
+			<f:facet name = "header">File Name</f:facet>
+				#{us.getPath()}
+		</h:column>
+	</h:dataTable>
 		
 		<br/>
 		<br/>

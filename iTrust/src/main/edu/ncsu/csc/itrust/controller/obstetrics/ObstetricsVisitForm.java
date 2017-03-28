@@ -470,5 +470,9 @@ public class ObstetricsVisitForm {
 	public List<Fetus> getFeti() {
 		return controller.getFeti( visitID );
 	}
+	
+	public List<Ultrasound> getUltrasound() {
+		return controller.getUltrasounds( visitID );
+	}
 
 }
