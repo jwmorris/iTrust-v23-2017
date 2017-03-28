@@ -55,8 +55,8 @@ public class ObstetricsVisitController extends iTrustController {
 		try {
 			sql = new ObstetricsMySQL();
 		} catch (DBException e) {
-			System.out.println("DB fail");
 			e.printStackTrace();
+			
 		}
 	}
 
@@ -64,9 +64,18 @@ public class ObstetricsVisitController extends iTrustController {
 	 * Constructor used in testing
 	 * @param ds
 	 */
-	public ObstetricsVisitController(DataSource ds) {
-		this.sessionUtils = SessionUtils.getInstance();
+	public ObstetricsVisitController(DataSource ds, DAOFactory factory, SessionUtils utils) {
+		this.sessionUtils = utils;
 		this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL(ds);
+		this.factory = factory;
+		patientDAO = factory.getPatientDAO();
+		personnelDAO = factory.getPersonnelDAO();
+		try {
+			sql = new ObstetricsMySQL(ds);
+		} catch (DBException e) {
+			System.out.println("DB fail");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -79,10 +88,11 @@ public class ObstetricsVisitController extends iTrustController {
 		try {
 			ret = obstetricsVisitData.addReturnsGeneratedId( ov );
 			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
-
 		} catch ( DBException e ) {
+
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
+
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 		return ret;
@@ -300,17 +310,6 @@ public class ObstetricsVisitController extends iTrustController {
 		logTransaction(TransactionType.VIEW_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString(visitID));
 	}
 	
-	public void logEditObstetricsVisit() {
-		
-	}
-	
-	public void logCreateObstetricsVisit() {
-		
-	}
-	
-	public void logUltraSound() {
-		
-	}
 
 	public List<Ultrasound> getUltrasounds( Long visitID ) {
 		List<Ultrasound> ret = null;
