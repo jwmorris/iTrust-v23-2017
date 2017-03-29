@@ -1,5 +1,8 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +18,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
@@ -88,6 +95,9 @@ public class ObstetricsVisitForm {
 	private int selectedFetus;
 	//are we editing a fetus?
 	private boolean editFetus;
+	//image view index
+	private int imageIndex;
+
 	
 	public ObstetricsVisitForm() {
 		this(null);
@@ -556,4 +566,43 @@ public class ObstetricsVisitForm {
 		return selectedFetus;
 	}
 
+	public int getImageIndex() {
+		return imageIndex;
+	}
+	
+	public void setImageIndex(int index) {
+		imageIndex = index;
+	}
+	
+	public StreamedContent getPicture() {
+		 FacesContext context = FacesContext.getCurrentInstance();
+
+	        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+	            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+	            return new DefaultStreamedContent();
+	        }
+	        else {
+	        	InputStream in = getUltrasound().get(imageIndex).getImg();
+	        	byte[] buff = new byte[8000];
+
+	            int bytesRead = 0;
+
+	            ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+	            try {
+					while((bytesRead = in.read(buff)) != -1) {
+					   bao.write(buff, 0, bytesRead);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+	            byte[] data = bao.toByteArray();
+
+	            ByteArrayInputStream bin = new ByteArrayInputStream(data);
+	            return new DefaultStreamedContent(bin);
+	        }
+	}
+	
 }

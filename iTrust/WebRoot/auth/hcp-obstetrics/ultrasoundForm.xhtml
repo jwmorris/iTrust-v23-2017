@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld"
+	xmlns:p="http://primefaces.org/ui">
 	
 	<h:form id="ultrasoundFileForm" enctype="multipart/form-data">
 		<h:message for="file"/>
@@ -18,7 +19,8 @@
 	</h:form>
 	
 	<div align="right" >
-		<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
+		<h:form>
+			<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>
 				#{us.getPicPath()}
@@ -28,6 +30,18 @@
 				#{us.getDateCreated()}
 		</h:column>
 	</h:dataTable>
+	<c:set var="size" value="#{obstetrics_visit_form.getUltrasound().size()}"/>
+	
+	<p>You have #{size} pictures.</p>
+	<h:inputText value="#{obstetrics_visit_form.imageIndex}"/>
+	<!-- <h:selectOneMenu>
+		<c:forEach begin="1" end="#{size}" var="i">
+     		<f:selectItem value="#{i}" />     
+		 </c:forEach>
+	</h:selectOneMenu> -->
+	<h:commandButton type="submit" update="image"/>
+		</h:form>
+		<p:graphicImage id="image" value="obstetrics_visit_form.getPicture()"></p:graphicImage>
 		
 	</div>
 	
