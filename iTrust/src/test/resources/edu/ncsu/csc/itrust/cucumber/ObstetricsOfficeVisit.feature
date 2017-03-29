@@ -4,42 +4,42 @@ Feature: Obstetrics Office Visit
 	So that I can keep track of my visits with patients that are pregnant as well as keep track of upcoming obstetrics visits
 
 Scenario: HCP Tries to create an obstetrics visit
-	Given Kelly Doctor enters PID 3001
-	When she correctly enters Random Person's PID
-	Then Dr. Doctor is prompted to create a regualr office visit.
+	Given Kelly Doctor enters PID 9000000021
+	When she correctly enters Random Persons PID
+	Then Dr Doctor is prompted to create a regualr office visit
 
 Scenario: Full Office Visit
-	Given Kathyrn Evans selects PID 52
-	And she correctly changes to Random Person's PID
+	Given Kathyrn Evans selects Bad Horses PID
+	And she correctly changes to Random Persons PID
 	And adds a documented visit
 	And adds ultrasound data
-	When saves those records and sets Person's next appointment to July 4th
-	Then Random Person's next appointment is moved to July 5th
+	When saves those records and sets Persons next appointment to Independence Day
+	Then Random Persons next appointment is moved to next day
 
 Scenario: Edit Office Visit
-	Given Kathyrn Evans selects PID 5
-	And she correctly changes to Random Person's PID
-	When Dr. Evans edits the documented visit
-	Then Random Person's visit info is changed
+	Given Kathyrn Evans selects Baby Programmers PID
+	And she correctly changes to Random Persons PID
+	When Dr Evans edits the documented visit
+	Then Random Persons visit info is changed
 
 Scenario: Pregnancies in 20 weeks
-	Given Kathyrn Evans selects Princess Peach's PID
+	Given Kathyrn Evans selects Princess Peachs PID
 	And Princess Peach had a prior pregnancy 20 weeks ago
-	When Dr. Evans initilizes Princess Peach
-	Then Princess Peach's displayed intiliazation is the current one
+	When Dr Evans initilizes Princess Peach
+	Then Princess Peachs displayed intiliazation is the current one
 
 Scenario: RH - Flag
-	Given Kathyrn Evans selects Andy Programmer's PID
-	And Programmer has their RH - Flag set
-	When Programmer has their 29 weeks pregnant visit
+	Given Kathyrn Evans selects Andy Programmers PID
+	And Programmer has their RH Flag set
+	When Programmer has enough weeks for an rh pregnant visit
 	Then a notice is displayed that they need an RH immune globulin shot
 
 Scenario: Invalid Calendar
-	Given Kathyrn Evans selects Care Needs' PID
-	When Dr. Evans tries to set Needs' next appointment
-	Then Care Needs' calendar cannot be accessed and their appointment is July 20th
+	Given Kathyrn Evans selects Random Persons PID
+	When Dr Evans tries to set Programmers next appointment
+	Then Programmers calendar cannot be accessed and their appointment is set for next week
 
 Scenario: Max Weeks Pregnant
-	Given Kathyrn Evans selects Random Person's PID
-	When Dr. Evans tries to set Person's next appointment at 42 weeks
-	Then Random Person's next appiontment is a Childbirth Hospital Visit
+	Given Kathyrn Evans selects Random Persons PID
+	When Dr Evans tries to set Persons next appointment at max weeks
+	Then Random Persons next appiontment is a Childbirth Hospital Visit
