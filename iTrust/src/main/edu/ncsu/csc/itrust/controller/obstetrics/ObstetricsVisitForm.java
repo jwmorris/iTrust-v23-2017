@@ -82,6 +82,12 @@ public class ObstetricsVisitForm {
 	
 	// next appointment date
 	private String next;
+	//The number of fetuses in the office visit
+	private int numFeti;
+	//the id of the selected fetus
+	private int selectedFetus;
+	//are we editing a fetus?
+	private boolean editFetus;
 	
 	public ObstetricsVisitForm() {
 		this(null);
@@ -107,6 +113,9 @@ public class ObstetricsVisitForm {
 			multiplePregnancy = ov.isMultiplePregnancy();
 			babyNum = ov.getNumBabies();
 			placenta = ov.isLowLying();
+			List<Fetus> f = getFeti();
+			numFeti = (f == null) ? 0 : f.size();
+			editFetus = false;
 		} catch (Exception e) {
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 					"Obstetrics Visit Controller Error");
@@ -452,10 +461,26 @@ public class ObstetricsVisitForm {
 		fetus.setHl( hl );
 		fetus.setOfd( ofd );
 		
-		//fetus.setUltasoundId( controller.addUltrasound );
-		controller.addFetus( fetus );
 		
-		// check to see if data is new or needs to be updated
+		if( editFetus ) {
+			fetus.setMultiNum( selectedFetus );
+			controller.edit( fetus );
+			editFetus = false;
+		} else {
+			fetus.setMultiNum( numFeti + 1 );
+			controller.addFetus( fetus );
+			numFeti++;
+		}
+		
+		ac = "";
+		bpd = "";
+		crl = "";
+		efw = "";
+		fl = "";
+		hc = "";
+		hl = "";
+		ofd = "";
+
 	}
 	
 	/**
@@ -507,6 +532,28 @@ public class ObstetricsVisitForm {
 			controller.logViewObstetricsVisit( visitID );
 		}
 		
+	}
+	
+	public void editFetus() {
+		Fetus selected = controller.getFetusById( visitID, selectedFetus );
+		
+		ac = selected.getAc();
+		bpd = selected.getBpd();
+		crl = selected.getCrl();
+		efw = selected.getEfw();
+		fl = selected.getFl();
+		hc = selected.getHc();
+		hl = selected.getHl();
+		ofd = selected.getOfd();
+		editFetus = true;
+	}
+	
+	public void setSelectedFetus( int num ) {
+		this.selectedFetus = num;
+	}
+	
+	public int getSelectedFetus() {
+		return selectedFetus;
 	}
 
 }

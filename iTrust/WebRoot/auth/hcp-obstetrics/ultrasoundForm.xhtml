@@ -70,15 +70,28 @@
         </h:panelGrid>
         
         <div class="form-group  form-button-group">
-			<h:commandButton id="submitVisitButton" value="Save Fetus Info"
+			<h:commandButton id="submitVisitButton" value="Save Fetus Info" 
 			action="#{obstetrics_visit_form.submitFetusInfo()}" update="fetusInformation"
 				 />
 			<h:commandButton id="cancelVisitButton" value="Cancel"
 				action="#{navigation_controller.baseObstetricsVisit}" immediate="true" />
 		</div>
 	</h:form>
+	<h:form id="editFetusForm">
+				<h:selectOneMenu id="fetuses" style="width:100px" value="#{obstetrics_visit_form.selectedFetus}">
+					<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
+						itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
+				</h:selectOneMenu>
+				<h:commandButton id="editFetusButton" value="Edit Fetus" action="#{obstetrics_visit_form.editFetus()}"
+					update="fetusForm"/>
+    			<h:message for="editFetusButton" globalOnly="true"/>
+    		</h:form>
 	
 		<h:dataTable id="fetusInformation" value="#{obstetrics_visit_form.getFeti()}" var="fetus">
+			<h:column>
+				<f:facet name = "header">ID</f:facet>
+				#{fetus.getMultiNum()}
+			</h:column>
 			<h:column>
 				<f:facet name = "header">Crown Rump Length</f:facet>
 				#{fetus.getCrl()}

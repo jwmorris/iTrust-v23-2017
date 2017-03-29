@@ -321,4 +321,24 @@ public class ObstetricsVisitController extends iTrustController {
 		return ret;
 	}
 	
+	public Fetus getFetusById( long visitID, int fetusID ) {
+		Fetus ret = null;
+		try {
+			ret = obstetricsVisitData.getFetus( visitID, fetusID );
+		} catch ( DBException e ) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public void edit( Fetus f ) {
+		try {
+			obstetricsVisitData.updateFetus( f );
+		} catch ( DBException e ) {
+			e.printStackTrace();
+		} catch (FormValidationException e) {
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+		}
+	}
+	
 }
