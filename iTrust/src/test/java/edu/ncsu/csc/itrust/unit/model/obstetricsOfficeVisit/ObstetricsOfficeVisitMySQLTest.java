@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
@@ -65,13 +66,8 @@ public class ObstetricsOfficeVisitMySQLTest {
 		ov.setWeight( "1" );
 		
 		us = new Ultrasound();
-		File file = new File( "testing-files/sample_img/bridge-fog.jpg" );
 		InputStream in = null;
-		try {
-			in = new FileInputStream( file );
-		} catch ( FileNotFoundException e ) {
-			fail();
-		}
+		in = Mockito.mock( InputStream.class );
 		us.setPid( 2 );
 		us.setImg( in );
 		us.setPicPath( "testing-files/sample_img/bridge-fog.jpg" );
