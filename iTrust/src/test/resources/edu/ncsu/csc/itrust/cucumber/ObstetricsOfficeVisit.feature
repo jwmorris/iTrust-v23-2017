@@ -5,9 +5,8 @@ Feature: Obstetrics Office Visit
 
 Scenario: HCP Tries to create an obstetrics visit
 	Given Kelly Doctor enters PID 3001
-	And she correctly enters Random Person's PID
-	When Dr. Doctor adds an obstetrics visit
-	Then Dr. Doctor is prompted to created a regualr office visit.
+	When she correctly enters Random Person's PID
+	Then Dr. Doctor is prompted to create a regualr office visit.
 
 Scenario: Full Office Visit
 	Given Kathyrn Evans selects PID 52
@@ -27,12 +26,12 @@ Scenario: Pregnancies in 20 weeks
 	Given Kathyrn Evans selects Princess Peach's PID
 	And Princess Peach had a prior pregnancy 20 weeks ago
 	When Dr. Evans initilizes Princess Peach
-	Then Princess Peach's displayed intilization is the current one
+	Then Princess Peach's displayed intiliazation is the current one
 
 Scenario: RH - Flag
 	Given Kathyrn Evans selects Andy Programmer's PID
 	And Programmer has their RH - Flag set
-	When Programmer has her 28+ week visit
+	When Programmer has their 29 weeks pregnant visit
 	Then a notice is displayed that they need an RH immune globulin shot
 
 Scenario: Invalid Calendar
