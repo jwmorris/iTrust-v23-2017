@@ -113,6 +113,33 @@ public class ObstetricsVisitForm {
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
 		}
 	}
+	/**
+	 * Constructor used for testing
+	 */
+	public ObstetricsVisitForm(ObstetricsVisitController ovc, SessionUtils utils) {
+		try {
+			controller = (ovc == null) ? new ObstetricsVisitController() : ovc;
+			fetus = new Fetus();
+			us = new Ultrasound();
+			ov = controller.getSelectedVisit();// ? null : new ObstetricsOfficeVisit();
+			if ( ov == null )
+				ov = new ObstetricsOfficeVisit();
+			visitID = ov.getId();
+			pid = ov.getPid();// ? null : 
+			if ( pid == 0 )
+				pid = utils.getCurrentPatientMIDLong();
+			date = ov.getVisitDate();
+			weeksPregnant = ov.getWeeksPregnant();
+			weight = ov.getWeight();
+			bloodPressure = ov.getBp();
+			ftr = ov.getFhr();
+			multiplePregnancy = ov.isMultiplePregnancy();
+			babyNum = ov.getNumBabies();
+			placenta = ov.isLowLying();
+		} catch ( Exception e ) {
+			//do nothing
+		}
+	}
 	
 	/**
 	 * @return the pid
@@ -388,7 +415,7 @@ public class ObstetricsVisitForm {
 	 * Called when user clicks on the submit button in obstetricsVisitInfo.xhtml. Takes data from form
 	 * and sends to sql/loader/validator class
 	 */
-	public void submitVisitInfo(){
+	public void submitVisitInfo() {
 		ov.setBp( bloodPressure );
 		ov.setFhr( ftr );
 		ov.setLowLying( placenta );
