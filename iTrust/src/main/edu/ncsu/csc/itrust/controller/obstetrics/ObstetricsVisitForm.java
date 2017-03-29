@@ -1,13 +1,22 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,11 +24,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONObject;
 
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
+import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptDAO;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
@@ -27,6 +43,8 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
 @ManagedBean(name = "obstetrics_visit_form")
 @ViewScoped
 public class ObstetricsVisitForm {
+	
+	private String API_KEY = "AIzaSyB05jE7CNQmNEpoOhF5nBUMmW0CzFW6wa4";
 
 	// Shouldn't need to initialize since it exits because of session scope
 	private ObstetricsVisitController controller;
@@ -88,6 +106,16 @@ public class ObstetricsVisitForm {
 	private int selectedFetus;
 	//are we editing a fetus?
 	private boolean editFetus;
+	private String calendarEmail;
+	private String apptType;
+	
+	public String getCalendarEmail() {
+		return calendarEmail;
+	}
+
+	public void setCalendarEmail(String calendarEmail) {
+		this.calendarEmail = calendarEmail;
+	}
 	
 	public ObstetricsVisitForm() {
 		this(null);
@@ -554,6 +582,291 @@ public class ObstetricsVisitForm {
 	
 	public int getSelectedFetus() {
 		return selectedFetus;
+	}
+	
+	public void submitNextScheduledOfficeVisit() {
+//		System.out.println("You GOT TO THE BEGINNING!!!");
+		
+		if ( weeksPregnant == null || weeksPregnant.equals("") ) {
+			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Enter General Information first.", "Enter General Information first.", null );
+			return;
+		}
+		
+		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
+		String stringAppointmentDay = getNextAppointmentDay(weeksPregnant);
+		if(calendarEmail == null || calendarEmail.equals("")) {
+//			System.out.println("Empty entry for calendarEmail");
+			stringAppointmentDay = getNullAppointmentDay(weeksPregnant);
+		}
+		String stringTimeMin = stringAppointmentDay + "09:00:00-0400";
+		String stringTimeMax = stringAppointmentDay + "16:00:00-0400";
+		
+		Date timeMin = null;
+		Date timeMax = null;
+		try {
+			timeMin = new Date(dateFormat.parse(stringTimeMin).getTime());
+			timeMax = new Date(dateFormat.parse(stringTimeMax).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+//		System.out.println("Full Day: " + dateFormat.format(timeMin) + " TO " + dateFormat.format(timeMax));
+		
+		String goodTime = null;
+		Date nextAppt = null;
+
+		Calendar cal = Calendar.getInstance();
+		try {	
+			if(calendarEmail != null && !calendarEmail.equals("")) {
+				goodTime = checkEvents(timeMin, timeMax);
+				System.out.println("Good Time for Appointment: " + goodTime);
+	
+				if (goodTime == null) {
+					// Schedule next day at same time
+					nextAppt = new Date(dateFormat.parse(stringAppointmentDay + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400").getTime());
+	            	cal.setTime(nextAppt);
+	            	cal.add(Calendar.DAY_OF_MONTH, 1);
+	            	nextAppt = new Date(cal.getTime().getTime());
+	            	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kk");
+					
+	            	nextAppt = new Date(dateFormat.parse(printDateFormat.format(nextAppt) + ":00:00-0400").getTime());
+					// Add to schedule
+				} else {
+					// Schedule at returned time
+					nextAppt = new Date(dateFormat.parse(goodTime).getTime());
+								}
+			} else {
+				nextAppt = new Date(dateFormat.parse(stringAppointmentDay + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400").getTime());
+				
+			}
+		} catch( ParseException e) {
+			nextAppt = new Date(Calendar.getInstance().getTimeInMillis());
+		}
+//		System.out.println("Found Good Time for Appointment to be: " + dateFormat.format(nextAppt));
+		ApptBean apptBean = new ApptBean();
+		apptBean.setHcp(SessionUtils.getInstance().getSessionLoggedInMIDLong());
+		apptBean.setPatient(pid);
+		Timestamp nextApptTS = new Timestamp(nextAppt.getTime());
+		apptBean.setDate(nextApptTS);
+		apptBean.setApptType(apptType);
+		ApptDAO appointmentDAO = new ApptDAO(DAOFactory.getProductionInstance());
+		try {
+			appointmentDAO.scheduleAppt(apptBean);
+		} catch (DBException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String getNullAppointmentDay(String weeksPregnant) {
+		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
+		
+		int deltaDays = 0;
+		apptType = "ObstetricsOfficeVisit";
+		if (Integer.parseInt(weeksPregnant) <= 13) {
+			deltaDays = 28;
+		} else if (Integer.parseInt(weeksPregnant) <= 28) {
+			deltaDays = 14;
+		} else {
+			deltaDays = 7;
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, deltaDays);
+		String appointmentDay = dateFormat.format(new Date(cal.getTimeInMillis()));
+		
+		return appointmentDay;
+	}
+
+	private String getNextAppointmentDay(String weeksPregnant) {
+		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
+		
+		int deltaDays = 0;
+		apptType = "ObstetricsOfficeVisit";
+		if (Integer.parseInt(weeksPregnant) <= 13) {
+			deltaDays = 28;
+		} else if (Integer.parseInt(weeksPregnant) <= 28) {
+			deltaDays = 14;
+		} else if (Integer.parseInt(weeksPregnant) <= 39) {
+			deltaDays = 7;
+		} else if (Integer.parseInt(weeksPregnant) <= 41) {
+			deltaDays = 2;
+		} else if (Integer.parseInt(weeksPregnant) >= 42) {
+			apptType = "ChildbirthVisit";
+			deltaDays = 2;
+		}
+		
+//		System.out.println("deltaDays: " + deltaDays);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, deltaDays);
+		String appointmentDay = dateFormat.format(new Date(cal.getTimeInMillis()));
+		
+		return appointmentDay;
+	}
+	
+	private String checkEvents(Date timeMin, Date timeMax) {
+//		System.out.println("Calendar Email: " + calendarEmail);
+		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
+		
+		String stringTimeMin = dateFormat.format(timeMin);
+		String stringTimeMax = dateFormat.format(timeMax);
+		
+		HttpURLConnection conn = null;
+		String stringURL = "https://www.googleapis.com/calendar/v3/calendars/" + calendarEmail + "/events?key=" + API_KEY + "&timeMin=" + stringTimeMin + "&timeMax=" + stringTimeMax + "&singleEvents=True&orderBy=starttime";
+		
+		try {
+			URL url = new URL(stringURL);
+		    conn = (HttpURLConnection) url.openConnection();
+		    conn.setRequestMethod("GET");
+
+		    System.out.println(conn.getURL());
+		    
+		    if ( conn.getResponseCode() < 200 || conn.getResponseCode() >= 300 ) {
+//		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
+		    	return null;
+		    } else {
+		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
+		    }
+		    
+		    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder stringJSON = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                stringJSON.append(line+"\n");
+            }
+            br.close();
+            
+//            System.out.println(stringJSON.toString());
+            
+            JSONObject wholeResponse = new JSONObject(stringJSON.toString());
+            JSONArray items = wholeResponse.getJSONArray("items");
+            
+//            System.out.println("length: " + items.length());
+            boolean available = true;
+            for (int i = 0; i < items.length(); i++) {
+            	JSONObject event = items.getJSONObject(i);
+            	JSONObject startTimeObj = event.getJSONObject("start");
+            	JSONObject endTimeObj = event.getJSONObject("end");
+            	String stringStartTime = startTimeObj.getString("dateTime");
+            	stringStartTime = stringStartTime.substring(0, stringStartTime.length()-3) +stringStartTime.substring(stringStartTime.length()-2);
+            	String stringEndTime = endTimeObj.getString("dateTime");
+            	stringEndTime = stringEndTime.substring(0, stringEndTime.length()-3) +stringEndTime.substring(stringEndTime.length()-2);
+            	Date startTime, endTime;
+            	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
+            	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
+            	
+            	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'");
+            	Calendar cal = Calendar.getInstance();
+            	String stringDateNow = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400";
+            	cal.add(Calendar.HOUR_OF_DAY, 1);
+            	String stringDateLater = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400"; 
+            	Date dateNow = new Date(dateFormat.parse(stringDateNow).getTime());
+            	Date dateLater = new Date(dateFormat.parse(stringDateLater).getTime());
+            	
+            	if (checkHolidays(dateNow)) {
+            		return null;
+            	}
+            	
+            	if ( dateNow.before(startTime) || dateLater.before(startTime) || dateNow.after(endTime) || dateLater.after(endTime) ) {
+            		System.out.println("");
+            		available = false;
+            		break;
+            	}
+            	
+            	if ( dateNow.before(timeMin) || dateLater.after(timeMax)) {
+            		available = false;
+            		break;
+            	}
+            	
+            }
+            if (available) {
+            	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'");
+            	Calendar cal = Calendar.getInstance();
+            	String stringDateNow = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400";
+            	return stringDateNow;
+            }
+            
+            for ( int i = 0; i < items.length(); i++) {
+            	if (timeMin.after(timeMax)) {
+            		return null;
+            	}
+            	JSONObject event = items.getJSONObject(i);
+            	JSONObject startTimeObj = event.getJSONObject("start");
+            	JSONObject endTimeObj = event.getJSONObject("end");
+            	String stringStartTime = startTimeObj.getString("dateTime");
+            	stringStartTime = stringStartTime.substring(0, stringStartTime.length()-3) +stringStartTime.substring(stringStartTime.length()-2);
+            	String stringEndTime = endTimeObj.getString("dateTime");
+            	stringEndTime = stringEndTime.substring(0, stringEndTime.length()-3) +stringEndTime.substring(stringEndTime.length()-2);
+            	Date startTime, endTime;
+            	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
+            	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
+            	
+//            	System.out.println("Event Time: " + stringStartTime + " TO " + stringEndTime);
+            	
+            	Date timeMinOneHour = timeMin;
+            	Calendar cal = Calendar.getInstance();
+            	cal.setTime(timeMinOneHour);
+            	cal.add(Calendar.HOUR_OF_DAY, 1);
+            	timeMinOneHour = new Date(cal.getTime().getTime());
+            	if (timeMinOneHour.before(startTime)) {
+            		return dateFormat.format(timeMin);
+            	} else {
+            		timeMin = endTime;
+            	}
+            }
+//            System.out.println("YOU MADE IT THIS FAR!!!");
+		    if (timeMin.before(timeMax)) {
+		    	return dateFormat.format(timeMin);
+		    } else {
+		    	return null;
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return null;
+		} finally {
+			if (conn != null) {
+		    	conn.disconnect();
+		    }
+		}
+	}
+
+	private boolean checkHolidays(Date dateNow) {
+		Calendar calDate = Calendar.getInstance();
+		calDate.setTime(dateNow);
+		//NEW YEARS
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.JANUARY) && calDate.get(Calendar.DAY_OF_MONTH) == 1) {
+			return false;
+		}
+		//GEORGE WASHINGTONS BIRTHDAY
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.FEBRUARY) && calDate.get(Calendar.DAY_OF_MONTH) == 22) {
+			return false;
+		}
+		//INDEPENDENCE DAY
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.JULY) && calDate.get(Calendar.DAY_OF_MONTH) == 4) {
+			return false;
+		}
+		//COLUMBUS DAY
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.OCTOBER) && calDate.get(Calendar.DAY_OF_MONTH) == 9) {
+			return false;
+		}
+		//THANKSGIVING
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.NOVEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 23) {
+			return false;
+		}
+		//CHISTMAS EVE
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.DECEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 24) {
+			return false;
+		}
+		//CHRISTMAS DAY
+		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.DECEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 25) {
+			return false;
+		}
+//		//MARTIN LUTHER KING JR. DAY
+//		if(calDate.
+//		if(calDate.get(Calendar.MONTH) == 1 && calDate.get(Calendar.DAY_OF_MONTH) == 3 && calDate.DAY_OF_WEEK == 2) {
+//			return false;
+//		}
+		return true;
 	}
 
 }

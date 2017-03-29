@@ -6,6 +6,7 @@
 
 #tab-general:checked ~ .tab-content > #content-general,
 #tab-health-metrics:checked ~ .tab-content > #content-health-metrics,
+#tab-schedule-next:checked ~ .tab-content > #content-schedule-next,
 #tab-prescriptions:checked ~ .tab-content > #content-prescriptions, 
 #tab-lab-procedure:checked ~ .tab-content > #content-lab-procedure, 
 #tab-daignoses:checked ~ .tab-content > #content-daignoses, 
