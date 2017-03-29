@@ -507,7 +507,11 @@ public class ObstetricsVisitForm {
 		InputStream input = null;
 		try {
 			input = image.getInputStream();
-			us.setPicPath( image.getSubmittedFileName() );
+			int dotIndex = image.getSubmittedFileName().lastIndexOf( '.' );
+			String name = image.getSubmittedFileName().substring( 0, dotIndex );
+			String type = image.getSubmittedFileName().substring( dotIndex );
+			
+			us.setPicPath( name + Calendar.getInstance().getTimeInMillis() + type );
 			us.setImg( input );
 
 	    }

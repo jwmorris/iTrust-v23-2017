@@ -12,6 +12,7 @@ import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitData;
@@ -36,6 +37,7 @@ public class ObstetricsVisitController extends iTrustController {
 	private ObstetricsOfficeVisitData obstetricsVisitData;
 	private SessionUtils sessionUtils;
 	private ObstetricsPregnancyData sql;
+	private long currentPregnancyID;
 	
 	/**
 	 * Constructor used in application
@@ -86,6 +88,7 @@ public class ObstetricsVisitController extends iTrustController {
 	public long addReturnGeneratedId( ObstetricsOfficeVisit ov ) {
 		long ret = 0;
 		try {
+			ov.setInitID( sql.getCurrentObstetricsPregnancy( ov.getPid() ).getId() );
 			ret = obstetricsVisitData.addReturnsGeneratedId( ov );
 			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
 		} catch ( DBException e ) {
@@ -104,6 +107,7 @@ public class ObstetricsVisitController extends iTrustController {
 	 */
 	public void add(ObstetricsOfficeVisit ov) {
 		try {
+			ov.setInitID( sql.getCurrentObstetricsPregnancy( ov.getPid() ).getId() );
 			obstetricsVisitData.add( ov );
 			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
 
@@ -256,7 +260,11 @@ public class ObstetricsVisitController extends iTrustController {
 		Long pid = sessionUtils.getCurrentPatientMIDLong();
 		if(pid != null) {
 			try {
-				obstetricEligible = patientDAO.getPatient(pid).isObstetricsPatient();
+				ObstetricsPregnancy op = sql.getCurrentObstetricsPregnancy( pid );
+				if( op.getId() != 0 ) {
+					obstetricEligible = true;
+				}
+				
 			} catch (DBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

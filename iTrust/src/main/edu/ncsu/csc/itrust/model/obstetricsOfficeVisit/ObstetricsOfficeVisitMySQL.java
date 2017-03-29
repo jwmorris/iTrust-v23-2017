@@ -118,9 +118,9 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		
 		try { 
 			conn = ds.getConnection();
-			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
+			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, initId, "
 					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)"),
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)"),
 					ov, true );
 			
 			ps.executeUpdate();
@@ -140,9 +140,9 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		
 		try { 
 			conn = ds.getConnection();
-			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
+			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, initId, "
 					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS ),
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS ),
 					ov, true );
 			
 			ps.executeUpdate();
