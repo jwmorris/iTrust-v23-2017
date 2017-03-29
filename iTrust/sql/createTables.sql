@@ -555,6 +555,7 @@ CREATE TABLE obstetricsOfficeVisitData
 (
 	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
 	pid				BIGINT	UNSIGNED,
+	initId			BIGINT(20) UNSIGNED,
 	visitDate		DATE,
 	weeksPregnant	VARCHAR(20) default "",
 	weight			VARCHAR(20) default "",

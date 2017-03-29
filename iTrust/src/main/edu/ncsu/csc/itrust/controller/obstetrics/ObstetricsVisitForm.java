@@ -1,6 +1,12 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+=======
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,12 +30,22 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import javax.faces.event.PhaseId;
+import javax.servlet.http.Part;
+
+import org.apache.commons.io.IOUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
+
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
@@ -106,6 +122,13 @@ public class ObstetricsVisitForm {
 	private int selectedFetus;
 	//are we editing a fetus?
 	private boolean editFetus;
+
+	//image view index
+	private int imageIndex;
+	//ultrasound to delete
+	private String selectedUltrasound;
+
+
 	private String calendarEmail;
 	private String apptType;
 	
@@ -116,6 +139,7 @@ public class ObstetricsVisitForm {
 	public void setCalendarEmail(String calendarEmail) {
 		this.calendarEmail = calendarEmail;
 	}
+
 	
 	public ObstetricsVisitForm() {
 		this(null);
@@ -525,7 +549,11 @@ public class ObstetricsVisitForm {
 		InputStream input = null;
 		try {
 			input = image.getInputStream();
-			us.setPicPath( image.getSubmittedFileName() );
+			int dotIndex = image.getSubmittedFileName().lastIndexOf( '.' );
+			String name = image.getSubmittedFileName().substring( 0, dotIndex );
+			String type = image.getSubmittedFileName().substring( dotIndex );
+			
+			us.setPicPath( name + Calendar.getInstance().getTimeInMillis() + type );
 			us.setImg( input );
 
 	    }
@@ -869,4 +897,27 @@ public class ObstetricsVisitForm {
 		return true;
 	}
 
+	public int getImageIndex() {
+		return imageIndex;
+	}
+	
+	public void setImageIndex(int index) {
+		imageIndex = index;
+	}
+	
+	public void setSelectedUltrasound( String selectedUltrasound ) {
+		this.selectedUltrasound = selectedUltrasound;
+	}
+	
+	public String getSelectedUltrasound() {
+		return selectedUltrasound;
+	}
+	public void deleteUltrasound() {
+		controller.deleteUltrasound( visitID, selectedUltrasound );
+	}
+	
+	public void download( String ultrasound ) {
+		controller.download( ultrasound, visitID );
+	}
+	
 }

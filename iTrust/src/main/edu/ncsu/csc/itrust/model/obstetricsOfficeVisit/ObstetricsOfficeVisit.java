@@ -20,6 +20,8 @@ public class ObstetricsOfficeVisit {
 	
 	private long pid;
 	
+	private long initID;
+
 	private Date visitDate;
 	
 	private String weeksPregnant;
@@ -49,6 +51,14 @@ public class ObstetricsOfficeVisit {
 		multiplePregnancy = false;
 		numBabies = "";
 		lowLying = false;
+	}
+	
+	public long getInitID() {
+		return initID;
+	}
+
+	public void setInitID(long initID) {
+		this.initID = initID;
 	}
 	
 	public long getId() {
