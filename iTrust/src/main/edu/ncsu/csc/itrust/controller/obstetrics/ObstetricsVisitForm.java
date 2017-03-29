@@ -97,6 +97,8 @@ public class ObstetricsVisitForm {
 	private boolean editFetus;
 	//image view index
 	private int imageIndex;
+	//ultrasound to delete
+	private String selectedUltrasound;
 
 	
 	public ObstetricsVisitForm() {
@@ -576,6 +578,17 @@ public class ObstetricsVisitForm {
 	
 	public void setImageIndex(int index) {
 		imageIndex = index;
+	}
+	
+	public void setSelectedUltrasound( String selectedUltrasound ) {
+		this.selectedUltrasound = selectedUltrasound;
+	}
+	
+	public String getSelectedUltrasound() {
+		return selectedUltrasound;
+	}
+	public void deleteUltrasound() {
+		controller.deleteUltrasound( visitID, selectedUltrasound );
 	}
 	
 	public StreamedContent getPicture() {

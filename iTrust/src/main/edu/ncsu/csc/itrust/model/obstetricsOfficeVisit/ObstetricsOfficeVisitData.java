@@ -172,4 +172,6 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @throws FormValidationException
 	 */
 	public boolean updateUltrasound( Ultrasound us ) throws DBException;
+
+	public void deleteUltrasound( long visitID, String ultrasoundName ) throws DBException;
 }

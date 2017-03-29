@@ -20,6 +20,13 @@
 	
 	<div align="right" >
 		<h:form>
+			<h:selectOneMenu id="ultrasoundDeleteoptions" style="width:250px" value="#{obstetrics_visit_form.selectedUltrasound}">
+					<f:selectItems value="#{obstetrics_visit_form.getUltrasound()}" var="us" 
+						itemLabel="#{us.picPath}" itemValue="#{us.picPath}"/>
+				</h:selectOneMenu>
+				<h:commandButton value="Delete Image" action="#{obstetrics_visit_form.deleteUltrasound()}" update="uploadedUltrasounds"></h:commandButton>
+		</h:form>
+		<h:form>
 			<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>

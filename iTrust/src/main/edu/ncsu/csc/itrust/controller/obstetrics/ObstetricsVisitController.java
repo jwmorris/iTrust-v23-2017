@@ -349,4 +349,12 @@ public class ObstetricsVisitController extends iTrustController {
 		}
 	}
 	
+	public void deleteUltrasound( long visitID, String ultrasoundName ) {
+		try {
+			obstetricsVisitData.deleteUltrasound( visitID, ultrasoundName );
+		} catch ( DBException e ) { 
+			e.printStackTrace();
+		}
+	}
+	
 }
