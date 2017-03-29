@@ -47,12 +47,17 @@ public class ObstetricsVisitFormTest {
 
 	@Test
 	public void testObstetricsVisitForm() {
-		new ObstetricsVisitForm();
+		try {
+			new ObstetricsVisitForm();
+			fail();
+		} catch ( NullPointerException e ) {
+			//should be thrown
+		}
 	}
 
 	@Test
 	public void testObstetricsVisitFormObstetricsVisitController() {
-		new ObstetricsVisitForm(new ObstetricsVisitController());
+		new ObstetricsVisitForm( controller );
 	}
 
 	@Test
