@@ -26,7 +26,7 @@
 				</h:selectOneMenu>
 				<h:commandButton value="Delete Image" action="#{obstetrics_visit_form.deleteUltrasound()}" update="uploadedUltrasounds"></h:commandButton>
 		</h:form>
-		<h:form>
+
 			<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>
@@ -36,19 +36,16 @@
 			<f:facet name = "header">Date Uploaded</f:facet>
 				#{us.getDateCreated()}
 		</h:column>
+		<h:column>
+			<f:facet name = "header">Download</f:facet>
+			<h:form>
+			<h:commandButton action="#{obstetrics_visit_form.download( us.getPicPath() )}" value="Download"/>
+		
+			</h:form>
+
+		</h:column>
 	</h:dataTable>
-	<c:set var="size" value="#{obstetrics_visit_form.getUltrasound().size()}"/>
-	
-	<p>You have #{size} pictures.</p>
-	<h:inputText value="#{obstetrics_visit_form.imageIndex}"/>
-	<!-- <h:selectOneMenu>
-		<c:forEach begin="1" end="#{size}" var="i">
-     		<f:selectItem value="#{i}" />     
-		 </c:forEach>
-	</h:selectOneMenu> -->
-	<h:commandButton type="submit" update="image"/>
-		</h:form>
-		<p:graphicImage id="image" value="obstetrics_visit_form.getPicture()"></p:graphicImage>
+
 		
 	</div>
 	

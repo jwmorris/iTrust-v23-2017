@@ -327,6 +327,24 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
+	public Ultrasound getUltrasoundByPicPath( long ovID, String picPath ) throws DBException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE ovId=? AND picPath=?" );
+			ps.setLong( 1, ovID );
+			ps.setString( 2, picPath );
+			ResultSet rs = ps.executeQuery();
+			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
+			rs.close();
+			conn.close();
+			return us;
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+	}
+	@Override
 	public Ultrasound getUltrasoundByDate( long pid, Date date ) throws DBException {
 		Connection conn = null;
 		try {

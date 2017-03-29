@@ -591,35 +591,8 @@ public class ObstetricsVisitForm {
 		controller.deleteUltrasound( visitID, selectedUltrasound );
 	}
 	
-	public StreamedContent getPicture() {
-		 FacesContext context = FacesContext.getCurrentInstance();
-
-	        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-	            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
-	            return new DefaultStreamedContent();
-	        }
-	        else {
-	        	InputStream in = getUltrasound().get(imageIndex).getImg();
-	        	byte[] buff = new byte[8000];
-
-	            int bytesRead = 0;
-
-	            ByteArrayOutputStream bao = new ByteArrayOutputStream();
-
-	            try {
-					while((bytesRead = in.read(buff)) != -1) {
-					   bao.write(buff, 0, bytesRead);
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-	            byte[] data = bao.toByteArray();
-
-	            ByteArrayInputStream bin = new ByteArrayInputStream(data);
-	            return new DefaultStreamedContent(bin);
-	        }
+	public void download( String ultrasound ) {
+		controller.download( ultrasound, visitID );
 	}
 	
 }
