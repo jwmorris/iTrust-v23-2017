@@ -12,7 +12,7 @@ Scenario: Full Office Visit
 	Given Kathyrn Evans selects PID 52
 	And she correctly changes to Random Person's PID
 	And adds a documented visit
-	And adds a ultrasound data
+	And adds ultrasound data
 	When saves those records and sets Person's next appointment to July 4th
 	Then Random Person's next appointment is moved to July 5th
 

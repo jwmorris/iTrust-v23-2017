@@ -148,7 +148,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			
 		}
 		
-		@And("^adds a ultrasound data$")
+		@And("^adds ultrasound data$")
 		public void ultrasound_visit() {
 			//document ultrasound
 			//make ultrsaound object
