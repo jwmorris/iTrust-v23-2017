@@ -27,6 +27,8 @@
 				<br/>
 				<p>Weeks Pregnant: <h:inputText type="text" id="expectedWeeksPregnant" name="expectedWeeksPregnant" value="#{obstetrics_controller.makeNewPregnancy().weeksPregnant}" /></p>
 				<br/>
+				<p> RH - Flag: </p>
+				<h:selectBooleanCheckbox  value="#{obstetrics_controller.makeNewPregnancy().rhFlag}" id="rhFlag"/>
 			
 				<p><h:commandButton type="submit" id="Save" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
 				</h:form> 

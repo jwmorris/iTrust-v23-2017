@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	
+	<h:form id="ultrasoundFileForm" enctype="multipart/form-data">
+		<h:message for="file"/>
+		<h:inputFile id="file" value="#{obstetrics_visit_form.image}">
+			<f:validator validatorId="imageFileValidator"/>
+			
+		</h:inputFile>
+		<br/>
+		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image" 
+		action="#{obstetrics_visit_form.submitUltrasound()}" update="uploadedUltrasounds"/>
+	</h:form>
+	
+	<div align="right" >
+		<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
+		<h:column>
+			<f:facet name = "header">File Name</f:facet>
+				#{us.getPicPath()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Date Uploaded</f:facet>
+				#{us.getDateCreated()}
+		</h:column>
+	</h:dataTable>
+		
+	</div>
+	
+		<br/>
+		<br/>
+		<br/>
+	<h:form id="fetusForm">
+		<h:panelGrid id="fetusDetails" columns="4">
+            
+            <h:outputLabel value="Crown Rump Length:"/>
+			<h:inputText style="width:100%;" id="CRL" value="#{obstetrics_visit_form.crl}">
+			</h:inputText>
+			
+			<h:outputLabel value="Biparietal Diameter:"/>
+			<h:inputText style="width:100%;" id="BPD" value="#{obstetrics_visit_form.bpd}">
+			</h:inputText>
+			
+			<h:outputLabel value="Head Circumference:"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.hc}" id="HC">
+			</h:inputText>
+			
+			<h:outputLabel value="Femur Length:"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.fl}" id="FL">
+			</h:inputText>
+			
+			<h:outputLabel value="Occipitofrontal Diameter"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.ofd}" id="OFD"/>
+			
+			<h:outputLabel value="Abdominal Circumference"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.ac}" id="AC">
+			</h:inputText>
+			
+			<h:outputLabel value="Humerus Length:"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.hl}" id="HL">
+			</h:inputText>
+			
+			<h:outputLabel value="Estimated Fetal Weight:"/>
+			<h:inputText style="width:100%;" value="#{obstetrics_visit_form.efw}" id="EFW">
+			</h:inputText>         
+        </h:panelGrid>
+        
+        <div class="form-group  form-button-group">
+			<h:commandButton id="submitVisitButton" value="Save Fetus Info" 
+			action="#{obstetrics_visit_form.submitFetusInfo()}" update="fetusInformation"
+				 />
+			<h:commandButton id="cancelVisitButton" value="Cancel"
+				action="#{navigation_controller.baseObstetricsVisit}" immediate="true" />
+		</div>
+	</h:form>
+	<h:form id="editFetusForm">
+				<h:selectOneMenu id="fetuses" style="width:100px" value="#{obstetrics_visit_form.selectedFetus}">
+					<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
+						itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
+				</h:selectOneMenu>
+				<h:commandButton id="editFetusButton" value="Edit Fetus" action="#{obstetrics_visit_form.editFetus()}"
+					update="fetusForm"/>
+    			<h:message for="editFetusButton" globalOnly="true"/>
+    		</h:form>
+	
+		<h:dataTable id="fetusInformation" value="#{obstetrics_visit_form.getFeti()}" var="fetus">
+			<h:column>
+				<f:facet name = "header">ID</f:facet>
+				#{fetus.getMultiNum()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Crown Rump Length</f:facet>
+				#{fetus.getCrl()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Biparietal Diameter</f:facet>
+				#{fetus.getBpd()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Head Circumference</f:facet>
+				#{fetus.getHc()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Femur Length</f:facet>
+				#{fetus.getFl()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Occipitofrontal Diameter</f:facet>
+				#{fetus.getOfd()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Abdominal Circumference</f:facet>
+				#{fetus.getAc()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Humerus Length</f:facet>
+				#{fetus.getHl()}
+			</h:column>
+			<h:column>
+				<f:facet name = "header">Estimated Fetal Weight</f:facet>
+				#{fetus.getEfw()}
+			</h:column>
+		</h:dataTable>
+	
+
+	
+</html>

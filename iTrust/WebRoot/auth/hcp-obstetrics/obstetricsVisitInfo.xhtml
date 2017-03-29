@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:itrust="/WEB-INF/tags.tld">
+<f:view
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+	
+<f:metadata>
+    <f:event type="preRenderView" listener="#{obstetrics_visit_form.logViewObstetricsVisit()}"/>
+</f:metadata>
+<h:body>
+	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/officevisitinfo.css" />
+			<link rel="stylesheet" href="/iTrust/css/form-layout.css" />
+			<link rel="stylesheet" href="/iTrust/css/tab-layout.css" />
+		</ui:define>
+		<ui:define name="pageTitle">iTrust - Obstetrics Office Visit</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+		<c:set var="obgyn" value="#{obstetrics_visit_controller.isOBGYN()}"/>
+			<h:message for="" id="officevisitinfo-message" class="iTrustError" />
+			<h3>Document Office Visit</h3>
+			<div class="tab-group">
+				<input id="tab-general" type="radio" name="ovtabs" checked="checked" />
+				<label for="tab-general">General Information</label>
+				<input id="tab-health-metrics" type="radio" name="ovtabs" />
+				<label for="tab-health-metrics">Ultrasound</label>
+				
+				<div class="tab-content">
+					<div class="tab-panel" id="content-general">
+					<c:choose>
+						<c:when test="#{obgyn}">
+							<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitForm.xhtml"></ui:include>
+						</c:when>
+						<c:otherwise>
+							<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitFormRO.xhtml"></ui:include>
+						</c:otherwise>
+					</c:choose>
+						
+					</div>
+					<div class="tab-panel" id="content-health-metrics">
+						
+						
+						<c:choose>
+							<c:when test="#{obgyn}">
+							<ui:include src="/auth/hcp-obstetrics/ultrasoundForm.xhtml"></ui:include>
+						</c:when>
+						<c:otherwise>
+							<ui:include src="/auth/hcp-obstetrics/ultrasoundFormRO.xhtml"></ui:include>
+						</c:otherwise>
+						</c:choose>
+						
+							
+					</div>
+					
+				</div>
+			</div>
+
+		</ui:define>
+
+		<ui:define name="pageScripts">
+			<script src="/iTrust/js/officevisitinfo.js"></script>
+		</ui:define>
+			
+	</ui:composition>
+</h:body>
+</html>
