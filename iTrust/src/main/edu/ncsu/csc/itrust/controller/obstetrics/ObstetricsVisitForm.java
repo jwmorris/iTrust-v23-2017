@@ -584,9 +584,7 @@ public class ObstetricsVisitForm {
 		return selectedFetus;
 	}
 	
-	public void submitNextScheduledOfficeVisit() {
-//		System.out.println("You GOT TO THE BEGINNING!!!");
-		
+	public void submitNextScheduledOfficeVisit() {		
 		if ( weeksPregnant == null || weeksPregnant.equals("") ) {
 			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Enter General Information first.", "Enter General Information first.", null );
 			return;
@@ -595,7 +593,7 @@ public class ObstetricsVisitForm {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
 		String stringAppointmentDay = getNextAppointmentDay(weeksPregnant);
 		if(calendarEmail == null || calendarEmail.equals("")) {
-//			System.out.println("Empty entry for calendarEmail");
+			System.out.println("Empty entry for calendarEmail");
 			stringAppointmentDay = getNullAppointmentDay(weeksPregnant);
 		}
 		String stringTimeMin = stringAppointmentDay + "09:00:00-0400";
@@ -610,7 +608,7 @@ public class ObstetricsVisitForm {
 			e.printStackTrace();
 		}
 		
-//		System.out.println("Full Day: " + dateFormat.format(timeMin) + " TO " + dateFormat.format(timeMax));
+		System.out.println("Full Day: " + dateFormat.format(timeMin) + " TO " + dateFormat.format(timeMax));
 		
 		String goodTime = null;
 		Date nextAppt = null;
@@ -642,7 +640,7 @@ public class ObstetricsVisitForm {
 		} catch( ParseException e) {
 			nextAppt = new Date(Calendar.getInstance().getTimeInMillis());
 		}
-//		System.out.println("Found Good Time for Appointment to be: " + dateFormat.format(nextAppt));
+		System.out.println("Found Good Time for Appointment to be: " + dateFormat.format(nextAppt));
 		ApptBean apptBean = new ApptBean();
 		apptBean.setHcp(SessionUtils.getInstance().getSessionLoggedInMIDLong());
 		apptBean.setPatient(pid);
@@ -710,6 +708,32 @@ public class ObstetricsVisitForm {
 		
 		String stringTimeMin = dateFormat.format(timeMin);
 		String stringTimeMax = dateFormat.format(timeMax);
+    	
+    	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'");
+    	Calendar cal = Calendar.getInstance();
+    	String stringDateNow = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400";
+    	cal.add(Calendar.HOUR_OF_DAY, 1);
+    	String stringDateLater = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400"; 
+    	Date dateNow, dateLater;
+		try {
+			dateNow = new Date(dateFormat.parse(stringDateNow).getTime());
+			dateLater = new Date(dateFormat.parse(stringDateLater).getTime());
+		} catch (ParseException e1) {
+			dateNow = new Date(cal.getTimeInMillis());
+			dateLater = new Date(cal.getTimeInMillis());
+			e1.printStackTrace();
+		}
+		System.out.println(dateFormat.format(dateNow) + " COMAPARED TO " + dateFormat.format(dateLater));
+    	
+    	if (checkHolidays(dateNow)) {
+    		System.out.println("////////////////////////////////////////////////////\r\nIT'S A HOLIDAY\r\n/////////////////////////////////////////");
+    		return null;
+    	}
+    	
+    	boolean available = true;
+    	if ( dateNow.before(timeMin) || dateLater.after(timeMax)) {
+    		available = false;
+    	}
 		
 		HttpURLConnection conn = null;
 		String stringURL = "https://www.googleapis.com/calendar/v3/calendars/" + calendarEmail + "/events?key=" + API_KEY + "&timeMin=" + stringTimeMin + "&timeMax=" + stringTimeMax + "&singleEvents=True&orderBy=starttime";
@@ -722,7 +746,7 @@ public class ObstetricsVisitForm {
 		    System.out.println(conn.getURL());
 		    
 		    if ( conn.getResponseCode() < 200 || conn.getResponseCode() >= 300 ) {
-//		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
+		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
 		    	return null;
 		    } else {
 		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
@@ -736,13 +760,12 @@ public class ObstetricsVisitForm {
             }
             br.close();
             
-//            System.out.println(stringJSON.toString());
+            System.out.println(stringJSON.toString());
             
             JSONObject wholeResponse = new JSONObject(stringJSON.toString());
             JSONArray items = wholeResponse.getJSONArray("items");
             
-//            System.out.println("length: " + items.length());
-            boolean available = true;
+            System.out.println("length: " + items.length());
             for (int i = 0; i < items.length(); i++) {
             	JSONObject event = items.getJSONObject(i);
             	JSONObject startTimeObj = event.getJSONObject("start");
@@ -755,34 +778,14 @@ public class ObstetricsVisitForm {
             	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
             	
-            	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'");
-            	Calendar cal = Calendar.getInstance();
-            	String stringDateNow = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400";
-            	cal.add(Calendar.HOUR_OF_DAY, 1);
-            	String stringDateLater = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400"; 
-            	Date dateNow = new Date(dateFormat.parse(stringDateNow).getTime());
-            	Date dateLater = new Date(dateFormat.parse(stringDateLater).getTime());
-            	
-            	if (checkHolidays(dateNow)) {
-            		return null;
-            	}
-            	
             	if ( dateNow.before(startTime) || dateLater.before(startTime) || dateNow.after(endTime) || dateLater.after(endTime) ) {
-            		System.out.println("");
-            		available = false;
-            		break;
-            	}
-            	
-            	if ( dateNow.before(timeMin) || dateLater.after(timeMax)) {
+            		System.out.println("YOU ARE AFTER THE EXPECTED TIME!!!");
             		available = false;
             		break;
             	}
             	
             }
             if (available) {
-            	DateFormat printDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'");
-            	Calendar cal = Calendar.getInstance();
-            	String stringDateNow = printDateFormat.format(timeMin) + cal.get(Calendar.HOUR_OF_DAY) + ":00:00-0400";
             	return stringDateNow;
             }
             
@@ -801,10 +804,9 @@ public class ObstetricsVisitForm {
             	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
             	
-//            	System.out.println("Event Time: " + stringStartTime + " TO " + stringEndTime);
+            	System.out.println("Event Time: " + stringStartTime + " TO " + stringEndTime);
             	
             	Date timeMinOneHour = timeMin;
-            	Calendar cal = Calendar.getInstance();
             	cal.setTime(timeMinOneHour);
             	cal.add(Calendar.HOUR_OF_DAY, 1);
             	timeMinOneHour = new Date(cal.getTime().getTime());
@@ -814,7 +816,7 @@ public class ObstetricsVisitForm {
             		timeMin = endTime;
             	}
             }
-//            System.out.println("YOU MADE IT THIS FAR!!!");
+
 		    if (timeMin.before(timeMax)) {
 		    	return dateFormat.format(timeMin);
 		    } else {
@@ -831,42 +833,181 @@ public class ObstetricsVisitForm {
 	}
 
 	private boolean checkHolidays(Date dateNow) {
+		boolean notHoliday = true;
 		Calendar calDate = Calendar.getInstance();
 		calDate.setTime(dateNow);
 		//NEW YEARS
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.JANUARY) && calDate.get(Calendar.DAY_OF_MONTH) == 1) {
-			return false;
+		if(calDate.get(Calendar.MONTH) == Calendar.JANUARY && calDate.get(Calendar.DAY_OF_MONTH) == 1) {
+			notHoliday = false;
 		}
 		//GEORGE WASHINGTONS BIRTHDAY
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.FEBRUARY) && calDate.get(Calendar.DAY_OF_MONTH) == 22) {
-			return false;
+		if(calDate.get(Calendar.MONTH) == Calendar.FEBRUARY && calDate.get(Calendar.DAY_OF_MONTH) == 22) {
+			notHoliday = false;
 		}
 		//INDEPENDENCE DAY
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.JULY) && calDate.get(Calendar.DAY_OF_MONTH) == 4) {
-			return false;
-		}
-		//COLUMBUS DAY
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.OCTOBER) && calDate.get(Calendar.DAY_OF_MONTH) == 9) {
-			return false;
-		}
-		//THANKSGIVING
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.NOVEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 23) {
-			return false;
+		if(calDate.get(Calendar.MONTH) == Calendar.JULY && calDate.get(Calendar.DAY_OF_MONTH) == 4) {
+			notHoliday = false;
 		}
 		//CHISTMAS EVE
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.DECEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 24) {
-			return false;
+		if(calDate.get(Calendar.MONTH) == Calendar.DECEMBER && calDate.get(Calendar.DAY_OF_MONTH) == 24) {
+			notHoliday = false;
 		}
 		//CHRISTMAS DAY
-		if(calDate.get(Calendar.MONTH) == calDate.get(Calendar.DECEMBER) && calDate.get(Calendar.DAY_OF_MONTH) == 25) {
-			return false;
+		if(calDate.get(Calendar.MONTH) == Calendar.DECEMBER && calDate.get(Calendar.DAY_OF_MONTH) == 25) {
+			notHoliday = false;
 		}
-//		//MARTIN LUTHER KING JR. DAY
-//		if(calDate.
-//		if(calDate.get(Calendar.MONTH) == 1 && calDate.get(Calendar.DAY_OF_MONTH) == 3 && calDate.DAY_OF_WEEK == 2) {
-//			return false;
-//		}
-		return true;
+		// More complex holidays used help from http://www.javaworld.com/article/2077543/learn-java/java-tip-44--calculating-holidays-and-their-observances.html
+		int year = calDate.get(Calendar.YEAR);
+		//MARTIN LUTHER KING JR. DAY
+		Date mlk = MartinLutherKingObserved(year);
+		if (dateNow.getYear() == mlk.getYear() && dateNow.getMonth() == mlk.getMonth() && dateNow.getDay() == mlk.getDay()) {
+			notHoliday = false;
+		}
+		Date memDay = MemorialDayObserved(year);
+		if (dateNow.getYear() == memDay.getYear() && dateNow.getMonth() == memDay.getMonth() && dateNow.getDay() == memDay.getDay()) {
+			notHoliday = false;
+		}
+		Date laborDay = LaborDayObserved(year);
+		if (dateNow.getYear() == laborDay.getYear() && dateNow.getMonth() == laborDay.getMonth() && dateNow.getDay() == laborDay.getDay()) {
+			notHoliday = false;
+		}
+		Date columbusDay = ColumbusDayObserved(year);
+		if (dateNow.getYear() == columbusDay.getYear() && dateNow.getMonth() == columbusDay.getMonth() && dateNow.getDay() == columbusDay.getDay()) {
+			notHoliday = false;
+		}
+		Date thanksgiving = ThanksgivingObserved(year);
+		if (dateNow.getYear() == thanksgiving.getYear() && dateNow.getMonth() == thanksgiving.getMonth() && dateNow.getDay() == thanksgiving.getDay()) {
+			notHoliday = false;
+		}
+		return !notHoliday;
 	}
-
+	
+	public Date MartinLutherKingObserved (int nYear) {
+    // Third Monday in January
+    int nX;
+    int nMonth = 0; // January
+    Date dtD;
+    dtD = new Date(nYear, nMonth, 1);
+    nX = dtD.getDay();
+    switch(nX)
+        {
+        case 0 : // Sunday
+        return new Date(nYear, nMonth, 16);
+        case 1 : // Monday
+        return new Date(nYear, nMonth, 15);
+        case 2 : // Tuesday
+        return new Date(nYear, nMonth, 21);
+        case 3 : // Wednesday
+        return new Date(nYear, nMonth, 20);
+        case 4 : // Thursday
+        return new Date(nYear, nMonth, 19);
+        case 5 : // Friday
+        return new Date(nYear, nMonth, 18);
+        default : // Saturday
+        return new Date(nYear, nMonth, 17);
+        }
+    }
+	public static Date MemorialDayObserved (int nYear) {
+		// Last Monday in May
+	    int nX;
+	    int nMonth = 4; //May
+	    Date dtD;
+	    dtD = new Date(nYear, nMonth, 31);
+	    nX = dtD.getDay();
+	    switch(nX)
+	        {
+	        case 0 : // Sunday
+	        return new Date(nYear, nMonth, 25);
+	        case 1 : // Monday
+	        return new Date(nYear, nMonth, 31);
+	        case 2 : // Tuesday
+	        return new Date(nYear, nMonth, 30);
+	        case 3 : // Wednesday
+	        return new Date(nYear, nMonth, 29);
+	        case 4 : // Thursday
+	        return new Date(nYear, nMonth, 28);
+	        case 5 : // Friday
+	        return new Date(nYear, nMonth, 27);
+	        default : // Saturday
+	        return new Date(nYear, nMonth, 26);
+	        }
+	    }
+	public static Date LaborDayObserved (int nYear)
+    {
+    // The first Monday in September
+    int nX;
+    int nMonth = 8; // September
+    Date dtD;
+    dtD = new Date(nYear, 9, 1);
+    nX = dtD.getDay();
+    switch(nX)
+        {
+        case 0 : // Sunday
+        return new Date(nYear, nMonth, 2);
+        case 1 : // Monday
+        return new Date(nYear, nMonth, 7);
+        case 2 : // Tuesday
+        return new Date(nYear, nMonth, 6);
+        case 3 : // Wednesday
+        return new Date(nYear, nMonth, 5);
+        case 4 : // Thursday
+        return new Date(nYear, nMonth, 4);
+        case 5 : // Friday
+        return new Date(nYear, nMonth, 3);
+        default : // Saturday
+        return new Date(nYear, nMonth, 2);
+        }
+    }
+	public static Date ColumbusDayObserved (int nYear)
+    {
+    // Second Monday in October
+    int nX;
+    int nMonth = 9; // October 
+    Date dtD;
+    dtD = new Date(nYear, nMonth, 1);
+    nX = dtD.getDay();
+    switch(nX)
+        {
+        case 0 : // Sunday
+        return new Date(nYear, nMonth, 9);
+        case 1 : // Monday
+        return new Date(nYear, nMonth, 15);
+        case 2 : // Tuesday
+        return new Date(nYear, nMonth, 14);
+        case 3 : // Wednesday
+        return new Date(nYear, nMonth, 13);
+        case 4 : // Thursday
+        return new Date(nYear, nMonth, 12);
+        case 5 : // Friday
+        return new Date(nYear, nMonth, 11);
+        default : // Saturday
+        return new Date(nYear, nMonth, 10);
+        }
+    }
+	public static Date ThanksgivingObserved(int nYear)
+    {
+    int nX;
+    int nMonth = 10; // November
+    Date dtD;
+    dtD = new Date(nYear, nMonth, 1);
+    nX = dtD.getDay();
+    switch(nX)
+        {
+        case 0 : // Sunday
+        return new Date(nYear, nMonth, 26);
+        case 1 : // Monday
+        return new Date(nYear, nMonth, 25);
+        case 2 : // Tuesday
+        return new Date(nYear, nMonth, 24);
+        case 3 : // Wednesday
+        return new Date(nYear, nMonth, 23);
+        case 4 : // Thursday
+        return new Date(nYear, nMonth, 22);
+        case 5 : // Friday
+        return new Date(nYear, nMonth, 28);
+        default : // Saturday
+        return new Date(nYear, nMonth, 27);
+        }
+    } 
+	
 }
