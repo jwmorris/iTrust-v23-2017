@@ -6,6 +6,7 @@ package edu.ncsu.csc.itrust.unit.model.obstetricsOfficeVisit;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -22,6 +23,9 @@ import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 public class ObstetricsOfficeVisitTest {
 	
 	private ObstetricsOfficeVisit ov;
+	
+	/** formats date Strings */
+	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 	/**
 	 * @throws java.lang.Exception
@@ -70,7 +74,7 @@ public class ObstetricsOfficeVisitTest {
 	 */
 	@Test
 	public void testGetVisitDate() {
-		assertEquals( new Date( Calendar.getInstance().getTimeInMillis() ), ov.getVisitDate() );
+		assertTrue( DATE_FORMAT.format( new Date( Calendar.getInstance().getTimeInMillis() ) ).equals( DATE_FORMAT.format( ov.getVisitDate() ) ) );
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class ObstetricsOfficeVisitTest {
 	@Test
 	public void testSetVisitDate() {
 		ov.setVisitDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
-		assertEquals( new Date( Calendar.getInstance().getTimeInMillis() ), ov.getVisitDate() );
+		assertTrue( DATE_FORMAT.format( new Date( Calendar.getInstance().getTimeInMillis() ) ).equals( DATE_FORMAT.format( ov.getVisitDate() ) ) );
 	}
 
 	/**
