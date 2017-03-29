@@ -9,8 +9,9 @@
 	xmlns:itrust="/WEB-INF/tags.tld">
 <f:view
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+	
 <f:metadata>
-    <f:event type="preRenderView" listener="#{obstetrics_visit_controller.logViewObstetricsOfficeVisit()}"/>
+    <f:event type="preRenderView" listener="#{obstetrics_visit_form.logViewObstetricsVisit()}"/>
 </f:metadata>
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
@@ -24,6 +25,7 @@
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
 		<ui:define name="mainContent">
+		<c:set var="obgyn" value="#{obstetrics_visit_controller.isOBGYN()}"/>
 			<h:message for="" id="officevisitinfo-message" class="iTrustError" />
 			<h3>Document Office Visit</h3>
 			<div class="tab-group">
@@ -34,10 +36,29 @@
 				
 				<div class="tab-content">
 					<div class="tab-panel" id="content-general">
-						<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitForm.xhtml"></ui:include>
+					<c:choose>
+						<c:when test="#{obgyn}">
+							<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitForm.xhtml"></ui:include>
+						</c:when>
+						<c:otherwise>
+							<ui:include src="/auth/hcp-obstetrics/obstetricsOfficeVisitFormRO.xhtml"></ui:include>
+						</c:otherwise>
+					</c:choose>
+						
 					</div>
 					<div class="tab-panel" id="content-health-metrics">
+						
+						
+						<c:choose>
+							<c:when test="#{obgyn}">
 							<ui:include src="/auth/hcp-obstetrics/ultrasoundForm.xhtml"></ui:include>
+						</c:when>
+						<c:otherwise>
+							<ui:include src="/auth/hcp-obstetrics/ultrasoundFormRO.xhtml"></ui:include>
+						</c:otherwise>
+						</c:choose>
+						
+							
 					</div>
 					
 				</div>

@@ -19,6 +19,8 @@ import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
  * @author wyattmaxey
  */
 public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisit> {
+	public long addReturnsGeneratedId( ObstetricsOfficeVisit ov ) throws FormValidationException, DBException;
+	
 	/**
 	 * returns list of obstetrics office visits for the given patient
 	 * 
@@ -49,14 +51,14 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * returns the ultrasound from a given date for a given date
 	 * typically only one, multiple if there are multiple children expected
 	 * 
-	 * @param ultrasoundId
-	 * 		ultrasound  id
+	 * @param ovId
+	 * 		office visit id
 	 * @param multiNum
 	 * 		id of child if multiple pregnancy, pass 0 otherwise
 	 * @return
 	 * 		fetus data from a given ultrasound
 	 */
-	public Fetus getFetus( long ultrasoundId, int multiNum ) throws DBException;
+	public Fetus getFetus( long ovId, int multiNum ) throws DBException;
 	
 	/**
 	 * returns all of the feti for a given patient
@@ -67,7 +69,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		all feti for a given ultrasound
 	 */
-	public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException;
+	//public List<Fetus> getFetiForUltrasound( long ultrasoundId ) throws DBException;
 	
 	/**
 	 * returns a list of fetus data from a given office visit
@@ -109,17 +111,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @return
 	 * 		ultrasound from the office visit
 	 */
-	public Ultrasound getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
-	
-	/**
-	 * returns the ultrasound data object from the ultrasound id
-	 * 
-	 * @param usId
-	 * 		ultrasound id
-	 * @return
-	 * 		ultrasound data object
-	 */
-	public Ultrasound getUltrasoundByUltrasoundId( long usId ) throws DBException;
+	public List<Ultrasound> getUltrasoundByOfficeVisitId( long ovId ) throws DBException;
 	
 	/**
 	 * return the ultrasound data object for a given patient on the given date
@@ -167,7 +159,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @throws DBException
 	 * @throws FormValidationException
 	 */
-	public boolean addUltrasound( Ultrasound us ) throws DBException, FormValidationException;
+	public boolean addUltrasound( Ultrasound us ) throws DBException;
 	
 	/**
 	 * updates a given ultrasound object in the database
@@ -179,5 +171,5 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	 * @throws DBException
 	 * @throws FormValidationException
 	 */
-	public boolean updateUltrasound( Ultrasound us ) throws DBException, FormValidationException;
+	public boolean updateUltrasound( Ultrasound us ) throws DBException;
 }

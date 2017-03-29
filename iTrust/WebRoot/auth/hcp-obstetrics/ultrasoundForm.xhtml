@@ -13,9 +13,24 @@
 			
 		</h:inputFile>
 		<br/>
-		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image"/>
+		<h:commandButton id="uploadUltrasound" value="Upload Ultrasound Image" 
+		action="#{obstetrics_visit_form.submitUltrasound()}" update="uploadedUltrasounds"/>
 	</h:form>
+	
+	<div align="right" >
+		<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
+		<h:column>
+			<f:facet name = "header">File Name</f:facet>
+				#{us.getPicPath()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Date Uploaded</f:facet>
+				#{us.getDateCreated()}
+		</h:column>
+	</h:dataTable>
 		
+	</div>
+	
 		<br/>
 		<br/>
 		<br/>
@@ -55,45 +70,59 @@
         </h:panelGrid>
         
         <div class="form-group  form-button-group">
-			<h:commandButton id="submitVisitButton" value="Save Fetus Info"
+			<h:commandButton id="submitVisitButton" value="Save Fetus Info" 
+			action="#{obstetrics_visit_form.submitFetusInfo()}" update="fetusInformation"
 				 />
 			<h:commandButton id="cancelVisitButton" value="Cancel"
-				action="#{navigation_controller.baseObstetricsOfficeVisit}" immediate="true" />
+				action="#{navigation_controller.baseObstetricsVisit}" immediate="true" />
 		</div>
 	</h:form>
+	<h:form id="editFetusForm">
+				<h:selectOneMenu id="fetuses" style="width:100px" value="#{obstetrics_visit_form.selectedFetus}">
+					<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
+						itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
+				</h:selectOneMenu>
+				<h:commandButton id="editFetusButton" value="Edit Fetus" action="#{obstetrics_visit_form.editFetus()}"
+					update="fetusForm"/>
+    			<h:message for="editFetusButton" globalOnly="true"/>
+    		</h:form>
 	
-		<h:dataTable id="fetusInformation" value="" var="fetus">
+		<h:dataTable id="fetusInformation" value="#{obstetrics_visit_form.getFeti()}" var="fetus">
+			<h:column>
+				<f:facet name = "header">ID</f:facet>
+				#{fetus.getMultiNum()}
+			</h:column>
 			<h:column>
 				<f:facet name = "header">Crown Rump Length</f:facet>
-				
+				#{fetus.getCrl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Biparietal Diameter</f:facet>
-				
+				#{fetus.getBpd()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Head Circumference</f:facet>
-				
+				#{fetus.getHc()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Femur Length</f:facet>
-				
+				#{fetus.getFl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Occipitofrontal Diameter</f:facet>
-				
+				#{fetus.getOfd()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Abdominal Circumference</f:facet>
-				
+				#{fetus.getAc()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Humerus Length</f:facet>
-				
+				#{fetus.getHl()}
 			</h:column>
 			<h:column>
 				<f:facet name = "header">Estimated Fetal Weight</f:facet>
-				
+				#{fetus.getEfw()}
 			</h:column>
 		</h:dataTable>
 	

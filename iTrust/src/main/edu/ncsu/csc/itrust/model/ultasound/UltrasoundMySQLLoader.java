@@ -3,6 +3,8 @@
  */
 package edu.ncsu.csc.itrust.model.ultasound;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,6 +45,7 @@ public class UltrasoundMySQLLoader implements SQLLoader<Ultrasound> {
 		us.setPid( rs.getLong( "pid" ) );
 		us.setDateCreated( rs.getDate( "dateCreated" ) );
 		us.setPicPath( rs.getString( "picPath" ) );
+		us.setImg( rs.getBlob( "img" ).getBinaryStream() );
 	}
 
 	@Override
@@ -61,11 +64,15 @@ public class UltrasoundMySQLLoader implements SQLLoader<Ultrasound> {
 			ps.setLong( i++, us.getPid() );
 			ps.setDate( i++, us.getDateCreated() );
 			ps.setString( i++, us.getPicPath() );
+			ps.setBlob( i++, us.getImg() );
+			
 			ps.setLong( i++, us.getOvId() );
 		}
 		if( !newInstance ) {
 			ps.setString( i++, us.getPicPath() );
-			
+
+			//ps.setBlob( i++, us.getImg() );
+			ps.setBlob( i++, us.getImg() );
 			ps.setLong( i++, us.getOvId() );
 		}
 		

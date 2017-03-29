@@ -22,33 +22,66 @@
 				<br />
 				<h:message for=""/>
 			</div>
+		<c:set var="obgyn" value="#{obstetrics_visit_controller.isOBGYN()}"/>
 		<c:choose>
 			<!-- When the patient is not a valid obstetrics patient do this -->
 			<c:when test="#{obstetrics_visit_controller.isValidObstetricsPatient()}">
 				
+				<c:choose>
+					<c:when test="#{obstetrics_visit_controller.isRHChecked()}">
+					<br />
+					<br />
+					<div align= "center">
+					<h2 style="font-size: 175%; font-weight: bold;">Current Patient should be given an RH immune globulin shot if they have not already!</h2>
+					</div>
+					<br />
+					<br />
+					</c:when>
+					<c:otherwise>
+						<br />
+						<br />
+						<div align="center">
+						<h2 style="font-size: 175%; font-weight: bold;">Current Patient does not require an RH immune globulin shot!</h2>
+						</div>
+						<br />
+						<br />
+					</c:otherwise>
+					
+				</c:choose>
+
 				<c:choose>
 					<c:when test="#{obstetrics_visit_controller.currentPatientHasVisits()}">
 						<div align="center">
 							<br />
 							<br />
 							<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
-							<h:dataTable id="previousVisits" styleClass="fTable" value="" 
+							<h:dataTable id="previousVisits" styleClass="fTable" value="#{obstetrics_visit_controller.getOfficeVisitsForCurrentPatient()}" 
 								var="ov"  border="1">
 								<br/>
 								<h:column>
-									<f:facet name="header">
-										<h:outputText value="Click to Edit"/>
-									</f:facet>
-								   <h:link outcome="obstetricsVisitInfo" value="Edit">
-			      						 	<f:param name="visitID" value="" />
-			   						</h:link>
+									<c:if test="#{obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to Edit"/>
+										</f:facet>
+								   		<h:link outcome="obstetricsVisitInfo" value="Edit">
+			      						 	<f:param name="visitID" value="#{ov.getId()}" />
+			   							</h:link>
+									</c:if>
+									<c:if test="#{!obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to View"/>
+										</f:facet>
+										<h:link outcome="obstetricsVisitInfo" value="View">
+											<f:param name="visitID" value="#{ov.getId()}"/>
+										</h:link>
+									</c:if>
 								</h:column>	
 				
 			 					<h:column>
 									<f:facet name="header">
 										<h:outputText value="Date"/>
 									</f:facet>
-									<h:outputText value="">
+									<h:outputText value="#{ov.getVisitDate()}">
 										<!-- <f:converter converterId="localDateTimeConverter"/>-->
 									</h:outputText>
 								</h:column>	 
@@ -68,10 +101,25 @@
 					</c:otherwise>
 					
 				</c:choose>
-				<div align="center">
+				<c:choose>
+					<c:when test="#{obgyn}">
+						<div align="center">
 						<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
 								value="Click Here to Create a New Obstetrics Office Visit"  outcome="obstetricsVisitInfo"/>
-				</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div align="center">
+						<p>You are not eligible to create an obstetrics office visit.</p><br/>
+						<h:form>
+							<h:commandButton style="font-size: 150%; font-weight: bold;" id="newRegOfficeVisitButton"
+								value="Click Here to Create a Regular Office Visit"  action="#{navigation_controller.baseOfficeVisit()}"/>
+						</h:form>
+						
+						</div>
+					</c:otherwise>
+				</c:choose>
+				
 			</c:when>
 			<!-- When not an obstetrics patient -->
 			<c:otherwise>

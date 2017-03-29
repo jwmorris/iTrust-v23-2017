@@ -1,6 +1,15 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,6 +17,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
+
+import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
+import edu.ncsu.csc.itrust.model.ultasound.Fetus;
+import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "obstetrics_visit_form")
@@ -17,14 +31,12 @@ public class ObstetricsVisitForm {
 	// Shouldn't need to initialize since it exits because of session scope
 	private ObstetricsVisitController controller;
 	// obstetrics office visit object here
-	private Object/*ObstetricsVisit*/ ov;
+	private ObstetricsOfficeVisit ov;
 
-	// Office visit
-//	private ObstetricsOfficeVisit ov;
 	// Ultrasound 
-//	private Ultrasound us;
+	private Ultrasound us;
 	// Fetus
-//	private Fetus fetus;
+	private Fetus fetus;
 
 	/** Fields that can be reused*/
 	// pid of patient
@@ -32,7 +44,7 @@ public class ObstetricsVisitForm {
 	// id of visit, might not need
 	private Long visitID;
 	// date of visit
-	private String date;
+	private Date date;
 	
 	/** Fields unique to  Office Visits */
 	// weeks pregnant at visit
@@ -70,6 +82,12 @@ public class ObstetricsVisitForm {
 	
 	// next appointment date
 	private String next;
+	//The number of fetuses in the office visit
+	private int numFeti;
+	//the id of the selected fetus
+	private int selectedFetus;
+	//are we editing a fetus?
+	private boolean editFetus;
 	
 	public ObstetricsVisitForm() {
 		this(null);
@@ -77,22 +95,58 @@ public class ObstetricsVisitForm {
 	
 	public ObstetricsVisitForm(ObstetricsVisitController ovc) {
 		try {
-			/*controller = (ovc == null) ? new ObstetricsVisitController() : ovc;
-			ov = controller.getSelectedVisit() ? null : new ObstetricsVisit();
-			visitID = ov.getVisitID();
-			pid = ov.getPid() ? null : SessionUtils.getInstance().getCurrentPatientMIDLong();
-			date = ov.getDate();
+			controller = (ovc == null) ? new ObstetricsVisitController() : ovc;
+			fetus = new Fetus();
+			us = new Ultrasound();
+			ov = controller.getSelectedVisit();// ? null : new ObstetricsOfficeVisit();
+			if ( ov == null )
+				ov = new ObstetricsOfficeVisit();
+			visitID = ov.getId();
+			pid = ov.getPid();// ? null : 
+			if ( pid == 0 )
+				pid = SessionUtils.getInstance().getCurrentPatientMIDLong();
+			date = ov.getVisitDate();
 			weeksPregnant = ov.getWeeksPregnant();
 			weight = ov.getWeight();
-			bloodPressure = ov.getBP();
-			ftr = ov.getFtr();
-			multiplePregnancy = ov.getMultiplePregnancy();
-			babyNum = ov.getBabyNum();
-			placenta = ov.getPlacenta();*/
+			bloodPressure = ov.getBp();
+			ftr = ov.getFhr();
+			multiplePregnancy = ov.isMultiplePregnancy();
+			babyNum = ov.getNumBabies();
+			placenta = ov.isLowLying();
+			List<Fetus> f = getFeti();
+			numFeti = (f == null) ? 0 : f.size();
+			editFetus = false;
 		} catch (Exception e) {
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 					"Obstetrics Visit Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+		}
+	}
+	/**
+	 * Constructor used for testing
+	 */
+	public ObstetricsVisitForm(ObstetricsVisitController ovc, SessionUtils utils) {
+		try {
+			controller = (ovc == null) ? new ObstetricsVisitController() : ovc;
+			fetus = new Fetus();
+			us = new Ultrasound();
+			ov = controller.getSelectedVisit();// ? null : new ObstetricsOfficeVisit();
+			if ( ov == null )
+				ov = new ObstetricsOfficeVisit();
+			visitID = ov.getId();
+			pid = ov.getPid();// ? null : 
+			if ( pid == 0 )
+				pid = utils.getCurrentPatientMIDLong();
+			date = ov.getVisitDate();
+			weeksPregnant = ov.getWeeksPregnant();
+			weight = ov.getWeight();
+			bloodPressure = ov.getBp();
+			ftr = ov.getFhr();
+			multiplePregnancy = ov.isMultiplePregnancy();
+			babyNum = ov.getNumBabies();
+			placenta = ov.isLowLying();
+		} catch ( Exception e ) {
+			//do nothing
 		}
 	}
 	
@@ -127,14 +181,14 @@ public class ObstetricsVisitForm {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -370,10 +424,21 @@ public class ObstetricsVisitForm {
 	 * Called when user clicks on the submit button in obstetricsVisitInfo.xhtml. Takes data from form
 	 * and sends to sql/loader/validator class
 	 */
-	public void submitVisitInfo(){
-		// we set the office visit object with the  data
-		
-		// checks to see if the data is new or needs to be updated
+	public void submitVisitInfo() {
+		ov.setBp( bloodPressure );
+		ov.setFhr( ftr );
+		ov.setLowLying( placenta );
+		ov.setMultiplePregnancy( multiplePregnancy );
+		ov.setNumBabies( babyNum );
+		ov.setPid( pid );
+		if ( ov.getVisitDate() == null )
+			ov.setVisitDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
+		ov.setWeeksPregnant( weeksPregnant );
+		ov.setWeight( weight );
+		if ( visitID == 0 )
+			visitID = controller.addReturnGeneratedId( ov );
+		else
+			controller.edit( ov );
 	}
 	
 	/**
@@ -381,9 +446,41 @@ public class ObstetricsVisitForm {
 	 * and sends to sql/loader/validator class
 	 */
 	public void submitFetusInfo(){
-		// set fetus data with data
+		if ( visitID == 0 ) {
+			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Enter General Information first.","Enter General Information first.", null );
+			return;
+		}
+			// set fetus data with data
+		fetus.setOvId( visitID );
+		fetus.setAc( ac );
+		fetus.setBpd( bpd );
+		fetus.setCrl( crl );
+		fetus.setEfw( efw );
+		fetus.setFl( fl );
+		fetus.setHc( hc );
+		fetus.setHl( hl );
+		fetus.setOfd( ofd );
 		
-		// check to see if data is new or needs to be updated
+		
+		if( editFetus ) {
+			fetus.setMultiNum( selectedFetus );
+			controller.edit( fetus );
+			editFetus = false;
+		} else {
+			fetus.setMultiNum( numFeti + 1 );
+			controller.addFetus( fetus );
+			numFeti++;
+		}
+		
+		ac = "";
+		bpd = "";
+		crl = "";
+		efw = "";
+		fl = "";
+		hc = "";
+		hl = "";
+		ofd = "";
+
 	}
 	
 	/**
@@ -391,8 +488,72 @@ public class ObstetricsVisitForm {
 	 * 
 	 * Called when user submits an ultrasound
 	 */
-	public void submitUltrasound(){
-		// sets ultrasound data
+	public void submitUltrasound() {
+		if ( visitID == 0 ) {
+			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Enter General Information first.","Enter General Information first.", null );
+			return;
+		}
+		
+		InputStream input = null;
+		try {
+			input = image.getInputStream();
+			us.setPicPath( image.getSubmittedFileName() );
+			us.setImg( input );
+
+	    }
+	    catch ( IOException e ) {
+	    	SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Image could not be stored", "Image could not be stored", null );
+	    	e.printStackTrace();
+	    }
+		
+		us.setDateCreated( ov.getVisitDate() );
+		us.setOvId( visitID );
+		us.setPid( pid );
+		
+		controller.addUltrasound( us );
+		try {
+			input.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Fetus> getFeti() {
+		return controller.getFeti( visitID );
+	}
+	
+	public List<Ultrasound> getUltrasound() {
+		return controller.getUltrasounds( visitID );
+	}
+	
+	public void logViewObstetricsVisit() {
+		if(visitID != 0) {
+			controller.logViewObstetricsVisit( visitID );
+		}
+		
+	}
+	
+	public void editFetus() {
+		Fetus selected = controller.getFetusById( visitID, selectedFetus );
+		
+		ac = selected.getAc();
+		bpd = selected.getBpd();
+		crl = selected.getCrl();
+		efw = selected.getEfw();
+		fl = selected.getFl();
+		hc = selected.getHc();
+		hl = selected.getHl();
+		ofd = selected.getOfd();
+		editFetus = true;
+	}
+	
+	public void setSelectedFetus( int num ) {
+		this.selectedFetus = num;
+	}
+	
+	public int getSelectedFetus() {
+		return selectedFetus;
 	}
 
 }

@@ -13,7 +13,7 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean(name="fetus")
 public class Fetus {
 	/** patient mid */
-	private long ultrasoundId;
+	private long ovId;
 	
 	/** crown rump length */
 	private String crl;
@@ -43,7 +43,7 @@ public class Fetus {
 	private int multiNum;
 	
 	public Fetus() {
-		ultrasoundId = 0;
+		ovId = 0;
 		crl = "";
 		bpd = "";
 		hc = "";
@@ -58,15 +58,15 @@ public class Fetus {
 	/**
 	 * @return the pid
 	 */
-	public long getUltrasoundId() {
-		return ultrasoundId;
+	public long getOvId() {
+		return ovId;
 	}
 
 	/**
 	 * @param pid the pid to set
 	 */
-	public void setUltrasoundId( long ultrasoundId ) {
-		this.ultrasoundId = ultrasoundId;
+	public void setOvId( long ovId ) {
+		this.ovId = ovId;
 	}
 
 	/**
