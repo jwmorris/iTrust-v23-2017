@@ -27,7 +27,7 @@ Scenario: Pregnancies in 20 weeks
 	Given Kathyrn Evans selects Princess Peach's PID
 	And Princess Peach had a prior pregnancy 20 weeks ago
 	When Dr. Evans initilizes Princess Peach
-	Then Princess Peach's displayed intilization is the current one.
+	Then Princess Peach's displayed intilization is the current one
 
 Scenario: RH - Flag
 	Given Kathyrn Evans selects Andy Programmer's PID
@@ -40,7 +40,7 @@ Scenario: Invalid Calendar
 	When Dr. Evans tries to set Needs' next appointment
 	Then Care Needs' calendar cannot be accessed and their appointment is July 20th
 
-Scenario: Invalid Calendar
+Scenario: Max Weeks Pregnant
 	Given Kathyrn Evans selects Random Person's PID
 	When Dr. Evans tries to set Person's next appointment at 42 weeks
 	Then Random Person's next appiontment is a Childbirth Hospital Visit
