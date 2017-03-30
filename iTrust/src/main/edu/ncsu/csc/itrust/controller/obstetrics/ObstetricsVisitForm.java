@@ -725,7 +725,7 @@ public class ObstetricsVisitForm {
 	}
 	
 	public String checkEvents(Date timeMin, Date timeMax) {
-//		System.out.println("Calendar Email: " + calendarEmail);
+		System.out.println("Calendar Email: " + calendarEmail);
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
 		
 		String stringTimeMin = dateFormat.format(timeMin);
