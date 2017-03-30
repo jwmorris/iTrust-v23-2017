@@ -114,8 +114,6 @@ public class ObstetricsVisitForm {
 	//are we editing a fetus?
 	private boolean editFetus;
 
-	//image view index
-	private int imageIndex;
 	//ultrasound to delete
 	private String selectedUltrasound;
 
@@ -1033,14 +1031,6 @@ public class ObstetricsVisitForm {
         return new Date(nYear, nMonth, 27);
         }
     } 
-
-	public int getImageIndex() {
-		return imageIndex;
-	}
-	
-	public void setImageIndex(int index) {
-		imageIndex = index;
-	}
 	
 	public void setSelectedUltrasound( String selectedUltrasound ) {
 		this.selectedUltrasound = selectedUltrasound;
