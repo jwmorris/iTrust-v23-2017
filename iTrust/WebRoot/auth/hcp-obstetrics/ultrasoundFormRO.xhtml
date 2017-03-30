@@ -8,8 +8,9 @@
 	
 	<c:choose>
 		<c:when test="#{obstetrics_visit_form.getUltrasound().size() > 0}">
-			<div align="right">
-				<h:dataTable id="uploadedUltrasounds" align="right" value="#{obstetrics_visit_form.getUltrasound()}" var="us">
+			<div align="right" >
+
+			<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>
 				#{us.getPicPath()}
@@ -18,8 +19,16 @@
 			<f:facet name = "header">Date Uploaded</f:facet>
 				#{us.getDateCreated()}
 		</h:column>
+		<h:column>
+			<f:facet name = "header">Download</f:facet>
+			<h:form>
+			<h:commandButton action="#{obstetrics_visit_form.download( us.getPicPath() )}" value="Download"/>
+		
+			</h:form>
+
+		</h:column>
 	</h:dataTable>
-			</div>
+</div>
 			
 		</c:when>
 		

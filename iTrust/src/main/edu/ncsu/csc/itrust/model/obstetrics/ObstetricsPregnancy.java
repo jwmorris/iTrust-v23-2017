@@ -14,6 +14,8 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name="obstetrics_pregnancy")
 public class ObstetricsPregnancy {
+	
+	private long id;
 	/** mid of the obstetrics patient */
 	private long pid;
 
@@ -73,8 +75,14 @@ public class ObstetricsPregnancy {
 		babyCount = "";
 		current = true;
 		rhFlag = false;
+		id = 0;
 	}
 	
+	/**
+	 * Return id
+	 */
+	public long getId() { return id; }
+	public void setId( long id ) { this.id = id; }
 	/**
 	 * @return the patientMid
 	 */

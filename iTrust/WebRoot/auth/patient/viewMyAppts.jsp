@@ -33,7 +33,7 @@ pageTitle = "iTrust - View My Messages";
 %>	
 	<table class="fancyTable">
 		<tr>
-			<th>Patient</th>
+			<th>HCP</th>
 			<th>Appointment Type</th>
 			<th>Appointment Date/Time</th>
 			<th>Duration</th>
