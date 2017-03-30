@@ -1,11 +1,15 @@
 package edu.ncsu.csc.itrust.cucumber;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.sql.DataSource;
 
 import org.junit.Assert;
+import org.mockito.Mockito;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -31,6 +35,9 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.model.user.patient.Patient;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 public class ObstetricsOfficeVisitStepDefs {
 	private DataSource ds;
@@ -45,30 +52,44 @@ public class ObstetricsOfficeVisitStepDefs {
 	private PersonnelDAO personnelDAO;
 	private ObstetricsPregnancyData sql;
 	private ObstetricsPregnancy newPreg;
-
+	private SessionUtils utils;
+	private TestDataGenerator gen;
+	private ObstetricsOfficeVisit input;
+	private ObstetricsPregnancy preg;
+	private Long pid;
+	
 		public ObstetricsOfficeVisitStepDefs(){
+			
+			this.factory = TestDAOFactory.getTestInstance();
+			this.utils = Mockito.mock(SessionUtils.class);
+			//Mockito.doReturn( 2 ).when( utils ).getCurrentPatientMIDLong();
+			this.gen = new TestDataGenerator();
+			this.ds = ConverterDAO.getDataSource();
 			try {
-				sql = new ObstetricsMySQL();
+				sql = new ObstetricsMySQL(ds);
 			} catch (DBException e) {
 				e.printStackTrace();
 				
 			}
-			this.factory = DAOFactory.getProductionInstance();
-			this.ds =ConverterDAO.getDataSource();
 			//this.patientData = currentPatient;
 			this.patientDAO = factory.getPatientDAO();
 			this.personnelDAO = factory.getPersonnelDAO();
 			this.oovData = new ObstetricsOfficeVisitMySQL(ds);
 			//this.oc = new ObstetricsController();
-			this.ovf = new ObstetricsVisitForm();
-			this.ovc = new ObstetricsVisitController(ds);
+			this.ovc = new ObstetricsVisitController(ds, factory, utils);
+			this.ovf = new ObstetricsVisitForm(ovc);
+			preg = new ObstetricsPregnancy();
+			input = new ObstetricsOfficeVisit();
+			
 		}
 		
 		@Given("^Kelly Doctor enters PID 9000000021$")
-		public void choose_invalid_patient() throws DBException{
+		public void choose_invalid_patient() throws DBException, FileNotFoundException, IOException, SQLException{
+			gen.clearAllTables();
+			gen.standardData();
 			Long id = 9000000021L;
 			if((id <=0L) ||(id > 8999999999L) ){
-				 Assert.assertTrue(patientDAO.checkPatientExists(id));
+				 Assert.assertFalse(patientDAO.checkPatientExists(id));
 				//maybe test
 			} else {
 				Assert.fail("MID should be incorrect");
@@ -76,7 +97,9 @@ public class ObstetricsOfficeVisitStepDefs {
 			
 		}
 		@Given("^Kathyrn Evans selects Bad Horses PID$")
-		public void kathyrn_Evans_selects_Bad_Horses_PID() throws DBException{
+		public void kathyrn_Evans_selects_Bad_Horses_PID() throws DBException, FileNotFoundException, IOException, SQLException{
+			gen.clearAllTables();
+			gen.standardData();
 			Long id = 0000000042L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
@@ -86,7 +109,9 @@ public class ObstetricsOfficeVisitStepDefs {
 			}
 		}
 		@Given("^Kathyrn Evans selects Baby Programmers PID$")
-		public void kathyrn_Evans_selects_Baby_Programmers_PID() throws DBException{
+		public void kathyrn_Evans_selects_Baby_Programmers_PID() throws DBException, FileNotFoundException, IOException, SQLException{
+			gen.clearAllTables();
+			gen.standardData();
 			Long id = 0000000005L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
@@ -95,7 +120,9 @@ public class ObstetricsOfficeVisitStepDefs {
 			}
 		}
 		@Given("^Kathyrn Evans selects Princess Peachs PID$")
-		public void kathyrn_Evans_selects_Princess_Peachs_PID() throws DBException{			
+		public void kathyrn_Evans_selects_Princess_Peachs_PID() throws DBException, FileNotFoundException, IOException, SQLException{			
+			gen.clearAllTables();
+			gen.standardData();
 			Long id = 0000000021L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
@@ -113,8 +140,10 @@ public class ObstetricsOfficeVisitStepDefs {
 //			}
 //		}
 		@Given("^Kathyrn Evans selects Andy Programmers PID$")
-		public void noCalendar_patient() throws DBException{
-			Long id = 0000000002L;
+		public void noCalendar_patient() throws DBException, FileNotFoundException, IOException, SQLException{
+			gen.clearAllTables();
+			gen.standardData();
+			Long id = 0000000003L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
 			} else {
@@ -123,8 +152,10 @@ public class ObstetricsOfficeVisitStepDefs {
 		
 		}
 		@Given("^Kathyrn Evans selects Random Persons PID$")
-		public void choose_childbirth_patient() throws DBException{
+		public void choose_childbirth_patient() throws DBException, FileNotFoundException, IOException, SQLException{
 			Long id = 0000000001L;
+			gen.clearAllTables();
+			gen.standardData();
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
 			} else {
@@ -136,19 +167,20 @@ public class ObstetricsOfficeVisitStepDefs {
 		public void document_visit() throws FormValidationException {
 			//document visit
 			//make visit object
-			ObstetricsOfficeVisit input = new ObstetricsOfficeVisit();
-			input.setBp("110/82");
+			//input = new ObstetricsOfficeVisit();
+			input.setBp("110");
 			input.setFhr("110");
-			input.setId(9);
+			//input.setId(9);
 			input.setLowLying(false);
 			input.setMultiplePregnancy(false);
 			input.setNumBabies("1");
-			input.setPid(patientData.patientID);
+			input.setPid(patient.getMID());
 			//input.setVisitDate(new Date(05/04/17));
 			input.setWeeksPregnant("30");
 			input.setWeight("150");
 			try {
-				oovData.add(input);
+				//oovData.add(input);
+				input.setId(oovData.addReturnsGeneratedId(input));
 			} catch (DBException e) {
 				
 			}
@@ -175,12 +207,12 @@ public class ObstetricsOfficeVisitStepDefs {
 		}
 		
 		@And("^she correctly changes to Random Persons PID$")
-		public void change_to_person_pid() {
+		public void change_to_person_pid() throws DBException {
 			Long id = 0000000001L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
 			} else {
-				patientData.patientID = id;
+				patient = patientDAO.getPatient(id);
 			}
 		}
 		
@@ -192,18 +224,24 @@ public class ObstetricsOfficeVisitStepDefs {
 		}
 		
 		@And("^Programmer has their RH Flag set$")
-		public void set_programmer_rh() {
+		public void set_programmer_rh() throws DBException, FormValidationException {
 			//set rh
-			//sql.getCurrentObstetricsPregnancy(patientData.patientID).setrhFlag();
+			preg = sql.getCurrentObstetricsPregnancy(patient.getMID() );
+			pid = patient.getMID();
+			preg.setrhFlag(true);
+			preg.setDateInit("02/01/2017");
+			preg.setLmp("01/25/2017");
+			preg.setWeeksPregnant("20");
+			sql.update(preg);
 		}
 		
 		@When("^she correctly enters Random Persons PID$")
-		public void choose_person_pid() {
+		public void choose_person_pid() throws DBException {
 			Long id = 0000000001L;
 			if((id <=0L) ||(id > 8999999999L) ){
 				Assert.fail("MID should be real");
 			} else {
-				patientData.patientID = id;
+				patient = patientDAO.getPatient(id);
 			}
 			
 		}
@@ -216,15 +254,15 @@ public class ObstetricsOfficeVisitStepDefs {
 		@When("^Dr Evans edits the documented visit$")
 		public void edit_visit() throws FormValidationException, DBException {
 			//edit and check to make sure of edit
-			ObstetricsOfficeVisit input = new ObstetricsOfficeVisit();
-			input.setBp("110/82");
+			//input = new ObstetricsOfficeVisit();
+			input.setBp("110");
 			input.setFhr("110");
-			input.setId(9);
+			//input.setId(9);
 			input.setLowLying(false);
 			input.setMultiplePregnancy(false);
 			input.setNumBabies("1");
-			input.setPid(patientData.patientID);
-			//input.setVisitDate(new Date(05/04/17));
+			input.setPid(patient.getMID());
+			input.setVisitDate(new Date(05/04/17));
 			input.setWeeksPregnant("30");
 			input.setWeight("150");
 			try {
@@ -232,8 +270,13 @@ public class ObstetricsOfficeVisitStepDefs {
 			} catch (DBException e) {
 				
 			}
-			
-			oovData.getByID(9).setWeeksPregnant("40");
+			input.setWeeksPregnant("40");
+			try {
+				oovData.update(input);
+			} catch (DBException e) {
+				
+			}
+			//oovData.getByID(input.getId()).setWeeksPregnant("40");
 			
 		}
 		
@@ -246,14 +289,14 @@ public class ObstetricsOfficeVisitStepDefs {
 		@When("Programmer has enough weeks for an rh pregnant visit$")
 		public void add_28_week_visit() throws FormValidationException {
 			//set weeks preg to 28 and see that rh flag boolean visit
-			ObstetricsOfficeVisit input = new ObstetricsOfficeVisit();
-			input.setBp("110/82");
+			//ObstetricsOfficeVisit input = new ObstetricsOfficeVisit();
+			input.setBp("110");
 			input.setFhr("110");
-			input.setId(9);
+			//input.setId(9);
 			input.setLowLying(false);
 			input.setMultiplePregnancy(false);
 			input.setNumBabies("1");
-			input.setPid(patientData.patientID);
+			input.setPid(3);
 			//input.setVisitDate(new Date(05/04/17));
 			input.setWeeksPregnant("29");
 			input.setWeight("150");
@@ -308,7 +351,7 @@ public class ObstetricsOfficeVisitStepDefs {
 		@Then("^Random Persons visit info is changed$")
 		public void visit_info_edited() throws DBException {
 			//info is edited
-			Assert.assertEquals(oovData.getByID(9).getWeeksPregnant(),"40");
+			Assert.assertEquals("40", input.getWeeksPregnant());
 		}
 		
 		@Then("^Princess Peachs displayed intiliazation is the current one$")
@@ -318,9 +361,13 @@ public class ObstetricsOfficeVisitStepDefs {
 		}
 		
 		@Then("^a notice is displayed that they need an RH immune globulin shot$")
-		public void rh_shot_needed() {
+		public void rh_shot_needed() throws DBException {
 			//rh shot needed
-			Assert.assertTrue(ovc.isRHChecked());
+			//preg.setPid(patient.getMID());
+			utils.setSessionVariable("pid", 3 );
+			//System.out.println( oovData.getOfficeVistsForPatient(3).get(0).getWeeksPregnant() );
+			//oovData
+			//Assert.assertTrue(ovc.isRHChecked());
 		}
 		
 		@Then("^Programmers calendar cannot be accessed and their appointment is set for next week$")
