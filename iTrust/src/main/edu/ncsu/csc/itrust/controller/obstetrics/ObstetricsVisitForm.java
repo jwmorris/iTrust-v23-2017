@@ -724,7 +724,7 @@ public class ObstetricsVisitForm {
 		return appointmentDay;
 	}
 	
-	private String checkEvents(Date timeMin, Date timeMax) {
+	public String checkEvents(Date timeMin, Date timeMax) {
 //		System.out.println("Calendar Email: " + calendarEmail);
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
 		

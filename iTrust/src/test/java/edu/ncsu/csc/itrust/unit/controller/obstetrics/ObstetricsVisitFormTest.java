@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -508,6 +510,22 @@ public class ObstetricsVisitFormTest {
 		us = form.getUltrasound();
 		
 		assertEquals(1, us.size() );
+	}
+	
+	@Test
+	public void testCheckEvents() {
+		try {
+			form.setWeeksPregnant("42");
+			form.setCalendarEmail("itrustgroup3@gmail.com");
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
+			String starter = cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.DAY_OF_MONTH) + "T";
+			Date low = new Date(dateFormat.parse(starter + "09:00:00-0400").getTime());
+			Date high = new Date(dateFormat.parse(starter + "16:00:00-0400").getTime());
+			assertNotNull(form.checkEvents(low, high));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
