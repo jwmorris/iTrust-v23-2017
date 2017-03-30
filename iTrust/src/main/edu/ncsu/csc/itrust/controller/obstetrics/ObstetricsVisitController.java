@@ -295,7 +295,7 @@ public class ObstetricsVisitController extends iTrustController {
 			try {
 				allDates = obstetricsVisitData.getOfficeVistsForPatient(pid);
 				rhFlag = sql.getCurrentObstetricsPregnancy(pid).getrhFlag();
-				rhFlag = true;
+				//rhFlag = true;
 				if(allDates != null) {
 					ObstetricsOfficeVisit mostCurrentDate = allDates.get(allDates.size() - 1);
 					String weeksPreg = mostCurrentDate.getWeeksPregnant();
