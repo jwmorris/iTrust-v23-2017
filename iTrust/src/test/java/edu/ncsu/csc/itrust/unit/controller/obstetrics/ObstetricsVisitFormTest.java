@@ -528,6 +528,69 @@ public class ObstetricsVisitFormTest {
 		}
 	}
 	
+	@Test
+	public void testHolidays() {
+		ObstetricsVisitForm.ColumbusDayObserved(2000);
+		ObstetricsVisitForm.ColumbusDayObserved(2001);
+		ObstetricsVisitForm.ColumbusDayObserved(2002);
+		ObstetricsVisitForm.ColumbusDayObserved(2003);
+		ObstetricsVisitForm.ColumbusDayObserved(2004);
+		ObstetricsVisitForm.ColumbusDayObserved(2005);
+		ObstetricsVisitForm.ColumbusDayObserved(2006);
+		ObstetricsVisitForm.ColumbusDayObserved(2007);
+		ObstetricsVisitForm.ColumbusDayObserved(2008);
+		ObstetricsVisitForm.ColumbusDayObserved(2009);
+		
+		ObstetricsVisitForm.LaborDayObserved(2000);
+		ObstetricsVisitForm.LaborDayObserved(2001);
+		ObstetricsVisitForm.LaborDayObserved(2002);
+		ObstetricsVisitForm.LaborDayObserved(2003);
+		ObstetricsVisitForm.LaborDayObserved(2004);
+		ObstetricsVisitForm.LaborDayObserved(2005);
+		ObstetricsVisitForm.LaborDayObserved(2006);
+		ObstetricsVisitForm.LaborDayObserved(2007);
+		ObstetricsVisitForm.LaborDayObserved(2008);
+		ObstetricsVisitForm.LaborDayObserved(2009);
+		
+		ObstetricsVisitForm.MemorialDayObserved(2000);
+		ObstetricsVisitForm.MemorialDayObserved(2001);
+		ObstetricsVisitForm.MemorialDayObserved(2002);
+		ObstetricsVisitForm.MemorialDayObserved(2003);
+		ObstetricsVisitForm.MemorialDayObserved(2004);
+		ObstetricsVisitForm.MemorialDayObserved(2005);
+		ObstetricsVisitForm.MemorialDayObserved(2006);
+		ObstetricsVisitForm.MemorialDayObserved(2007);
+		ObstetricsVisitForm.MemorialDayObserved(2008);
+		ObstetricsVisitForm.MemorialDayObserved(2009);
+		
+		ObstetricsVisitForm.ThanksgivingObserved(2000);
+		ObstetricsVisitForm.ThanksgivingObserved(2001);
+		ObstetricsVisitForm.ThanksgivingObserved(2002);
+		ObstetricsVisitForm.ThanksgivingObserved(2003);
+		ObstetricsVisitForm.ThanksgivingObserved(2004);
+		ObstetricsVisitForm.ThanksgivingObserved(2005);
+		ObstetricsVisitForm.ThanksgivingObserved(2006);
+		ObstetricsVisitForm.ThanksgivingObserved(2007);
+		ObstetricsVisitForm.ThanksgivingObserved(2008);
+		ObstetricsVisitForm.ThanksgivingObserved(2009);
+		
+		form.MartinLutherKingObserved(2000);
+		form.MartinLutherKingObserved(2001);
+		form.MartinLutherKingObserved(2002);
+		form.MartinLutherKingObserved(2003);
+		form.MartinLutherKingObserved(2004);
+		form.MartinLutherKingObserved(2005);
+		form.MartinLutherKingObserved(2006);
+		form.MartinLutherKingObserved(2007);
+		form.MartinLutherKingObserved(2008);
+		form.MartinLutherKingObserved(2009);
+	}
+	
+	@Test
+	public void testGetCalendarDay() {
+		form.getNextAppointmentDay("42");
+		form.getNullAppointmentDay("42");
+	}
 	
 
 }
