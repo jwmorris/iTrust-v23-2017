@@ -60,6 +60,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 //			op.assignEdd(DATE_FORMAT.format(edd));
 		}
 		op.setPid( rs.getLong( "pid" ) );
+		op.setId( rs.getLong( "id" ));
 //		op.setDateInit( DATE_FORMAT.format( initDate) );
 //		op.setLmp( DATE_FORMAT.format( rs.getDate( "lmp" ) ) );
 //		op.setEdd( DATE_FORMAT.format( rs.getDate( "edd" ) ) );

@@ -49,6 +49,7 @@ public class ObstetricsOfficeVisitMySQLLoader implements SQLLoader<ObstetricsOff
 		ov.setMultiplePregnancy( rs.getBoolean( "multiPregnancy" ) );
 		ov.setNumBabies( rs.getString( "numBabies" ) );
 		ov.setLowLying( rs.getBoolean( "lowPlacenta" ) );
+		ov.setInitID( rs.getLong( "initId" ) );
 	}
 
 	@Override
@@ -65,6 +66,7 @@ public class ObstetricsOfficeVisitMySQLLoader implements SQLLoader<ObstetricsOff
 
 		if( newInstance ) {
 			ps.setLong( i++, ov.getPid() );
+			ps.setLong( i++, ov.getInitID() );
 			ps.setDate( i++, ov.getVisitDate() );
 			ps.setString( i++, ov.getWeeksPregnant() );
 			ps.setString( i++, ov.getWeight() );
@@ -73,7 +75,7 @@ public class ObstetricsOfficeVisitMySQLLoader implements SQLLoader<ObstetricsOff
 			ps.setBoolean( i++, ov.isMultiplePregnancy() );
 			ps.setString( i++, ov.getNumBabies() );
 			ps.setBoolean( i++, ov.isLowLying() );
-
+			
 		}
 		if( !newInstance ) {
 			ps.setString( i++, ov.getWeeksPregnant() );

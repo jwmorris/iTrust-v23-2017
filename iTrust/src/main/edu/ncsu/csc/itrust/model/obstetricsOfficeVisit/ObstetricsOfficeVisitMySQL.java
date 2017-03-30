@@ -118,9 +118,9 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		
 		try { 
 			conn = ds.getConnection();
-			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
+			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, initId, "
 					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)"),
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)"),
 					ov, true );
 			
 			ps.executeUpdate();
@@ -140,9 +140,9 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		
 		try { 
 			conn = ds.getConnection();
-			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, "
+			ps = ovLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsOfficeVisitData (pid, initId, "
 					+ "visitDate, weeksPregnant, weight, bp, fhr, multiPregnancy, numBabies, lowPlacenta) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS ),
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS ),
 					ov, true );
 			
 			ps.executeUpdate();
@@ -327,6 +327,24 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
+	public Ultrasound getUltrasoundByPicPath( long ovID, String picPath ) throws DBException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM ultrasoundData WHERE ovId=? AND picPath=?" );
+			ps.setLong( 1, ovID );
+			ps.setString( 2, picPath );
+			ResultSet rs = ps.executeQuery();
+			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
+			rs.close();
+			conn.close();
+			return us;
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+	}
+	@Override
 	public Ultrasound getUltrasoundByDate( long pid, Date date ) throws DBException {
 		Connection conn = null;
 		try {
@@ -410,6 +428,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			conn = ds.getConnection();
 			ps = usLoader.loadParameters( conn, conn.prepareStatement("UPDATE ultrasoundData SET picPath=?, img=? WHERE ovId=?" ), us, false );
 			ps.executeUpdate();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -417,4 +436,20 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		return true;
 	}
 
+	@Override
+	public void deleteUltrasound(long visitID, String name ) throws DBException {
+		Connection conn = null;
+		PreparedStatement ps = null; 
+		try {
+			conn = ds.getConnection();
+			ps = conn.prepareStatement( "DELETE FROM ultrasounddata where picPath=? and ovId=?");
+			ps.setString( 1, name );
+			ps.setLong( 2, visitID );
+			ps.execute();
+			conn.close();
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+			throw new DBException( e );
+		}
+	}
 }

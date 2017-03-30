@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld"
+	xmlns:p="http://primefaces.org/ui">
 	
 	<h:form id="ultrasoundFileForm" enctype="multipart/form-data">
 		<h:message for="file"/>
@@ -18,7 +19,15 @@
 	</h:form>
 	
 	<div align="right" >
-		<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
+		<h:form>
+			<h:selectOneMenu id="ultrasoundDeleteoptions" style="width:250px" value="#{obstetrics_visit_form.selectedUltrasound}">
+					<f:selectItems value="#{obstetrics_visit_form.getUltrasound()}" var="us" 
+						itemLabel="#{us.picPath}" itemValue="#{us.picPath}"/>
+				</h:selectOneMenu>
+				<h:commandButton value="Delete Image" action="#{obstetrics_visit_form.deleteUltrasound()}" update="uploadedUltrasounds"></h:commandButton>
+		</h:form>
+
+			<h:dataTable id="uploadedUltrasounds" value="#{obstetrics_visit_form.getUltrasound()}" var="us" border="1">
 		<h:column>
 			<f:facet name = "header">File Name</f:facet>
 				#{us.getPicPath()}
@@ -27,7 +36,16 @@
 			<f:facet name = "header">Date Uploaded</f:facet>
 				#{us.getDateCreated()}
 		</h:column>
+		<h:column>
+			<f:facet name = "header">Download</f:facet>
+			<h:form>
+			<h:commandButton action="#{obstetrics_visit_form.download( us.getPicPath() )}" value="Download"/>
+		
+			</h:form>
+
+		</h:column>
 	</h:dataTable>
+
 		
 	</div>
 	
