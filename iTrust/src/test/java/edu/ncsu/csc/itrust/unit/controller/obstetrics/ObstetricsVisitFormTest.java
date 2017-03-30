@@ -586,5 +586,11 @@ public class ObstetricsVisitFormTest {
 		form.MartinLutherKingObserved(2009);
 	}
 	
+	@Test
+	public void testGetCalendarDay() {
+		form.getNextAppointmentDay("42");
+		form.getNullAppointmentDay("42");
+	}
+	
 
 }

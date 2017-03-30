@@ -677,7 +677,7 @@ public class ObstetricsVisitForm {
 		}
 	}
 	
-	private String getNullAppointmentDay(String weeksPregnant) {
+	public String getNullAppointmentDay(String weeksPregnant) {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
 		
 		int deltaDays = 0;
@@ -697,7 +697,7 @@ public class ObstetricsVisitForm {
 		return appointmentDay;
 	}
 
-	private String getNextAppointmentDay(String weeksPregnant) {
+	public String getNextAppointmentDay(String weeksPregnant) {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
 		
 		int deltaDays = 0;
