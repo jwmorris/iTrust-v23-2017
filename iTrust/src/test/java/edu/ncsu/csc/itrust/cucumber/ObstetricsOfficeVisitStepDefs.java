@@ -106,6 +106,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			} else {
 				//patientData.patientID = id;
 				patient = patientDAO.getPatient(id);
+				preg.setPid( id );
 			}
 		}
 		@Given("^Kathyrn Evans selects Baby Programmers PID$")
@@ -148,6 +149,7 @@ public class ObstetricsOfficeVisitStepDefs {
 				Assert.fail("MID should be real");
 			} else {
 				patient = patientDAO.getPatient(id);
+				preg.setPid( id );
 			}
 		
 		}
@@ -226,13 +228,14 @@ public class ObstetricsOfficeVisitStepDefs {
 		@And("^Programmer has their RH Flag set$")
 		public void set_programmer_rh() throws DBException, FormValidationException {
 			//set rh
-			preg = sql.getCurrentObstetricsPregnancy(patient.getMID() );
+			//preg = sql.getCurrentObstetricsPregnancy(patient.getMID() );
 			pid = patient.getMID();
 			preg.setrhFlag(true);
 			preg.setDateInit("02/01/2017");
 			preg.setLmp("01/25/2017");
-			preg.setWeeksPregnant("20");
-			sql.update(preg);
+			preg.setWeeksPregnant("30");
+			//preg.setBabyCount( "1" );
+			sql.add(preg);
 		}
 		
 		@When("^she correctly enters Random Persons PID$")
@@ -287,11 +290,15 @@ public class ObstetricsOfficeVisitStepDefs {
 		}
 		
 		@When("Programmer has enough weeks for an rh pregnant visit$")
-		public void add_28_week_visit() throws FormValidationException {
+		public void add_28_week_visit() throws FormValidationException, DBException {
 			//set weeks preg to 28 and see that rh flag boolean visit
 			//ObstetricsOfficeVisit input = new ObstetricsOfficeVisit();
+			//utils.setSessionVariable( "loggedInMID", 9000000012L );
+			//Mockito.mock( SessionUtils.class ).setSessionVariable( "loggedInMID", 9000000012L );
+			
 			input.setBp("110");
 			input.setFhr("110");
+			input.setInitID( preg.getId() );
 			//input.setId(9);
 			input.setLowLying(false);
 			input.setMultiplePregnancy(false);
@@ -300,11 +307,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			//input.setVisitDate(new Date(05/04/17));
 			input.setWeeksPregnant("29");
 			input.setWeight("150");
-			try {
-				oovData.add(input);
-			} catch (DBException e) {
-				
-			}
+			oovData.add( input );
 		}
 		
 		@When("Dr Evans tries to set Programmers next appointment$")
@@ -363,11 +366,10 @@ public class ObstetricsOfficeVisitStepDefs {
 		@Then("^a notice is displayed that they need an RH immune globulin shot$")
 		public void rh_shot_needed() throws DBException {
 			//rh shot needed
-			//preg.setPid(patient.getMID());
 			utils.setSessionVariable("pid", 3 );
-			//System.out.println( oovData.getOfficeVistsForPatient(3).get(0).getWeeksPregnant() );
-			//oovData
-			//Assert.assertTrue(ovc.isRHChecked());
+			Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 3 );
+			Mockito.doReturn( Long.parseLong( "3" ) ).when( utils ).getCurrentPatientMIDLong();
+			Assert.assertTrue(ovc.isRHChecked());
 		}
 		
 		@Then("^Programmers calendar cannot be accessed and their appointment is set for next week$")

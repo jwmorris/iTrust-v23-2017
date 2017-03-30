@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -371,6 +373,7 @@ public class ObstetricsVisitFormTest {
 		
 		
 		Part p = Mockito.mock( Part.class );
+		Mockito.doReturn( "fileName.jpg" ).when( p ).getSubmittedFileName();
 		InputStream i = Mockito.mock( InputStream.class );
 		try {
 			Mockito.doReturn(i).when(p).getInputStream();
@@ -410,5 +413,121 @@ public class ObstetricsVisitFormTest {
 				Mockito.times(1)).logTransaction(TransactionType.VIEW_OBSTETRIC_OFFICE_VISIT, Long.parseLong( "9000000012" ), (long)2, Long.toString( ov.get( 0 ).getId() ) );
 	
 	}
+	
+	@Test
+	public void testEditFetus() {
+		form.setBabyNum( "1" );
+		form.setBloodPressure( "1" );
+		form.setMultiplePregnancy( false );
+		form.setFtr( "23" );
+		form.setPlacenta( true );
+		form.setWeeksPregnant( "23" );
+		form.setWeight( "34" );
+		form.submitVisitInfo();
+		
+		List<ObstetricsOfficeVisit> ov = controller.getObstetricsVisitsForPatient( (long)2 );
+		assertNotNull( ov );
+		assertEquals( 1, ov.size() );
+		
+		form.setAc( "1" );
+		form.setBpd( "1" );
+		form.setCrl( "1" );
+		form.setEfw( "1" );	
+		form.setFl( "1" );
+		form.setHc( "1" );
+		form.setHl( "1" );
+		form.setOfd( "1" );
+		
+		form.submitFetusInfo();
+		
+		List<Fetus> f = form.getFeti();
+		
+		assertNotNull( f );
+		
+		assertEquals( "1", f.get( 0 ).getAc() );
+		
+		form.setSelectedFetus( 1 );
+		
+		form.editFetus();
+		
+		form.setAc( "2" );
+		form.submitFetusInfo();
+		f = form.getFeti();
+		
+		assertEquals( "2" , f.get( 0 ).getAc() );
+
+	}
+
+	
+	@Test
+	public void testSetSelectedUltrasound() {
+		form.setSelectedUltrasound( "ultrasound.jpg" );
+		assertEquals( "ultrasound.jpg", form.getSelectedUltrasound() );
+	}
+	
+	@Test
+	public void testGetSelectedUltrasound() {
+		form.setSelectedUltrasound( "ultrasound.jpg" );
+		assertEquals( "ultrasound.jpg", form.getSelectedUltrasound() );
+	}
+	
+	@Test
+	public void testDeleteUltrasound() {
+		form.setBabyNum( "1" );
+		form.setBloodPressure( "1" );
+		form.setMultiplePregnancy( false );
+		form.setFtr( "23" );
+		form.setPlacenta( true );
+		form.setWeeksPregnant( "23" );
+		form.setWeight( "34" );
+		form.submitVisitInfo();
+		
+		List<ObstetricsOfficeVisit> ov = controller.getObstetricsVisitsForPatient( (long)2 );
+		assertNotNull( ov );
+		assertEquals( 1, ov.size() );
+		
+		
+		Part p = Mockito.mock( Part.class );
+		Mockito.doReturn( "fileName.jpg" ).when( p ).getSubmittedFileName();
+		InputStream i = Mockito.mock( InputStream.class );
+		try {
+			Mockito.doReturn(i).when(p).getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		form.setImage( p );
+		form.submitUltrasound();
+		
+		List<Ultrasound> us = form.getUltrasound();
+		
+		assertNotNull(us);
+		assertEquals( 1, us.size() );
+		
+		form.setSelectedUltrasound( "fileName.jpg" );
+		
+		form.deleteUltrasound();
+		us = form.getUltrasound();
+		
+		assertEquals(1, us.size() );
+	}
+	
+	@Test
+	public void testCheckEvents() {
+		try {
+			form.setWeeksPregnant("42");
+			form.setCalendarEmail("itrustgroup3@gmail.com");
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
+			String starter = cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.DAY_OF_MONTH) + "T";
+			Date low = new Date(dateFormat.parse(starter + "09:00:00-0400").getTime());
+			Date high = new Date(dateFormat.parse(starter + "16:00:00-0400").getTime());
+			assertNotNull(form.checkEvents(low, high));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }
