@@ -33,6 +33,10 @@
 				<label for="tab-general">General Information</label>
 				<input id="tab-health-metrics" type="radio" name="ovtabs" />
 				<label for="tab-health-metrics">Ultrasound</label>
+				<c:if test="#{obgyn}">
+					<input id="tab-schedule-next" type="radio" name="ovtabs" />
+					<label for="tab-schedule-next">Schedule Next Appointment</label>
+				</c:if>
 				
 				<div class="tab-content">
 					<div class="tab-panel" id="content-general">
@@ -60,6 +64,12 @@
 						
 							
 					</div>
+					
+					<c:if test="#{obgyn}">
+						<div class="tab-panel" id="content-schedule-next">
+							<ui:include src="/auth/hcp-obstetrics/scheduleNextOfficeVisitForm.xhtml"></ui:include>
+						</div>
+					</c:if>
 					
 				</div>
 			</div>
