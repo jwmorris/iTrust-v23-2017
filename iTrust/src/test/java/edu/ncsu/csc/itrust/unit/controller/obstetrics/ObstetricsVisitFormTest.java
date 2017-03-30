@@ -371,6 +371,7 @@ public class ObstetricsVisitFormTest {
 		
 		
 		Part p = Mockito.mock( Part.class );
+		Mockito.doReturn( "fileName.jpg" ).when( p ).getSubmittedFileName();
 		InputStream i = Mockito.mock( InputStream.class );
 		try {
 			Mockito.doReturn(i).when(p).getInputStream();

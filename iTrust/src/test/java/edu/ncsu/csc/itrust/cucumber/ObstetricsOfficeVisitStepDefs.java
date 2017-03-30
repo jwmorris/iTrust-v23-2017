@@ -106,6 +106,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			} else {
 				//patientData.patientID = id;
 				patient = patientDAO.getPatient(id);
+				preg.setPid( id );
 			}
 		}
 		@Given("^Kathyrn Evans selects Baby Programmers PID$")
@@ -365,12 +366,9 @@ public class ObstetricsOfficeVisitStepDefs {
 		@Then("^a notice is displayed that they need an RH immune globulin shot$")
 		public void rh_shot_needed() throws DBException {
 			//rh shot needed
-			//preg.setPid(patient.getMID());
 			utils.setSessionVariable("pid", 3 );
 			Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 3 );
 			Mockito.doReturn( Long.parseLong( "3" ) ).when( utils ).getCurrentPatientMIDLong();
-			//System.out.println( oovData.getOfficeVistsForPatient(3).get(0).getWeeksPregnant() );
-			//oovData
 			Assert.assertTrue(ovc.isRHChecked());
 		}
 		
