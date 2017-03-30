@@ -29,7 +29,11 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
-
+/**
+ * We based some of the code for this class on the OfficeVisitController.xhtml
+ * @author David
+ *
+ */
 @ManagedBean(name = "obstetrics_visit_controller")
 @SessionScoped
 public class ObstetricsVisitController extends iTrustController {

@@ -1,19 +1,15 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
 
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.BufferedReader;
 
-import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
+
 import java.util.Calendar;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -21,27 +17,19 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
 import java.util.List;
-import java.util.Scanner;
+
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import javax.faces.event.PhaseId;
+
 import javax.servlet.http.Part;
 
-import org.apache.commons.io.IOUtils;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-
-import org.apache.commons.io.IOUtils;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
@@ -54,7 +42,11 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptDAO;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.model.ultasound.Ultrasound;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
-
+/**
+ * We modeled some of the code off of the OfficeVisitForm.xhtml
+ * @author David
+ *
+ */
 @ManagedBean(name = "obstetrics_visit_form")
 @ViewScoped
 public class ObstetricsVisitForm {
@@ -196,6 +188,7 @@ public class ObstetricsVisitForm {
 			multiplePregnancy = ov.isMultiplePregnancy();
 			babyNum = ov.getNumBabies();
 			placenta = ov.isLowLying();
+			image = null;
 		} catch ( Exception e ) {
 			//do nothing
 		}
@@ -542,6 +535,10 @@ public class ObstetricsVisitForm {
 	public void submitUltrasound() {
 		if ( visitID == 0 ) {
 			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "Enter General Information first.","Enter General Information first.", null );
+			return;
+		}
+		if( image == null ) {
+			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_INFO, "No file selected.","No file selected", null );
 			return;
 		}
 		
