@@ -18,16 +18,8 @@ Scenario: Invalid Patient Name
 	When Kathyrn Evans correctly enters Princess Peach
 	Then Kathyrn Evans fully documents a childbirth hospital visit
 	
-Scenario: Invalid name and ER
-	Do we need to test this
-	
 Scenario: Wrong Selection
 	Given Kathyrn Evans searchs for Amelia Davidson
 	When Kathyrn Evans coes not confirm her selecction and correctly enters Princess Peach
 	Then Kathyrn Evans fully documents a childbirth hospital visit
 	
-Scenario: All error flows in ER
-	Do we need to test this
-	
-Scenario: All error flows in childbirth visit
-	Do we need to test this
