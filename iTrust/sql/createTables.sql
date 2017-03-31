@@ -602,6 +602,7 @@ CREATE TABLE childbirthData
 (
 	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
 	pid				BIGINT(20) NOT NULL,
+	visitDate		DATE NOT NULL,
 	ER				BOOLEAN default FALSE,
 	deliveryType	VARCHAR(20) default "",
 	amtEpidural		VARCHAR(20) default "",
