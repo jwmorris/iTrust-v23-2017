@@ -1,5 +1,8 @@
 package edu.ncsu.csc.itrust.model.obstetricsOfficeVisit;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -12,6 +15,8 @@ public class Childbirth {
 	private long pid;
 	
 	private long childbirthId;
+	
+	private Date date;
 	
 	private boolean er;
 	
@@ -40,6 +45,7 @@ public class Childbirth {
 	public Childbirth() {
 		pid = 0;
 		childbirthId = 0;
+		date = new Date( Calendar.getInstance().getTimeInMillis() );
 		er = false;
 		deliveryType = "";
 		pitocin = false;
@@ -80,6 +86,21 @@ public class Childbirth {
 	 */
 	public void setchildbirthId( long childbirthId ) {
 		this.childbirthId = childbirthId;
+	}
+	
+
+	/**
+	 * @return the date
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate( Date date ) {
+		this.date = date;
 	}
 
 	/**
