@@ -24,8 +24,7 @@ import edu.ncsu.csc.itrust.exception.FormValidationException;
 /**
  * methods for classes to interact with database
  * 
- * @author wyatt
- *
+ * @author wyattmaxey
  */
 public class ChildbirthMySQL implements ChildbirthData, Serializable {
 
@@ -115,9 +114,9 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		
 		try { 
 			conn = ds.getConnection();
-			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, deliveryType, "
+			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
+					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -137,9 +136,9 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		
 		try { 
 			conn = ds.getConnection();
-			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, deliveryType, "
+			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
+					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
 					cb, true );
 			
 			ps.executeUpdate();
@@ -166,7 +165,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		
 		try {
 			conn = ds.getConnection();
-			ps = cbLoader.loadParameters( conn, conn.prepareStatement("UPDATE childbirthData SET deliveryType=?, ER=?"
+			ps = cbLoader.loadParameters( conn, conn.prepareStatement("UPDATE childbirthData SET visitDate=?, deliveryType=?, ER=?"
 					+ ", amtEpidural=?, amtMagnesium=?, amtNitrous=?, amtPethidine=?, amtPitocin=?, epidural=?, "
 					+ "magnesium=?, nitrous=?, pethidine=?, pitocin=? WHERE id=?" ), cb, false );
 			ps.executeUpdate();

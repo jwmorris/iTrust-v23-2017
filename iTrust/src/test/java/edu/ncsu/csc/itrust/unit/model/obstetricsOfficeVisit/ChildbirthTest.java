@@ -5,6 +5,9 @@ package edu.ncsu.csc.itrust.unit.model.obstetricsOfficeVisit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +28,7 @@ public class ChildbirthTest {
 	public void setUp() throws Exception {
 		cb = new Childbirth();
 		cb.setPid( 1 );
+		cb.setDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
 		cb.setAmtEpidural( "1" );
 		cb.setAmtMagnesium( "1" );
 		cb.setAmtNitrous( "1" );
