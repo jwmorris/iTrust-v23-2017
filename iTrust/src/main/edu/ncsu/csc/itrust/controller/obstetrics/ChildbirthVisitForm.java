@@ -78,7 +78,7 @@ public class ChildbirthVisitForm {
 			cb = controller.getSelectedVisit();// ? null : new ObstetricsOfficeVisit();
 			if ( cb == null )
 				cb = new Childbirth();
-			childbirthID = cb.getchildbirthId();
+			childbirthID = cb.getChildbirthId();
 			pid = cb.getPid();// ? null : 
 			if ( pid == 0 )
 				pid = SessionUtils.getInstance().getCurrentPatientMIDLong();
@@ -112,7 +112,7 @@ public class ChildbirthVisitForm {
 			cb = controller.getSelectedVisit();// ? null : new ObstetricsOfficeVisit();
 			if ( cb == null )
 				cb = new Childbirth();
-			childbirthID = cb.getchildbirthId();
+			childbirthID = cb.getChildbirthId();
 			pid = cb.getPid();// ? null : 
 			if ( pid == 0 )
 				pid = utils.getCurrentPatientMIDLong();
@@ -473,7 +473,7 @@ public class ChildbirthVisitForm {
 		}
 		if ( childbirthID == 0 ){
 			childbirthID = controller.addReturnGeneratedId( cb );
-			cb.setchildbirthId(childbirthID);
+			cb.setChildbirthId(childbirthID);
 		}else{
 			controller.editChildbirth( cb );
 		}
@@ -491,7 +491,7 @@ public class ChildbirthVisitForm {
 		baby.setChildbirthId(childbirthID);
 		baby.setSex(sex);
 		baby.setTime(time);
-		if ( controller.isErBirth() )
+		if ( er )
 			estimateDate = true;
 		else
 			estimateDate = false;
@@ -511,6 +511,5 @@ public class ChildbirthVisitForm {
 		
 		sex = 0;
 		time = "";
-		controller.addBaby( baby );
 	}
 }

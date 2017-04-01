@@ -12,7 +12,7 @@
 	</div>
 	<div align="center">
 	<h:form>
-		<h:panelGrid columns="6" border="1" styleClass="drugTable">
+		<h:panelGrid columns="6" border="1"  styleClass="drugTable">
 		
 			<h:outputLabel value="Delivery Type:"></h:outputLabel>
 			
@@ -55,7 +55,7 @@
 	<br/>
 	<br/>
 	<br/>
-	<c:if test="true" >
+	<c:if test="#{childbirth_visit_form.getChildbirthID() != 0}" >
 		<ui:include src="/auth/hcp-obstetrics/addChildForm.xhtml"></ui:include>
 	</c:if>
 	

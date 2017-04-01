@@ -77,14 +77,14 @@ public class Childbirth {
 	/**
 	 * @return the childbirthId
 	 */
-	public long getchildbirthId() {
+	public long getChildbirthId() {
 		return childbirthId;
 	}
 
 	/**
 	 * @param childbirthId the childbirthId to set
 	 */
-	public void setchildbirthId( long childbirthId ) {
+	public void setChildbirthId( long childbirthId ) {
 		this.childbirthId = childbirthId;
 	}
 	

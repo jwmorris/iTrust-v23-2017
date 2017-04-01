@@ -34,7 +34,7 @@ public class ChildbirthTest {
 		cb.setAmtNitrous( "1" );
 		cb.setAmtPethidine( "1" );
 		cb.setAmtPitocin( "1" );
-		cb.setchildbirthId( 1 );
+		cb.setChildbirthId( 1 );
 		cb.setDeliveryType( "Vaginal" );
 		cb.setEpidural( true );
 		cb.setMagnesium( true );
@@ -52,11 +52,11 @@ public class ChildbirthTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Childbirth#getchildbirthId()}.
+	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Childbirth#getChildbirthId()}.
 	 */
 	@Test
 	public void testGetchildbirthId() {
-		assertEquals( 1, cb.getchildbirthId() );
+		assertEquals( 1, cb.getChildbirthId() );
 	}
 
 	/**

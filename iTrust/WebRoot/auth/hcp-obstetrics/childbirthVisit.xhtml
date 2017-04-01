@@ -116,6 +116,61 @@
 				<h:selectBooleanCheckbox value="#{childbirth_visit_controller.erBirth}"></h:selectBooleanCheckbox>
 				<h:commandButton type="submit" action="childbirthVisitForm.xhtml" value="Create Childbirth Visit"/>
 				</h:form>
+
+				<c:set var="obgyn" value="#{childbirth_visit_controller.isOBGYN()}"/>
+				<c:choose>
+					<c:when test="#{childbirth_visit_controller.currentPatientHasVisits()}">
+						<div align="center">
+							<br />
+							<br />
+							<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit</h2>
+							<h:dataTable id="previousVisits" styleClass="fTable" value="#{childbirth_visit_controller.getChildbirthsForCurrentPatient()}" 
+								var="cb"  border="1">
+								<br/>
+								<h:column>
+									<c:if test="#{obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to Edit"/>
+										</f:facet>
+								   		<h:link outcome="/auth/hcp-obstetrics/regularVisit.xhtml" value="Edit">
+			      						 	<f:param name="childbirthID" value="#{cb.getChildbirthId()}" />
+			   							</h:link>
+									</c:if>
+									<c:if test="#{!obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to View"/>
+										</f:facet>
+										<h:link outcome="regularVisit" value="View">
+											<f:param name="childbirthID" value="#{cb.getChildbirthId()}"/>
+										</h:link>
+									</c:if>
+								</h:column>	
+				
+			 					<h:column>
+									<f:facet name="header">
+										<h:outputText value="Date"/>
+									</f:facet>
+									<h:outputText value="#{cb.getDate()}">
+										<!-- <f:converter converterId="localDateTimeConverter"/>-->
+									</h:outputText>
+								</h:column>	 
+							</h:dataTable>	
+						</div>
+						<br />
+						<br />
+					</c:when>
+					<c:otherwise>
+						<br />
+						<br />
+						<div align="center">
+						<h2 style="font-size: 175%; font-weight: bold;">No Childbirth Visits on Record for this Patient!</h2>
+						</div>
+						<br />
+						<br />
+					</c:otherwise>
+					
+				</c:choose>
+
 		</ui:define>
 	</ui:composition>
 </h:body>

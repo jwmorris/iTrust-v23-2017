@@ -61,7 +61,6 @@ public class ChildbirthVisitController extends iTrustController {
 			
 		}
 		erBirth = false;
-		System.out.println( "Creating new controller" );
 	}
 	
 	/**
@@ -80,6 +79,7 @@ public class ChildbirthVisitController extends iTrustController {
 		long ret = 0;
 		try {
 			ret = childbirthSQL.addReturnsGeneratedId( cb );
+			cb.setChildbirthId( ret );
 //			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
 		} catch ( DBException e ) {
 
@@ -169,6 +169,35 @@ public class ChildbirthVisitController extends iTrustController {
 	}
 	
 	/**
+	 * Returns a list of childbirth visits for the specified patient
+	 * @param pid Patient's mid
+	 * @return List of obstetric visits for the patient
+	 */
+	public List<Childbirth> getChildbirthsForCurrentPatient() {
+		List<Childbirth> ret = Collections.emptyList();
+		try {
+			ret = childbirthSQL.getChildbirthsForPatient( sessionUtils.getCurrentPatientMIDLong() );
+			return ret;
+		} catch ( DBException e ) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public boolean currentPatientHasVisits() {
+		if ( sessionUtils.getCurrentPatientMIDLong() != null ) {
+			if ( getChildbirthsForCurrentPatient() == null )
+				return false;
+			int s = getChildbirthsForCurrentPatient().size();
+			if ( s > 0 )
+				return true;
+		}
+		
+		
+		return false;
+	}
+	
+	/**
 	 * returns a list of babies based on childbirth ID
 	 * @return
 	 */
@@ -247,7 +276,6 @@ public class ChildbirthVisitController extends iTrustController {
 	 * @return the erBirth
 	 */
 	public boolean isErBirth() {
-		System.out.println( "Get: " + erBirth );
 		return erBirth;
 	}
 
@@ -255,7 +283,6 @@ public class ChildbirthVisitController extends iTrustController {
 	 * @param erBirth the erBirth to set
 	 */
 	public void setErBirth(boolean erBirth) {
-		System.out.println( "Set: " + erBirth );
 		this.erBirth = erBirth;
 	}
 

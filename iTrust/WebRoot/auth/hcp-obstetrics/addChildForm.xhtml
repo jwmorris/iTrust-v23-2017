@@ -120,22 +120,22 @@
 		<h:message for="editChild" globalOnly="true"/>
   	</h:form>
 	
-	<h:dataTable id="childTable" value="#{obstetrics_visit_form.getFeti()}" var="child">
+	<h:dataTable id="childTable" value="#{childbirth_visit_form.getBabies()}" var="child">
 		<h:column>
 			<f:facet name = "header">ID</f:facet>
 			#{child.getMultiNum()}
 		</h:column>
 		<h:column>
 			<f:facet name = "header">Date</f:facet>
-			#{child.getBabyDate()}
+			#{child.getDate()}
 		</h:column>
 		<h:column>
 			<f:facet name = "header">Time</f:facet>
-			#{child.getBabyTime()}
+			#{child.getTime()}
 		</h:column>
 		<h:column>
 			<f:facet name = "header">Sex</f:facet>
-			#{child.getBabySex()}
+			#{child.getSex()}
 		</h:column>
 	</h:dataTable>
 	

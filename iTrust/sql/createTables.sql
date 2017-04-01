@@ -604,7 +604,7 @@ CREATE TABLE childbirthData
 	pid				BIGINT(20) NOT NULL,
 	visitDate		DATE NOT NULL,
 	ER				BOOLEAN default FALSE,
-	deliveryType	VARCHAR(20) default "",
+	deliveryType	VARCHAR(100) default "",
 	amtEpidural		VARCHAR(20) default "",
 	amtMagnesium	VARCHAR(20) default "",
 	amtNitrous		VARCHAR(20) default "",

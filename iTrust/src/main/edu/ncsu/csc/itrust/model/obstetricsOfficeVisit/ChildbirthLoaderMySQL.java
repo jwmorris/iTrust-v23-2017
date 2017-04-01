@@ -42,7 +42,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 	 * @throws SQLException
 	 */
 	private void loadCommon( ResultSet rs, Childbirth cb ) throws SQLException {
-		cb.setchildbirthId( rs.getLong( "id" ) );
+		cb.setChildbirthId( rs.getLong( "id" ) );
 		cb.setPid( rs.getLong( "pid" ) );
 		cb.setDate( rs.getDate( "visitDate" ) );
 		cb.setDeliveryType( rs.getString( "deliveryType" ) );
@@ -109,7 +109,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 			ps.setBoolean( i++, cb.isPethidine() );
 			ps.setBoolean( i++, cb.isPitocin() );
 			
-			ps.setLong( i++, cb.getchildbirthId() );
+			ps.setLong( i++, cb.getChildbirthId() );
 		}
 		
 		return ps;
