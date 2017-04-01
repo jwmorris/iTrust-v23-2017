@@ -73,6 +73,13 @@ public class Baby {
 	}
 
 	/**
+	 * @return returns estimate date
+	 */
+	public boolean getEstimateDate(){
+		return this.estimateDate;
+	}
+	
+	/**
 	 * @return the time
 	 */
 	public String getTime() {
