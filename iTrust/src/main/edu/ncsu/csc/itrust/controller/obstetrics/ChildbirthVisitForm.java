@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -48,7 +50,11 @@ public class ChildbirthVisitForm {
 	
 	/** Fields unique for baby*/
 	private boolean estimateDate;
+	private java.util.Date babyDate;
 	private String time;
+	private String timeHour;
+	private String timeMinute;
+	private String timeMerridean;
 	private char sex;
 	// id of the baby
 	private int multiNum;
@@ -86,6 +92,9 @@ public class ChildbirthVisitForm {
 			List<Baby> b = getBabies();
 			numBabies = (b == null) ? 0 : b.size();
 			editBaby = false;
+			timeHour = "12";
+			timeMinute = "00";
+			timeMerridean = "am";
 		} catch (Exception e) {
 //			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 //					"Obstetrics Visit Controller Error");
@@ -114,6 +123,9 @@ public class ChildbirthVisitForm {
 			amtPethidine = cb.getAmtPethidine();
 			amtEpidural = cb.getAmtEpidural();
 			amtMagnesium = cb.getAmtMagnesium();
+			timeHour = "12";
+			timeMinute = "00";
+			timeMerridean = "am";
 		} catch ( Exception e ) {
 			//do nothing
 		}
@@ -274,6 +286,20 @@ public class ChildbirthVisitForm {
 	}
 
 	/**
+	 * @return the baby date
+	 */
+	public java.util.Date getBabyDate() {
+		return babyDate;
+	}
+	
+	/**
+	 * @param babyDate the date to set the baby to
+	 */
+	public void setBabyDate(java.util.Date babyDate) {
+		this.babyDate = babyDate;
+	}
+
+	/**
 	 * @return the time
 	 */
 	public String getTime() {
@@ -283,8 +309,53 @@ public class ChildbirthVisitForm {
 	/**
 	 * @param time the time to set
 	 */
-	public void setTime(String time) {
-		this.time = time;
+	public void setTime() {
+		this.time = timeHour + ":" + timeMinute + " " + timeMerridean;
+	}
+	
+	/**
+	 * @return the hours part of time
+	 */
+	public String getTimeHour() {
+		return timeHour;
+	}
+	
+	/**
+	 * @param timeHour the hours part of time to set
+	 */
+	public void setTimeHour(String timeHour) {
+		this.timeHour = timeHour;
+		setTime();
+	}
+	
+	/**
+	 * @return the minutes part of time
+	 */
+	public String getTimeMinute() {
+		return timeMinute;
+	}
+	
+	/**
+	 * @param timeMinute the minutes part of time to set
+	 */
+	public void setTimeMinute(String timeMinute) {
+		this.timeMinute = timeMinute;
+		setTime();
+	}
+	
+	/**
+	 * @return the merridean par of time
+	 */
+	public String getTimeMerridean() {
+		return timeMerridean;
+	}
+	
+	/**
+	 * @param timeMerridean the merridean part of time to set
+	 */
+	public void setTimeMerridean(String timeMerridean) {
+		this.timeMerridean = timeMerridean;
+		setTime();
 	}
 
 	/**
@@ -425,6 +496,8 @@ public class ChildbirthVisitForm {
 		else
 			estimateDate = false;
 		baby.setEstimateDate(estimateDate);
+		DateFormat babyDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		baby.setDate(babyDateFormat.format(babyDate));
 		
 		if( editBaby ) {
 			baby.setMultiNum( babyId );

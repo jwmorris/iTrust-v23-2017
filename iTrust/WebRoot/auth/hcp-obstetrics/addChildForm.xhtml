@@ -11,11 +11,11 @@
 		<h:panelGrid id="visitDetails" columns="4">
             
             <h:outputLabel value="Date:"/>
-			<p:calendar value="#{obstetrics_visit_form.babyDate}" pattern="MM/dd/yyyy"/>
+			<p:calendar value="#{childbirth_visit_form.babyDate}" pattern="MM/dd/yyyy"/>
 			
 			<h:outputLabel value="Time:"/>
 			<h:form id="timePicker">
-				<h:selectOneMenu id="babyTimeHour" value="#{obstetrics_visit_form.babyTimeHour}">
+				<h:selectOneMenu id="babyTimeHour" value="#{childbirth_visit_form.timeHour}">
 					<f:selectItem itemValue="01" itemLabel="1" />
 					<f:selectItem itemValue="02" itemLabel="2" />    
 					<f:selectItem itemValue="03" itemLabel="3" />
@@ -30,7 +30,7 @@
 					<f:selectItem itemValue="12" itemLabel="12" />
 				</h:selectOneMenu>
 				<h:outputLabel value=":"/>
-				<h:selectOneMenu id="babyTimeMinutes" value="#{obstetrics_visit_form.babyTimeMinute}">
+				<h:selectOneMenu id="babyTimeMinutes" value="#{childbirth_visit_form.timeMinute}">
 					<f:selectItem itemValue="00" itemLabel="00" />
 					<f:selectItem itemValue="01" itemLabel="01" />
 					<f:selectItem itemValue="02" itemLabel="02" />    
@@ -92,50 +92,52 @@
 					<f:selectItem itemValue="58" itemLabel="58" />  
 					<f:selectItem itemValue="59" itemLabel="59" />
 				</h:selectOneMenu>
-				<h:selectOneMenu id="babyTimeMerridean" value="#{obstetrics_visit_form.babyTimeMerridean}">
+				<h:selectOneMenu id="babyTimeMerridean" value="#{childbirth_visit_form.timeMerridean}">
 					<f:selectItem itemValue="am" itemLabel="am" />
 					<f:selectItem itemValue="pm" itemLabel="pm" />
 				</h:selectOneMenu>
 			</h:form>
 			<h:outputLabel value="Sex:"/>
-			<h:selectOneMenu id="babySex" value="#{obstetrics_visit_form.babySex}">
+			<h:selectOneMenu id="babySex" value="#{childbirth_visit_form.sex}">
 				<f:selectItem itemValue="m" itemLabel="male" />
 				<f:selectItem itemValue="f" itemLabel="female" />
 			</h:selectOneMenu>
-			<h:commandButton id="submitAddChild" value="Add Child"
-			action="#{obstetrics_visit_form.submitAddChild()}"/>
 		</h:panelGrid>
+		<h:commandButton id="submitAddChild" value="Add Child"
+			action="#{childbirth_visit_form.submitBaby()}"/>
 	</h:form>
 	
-	
+	<br/>
+	<br/>
 	<h:form id="childListForm">
-				<h:selectOneMenu id="selectChild" value="#{obstetrics_visit_form.selectedFetus}">
-					<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
-						itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
-				</h:selectOneMenu>
-				<h:commandButton id="editChild" value="Edit Child" action="#{obstetrics_visit_form.editFetus()}"
-					update="childListForm"/>
-    			<h:message for="editChild" globalOnly="true"/>
-    		</h:form>
+		<h:selectOneMenu id="selectChild" value="#{obstetrics_visit_form.selectedFetus}">
+			<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
+				itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
+		</h:selectOneMenu>
+		<h:message for="editChild">  </h:message>
+		<h:commandButton id="editChild" value="Edit Child" action="#{obstetrics_visit_form.editFetus()}"
+			update="childListForm"/>
+		<h:message for="editChild" globalOnly="true"/>
+  	</h:form>
 	
-		<h:dataTable id="childTable" value="#{obstetrics_visit_form.getFeti()}" var="child">
-			<h:column>
-				<f:facet name = "header">ID</f:facet>
-				#{child.getMultiNum()}
-			</h:column>
-			<h:column>
-				<f:facet name = "header">Date</f:facet>
-				#{child.getBabyDate()}
-			</h:column>
-			<h:column>
-				<f:facet name = "header">Time</f:facet>
-				#{child.getBabyTime()}
-			</h:column>
-			<h:column>
-				<f:facet name = "header">Sex</f:facet>
-				#{child.getBabySex()}
-			</h:column>
-		</h:dataTable>
+	<h:dataTable id="childTable" value="#{obstetrics_visit_form.getFeti()}" var="child">
+		<h:column>
+			<f:facet name = "header">ID</f:facet>
+			#{child.getMultiNum()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Date</f:facet>
+			#{child.getBabyDate()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Time</f:facet>
+			#{child.getBabyTime()}
+		</h:column>
+		<h:column>
+			<f:facet name = "header">Sex</f:facet>
+			#{child.getBabySex()}
+		</h:column>
+	</h:dataTable>
 	
 </html>
 
