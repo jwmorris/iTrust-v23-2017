@@ -153,12 +153,12 @@ public class ObstetricsPregnancyTest {
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#assignEdd(java.lang.String)}.
 	 */
-	@Test
+	/*@Test
 	public void testAssignEdd() {
 		ObstetricsPregnancy op = newObstetricsPregnancy( this.initDate, this.lmp );
 		op.assignEdd( "03/20/2017" );
 		assertEquals( "03/20/2017", op.getEdd() );
-	}
+	}*/
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy#getWeeksPregnant()}.

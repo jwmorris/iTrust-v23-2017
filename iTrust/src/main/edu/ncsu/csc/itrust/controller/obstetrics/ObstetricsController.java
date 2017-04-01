@@ -44,7 +44,7 @@ public class ObstetricsController extends iTrustController {
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
 	private String selectedDate;
-	
+
 	public ObstetricsController () {
 		try {
 			sql = new ObstetricsMySQL();
@@ -86,6 +86,8 @@ public class ObstetricsController extends iTrustController {
 		newPriorPregnancy.setCurrent( false );
 		selectedDate = "";
 	}
+	
+
 	
 	public String getSelectedDate() {
 		return selectedDate;
@@ -207,6 +209,7 @@ public class ObstetricsController extends iTrustController {
 	
 	public void editCurrentPregnancy() {
 		try {
+
 			sql.update(currentPregnancy);
 			redirect("/iTrust/auth/hcp-obstetrics/initializePatient.xhtml");
 		} catch (DBException e) {

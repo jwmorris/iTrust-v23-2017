@@ -67,9 +67,9 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 		}
 		
 		if ( !op.getWeeksPregnant().equals( "" ) ) {
-			int weeksPreg = 0;
+			double weeksPreg = 0.0;
 			try {
-				weeksPreg = Integer.parseInt( op.getWeeksPregnant() );
+				weeksPreg = Double.parseDouble( op.getWeeksPregnant() );
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Weeks Pregnant must be numeric" );
 			}

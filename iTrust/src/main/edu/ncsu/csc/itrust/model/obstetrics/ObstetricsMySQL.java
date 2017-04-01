@@ -150,6 +150,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		PreparedStatement ps = null;
 		validator.validate( op );
 		System.out.println("updating");
+		
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
