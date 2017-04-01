@@ -111,10 +111,11 @@
 				<br/>
 				
 				<br/>
+				<h:form>
 				<h:outputLabel value="Emergency:"></h:outputLabel>
-				<h:selectBooleanCheckbox value=""></h:selectBooleanCheckbox>
-				<h:button outcome="childbirthVisitForm.xhtml" value="Create Childbirth Visit"/>
-		
+				<h:selectBooleanCheckbox value="#{childbirth_visit_controller.erBirth}"></h:selectBooleanCheckbox>
+				<h:commandButton type="submit" action="childbirthVisitForm.xhtml" value="Create Childbirth Visit"/>
+				</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -31,20 +31,26 @@
 			<h:outputLabel value="Magnesium Sulfate Amount:"/>
 			
 			<h:outputText value="Vaginal Delivery"></h:outputText>
-
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
+			
+			<h:inputText value="#{childbirth_visit_form.amtPitocin}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtNitrous}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtPethidine}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtEpidural}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
 		</h:panelGrid>
+		<h:outputText value="#{childbirth_visit_form.setErString( 'true' ) }" />
+		<h:outputText value="#{childbirth_visit_form.setDeliveryType( 'Vaginal Delivery' )}" />
 		<br/>
 		<div align="center">
-			<h:commandButton value="Save Childbirth Information"/>
+			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>
 		</div>
 
 	</h:form>
 	</div>
+	
+	<c:if test="false" >
+		<ui:include src="/auth/hcp-obstetrics/addChildForm.xhtml"></ui:include>
+	</c:if>
 	
 	
 </html>

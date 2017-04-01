@@ -156,6 +156,8 @@ public class Childbirth {
 	 * @param amtPitocin the amtPitocin to set
 	 */
 	public void setAmtPitocin( String amtPitocin ) {
+		if ( !amtPitocin.equals( "" ) && !amtPitocin.equals( "0" ) )
+			this.pitocin = true;
 		this.amtPitocin = amtPitocin;
 	}
 
@@ -184,6 +186,8 @@ public class Childbirth {
 	 * @param amtNitrous the amtNitrous to set
 	 */
 	public void setAmtNitrous( String amtNitrous ) {
+		if ( !amtNitrous.equals( "" ) && !amtNitrous.equals( "0" ) )
+			this.nitrous = true;
 		this.amtNitrous = amtNitrous;
 	}
 
@@ -212,6 +216,8 @@ public class Childbirth {
 	 * @param amtPethidine the amtPethidine to set
 	 */
 	public void setAmtPethidine( String amtPethidine ) {
+		if ( !amtPethidine.equals( "" ) && !amtPethidine.equals( "0" ) )
+			this.pethidine = true;
 		this.amtPethidine = amtPethidine;
 	}
 
@@ -240,6 +246,8 @@ public class Childbirth {
 	 * @param amtEpidural the amtEpidural to set
 	 */
 	public void setAmtEpidural( String amtEpidural ) {
+		if ( !amtEpidural.equals( "" ) && !amtEpidural.equals( "0" ) )
+			this.epidural = true;
 		this.amtEpidural = amtEpidural;
 	}
 
@@ -268,6 +276,8 @@ public class Childbirth {
 	 * @param amtMagnesium the amtMagnesium to set
 	 */
 	public void setAmtMagnesium( String amtMagnesium ) {
+		if ( !amtMagnesium.equals( "" ) && !amtMagnesium.equals( "0" ) )
+			this.magnesium = true;
 		this.amtMagnesium = amtMagnesium;
 	}
 	

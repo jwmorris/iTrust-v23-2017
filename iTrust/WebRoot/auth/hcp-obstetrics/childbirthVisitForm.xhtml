@@ -19,7 +19,8 @@
 		</ui:define>
 		<ui:define name="mainContent">
 			<c:choose>
-				<c:when test="true">
+				<c:when test="#{childbirth_visit_controller.erBirth}">
+				<f:param id="erBirth" value="true" />
 					<ui:include src="/auth/hcp-obstetrics/emergencyVisit.xhtml"></ui:include>
 				</c:when>
 				

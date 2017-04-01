@@ -378,6 +378,12 @@ public class ChildbirthVisitForm {
 		
 	}
 	
+	public void setErString( String strEr ) {
+		System.out.println( strEr );
+
+		setEr( Boolean.parseBoolean( strEr ) );
+	}
+	
 	/**
 	 * called when user submits childbirth visit information for both emergency and normal visits
 	 */
@@ -388,7 +394,8 @@ public class ChildbirthVisitForm {
 		cb.setAmtPethidine(amtPethidine);
 		cb.setAmtPitocin(amtPitocin);
 		cb.setDeliveryType(deliveryType);
-		cb.setEr(er);
+
+		cb.setEr( er );
 		cb.setPid( pid );
 		if ( cb.getDate() == null ){
 			cb.setDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
@@ -413,6 +420,10 @@ public class ChildbirthVisitForm {
 		baby.setChildbirthId(childbirthID);
 		baby.setSex(sex);
 		baby.setTime(time);
+		if ( controller.isErBirth() )
+			estimateDate = true;
+		else
+			estimateDate = false;
 		baby.setEstimateDate(estimateDate);
 		
 		if( editBaby ) {
@@ -425,7 +436,8 @@ public class ChildbirthVisitForm {
 			numBabies++;
 		}
 		
-//		sex = '';
+		sex = 0;
 		time = "";
+		controller.addBaby( baby );
 	}
 }

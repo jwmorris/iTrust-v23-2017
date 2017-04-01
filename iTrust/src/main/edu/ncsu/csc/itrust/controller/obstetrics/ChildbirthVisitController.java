@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
@@ -32,12 +33,14 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  */
 @ManagedBean(name = "childbirth_visit_controller")
 @SessionScoped
-public class ChildbirthVisitController {
+public class ChildbirthVisitController extends iTrustController {
 	
 	private PersonnelDAO personnelDAO;
 	private DAOFactory factory;
 	private ChildbirthData childbirthSQL;
 	private SessionUtils sessionUtils;
+	private boolean erBirth;
+	
 	/**
 	 * Constructor for controller in application
 	 */
@@ -57,6 +60,8 @@ public class ChildbirthVisitController {
 			e.printStackTrace();
 			
 		}
+		erBirth = false;
+		System.out.println( "Creating new controller" );
 	}
 	
 	/**
@@ -81,7 +86,8 @@ public class ChildbirthVisitController {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
 
-//			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			System.out.println( e.getMessage() );
 		}
 		return ret;
 	}
@@ -98,7 +104,7 @@ public class ChildbirthVisitController {
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
-//			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
 	
@@ -114,7 +120,7 @@ public class ChildbirthVisitController {
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
-//			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
 	
@@ -186,7 +192,7 @@ public class ChildbirthVisitController {
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
-//			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
 	
@@ -200,7 +206,7 @@ public class ChildbirthVisitController {
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch (FormValidationException e) {
-//			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
 	
@@ -220,7 +226,7 @@ public class ChildbirthVisitController {
 		}
 		return b;
 	}
-	
+
 	/**
 	 * Checks if the current logged in user is an OBGYN
 	 * @return
@@ -236,6 +242,23 @@ public class ChildbirthVisitController {
 		return eligible;
 	}
 	
+	
+	/**
+	 * @return the erBirth
+	 */
+	public boolean isErBirth() {
+		System.out.println( "Get: " + erBirth );
+		return erBirth;
+	}
+
+	/**
+	 * @param erBirth the erBirth to set
+	 */
+	public void setErBirth(boolean erBirth) {
+		System.out.println( "Set: " + erBirth );
+		this.erBirth = erBirth;
+	}
+
 	public void logViewChildbirth(Long childbirthID) {
 //		log Transaction(TransactionType.VIEW_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString(visitID));
 	}

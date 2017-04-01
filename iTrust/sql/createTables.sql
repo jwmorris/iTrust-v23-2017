@@ -623,7 +623,7 @@ CREATE TABLE babyData
 (
 	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
 	childbirthId	BIGINT(20) NOT NULL,
-	birthDate		VARCHAR(20) default '',
+	birthDate		VARCHAR(20) default "",
 	birthTime		VARCHAR(10) default "",
 	estimatedDate	BOOLEAN default FALSE,
 	sex				INT NOT NULL,

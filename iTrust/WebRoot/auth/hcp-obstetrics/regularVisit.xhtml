@@ -30,7 +30,7 @@
 			
 			<h:outputLabel value="Magnesium Sulfate Amount:"/>
 			
-			<h:selectOneMenu  value="">
+			<h:selectOneMenu  value="#{childbirth_visit_form.deliveryType}">
 				<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
 				<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
 				<f:selectItem itemValue="Vaginal Deviery Forceps Assist" itemLabel="Vaginal Deviery Forceps Assist"/>
@@ -38,21 +38,23 @@
 				<f:selectItem itemValue="Miscarriage" itemLabel="Miscarriage"/>
 			</h:selectOneMenu>
 
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
-			<h:inputText value="" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtPitocin}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtNitrous}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtPethidine}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtEpidural}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
 		</h:panelGrid>
 		<br/>
 		<div align="center">
-			<h:commandButton value="Save Childbirth Information"/>
+			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>
 		</div>
 
 	</h:form>
 	</div>
 	
-	
+	<c:if test="false" >
+		<ui:include src="/auth/hcp-obstetrics/addChildForm.xhtml"></ui:include>
+	</c:if>
 	
 	
 </html>
