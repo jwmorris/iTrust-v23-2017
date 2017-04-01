@@ -45,8 +45,10 @@
 			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
 		</h:panelGrid>
 		<br/>
-		<div align="center">
+		<div class="form-group  form-button-group">
 			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>
+		<h:commandButton id="cancelButton" value="Cancel" 
+			action="/auth/hcp-obstetrics/childbirthVisit.xhtml" immediate="true" />
 		</div>
 
 	</h:form>

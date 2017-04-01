@@ -41,8 +41,9 @@
 		<h:outputText value="#{childbirth_visit_form.setErString( 'true' ) }" />
 		<h:outputText value="#{childbirth_visit_form.setDeliveryType( 'Vaginal Delivery' )}" />
 		<br/>
-		<div align="center">
+		<div class="form-group  form-button-group">
 			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>
+			<h:commandButton id="cancelVisitButton" value="Cancel" action="/auth/hcp-obstetrics/childbirthVisit.xhtml" immediate="true" />
 		</div>
 
 	</h:form>
@@ -51,7 +52,7 @@
 	<br/>
 	<br/>
 	<br/>
-	<c:if test="true" >
+	<c:if test="#{childbirth_visit_form.getChildbirthID() != 0}" >
 		<ui:include src="/auth/hcp-obstetrics/addChildForm.xhtml"></ui:include>
 	</c:if>
 	

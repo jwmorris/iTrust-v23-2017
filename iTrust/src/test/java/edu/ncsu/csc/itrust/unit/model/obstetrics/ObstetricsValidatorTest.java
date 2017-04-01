@@ -48,33 +48,6 @@ public class ObstetricsValidatorTest {
 		}
 		op.setLmp( "01/01/2017" );
 		
-		op.setWeeksPregnant( "w" );
-		try {
-			validator.validate( op );
-			fail();
-		} catch ( FormValidationException e ) {
-			assertTrue( e.getMessage().contains( "Weeks" ) );
-		}
-		op.setWeeksPregnant( "2" );
-		
-		op.setWeeksPregnant( "-1" );
-		try {
-			validator.validate( op );
-			fail();
-		} catch ( FormValidationException e ) {
-			assertTrue( e.getMessage().contains( "Weeks" ) );
-		}
-		op.setWeeksPregnant( "2" );
-		
-		op.setWeeksPregnant( "55" );
-		try {
-			validator.validate( op );
-			fail();
-		} catch ( FormValidationException e ) {
-			assertTrue( e.getMessage().contains( "Weeks" ) );
-		}
-		op.setWeeksPregnant( "2" );
-		
 		op.setConcepYear( "w" );
 		try {
 			validator.validate( op );
