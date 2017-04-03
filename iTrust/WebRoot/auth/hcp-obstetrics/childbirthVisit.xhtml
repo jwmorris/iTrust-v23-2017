@@ -16,95 +16,80 @@
 		</ui:define>
 		<ui:define name="mainContent">
 		<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
-			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
-			
-			<br/>
-			<h:form id="currentPregnancy">
-			<h:message for="addNewPregnancy" globalOnly="true"/>
-			<br/>
-			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy"></h:commandButton>
-			</h:form>
-			<br/>
-			<br/>
-			<h4>Current Pregnancy</h4>
+		<h4>Current Pregnancy</h4>
 			<h:form id="table">
-				<h:dataTable value="" var="current">
+				<h:dataTable value="#{obstetrics_controller.currentPregnancy}" var="current">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
-						
+						#{current.dateInit}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Last Menstrual Period (LMP)</f:facet>
-						
+						#{current.lmp}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Estimated Due Date (EDD)</f:facet>
-						
+						#{current.edd}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Weeks Pregnant at initialization</f:facet>
-						
+						#{current.weeksPregnant}
 					</h:column>
 				</h:dataTable>
 			</h:form>
 			<br/>
-			<h4>Prior Pregnancies</h4>
-			<br/>
-   		
-    		<br/>
-  		
-    		<br/>
-    			<h:dataTable value="" var="prior">
+			<h4>Prior Pregnancies</h4>   		
+    			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
-						
+						#{prior.dateInit}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Last Menstrual Period (LMP)</f:facet>
-						
+						#{prior.lmp}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Estimated Due Date (EDD)</f:facet>
-						
+						#{prior.edd}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Weeks Pregnant at initialization</f:facet>
-						
+						#{prior.weeksPregnant}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Year of Conception</f:facet>
-						
+						#{prior.concepYear}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Total Weeks Pregnant</f:facet>
-						
+						#{prior.totalWeeksPregnant}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Numbers of Hours in Labor</f:facet>
-					
+						#{prior.hoursLabor}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Weight Gain During Pregnancy</f:facet>
-						
+						#{prior.weightGain}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Delivery Type</f:facet>
-					
+						#{prior.deliveryType}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Multiple Pregnancies</f:facet>
-						
+						#{prior.multiplePregnancy}
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Number of Babies</f:facet>
-						
+						#{prior.babyCount}
 					</h:column>
 				</h:dataTable>
 				
