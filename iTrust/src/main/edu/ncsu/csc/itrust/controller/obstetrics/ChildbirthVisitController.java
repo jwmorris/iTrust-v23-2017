@@ -8,9 +8,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.action.AddPatientAction;
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Baby;
@@ -20,8 +22,11 @@ import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ChildbirthMySQL;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.Gender;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.ultasound.Fetus;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
@@ -40,6 +45,7 @@ public class ChildbirthVisitController extends iTrustController {
 	private ChildbirthData childbirthSQL;
 	private SessionUtils sessionUtils;
 	private boolean erBirth;
+	private PatientDAO patientDAO;
 	
 	/**
 	 * Constructor for controller in application
@@ -48,6 +54,7 @@ public class ChildbirthVisitController extends iTrustController {
 		this.sessionUtils = SessionUtils.getInstance();
 		factory = DAOFactory.getProductionInstance();
 		personnelDAO = factory.getPersonnelDAO();
+		this.patientDAO = factory.getPatientDAO();
 		try {
 			this.childbirthSQL = new ChildbirthMySQL();
 		} catch (DBException e) {
@@ -217,9 +224,30 @@ public class ChildbirthVisitController extends iTrustController {
 	public void addBaby( Baby b ) {
 		try {
 			childbirthSQL.addBaby(b);
+			AddPatientAction addPatientAction = new AddPatientAction( DAOFactory.getProductionInstance(), sessionUtils.getCurrentPatientMIDLong() );
+			PatientBean parent = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
+			PatientBean pb = new PatientBean();
+			pb.setEmail( parent.getEmail() );
+			pb.setFirstName( "Baby" );
+			pb.setLastName( parent.getLastName() );
+			pb.setDateOfBirthStr( b.getDate() );
+			pb.setMotherMID( sessionUtils.getCurrentPatientMID() );
+			pb.setStreetAddress1( parent.getStreetAddress1() );
+			pb.setStreetAddress2( parent.getStreetAddress2() );
+			pb.setCity( parent.getCity() );
+			pb.setState( parent.getState() );
+			pb.setZip( parent.getZip() );
+			if ( Character.toString( b.getSex() ).equals( "m" ) ) {
+				pb.setGender( Gender.Male );
+			} else {
+				pb.setGender( Gender.Female );
+			}
+			addPatientAction.addDependentPatient(pb, sessionUtils.getCurrentPatientMIDLong(), sessionUtils.getSessionLoggedInMIDLong() );
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
+			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
+		} catch (ITrustException e) {
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
 		}
 	}
