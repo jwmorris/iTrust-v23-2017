@@ -33,9 +33,9 @@ public class ChildbirthVisitForm {
 	
 	/** Fields that can be reused*/
 	// pid of patient
-	private Long pid;
+	private long pid;
 	// id of visit, might not need
-	private Long childbirthID;
+	private long childbirthID;
 	// date of childbirth
 	private Date date;
 	
@@ -99,6 +99,8 @@ public class ChildbirthVisitForm {
 //			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 //					"Obstetrics Visit Controller Error");
 //			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+			SessionUtils.getInstance().printFacesMessage( FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error", "Obsetrics Visit Controller Error", null );
+//					"Obstetrics Visit Controller Error" );
 		}
 	}
 	
@@ -134,28 +136,28 @@ public class ChildbirthVisitForm {
 	/**
 	 * @return the pid
 	 */
-	public Long getPid() {
+	public long getPid() {
 		return pid;
 	}
 
 	/**
 	 * @param pid the pid to set
 	 */
-	public void setPid(Long pid) {
+	public void setPid(long pid) {
 		this.pid = pid;
 	}
 
 	/**
 	 * @return the childbirthID
 	 */
-	public Long getChildbirthID() {
+	public long getChildbirthID() {
 		return childbirthID;
 	}
 
 	/**
 	 * @param childbirthID the childbirthID to set
 	 */
-	public void setChildbirthID(Long childbirthID) {
+	public void setChildbirthID(long childbirthID) {
 		this.childbirthID = childbirthID;
 	}
 
@@ -450,8 +452,6 @@ public class ChildbirthVisitForm {
 	}
 	
 	public void setErString( String strEr ) {
-		System.out.println( strEr );
-
 		setEr( Boolean.parseBoolean( strEr ) );
 	}
 	

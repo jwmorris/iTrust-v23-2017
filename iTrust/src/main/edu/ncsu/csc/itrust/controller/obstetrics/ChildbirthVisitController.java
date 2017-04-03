@@ -67,7 +67,11 @@ public class ChildbirthVisitController extends iTrustController {
 	 * Test constructor
 	 */
 	public ChildbirthVisitController(DataSource ds, DAOFactory factory, SessionUtils utils){
-		
+		this.sessionUtils = utils;
+		this.factory = factory;
+		this.personnelDAO = factory.getPersonnelDAO();
+		this.childbirthSQL = new ChildbirthMySQL( ds );
+		erBirth = false;
 	}
 	
 	/**
@@ -157,7 +161,7 @@ public class ChildbirthVisitController extends iTrustController {
 	 * @param pid Patient's mid
 	 * @return List of obstetric visits for the patient
 	 */
-	public List<Childbirth> getChildbirthsForPatient(Long pid) {
+	public List<Childbirth> getChildbirthsForPatient(long pid) {
 		List<Childbirth> ret = Collections.emptyList();
 		try {
 			ret = childbirthSQL.getChildbirthsForPatient( pid );
