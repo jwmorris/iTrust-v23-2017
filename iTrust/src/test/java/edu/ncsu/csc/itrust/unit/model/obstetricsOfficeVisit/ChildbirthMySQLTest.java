@@ -73,6 +73,17 @@ public class ChildbirthMySQLTest {
 		gen.clearAllTables();
 		gen.standardData();
 	}
+	
+	@Test
+	public void testChildbirthMySQL() {
+		sql = null;
+		try {
+			sql = new ChildbirthMySQL();
+			fail();
+		} catch ( DBException e ) {
+			//Exception should be thrown
+		}
+	}
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ChildbirthMySQL#getAll()}.
