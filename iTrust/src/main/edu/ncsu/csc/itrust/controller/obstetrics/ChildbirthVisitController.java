@@ -54,12 +54,7 @@ public class ChildbirthVisitController extends iTrustController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			childbirthSQL = new ChildbirthMySQL();
-		} catch (DBException e) {
-			e.printStackTrace();
-			
-		}
+
 		erBirth = false;
 	}
 	
