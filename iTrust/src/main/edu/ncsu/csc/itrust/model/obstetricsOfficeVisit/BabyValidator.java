@@ -31,6 +31,9 @@ public class BabyValidator extends POJOValidator<Baby> {
 			errorList.addIfNotNull( "Incorrect date format for Delivery Date.  Should be MM/dd/yyyy" );
 		}
 		
+		if ( errorList.hasErrors() )
+			throw new FormValidationException( errorList );
+		
 		//Need to validate time
 	}
 
