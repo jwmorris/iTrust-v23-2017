@@ -107,7 +107,7 @@ public class ChildbirthValidator extends POJOValidator<Childbirth> {
 	}
 	
 	public void validateEdit( Childbirth cb ) throws FormValidationException {
-ErrorList errorList = new ErrorList();
+		ErrorList errorList = new ErrorList();
 		
 		if ( cb.isEr() && !cb.getDeliveryType().equalsIgnoreCase( "vaginal" ) ) {
 			errorList.addIfNotNull( "Delivery Type must be Vaginal during an Emergency Room Delivery" );

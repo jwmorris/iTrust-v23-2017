@@ -6,12 +6,14 @@ Feature: Childbirth Hospital Visit
 Scenario: Delivering and editing a Childbirth Visit
 	Given Princess Peach had a prior Obstetrics visit that scheduled a childbirth hospital visit
 	When Princess Peach has her delivery
-	Then Kathryn Evans fully documents and edits Nitrous Oxide
+	Then Kathryn Evans fully documents the childbirth
+	And edits the amount of Nitrous Oxide administered
 	
 Scenario: Emergency Room Delivery and Deleting fields
 	Given Princess Peach delivers her baby before reaching the hospital
 	When Kathryn Evans fully documents the emergency room visit
-	Then the delivery method is vaginal delivery and Kathyrn Evans deletes Nitrous Oxide
+	Then the delivery method is vaginal delivery
+	And Kathyrn Evans deletes Nitrous Oxide
 	
 Scenario: Invalid Patient Name
 	Given Kathyrn Evans searchs for Princess Leach
@@ -20,6 +22,6 @@ Scenario: Invalid Patient Name
 	
 Scenario: Wrong Selection
 	Given Kathyrn Evans searchs for Amelia Davidson
-	When Kathyrn Evans coes not confirm her selecction and correctly enters Princess Peach
+	When Kathyrn Evans does not confirm her selecction and correctly enters Princess Peach
 	Then Kathyrn Evans fully documents a childbirth hospital visit
 	
