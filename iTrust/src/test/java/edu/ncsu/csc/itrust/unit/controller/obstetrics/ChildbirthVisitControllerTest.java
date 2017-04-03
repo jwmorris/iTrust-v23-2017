@@ -45,8 +45,9 @@ public class ChildbirthVisitControllerTest {
 
 	@Test
 	public void testChildbirthVisitController() {
+		
 		try {
-			new ChildbirthVisitController();
+			con = new ChildbirthVisitController();
 		} catch( Exception e ) {
 			//pass
 		}
@@ -67,6 +68,12 @@ public class ChildbirthVisitControllerTest {
 		assertTrue( cb.getAmtMagnesium().equals( "4" ) );
 		assertTrue( cb.getAmtNitrous().equals( "5" ) );
 		assertTrue( cb.getChildbirthId() == id );
+		
+		birth.setChildbirthId( 0 );
+		birth.setAmtEpidural( "-1" );
+		id = con.addReturnGeneratedId( birth );
+		assertTrue( con.getChildbirthsForCurrentPatient().size() == 1 );
+		
 	}
 
 	@Test
@@ -81,6 +88,10 @@ public class ChildbirthVisitControllerTest {
 		assertTrue( cb.getAmtMagnesium().equals( "4" ) );
 		assertTrue( cb.getAmtNitrous().equals( "5" ) );
 		
+		birth.setChildbirthId( 0 );
+		birth.setAmtEpidural( "-1" );
+		con.addChildbirth( birth );
+		assertTrue( con.getChildbirthsForCurrentPatient().size() == 1 );
 	}
 
 	@Test
@@ -107,6 +118,17 @@ public class ChildbirthVisitControllerTest {
 		assertTrue( cb.getAmtMagnesium().equals( "4" ) );
 		assertTrue( cb.getAmtNitrous().equals( "5" ) );
 		
+		cb.setAmtEpidural( "-1" );
+		
+		con.editChildbirth( cb );
+		cbList = con.getChildbirthsForPatient( 2 );
+		assertNotNull( cbList );
+		cb = cbList.get( 0 );
+		assertNotNull( cb );
+		assertTrue( cb.getPid() == 2 );
+		assertTrue( cb.getAmtEpidural().equals( "1" ) );
+		assertTrue( cb.getAmtMagnesium().equals( "4" ) );
+		assertTrue( cb.getAmtNitrous().equals( "5" ) );
 	}
 
 	@Test
@@ -213,6 +235,16 @@ public class ChildbirthVisitControllerTest {
 		Baby retB = bList.get( 0 );
 		assertTrue( retB.getChildbirthId() == id );
 		assertTrue( retB.getSex() == 'M' );
+		
+		b.setDate( "date" );
+		
+		con.addBaby( b );
+		
+		bList = con.getBabies( id );
+		
+		assertNotNull( bList );
+		assertTrue( bList.size() == 1 );
+		
 	}
 
 	@Test
@@ -252,6 +284,16 @@ public class ChildbirthVisitControllerTest {
 		retB = bList.get( 0 );
 		assertTrue( retB.getChildbirthId() == id );
 		assertTrue( retB.getSex() == 'F' );
+		
+		b.setDate( "date" );
+		con.editBaby( b );
+		bList = con.getBabies( id );
+		
+		assertNotNull( bList );
+		assertTrue( bList.size() == 1 );
+		retB = bList.get( 0 );
+		assertTrue( retB.getDate().equals( "04/02/2017" ) );
+		
 	}
 
 	@Test
