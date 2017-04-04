@@ -192,11 +192,20 @@ public class ObstetricsPregnancy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
-		
-		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
+//		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
+//		
+//		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
+		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
+//		int totalDays = Math.abs((int)( (cal2.getTime().getTime() - cal.getTime().getTime()) / (1000 * 60 * 60 * 24)));
+		int totalDays = Math.abs(initDays - lmpDays );
+		System.out.println("Total Days: " + totalDays);
+		int weeks = totalDays / 7;
+		System.out.println("Week(s): " + weeks);
+		int days = totalDays - (weeks * 7);
+		System.out.println("Day(s): " + days);
 		StringBuilder sb = new StringBuilder();
-		sb.append( Integer.toString( w ) );
+		sb.append( Integer.toString( weeks ) );
 		sb.append( "." );
 		sb.append( Integer.toString( days ) );
 		System.out.println("calc " + lmp);

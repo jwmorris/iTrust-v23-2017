@@ -43,7 +43,11 @@
 		<h:outputText value="#{childbirth_visit_form.setDeliveryType( 'Vaginal Delivery' )}" />
 		<br/>
 		<div class="form-group  form-button-group">
-			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>
+			<c:set var="obgyn" value="#{childbirth_visit_controller.isOBGYN()}"/>
+		
+			<c:if test="#{obgyn}">
+				<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>		
+			</c:if>			
 			<h:commandButton id="cancelVisitButton" value="Cancel" action="/auth/hcp-obstetrics/childbirthVisit.xhtml" immediate="true" />
 		</div>
 
