@@ -23,95 +23,119 @@ public class ChildbirthValidator extends POJOValidator<Childbirth> {
 		}
 		
 		double epidural = 0;
-		try {
-			epidural = Double.parseDouble( cb.getAmtEpidural() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of Epidural Anaesthesia administered must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtEpidural().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of Epidural Anaesthesia administered cannot be empty" );
+		} else {
+			try {
+				epidural = Double.parseDouble( cb.getAmtEpidural() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of Epidural Anaesthesia administered must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+
+			if ( epidural > 0 && !cb.isEpidural() )
+				errorList.addIfNotNull( "Epidural Anaesthesia administration not indicated" );
+			else if ( cb.isEpidural() && epidural == 0 )
+				errorList.addIfNotNull( "Please indicate the amount of Epidural Anaesthesia administered" );
+			else if ( epidural < 0 )
+				errorList.addIfNotNull( "Amount of Epidural Anaesthesia administered cannot be negative" );
 		}
-		
-		if ( epidural > 0 && !cb.isEpidural() )
-			errorList.addIfNotNull( "Epidural Anaesthesia administration not indicated" );
-		else if ( cb.isEpidural() && epidural == 0 )
-			errorList.addIfNotNull( "Please indicate the amount of Epidural Anaesthesia administered" );
-		else if ( epidural < 0 )
-			errorList.addIfNotNull( "Amount of Epidural Anaesthesia administered cannot be negative" );
 		
 		double magnesium = 0;
-		try {
-			magnesium = Double.parseDouble( cb.getAmtMagnesium() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of Magnesium Sulfate administered must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtMagnesium().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of Magnesium Sulfate administered cannot be empty" );
+		} else {
+			try {
+				magnesium = Double.parseDouble( cb.getAmtMagnesium() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of Magnesium Sulfate administered must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+
+			if ( magnesium > 0 && !cb.isMagnesium() )
+				errorList.addIfNotNull( "Magnesium Sulfate administration not indicated" );
+			else if ( cb.isMagnesium() && magnesium == 0 )
+				errorList.addIfNotNull( "Please indicate the amount of Magnesium Sulfate administered" );
+			else if ( magnesium < 0 )
+				errorList.addIfNotNull( "Amount of Magnesium Sulfate administered cannot be negative" );
 		}
 		
-		if ( magnesium > 0 && !cb.isMagnesium() )
-			errorList.addIfNotNull( "Magnesium Sulfate administration not indicated" );
-		else if ( cb.isMagnesium() && magnesium == 0 )
-			errorList.addIfNotNull( "Please indicate the amount of Magnesium Sulfate administered" );
-		else if ( magnesium < 0 )
-			errorList.addIfNotNull( "Amount of Magnesium Sulfate administered cannot be negative" );
-	
 		double nitrous = 0;
-		try {
-			nitrous = Double.parseDouble( cb.getAmtNitrous() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of Nitrous Oxide administered must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtNitrous().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of Nitrous Oxide administered cannot be empty" );
+		} else {
+			try {
+				nitrous = Double.parseDouble( cb.getAmtNitrous() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of Nitrous Oxide administered must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+
+			if ( nitrous > 0 && !cb.isNitrous() )
+				errorList.addIfNotNull( "Nitrous Oxide administration not indicated" );
+			else if ( cb.isNitrous() && nitrous == 0 )
+				errorList.addIfNotNull( "Please indicate the amount of Nitrous Oxide administered" );
+			else if ( nitrous < 0 )
+				errorList.addIfNotNull( "Amount of Nitrous Oxide administered cannot be negative" );
 		}
-		
-		if ( nitrous > 0 && !cb.isNitrous() )
-			errorList.addIfNotNull( "Nitrous Oxide administration not indicated" );
-		else if ( cb.isNitrous() && nitrous == 0 )
-			errorList.addIfNotNull( "Please indicate the amount of Nitrous Oxide administered" );
-		else if ( nitrous < 0 )
-			errorList.addIfNotNull( "Amount of Nitrous Oxide administered cannot be negative" );
 		
 		double pethidine = 0;
-		try {
-			pethidine = Double.parseDouble( cb.getAmtPethidine() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of Pethidine administered must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtPethidine().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of Pethidine administered cannot be empty" );
+		} else {
+			try {
+				pethidine = Double.parseDouble( cb.getAmtPethidine() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of Pethidine administered must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+
+			if ( pethidine > 0 && !cb.isPethidine() )
+				errorList.addIfNotNull( "Pethidine administration not indicated" );
+			else if ( cb.isPethidine() && pethidine == 0 )
+				errorList.addIfNotNull( "Please indicate the amount of Pethidine administered" );
+			else if ( pethidine < 0 )
+				errorList.addIfNotNull( "Amount of Pethidine administered cannot be negative" );
 		}
-		
-		if ( pethidine > 0 && !cb.isPethidine() )
-			errorList.addIfNotNull( "Pethidine administration not indicated" );
-		else if ( cb.isPethidine() && pethidine == 0 )
-			errorList.addIfNotNull( "Please indicate the amount of Pethidine administered" );
-		else if ( pethidine < 0 )
-			errorList.addIfNotNull( "Amount of Pethidine administered cannot be negative" );
 		
 		double pitocin = 0;
-		try {
-			pitocin = Double.parseDouble( cb.getAmtPitocin() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of Pitocin administered must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtPitocin().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of Pitocin administered cannot be empty" );
+		} else {
+			try {
+				pitocin = Double.parseDouble( cb.getAmtPitocin() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of Pitocin administered must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+
+			if ( pitocin > 0 && !cb.isPitocin() )
+				errorList.addIfNotNull( "Pitocin administration not indicated" );
+			else if ( cb.isPitocin() && pitocin == 0 )
+				errorList.addIfNotNull( "Please indicate the amount of Pitocin administered" );
+			else if ( pitocin < 0 )
+				errorList.addIfNotNull( "Amount of Pitocin administered cannot be negative" );
 		}
-		
-		if ( pitocin > 0 && !cb.isPitocin() )
-			errorList.addIfNotNull( "Pitocin administration not indicated" );
-		else if ( cb.isPitocin() && pitocin == 0 )
-			errorList.addIfNotNull( "Please indicate the amount of Pitocin administered" );
-		else if ( pitocin < 0 )
-			errorList.addIfNotNull( "Amount of Pitocin administered cannot be negative" );
 		
 		double rh = 0;
-		try {
-			rh = Double.parseDouble( cb.getAmtRH() );
-		} catch ( Exception e ) {
-			errorList.addIfNotNull( "Amount of RH Immune Globulin must be numeric" );
-			if ( errorList.hasErrors() )
-				throw new FormValidationException( errorList );
+		if ( cb.getAmtRH().equals( "" ) ) {
+			errorList.addIfNotNull( "Amount of RH Immune Globulin administered cannot be empty" );
+		} else {
+			try {
+				rh = Double.parseDouble( cb.getAmtRH() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of RH Immune Globulin must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+			if ( rh < 0 )
+				errorList.addIfNotNull( "Amount of RH Immune Globulin cannot be negative" );
 		}
-		if ( rh < 0 )
-			errorList.addIfNotNull( "Amount of RH Immune Globulin cannot be negative" );
 		
 		if ( errorList.hasErrors() )
 			throw new FormValidationException( errorList );
