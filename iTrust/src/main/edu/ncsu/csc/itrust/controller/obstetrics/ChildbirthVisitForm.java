@@ -90,6 +90,7 @@ public class ChildbirthVisitForm {
 			amtPethidine = cb.getAmtPethidine();
 			amtEpidural = cb.getAmtEpidural();
 			amtMagnesium = cb.getAmtMagnesium();
+			amtRH = cb.getAmtRH();
 			List<Baby> b = getBabies();
 			numBabies = (b == null) ? 0 : b.size();
 			editBaby = false;
@@ -126,6 +127,7 @@ public class ChildbirthVisitForm {
 			amtPethidine = cb.getAmtPethidine();
 			amtEpidural = cb.getAmtEpidural();
 			amtMagnesium = cb.getAmtMagnesium();
+			amtRH = cb.getAmtRH();
 			timeHour = "12";
 			timeMinute = "00";
 			timeMerridean = "am";
@@ -133,6 +135,10 @@ public class ChildbirthVisitForm {
 			//do nothing
 		}
 	}
+	
+	/**
+	 * return Whether we are editing\
+	 */
 
 	/**
 	 * @return the pid

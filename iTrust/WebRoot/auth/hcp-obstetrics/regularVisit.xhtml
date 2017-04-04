@@ -34,13 +34,22 @@
 			
 			<h:outputLabel value="RH Immune Globulin:"/>
 			
-			<h:selectOneMenu  value="#{childbirth_visit_form.deliveryType}">
-				<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
-				<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
-				<f:selectItem itemValue="Vaginal Deviery Forceps Assist" itemLabel="Vaginal Deviery Forceps Assist"/>
-				<f:selectItem itemValue="Caesarean Section" itemLabel="Caesarean Section"/>
-				<f:selectItem itemValue="Miscarriage" itemLabel="Miscarriage"/>
-			</h:selectOneMenu>
+			<c:choose>
+				<c:when test="#{!childbirth_visit_controller.isErBirth() || childbirth_visit_form.getChildbirthID() != 0}">
+					<h:selectOneMenu  value="#{childbirth_visit_form.deliveryType}">
+						<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
+						<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
+						<f:selectItem itemValue="Vaginal Deviery Forceps Assist" itemLabel="Vaginal Deviery Forceps Assist"/>
+						<f:selectItem itemValue="Caesarean Section" itemLabel="Caesarean Section"/>
+						<f:selectItem itemValue="Miscarriage" itemLabel="Miscarriage"/>
+					</h:selectOneMenu>
+				</c:when>
+				<c:otherwise>
+					<h:outputText value="Vaginal Delivery"></h:outputText>
+				</c:otherwise>
+			</c:choose>
+			
+			
 
 			<h:inputText value="#{childbirth_visit_form.amtPitocin}" style="width:50px;"/>
 			<h:inputText value="#{childbirth_visit_form.amtNitrous}" style="width:50px;"/>

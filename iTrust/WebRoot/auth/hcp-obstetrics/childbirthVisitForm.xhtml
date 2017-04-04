@@ -22,14 +22,14 @@
 		</ui:define>
 		<ui:define name="mainContent">
 			<c:choose>
-				<c:when test="#{childbirth_visit_controller.erBirth}">
-				<f:param id="erBirth" value="true" />
-					<ui:include src="/auth/hcp-obstetrics/emergencyVisit.xhtml"></ui:include>
+				<c:when test="#{!childbirth_visit_controller.isOBGYN()}">
+					<ui:include src="/auth/hcp-obstetrics/childbirthVisitRO.xhtml"></ui:include>
 				</c:when>
-				
 				<c:otherwise>
 					<ui:include src="/auth/hcp-obstetrics/regularVisit.xhtml"></ui:include>
 				</c:otherwise>
+					
+				
 			</c:choose>
 		
 		</ui:define>
