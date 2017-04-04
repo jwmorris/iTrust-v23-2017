@@ -629,6 +629,7 @@ CREATE TABLE babyData
 	birthTime		VARCHAR(10) default "",
 	estimatedDate	BOOLEAN default FALSE,
 	sex				INT NOT NULL,
+	deliveryType	VARCHAR(100) default "",
 	multiNum		INT NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (childbirthId) 	REFERENCES childbirthData(id)

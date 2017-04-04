@@ -28,6 +28,7 @@ public class BabyTest {
 		baby.setDate( "03/30/2017" );
 		baby.setEstimateDate( false );
 		baby.setMultiNum( 0 );
+		baby.setDeliveryType( "Vaginal Delivery" );
 		baby.setSex( 'm' );
 		baby.setTime( "21:00" );
 	}
@@ -62,6 +63,11 @@ public class BabyTest {
 	@Test
 	public void testGetTime() {
 		assertTrue( baby.getTime().equals( "21:00" ) );
+	}
+	
+	@Test
+	public void testGetDeliveryType() {
+		assertTrue( baby.getDeliveryType().equals( "Vaginal Delivery" ) );
 	}
 
 	/**

@@ -17,6 +17,8 @@ public class Baby {
 	
 	private String time;
 	
+	private String deliveryType;
+	
 	private char sex;
 	
 	private int multiNum;
@@ -26,6 +28,7 @@ public class Baby {
 		date = "";
 		estimateDate = false;
 		time = "";
+		deliveryType = "";
 		sex = 0;
 		multiNum = 0;
 	}
@@ -91,6 +94,20 @@ public class Baby {
 	 */
 	public void setTime( String time ) {
 		this.time = time;
+	}
+
+	/**
+	 * @return the deliveryType
+	 */
+	public String getDeliveryType() {
+		return deliveryType;
+	}
+
+	/**
+	 * @param deliveryType the deliveryType to set
+	 */
+	public void setDeliveryType( String deliveryType ) {
+		this.deliveryType = deliveryType;
 	}
 
 	/**

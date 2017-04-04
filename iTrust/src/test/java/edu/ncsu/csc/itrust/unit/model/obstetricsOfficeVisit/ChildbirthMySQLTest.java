@@ -68,6 +68,7 @@ public class ChildbirthMySQLTest {
 		baby.setDate( "03/30/2017" );
 		baby.setEstimateDate( false );
 		baby.setMultiNum( 0 );
+		baby.setDeliveryType( "Vaginal" );
 		baby.setSex( 'm' );
 		baby.setTime( "21:00" );
 		
