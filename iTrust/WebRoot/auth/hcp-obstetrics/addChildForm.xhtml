@@ -8,6 +8,14 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
 	
 	<h:form id="addChild">
+		<c:choose>
+			<c:when test = "#{childbirth_visit_form.isEditBaby()}">
+				<h:outputLabel value="Editing Baby"/>
+			</c:when>
+			<c:otherwise>
+				<h:outputLabel value="Making baby"/>
+			</c:otherwise>
+		</c:choose>
 		<h:panelGrid id="visitDetails" columns="4">
             
             <h:outputLabel value="Date:"/>
@@ -103,20 +111,20 @@
 				<f:selectItem itemValue="f" itemLabel="female" />
 			</h:selectOneMenu>
 		</h:panelGrid>
-		<h:commandButton id="submitAddChild" value="Add Child"
+		<h:commandButton id="submitAddChild" value="Save Child"
 			action="#{childbirth_visit_form.submitBaby()}"/>
 	</h:form>
 	
 	<br/>
 	<br/>
 	<h:form id="childListForm">
-		<h:selectOneMenu id="selectChild" value="#{obstetrics_visit_form.selectedFetus}">
-			<f:selectItems value="#{obstetrics_visit_form.getFeti()}" var="f" 
-				itemLabel="#{f.multiNum}" itemValue="#{f.multiNum}"/>
+		<h:selectOneMenu id="selectChild" value="#{childbirth_visit_form.babyId}">
+			<f:selectItems value="#{childbirth_visit_form.getBabies()}" var="b" 
+				itemLabel="#{b.multiNum}" itemValue="#{b.multiNum}"/>
 		</h:selectOneMenu>
 		<h:message for="editChild">  </h:message>
-		<h:commandButton id="editChild" value="Edit Child" action="#{obstetrics_visit_form.editFetus()}"
-			update="childListForm"/>
+		<h:commandButton id="editChild" value="Edit Child" action="#{childbirth_visit_form.editBabies()}"
+			update="addChild"/>
 		<h:message for="editChild" globalOnly="true"/>
   	</h:form>
 	
@@ -140,63 +148,3 @@
 	</h:dataTable>
 	
 </html>
-
-<!-- 
-//////////////STUFF FOR JAVA FILE\\\\\\\\\\\\\\
-
-	private Date babyDate;
-	private String babyTime;
-	private String babyTimeHour;
-	private String babyTimeMinute;
-	private String babyTimeMerridean;
-	private char babySex;
-	
-	
-	public Date getBabyDate() {
-		return babyDate;
-	}
-	
-	public void setBabyDate(Date babyDate) {
-		this.babyDate = babyDate;
-	}
-	
-	public String getBabyTime() {
-		return babyTimeHour + ":" + babyTimeMinute + " " + babyTimeMerridean;
-	}
-	
-	public void setBabyTime(String babyTime) {
-		this.babyTime = babyTime;
-	}
-	
-	public String getBabyTimeHour() {
-		return babyTimeHour;
-	}
-	
-	public void setBabyTimeHour(String babyTimeHour) {
-		this.babyTimeHour = babyTimeHour;
-	}
-	
-	public String getBabyTimeMinute() {
-		return babyTimeMinute;
-	}
-	
-	public void setBabyTimeMinute(String babyTimeMinute) {
-		this.babyTimeMinute = babyTimeMinute;
-	}
-	
-	public String getBabyTimeMerridean() {
-		return babyTimeMerridean;
-	}
-	
-	public void setBabyTimeMerridean(String babyTimeMerridean) {
-		this.babyTimeMerridean = babyTimeMerridean;
-	}
-	
-	public char getBabySex() {
-		return babySex;
-	}
-	
-	public void setBabySex(char babySex) {
-		this.babySex = babySex;
-	}
- -->

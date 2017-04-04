@@ -114,9 +114,9 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		
 		try { 
 			conn = ds.getConnection();
-			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
+			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, initId, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
+					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -136,9 +136,9 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		
 		try { 
 			conn = ds.getConnection();
-			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
+			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, initId, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
+					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
 					cb, true );
 			
 			ps.executeUpdate();
@@ -213,6 +213,8 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		}
 		return ret;
 	}
+	
+	
 
 	@Override
 	public Baby getBaby( long childbirthId, int multiNum ) throws DBException {
@@ -270,6 +272,24 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			throw new DBException( e );
 		}
 		return true;
+	}
+
+	@Override
+	public Childbirth getChildbirthVisitForInitId( long pid, long initId ) throws DBException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM childbirthData WHERE pid = ? AND initId = ?" );
+			ps.setLong( 1, pid );
+			ps.setLong( 2, initId );
+			ResultSet rs = ps.executeQuery();
+			Childbirth cb = rs.next() ? cbLoader.loadSingle( rs ) : null;
+			rs.close();
+			conn.close();
+			return cb;
+		} catch ( SQLException e ) {
+			throw new DBException( e );
+		}
 	}
 
 	

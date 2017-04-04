@@ -44,6 +44,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 	private void loadCommon( ResultSet rs, Childbirth cb ) throws SQLException {
 		cb.setChildbirthId( rs.getLong( "id" ) );
 		cb.setPid( rs.getLong( "pid" ) );
+		cb.setInitializationId( rs.getLong( "initId" ) );
 		cb.setDate( rs.getDate( "visitDate" ) );
 		cb.setDeliveryType( rs.getString( "deliveryType" ) );
 		cb.setEr( rs.getBoolean( "ER" ) );
@@ -80,6 +81,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 
 		if( newInstance ) {
 			ps.setLong( i++, cb.getPid() );
+			ps.setLong( i++, cb.getInitializationId() );
 			ps.setDate( i++, cb.getDate() );
 			ps.setString( i++, cb.getDeliveryType() );
 			ps.setBoolean( i++, cb.isEr() );

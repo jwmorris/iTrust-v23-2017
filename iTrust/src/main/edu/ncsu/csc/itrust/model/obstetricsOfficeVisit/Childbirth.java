@@ -16,6 +16,8 @@ public class Childbirth {
 	
 	private long childbirthId;
 	
+	private long initializationId;
+	
 	private Date date;
 	
 	private boolean er;
@@ -47,6 +49,7 @@ public class Childbirth {
 	public Childbirth() {
 		pid = 0;
 		childbirthId = 0;
+		initializationId = 0;
 		date = new Date( Calendar.getInstance().getTimeInMillis() );
 		er = false;
 		deliveryType = "";
@@ -91,6 +94,19 @@ public class Childbirth {
 		this.childbirthId = childbirthId;
 	}
 	
+	/**
+	 * @return the initializationId
+	 */
+	public long getInitializationId() {
+		return initializationId;
+	}
+
+	/**
+	 * @param initializationId the initializationId to set
+	 */
+	public void setInitializationId( long initializationId ) {
+		this.initializationId = initializationId;
+	}
 
 	/**
 	 * @return the date

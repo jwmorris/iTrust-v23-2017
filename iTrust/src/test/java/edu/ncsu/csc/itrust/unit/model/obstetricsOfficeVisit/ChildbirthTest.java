@@ -28,6 +28,7 @@ public class ChildbirthTest {
 	public void setUp() throws Exception {
 		cb = new Childbirth();
 		cb.setPid( 1 );
+		cb.setInitializationId( 1 );
 		cb.setDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
 		cb.setAmtEpidural( "1" );
 		cb.setAmtMagnesium( "1" );
@@ -50,6 +51,11 @@ public class ChildbirthTest {
 	@Test
 	public void testGetPid() {
 		assertEquals( 1, cb.getPid() );
+	}
+	
+	@Test
+	public void testGetInitializationId() {
+		assertEquals( 1, cb.getInitializationId() );
 	}
 
 	/**

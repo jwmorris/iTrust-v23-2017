@@ -47,6 +47,7 @@ public class ChildbirthMySQLTest {
 		
 		cb = new Childbirth();
 		cb.setPid( 9 );
+		cb.setInitializationId( 20 );
 		cb.setDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
 		cb.setAmtEpidural( "1" );
 		cb.setAmtMagnesium( "1" );
@@ -192,6 +193,16 @@ public class ChildbirthMySQLTest {
 			baby.setEstimateDate( true );
 			sql.updateBaby( baby );
 			assertTrue( sql.getBaby( 1, 0 ).isEstimateDate() );
+		} catch ( DBException | FormValidationException e ) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testGetChildbirthVisitForInitId() {
+		try {
+			sql.add( cb );
+			assertNull( sql.getChildbirthVisitForInitId( 9, 1 ) );
 		} catch ( DBException | FormValidationException e ) {
 			fail();
 		}
