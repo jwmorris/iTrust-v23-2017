@@ -72,6 +72,7 @@ public class ChildbirthVisitController extends iTrustController {
 		this.sessionUtils = utils;
 		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
+		this.patientDAO = factory.getPatientDAO();
 		this.childbirthSQL = new ChildbirthMySQL( ds );
 		erBirth = false;
 	}

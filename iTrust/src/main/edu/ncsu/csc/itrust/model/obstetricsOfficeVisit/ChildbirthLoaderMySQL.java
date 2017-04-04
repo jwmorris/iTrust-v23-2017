@@ -52,6 +52,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 		cb.setAmtNitrous( rs.getString( "amtNitrous" ) );
 		cb.setAmtPethidine( rs.getString( "amtPethidine" ) );
 		cb.setAmtPitocin( rs.getString( "amtPitocin" ) );
+		cb.setAmtRH( rs.getString( "amtRH" ) );
 		cb.setEpidural( rs.getBoolean( "epidural" ) );
 		cb.setMagnesium( rs.getBoolean( "magnesium" ) );
 		cb.setNitrous( rs.getBoolean( "nitrous" ) );
@@ -92,6 +93,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 			ps.setBoolean( i++, cb.isNitrous() );
 			ps.setBoolean( i++, cb.isPethidine() );
 			ps.setBoolean( i++, cb.isPitocin() );
+			ps.setString( i++, cb.getAmtRH() );
 		}
 		
 		if ( !newInstance ) {
@@ -108,6 +110,7 @@ public class ChildbirthLoaderMySQL implements SQLLoader<Childbirth> {
 			ps.setBoolean( i++, cb.isNitrous() );
 			ps.setBoolean( i++, cb.isPethidine() );
 			ps.setBoolean( i++, cb.isPitocin() );
+			ps.setString( i++, cb.getAmtRH() );
 			
 			ps.setLong( i++, cb.getChildbirthId() );
 		}

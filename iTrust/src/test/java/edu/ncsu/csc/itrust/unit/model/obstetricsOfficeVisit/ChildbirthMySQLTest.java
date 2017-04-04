@@ -53,6 +53,7 @@ public class ChildbirthMySQLTest {
 		cb.setAmtNitrous( "1" );
 		cb.setAmtPethidine( "1" );
 		cb.setAmtPitocin( "1" );
+		cb.setAmtRH( "1" );
 		cb.setChildbirthId( 1 );
 		cb.setDeliveryType( "Vaginal" );
 		cb.setEpidural( true );

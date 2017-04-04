@@ -47,6 +47,7 @@ public class ChildbirthVisitForm {
 	private String amtPethidine;
 	private String amtEpidural;
 	private String amtMagnesium;
+	private String amtRH;
 	
 	/** Fields unique for baby*/
 	private boolean estimateDate;
@@ -272,6 +273,21 @@ public class ChildbirthVisitForm {
 	public void setAmtMagnesium(String amtMagnesium) {
 		this.amtMagnesium = amtMagnesium;
 	}
+	
+
+	/**
+	 * @return the amtRH
+	 */
+	public String getAmtRH() {
+		return amtRH;
+	}
+
+	/**
+	 * @param amtRH the amtRH to set
+	 */
+	public void setAmtRH(String amtRH) {
+		this.amtRH = amtRH;
+	}
 
 	/**
 	 * @return the estimateDate
@@ -465,6 +481,7 @@ public class ChildbirthVisitForm {
 		cb.setAmtPethidine(amtPethidine);
 		cb.setAmtPitocin(amtPitocin);
 		cb.setDeliveryType(deliveryType);
+		cb.setAmtRH( amtRH );
 
 		cb.setEr( er );
 		cb.setPid( pid );

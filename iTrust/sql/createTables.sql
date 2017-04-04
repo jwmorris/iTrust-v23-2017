@@ -610,6 +610,7 @@ CREATE TABLE childbirthData
 	amtNitrous		VARCHAR(20) default "",
 	amtPethidine	VARCHAR(20) default "",
 	amtPitocin		VARCHAR(20) default "",
+	amtRH			VARCHAR(20) default "",
 	epidural		BOOLEAN default FALSE,
 	magnesium		BOOLEAN default FALSE,
 	nitrous			BOOLEAN default FALSE,

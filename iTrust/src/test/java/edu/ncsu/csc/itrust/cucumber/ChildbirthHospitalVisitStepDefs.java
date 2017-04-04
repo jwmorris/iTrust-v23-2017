@@ -40,6 +40,9 @@ public class ChildbirthHospitalVisitStepDefs {
 	public ChildbirthHospitalVisitStepDefs() {
 		this.factory = TestDAOFactory.getTestInstance();
 		utils = Mockito.mock( SessionUtils.class );
+		utils.setSessionVariable( "pid", 21 );
+		Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 21 );
+		Mockito.doReturn( Long.parseLong( "21" ) ).when( utils ).getCurrentPatientMIDLong();
 		this.gen = new TestDataGenerator();
 		this.ds = ConverterDAO.getDataSource();
 		this.patientDAO = factory.getPatientDAO();
@@ -100,6 +103,7 @@ public class ChildbirthHospitalVisitStepDefs {
     	peachErForm.setAmtNitrous( "0" );
     	peachErForm.setAmtPethidine( "0" );
     	peachErForm.setAmtPitocin( "0" );
+    	peachErForm.setAmtRH( "0" );
     	peachErForm.setDeliveryType( "vaginal delivery" );
     	peachErForm.submitChildbirthVisit();
     	Assert.assertTrue( peachErController.getChildbirthByID( "1" ).isEr() );
@@ -140,7 +144,7 @@ public class ChildbirthHospitalVisitStepDefs {
     	peachRegForm.setAmtNitrous( "0" );
     	peachRegForm.setAmtPethidine( "0" );
     	peachRegForm.setAmtPitocin( "0" );
-    	//peachRegForm.setChildbirthID( 1 );
+    	peachRegForm.setAmtRH( "0" );
     	peachRegForm.setDeliveryType( "caesarean section" );
     	
     	peachRegForm.setBabyId( 1 );
@@ -190,6 +194,7 @@ public class ChildbirthHospitalVisitStepDefs {
         form.setAmtNitrous( "0" );
         form.setAmtPethidine( "0" );
         form.setAmtPitocin( "0" );
+        form.setAmtRH( "0" );
         form.setDeliveryType( "caesarean section" );
         form.setEr( false );
         form.submitChildbirthVisit();

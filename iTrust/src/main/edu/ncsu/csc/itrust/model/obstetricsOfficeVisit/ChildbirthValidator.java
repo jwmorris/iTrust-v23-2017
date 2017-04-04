@@ -102,6 +102,17 @@ public class ChildbirthValidator extends POJOValidator<Childbirth> {
 		else if ( pitocin < 0 )
 			errorList.addIfNotNull( "Amount of Pitocin administered cannot be negative" );
 		
+		double rh = 0;
+		try {
+			rh = Double.parseDouble( cb.getAmtRH() );
+		} catch ( Exception e ) {
+			errorList.addIfNotNull( "Amount of RH Immune Globulin must be numeric" );
+			if ( errorList.hasErrors() )
+				throw new FormValidationException( errorList );
+		}
+		if ( rh < 0 )
+			errorList.addIfNotNull( "Amount of RH Immune Globulin cannot be negative" );
+		
 		if ( errorList.hasErrors() )
 			throw new FormValidationException( errorList );
 	}
@@ -201,6 +212,19 @@ public class ChildbirthValidator extends POJOValidator<Childbirth> {
 				errorList.addIfNotNull( "Please indicate the amount of Pitocin administered" );
 			else if ( pitocin < 0 )
 				errorList.addIfNotNull( "Amount of Pitocin administered cannot be negative" );
+		}
+		
+		if ( !cb.getAmtRH().equals( "" ) ) {
+			double rh = 0;
+			try {
+				rh = Double.parseDouble( cb.getAmtRH() );
+			} catch ( Exception e ) {
+				errorList.addIfNotNull( "Amount of RH Immune Globulin must be numeric" );
+				if ( errorList.hasErrors() )
+					throw new FormValidationException( errorList );
+			}
+			if ( rh < 0 )
+				errorList.addIfNotNull( "Amount of RH Immune Globulin cannot be negative" );
 		}
 		
 		if ( errorList.hasErrors() )

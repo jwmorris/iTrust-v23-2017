@@ -34,6 +34,7 @@ public class ChildbirthTest {
 		cb.setAmtNitrous( "1" );
 		cb.setAmtPethidine( "1" );
 		cb.setAmtPitocin( "1" );
+		cb.setAmtRH( "1" );
 		cb.setChildbirthId( 1 );
 		cb.setDeliveryType( "Vaginal" );
 		cb.setEpidural( true );
@@ -153,6 +154,11 @@ public class ChildbirthTest {
 	@Test
 	public void testGetAmtMagnesium() {
 		assertTrue( cb.getAmtMagnesium().equals( "1" ) );
+	}
+	
+	@Test
+	public void testGetAmtRH() {
+		assertTrue( cb.getAmtRH().equals( "1" ) );
 	}
 
 }

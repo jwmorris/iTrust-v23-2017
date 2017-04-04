@@ -34,6 +34,7 @@ public class ChildbirthValidatorTest {
 		cb.setAmtNitrous( "1" );
 		cb.setAmtPethidine( "1" );
 		cb.setAmtPitocin( "1" );
+		cb.setAmtRH( "1" );
 		cb.setChildbirthId( 1 );
 		cb.setDeliveryType( "Vaginal" );
 		cb.setEpidural( true );
@@ -187,6 +188,25 @@ public class ChildbirthValidatorTest {
 			fail();
 		} catch ( FormValidationException e ) {
 			assertTrue( e.getMessage().contains( "Pitocin" ) );
+			setUp();
+		}
+		
+		try {
+			cb.setAmtRH( "one" );
+			validator.validate( cb );
+			fail();
+		} catch ( FormValidationException e ) {
+			assertTrue( e.getMessage().contains( "RH" ) );
+			setUp();
+		}
+		
+		try {
+			cb.setAmtRH( "-1" );
+			validator.validate( cb );
+			fail();
+		} catch ( FormValidationException e ) {
+			assertTrue( e.getMessage().contains( "RH" ) );
+			setUp();
 		}
 	}
 
@@ -334,6 +354,25 @@ public class ChildbirthValidatorTest {
 			fail();
 		} catch ( FormValidationException e ) {
 			assertTrue( e.getMessage().contains( "Pitocin" ) );
+			setUp();
+		}
+		
+		try {
+			cb.setAmtRH( "one" );
+			validator.validate( cb );
+			fail();
+		} catch ( FormValidationException e ) {
+			assertTrue( e.getMessage().contains( "RH" ) );
+			setUp();
+		}
+		
+		try {
+			cb.setAmtRH( "-1" );
+			validator.validate( cb );
+			fail();
+		} catch ( FormValidationException e ) {
+			assertTrue( e.getMessage().contains( "RH" ) );
+			setUp();
 		}
 	}
 

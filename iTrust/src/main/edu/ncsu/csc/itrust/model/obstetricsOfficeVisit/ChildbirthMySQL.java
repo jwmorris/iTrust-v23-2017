@@ -116,7 +116,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			conn = ds.getConnection();
 			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
+					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -138,7 +138,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			conn = ds.getConnection();
 			ps = cbLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO childbirthData (pid, visitDate, deliveryType, "
 					+ "ER, amtEpidural, amtMagnesium, amtNitrous, amtPethidine, amtPitocin, epidural, magnesium, "
-					+ "nitrous, pethidine, pitocin)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
+					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS), 
 					cb, true );
 			
 			ps.executeUpdate();
@@ -167,7 +167,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			conn = ds.getConnection();
 			ps = cbLoader.loadParameters( conn, conn.prepareStatement("UPDATE childbirthData SET visitDate=?, deliveryType=?, ER=?"
 					+ ", amtEpidural=?, amtMagnesium=?, amtNitrous=?, amtPethidine=?, amtPitocin=?, epidural=?, "
-					+ "magnesium=?, nitrous=?, pethidine=?, pitocin=? WHERE id=?" ), cb, false );
+					+ "magnesium=?, nitrous=?, pethidine=?, pitocin=?, amtRH=? WHERE id=?" ), cb, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();

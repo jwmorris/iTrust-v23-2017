@@ -42,6 +42,8 @@ public class Childbirth {
 	
 	private String amtMagnesium;
 	
+	private String amtRH;
+	
 	public Childbirth() {
 		pid = 0;
 		childbirthId = 0;
@@ -58,6 +60,7 @@ public class Childbirth {
 		amtEpidural = "";
 		magnesium = false;
 		amtMagnesium = "";
+		amtRH = "";
 	}
 
 	/**
@@ -279,6 +282,20 @@ public class Childbirth {
 		if ( !amtMagnesium.equals( "" ) && !amtMagnesium.equals( "0" ) )
 			this.magnesium = true;
 		this.amtMagnesium = amtMagnesium;
+	}
+
+	/**
+	 * @return the amtRH
+	 */
+	public String getAmtRH() {
+		return amtRH;
+	}
+
+	/**
+	 * @param amtRH the amtRH to set
+	 */
+	public void setAmtRH(String amtRH) {
+		this.amtRH = amtRH;
 	}
 	
 }
