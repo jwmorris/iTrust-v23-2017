@@ -14,7 +14,7 @@
 	<div align="center">
 	<h:message for="" style="color:red;"/>
 	<h:form>
-		<h:panelGrid columns="6" border="1"  styleClass="drugTable">
+		<h:panelGrid columns="7" border="1"  styleClass="drugTable">
 		
 			<h:outputLabel value="Delivery Type:"></h:outputLabel>
 			
@@ -32,6 +32,8 @@
 			
 			<h:outputLabel value="Magnesium Sulfate Amount:"/>
 			
+			<h:outputLabel value="RH Immune Globulin:"/>
+			
 			<h:selectOneMenu  value="#{childbirth_visit_form.deliveryType}">
 				<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
 				<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
@@ -45,6 +47,7 @@
 			<h:inputText value="#{childbirth_visit_form.amtPethidine}" style="width:50px;"/>
 			<h:inputText value="#{childbirth_visit_form.amtEpidural}" style="width:50px;"/>
 			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtRH}" style="width:50px;"/>
 		</h:panelGrid>
 		<br/>
 		<div class="form-group  form-button-group">
