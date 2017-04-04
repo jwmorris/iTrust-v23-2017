@@ -28,6 +28,19 @@ public interface ChildbirthData extends DataBean<Childbirth> {
 	public long addReturnsGeneratedId( Childbirth cb ) throws DBException, FormValidationException;
 	
 	/**
+	 * returns a childbirth visit given the pid and initId
+	 * 
+	 * @param pid
+	 * 		patient mid
+	 * @param initId
+	 * 		id of initialization record
+	 * @return
+	 * 		childbirth visit data
+	 * @throws DBException
+	 */
+	public Childbirth getChildbirthVisitForInitId( long pid, long initId ) throws DBException;
+	
+	/**
 	 * get baby pojos for a given childbirth
 	 * 
 	 * @param childbirthId
