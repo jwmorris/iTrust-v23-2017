@@ -13,6 +13,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import edu.ncsu.csc.itrust.action.AddPatientAction;
 import edu.ncsu.csc.itrust.controller.obstetrics.ChildbirthVisitController;
 import edu.ncsu.csc.itrust.controller.obstetrics.ChildbirthVisitForm;
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsVisitController;
@@ -21,6 +22,7 @@ import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+import edu.ncsu.csc.itrust.model.old.enums.Gender;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
@@ -199,6 +201,29 @@ public class ChildbirthHospitalVisitStepDefs {
         form.setEr( false );
         form.submitChildbirthVisit();
         Assert.assertEquals( 1, form.getChildbirthID() );
+    }
+    
+    @And( "^She creates a new patient file for the baby$" )
+    public void she_creates_a_new_patient_file_for_the_baby() throws Throwable {
+    	gen.clearAllTables();
+		gen.standardData();
+		
+    	AddPatientAction addPatientAction = new AddPatientAction( factory, 21 );
+		PatientBean parent = patientDAO.getPatient( 21 );
+		PatientBean pb = new PatientBean();
+		pb.setEmail( parent.getEmail() );
+		pb.setFirstName( "Baby" );
+		pb.setLastName( parent.getLastName() );
+		pb.setDateOfBirthStr( "04/04/2017" );
+		pb.setMotherMID( Long.toString( 21 ) );
+		pb.setStreetAddress1( parent.getStreetAddress1() );
+		pb.setStreetAddress2( parent.getStreetAddress2() );
+		pb.setCity( parent.getCity() );
+		pb.setState( parent.getState() );
+		pb.setZip( parent.getZip() );
+		pb.setGender( Gender.Male );
+		addPatientAction.addDependentPatient( pb, 21, 21 );
+		Assert.assertTrue( patientDAO.searchForPatientsWithName( "Baby" , "Peach" ).get( 0 ).getDateOfBirthStr().equals( "04/04/2017" ) );
     }
 
 }
