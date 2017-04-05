@@ -57,7 +57,9 @@ public class ChildbirthVisitForm {
 	private String timeHour;
 	private String timeMinute;
 	private String timeMerridean;
+	private String babyDeliveryType;
 	private char sex;
+
 	// id of the baby
 	private int multiNum;
 	
@@ -98,6 +100,7 @@ public class ChildbirthVisitForm {
 			timeHour = "12";
 			timeMinute = "00";
 			timeMerridean = "am";
+			babyDeliveryType = deliveryType;
 		} catch (Exception e) {
 //			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 //					"Obstetrics Visit Controller Error");
@@ -132,6 +135,7 @@ public class ChildbirthVisitForm {
 			timeHour = "12";
 			timeMinute = "00";
 			timeMerridean = "am";
+			babyDeliveryType = deliveryType;
 		} catch ( Exception e ) {
 			//do nothing
 		}
@@ -382,6 +386,14 @@ public class ChildbirthVisitForm {
 		this.timeMerridean = timeMerridean;
 		setTime();
 	}
+	
+	public String getBabyDeliveryType() {
+		return babyDeliveryType;
+	}
+
+	public void setBabyDeliveryType(String babyDeliveryType) {
+		this.babyDeliveryType = babyDeliveryType;
+	}
 
 	/**
 	 * @return the sex
@@ -466,13 +478,11 @@ public class ChildbirthVisitForm {
 		try {
 			babyDate = babyDateFormat.parse(strBabyDate);
 			time = selected.getTime();
-			System.out.println("Time: " + time);
 			DateFormat babyTimeFormat = new SimpleDateFormat("hh:mm a");
 			java.util.Date tempTime = babyTimeFormat.parse(time);
 			Calendar tempCalTime = Calendar.getInstance();
 			tempCalTime.setTime(tempTime);
 			String tempHour = String.valueOf(tempCalTime.get(Calendar.HOUR));
-			System.out.println("Hour: " + tempHour);
 			if (tempHour.equals("0")) {
 				tempHour = "12";
 			}
@@ -485,7 +495,6 @@ public class ChildbirthVisitForm {
 				tempMinute = "0" + tempMinute;
 			}
 			timeMinute = tempMinute;
-			System.out.println("Minute: " + timeMinute);
 			if (tempCalTime.get(Calendar.AM_PM) == 0) {
 				timeMerridean = "am";
 			} else {
@@ -497,6 +506,7 @@ public class ChildbirthVisitForm {
 			timeMinute = "00";
 			timeMerridean = "am";
 		}
+		babyDeliveryType = selected.getDeliveryType();
 		sex = selected.getSex();
 		multiNum = selected.getMultiNum();
 		editBaby = true;
@@ -557,6 +567,7 @@ public class ChildbirthVisitForm {
 		baby.setEstimateDate(estimateDate);
 		DateFormat babyDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		baby.setDate(babyDateFormat.format(babyDate));
+		baby.setDeliveryType(babyDeliveryType);
 		
 		if( editBaby ) {
 			baby.setMultiNum( babyId );
@@ -570,6 +581,7 @@ public class ChildbirthVisitForm {
 		
 		babyDate = null;
 		sex = 'm';
+		babyDeliveryType = deliveryType;
 		time = "12:00 am";
 		timeHour = "12";
 		timeMinute = "00";
