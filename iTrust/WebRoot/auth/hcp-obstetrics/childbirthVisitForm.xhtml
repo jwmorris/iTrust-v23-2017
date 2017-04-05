@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+
+	xmlns:itrust="/WEB-INF/tags.tld">
+
+<f:view
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+<h:body>
+	<ui:composition template="/iTrust_template_prime.xhtml">
+		<ui:define name="pageTitle">iTrust - Create Childbirth Visit</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/childbirth.css" />
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+		</ui:define>
+		<ui:define name="mainContent">
+			<c:choose>
+				<c:when test="#{!childbirth_visit_controller.isOBGYN()}">
+					<ui:include src="/auth/hcp-obstetrics/childbirthVisitRO.xhtml"></ui:include>
+				</c:when>
+				<c:otherwise>
+					<ui:include src="/auth/hcp-obstetrics/regularVisit.xhtml"></ui:include>
+				</c:otherwise>
+					
+				
+			</c:choose>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

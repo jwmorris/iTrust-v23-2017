@@ -597,3 +597,41 @@ CREATE TABLE fetusData
 	PRIMARY KEY (id),
 	FOREIGN KEY (ovId) 	REFERENCES obstetricsOfficeVisitData(id)
 ) ENGINE=MyISAM;
+
+CREATE TABLE childbirthData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid				BIGINT(20) NOT NULL,
+	initId			BIGINT(20) NOT NULL,
+	visitDate		DATE NOT NULL,
+	ER				BOOLEAN default FALSE,
+	deliveryType	VARCHAR(100) default "",
+	amtEpidural		VARCHAR(20) default "",
+	amtMagnesium	VARCHAR(20) default "",
+	amtNitrous		VARCHAR(20) default "",
+	amtPethidine	VARCHAR(20) default "",
+	amtPitocin		VARCHAR(20) default "",
+	amtRH			VARCHAR(20) default "",
+	epidural		BOOLEAN default FALSE,
+	magnesium		BOOLEAN default FALSE,
+	nitrous			BOOLEAN default FALSE,
+	pethidine		BOOLEAN default FALSE,
+	pitocin			BOOLEAN default FALSE,
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID)
+) ENGINE=MyISAM;
+
+CREATE TABLE babyData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	childbirthId	BIGINT(20) NOT NULL,
+	name			VARCHAR(20) default "",
+	birthDate		VARCHAR(20) default "",
+	birthTime		VARCHAR(10) default "",
+	estimatedDate	BOOLEAN default FALSE,
+	sex				INT NOT NULL,
+	deliveryType	VARCHAR(100) default "",
+	multiNum		INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (childbirthId) 	REFERENCES childbirthData(id)
+) ENGINE=MyISAM;

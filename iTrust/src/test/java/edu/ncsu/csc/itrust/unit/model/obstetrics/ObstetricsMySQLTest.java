@@ -141,16 +141,18 @@ public class ObstetricsMySQLTest {
 			Calendar cal = Calendar.getInstance();
 			cal.set( 2017, 1, 1 );
 			op = newObstetricsPregnancy( new Date( Calendar.getInstance().getTimeInMillis() ), new Date( cal.getTimeInMillis() ) );
+			op.setPid( 9 );
+			op.setCurrent( true );
 			sql.add( op );
-			op.setBabyCount( "2" );
-			op.setMultiplePregnancy( true );
+			op.setConcepYear( "2013" );
+			res = sql.getCurrentObstetricsPregnancy( 9 );
+			op.setId( res.getId() );
 			sql.update( op );
 			res = sql.getCurrentObstetricsPregnancy( 9 );
 		} catch (DBException | FormValidationException e) {
 			fail();
 		}
-		
-		assertTrue( op.getBabyCount().equals( res.getBabyCount() ) );
+		assertTrue( res.getConcepYear().equals( "2013" ) );
 	}
 
 	@Test

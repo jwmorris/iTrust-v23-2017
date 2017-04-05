@@ -59,8 +59,12 @@ public class ObstetricsVisitFormTest {
 
 	@Test
 	public void testObstetricsVisitFormObstetricsVisitController() {
-		new ObstetricsVisitForm( controller );
-	}
+		try {
+			new ObstetricsVisitForm(controller);
+			fail();
+		} catch ( NullPointerException e ) {
+			//should be thrown
+		}	}
 
 	@Test
 	public void testGetPid() {

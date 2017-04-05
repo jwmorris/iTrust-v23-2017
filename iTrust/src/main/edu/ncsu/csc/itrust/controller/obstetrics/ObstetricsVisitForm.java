@@ -35,6 +35,8 @@ import org.primefaces.json.JSONObject;
 
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
@@ -146,8 +148,9 @@ public class ObstetricsVisitForm {
 			pid = ov.getPid();// ? null : 
 			if ( pid == 0 )
 				pid = SessionUtils.getInstance().getCurrentPatientMIDLong();
+			System.out.println("Pid: " + pid);
 			date = ov.getVisitDate();
-			weeksPregnant = ov.getWeeksPregnant();
+			weeksPregnant = calculateWeeksPreg(date);
 			weight = ov.getWeight();
 			bloodPressure = ov.getBp();
 			ftr = ov.getFhr();
@@ -158,6 +161,7 @@ public class ObstetricsVisitForm {
 			numFeti = (f == null) ? 0 : f.size();
 			editFetus = false;
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 					"Obstetrics Visit Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
@@ -179,7 +183,7 @@ public class ObstetricsVisitForm {
 			if ( pid == 0 )
 				pid = utils.getCurrentPatientMIDLong();
 			date = ov.getVisitDate();
-			weeksPregnant = ov.getWeeksPregnant();
+			weeksPregnant = calculateWeeksPreg(date);
 			weight = ov.getWeight();
 			bloodPressure = ov.getBp();
 			ftr = ov.getFhr();
@@ -244,8 +248,9 @@ public class ObstetricsVisitForm {
 	/**
 	 * @param weeksPregnant the weeksPregnant to set
 	 */
-	public void setWeeksPregnant(String weeksPregnant) {
-		this.weeksPregnant = weeksPregnant;
+	public void setWeeksPregnant(String weeks) {
+		this.weeksPregnant = weeks;
+//		this.weeksPregnant = calculateWeeksPreg(date);
 	}
 
 	/**
@@ -475,7 +480,11 @@ public class ObstetricsVisitForm {
 		ov.setPid( pid );
 		if ( ov.getVisitDate() == null )
 			ov.setVisitDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
-		ov.setWeeksPregnant( weeksPregnant );
+		System.out.println("Office Visit Date: " + ov.getVisitDate().toString());
+		System.out.println("Office Weeks Pregnant: " + calculateWeeksPreg(ov.getVisitDate()));
+		System.out.println("PID: "+ pid);
+		ov.setWeeksPregnant(calculateWeeksPreg(ov.getVisitDate()));
+//		ov.setWeeksPregnant( weeksPregnant );
 		ov.setWeight( weight );
 		if ( visitID == 0 )
 			visitID = controller.addReturnGeneratedId( ov );
@@ -483,6 +492,39 @@ public class ObstetricsVisitForm {
 			controller.edit( ov );
 	}
 	
+	private String calculateWeeksPreg( Date visitDate ) {
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+		String lmp = "";
+		lmp = controller.getLmp(pid);
+		System.out.println("Office Visit LMP: " + lmp);
+		java.util.Date lmpDate = null;
+		try {
+			lmpDate = DATE_FORMAT.parse( lmp );
+		} catch( ParseException e ) {
+			e.printStackTrace();
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime( visitDate );
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime( lmpDate );
+		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int totalDays = Math.abs(initDays - lmpDays );
+		System.out.println("Total Days: " + totalDays);
+		int weeks = totalDays / 7;
+		System.out.println("Week(s): " + weeks);
+		int days = totalDays - (weeks * 7);
+		System.out.println("Day(s): " + days);
+		StringBuilder sb = new StringBuilder();
+		sb.append( Integer.toString( weeks ) );
+		sb.append( "." );
+		sb.append( Integer.toString( days ) );
+		System.out.println("calc " + lmp);
+		System.out.println("calc " + sb.toString() );
+		return sb.toString();
+
+	}
 	/**
 	 * Called when user updates fetal data in obstetricsVisitInfo.xhtml. Takes data from form
 	 * and sends to sql/loader/validator class
@@ -800,7 +842,7 @@ public class ObstetricsVisitForm {
             	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
             	
-            	if ( dateNow.before(startTime) || dateLater.before(startTime) || dateNow.after(endTime) || dateLater.after(endTime) ) {
+            	if ( !(dateNow.before(startTime) && dateLater.before(startTime)) && !(dateNow.after(endTime) && dateLater.after(endTime)) ) {
             		System.out.println("YOU ARE AFTER THE EXPECTED TIME!!!");
             		available = false;
             		break;

@@ -174,6 +174,7 @@ public interface ObstetricsOfficeVisitData extends DataBean<ObstetricsOfficeVisi
 	public boolean updateUltrasound( Ultrasound us ) throws DBException;
 
 	public void deleteUltrasound( long visitID, String ultrasoundName ) throws DBException;
+	public List<ObstetricsOfficeVisit> getOfficeVisitsByPidAndInitId( long id, long initId ) throws DBException;
 
 	Ultrasound getUltrasoundByPicPath(long ovID, String picPath) throws DBException;
 }

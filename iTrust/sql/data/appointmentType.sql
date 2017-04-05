@@ -6,5 +6,5 @@ VALUES
 ('Colonoscopy', '90', '2500'),
 ('Ultrasound', '30', '500'),
 ('Consultation', '30', '1000'),
-('ObstetricsOfficeVisit', '60', '1500'),
-('ChildbirthVisit', '60', '2500');
+('Obstetrics Office Visit', '60', '1500'),
+('Childbirth Visit', '60', '2500');
