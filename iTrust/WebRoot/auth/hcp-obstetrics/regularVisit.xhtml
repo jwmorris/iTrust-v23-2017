@@ -36,6 +36,7 @@
 			
 			<c:choose>
 				<c:when test="#{!childbirth_visit_controller.isErBirth() || childbirth_visit_form.getChildbirthID() != 0}">
+					
 					<h:selectOneMenu  value="#{childbirth_visit_form.deliveryType}">
 						<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
 						<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
@@ -45,6 +46,7 @@
 					</h:selectOneMenu>
 				</c:when>
 				<c:otherwise>
+					
 					<h:outputText value="Vaginal Delivery"></h:outputText>
 				</c:otherwise>
 			</c:choose>
@@ -58,6 +60,10 @@
 			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
 			<h:inputText value="#{childbirth_visit_form.amtRH}" style="width:50px;"/>
 		</h:panelGrid>
+		<c:if test="#{childbirth_visit_controller.isErBirth()}">
+				<h:outputText value="#{childbirth_visit_form.setErString( 'true' ) }"/>
+					<h:outputText value="#{childbirth_visit_form.setDeliveryType( 'Vaginal Delivery' )}" />
+			</c:if>
 		<br/>
 		<div class="form-group  form-button-group">
 			<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>

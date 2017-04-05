@@ -14,6 +14,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Baby;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Childbirth;
@@ -84,10 +85,27 @@ public class ChildbirthVisitController extends iTrustController {
 	 */
 	public long addReturnGeneratedId( Childbirth cb ) {
 		long ret = 0;
+		ObstetricsPregnancyData sql = null;
 		try {
+			sql = new ObstetricsMySQL();
+			logTransaction( TransactionType.CREATE_CHILDBIRTH_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
+		} catch (DBException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		ObstetricsPregnancy op = null;
+		try {
+			op = sql.getCurrentObstetricsPregnancy( sessionUtils.getCurrentPatientMIDLong() );
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			cb.setInitializationId( op.getId() );
 			ret = childbirthSQL.addReturnsGeneratedId( cb );
 			cb.setChildbirthId( ret );
-//			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
+			logDrugs( cb );
+			logTransaction( TransactionType.CREATE_CHILDBIRTH_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 		} catch ( DBException e ) {
 
 			e.printStackTrace();
@@ -104,10 +122,26 @@ public class ChildbirthVisitController extends iTrustController {
 	 * @param Childbirth visit to add
 	 */
 	public void addChildbirth(Childbirth cb) {
+		ObstetricsPregnancyData sql = null;
 		try {
+			sql = new ObstetricsMySQL();
+		} catch (DBException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		ObstetricsPregnancy op = null;
+		try {
+			op = sql.getCurrentObstetricsPregnancy( sessionUtils.getCurrentPatientMIDLong() );
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			
+			cb.setInitializationId( op.getId() );
 			childbirthSQL.add( cb );
-//			logTransaction(TransactionType.CREATE_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
-
+			logDrugs( cb );
+			logTransaction( TransactionType.CREATE_CHILDBIRTH_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
@@ -122,8 +156,7 @@ public class ChildbirthVisitController extends iTrustController {
 	public void editChildbirth( Childbirth cb ) {
 		try {
 			childbirthSQL.update( cb );
-//			logTransaction(TransactionType.EDIT_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( ov.getId() ));
-
+			logTransaction( TransactionType.EDIT_CHILDBIRTH_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 		} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
@@ -225,6 +258,7 @@ public class ChildbirthVisitController extends iTrustController {
 	public void addBaby( Baby b ) {
 		try {
 			childbirthSQL.addBaby(b);
+			logTransaction( TransactionType.A_BABY_IS_BORN, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 			AddPatientAction addPatientAction = new AddPatientAction( DAOFactory.getProductionInstance(), sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean parent = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean pb = new PatientBean();
@@ -243,8 +277,9 @@ public class ChildbirthVisitController extends iTrustController {
 			} else {
 				pb.setGender( Gender.Female );
 			}
-			addPatientAction.addDependentPatient(pb, sessionUtils.getCurrentPatientMIDLong(), sessionUtils.getSessionLoggedInMIDLong() );
-		} catch ( DBException e ) {
+			long pid = addPatientAction.addDependentPatient(pb, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong() );
+			logTransaction( TransactionType.CREATE_BABY_RECORD, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString( pid ) );
+			} catch ( DBException e ) {
 			e.printStackTrace();
 		} catch ( FormValidationException e ) {
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
@@ -313,8 +348,50 @@ public class ChildbirthVisitController extends iTrustController {
 	public void setErBirth(boolean erBirth) {
 		this.erBirth = erBirth;
 	}
-
-	public void logViewChildbirth(Long childbirthID) {
-//		log Transaction(TransactionType.VIEW_OBSTETRIC_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), Long.toString(visitID));
+	
+	public boolean canAddChildVisit() {
+		if( sessionUtils.getCurrentPatientMID() == null ) {
+			return false;
+		}
+		ObstetricsPregnancyData sql = null;
+		try {
+			sql = new ObstetricsMySQL();
+		} catch (DBException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		ObstetricsPregnancy op = null;
+		try {
+			op = sql.getCurrentObstetricsPregnancy( sessionUtils.getCurrentPatientMIDLong() );
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if( op.getId() == 0 ) {
+			return false;
+		}
+		Childbirth cbv = null;
+		System.out.println( "ID:" + op.getId() );
+		try {
+			cbv = childbirthSQL.getChildbirthVisitForInitId( sessionUtils.getCurrentPatientMIDLong(), op.getId() );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cbv == null;
+		
+		
+	}
+	
+	private void logDrugs( Childbirth cb ) {
+		if( !cb.getAmtEpidural().equals( 0 ) 
+				|| !cb.getAmtMagnesium().equals( 0 )
+				|| !cb.getAmtNitrous().equals( 0 ) 
+				|| !cb.getAmtPethidine().equals( 0 )
+				|| !cb.getAmtPitocin().equals( 0 )
+				|| !cb.getAmtRH().equals( 0 ) ) {
+			logTransaction( TransactionType.ADD_CHILDBIRTH_DRUGS, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
+		}
 	}
 }

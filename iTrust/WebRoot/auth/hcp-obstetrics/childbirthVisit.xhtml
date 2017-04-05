@@ -97,13 +97,15 @@
 				<br/>
 				
 				<br/>
-				<c:if test="#{childbirth_visit_controller.isOBGYN()}">
+				<c:if test="#{childbirth_visit_controller.isOBGYN() &amp;&amp; childbirth_visit_controller.canAddChildVisit()}">
 					<h:form>
 						<h:outputLabel value="Emergency:"></h:outputLabel>
 						<h:selectBooleanCheckbox value="#{childbirth_visit_controller.erBirth}"></h:selectBooleanCheckbox>
 						<h:commandButton type="submit" action="childbirthVisitForm.xhtml" value="Create Childbirth Visit"/>
 				</h:form>
-				
+				</c:if>
+				<c:if test="#{!childbirth_visit_controller.canAddChildVisit()}">
+					<p>Cannot add a childbirth visit. There is either no current pregnancy or there is already a childbirth visit created.</p>
 				</c:if>
 				
 
