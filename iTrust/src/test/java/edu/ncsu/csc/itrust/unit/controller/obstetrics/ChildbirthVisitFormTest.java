@@ -40,13 +40,18 @@ public class ChildbirthVisitFormTest {
 	public void setUp() throws Exception {
 		TestDataGenerator gen = new TestDataGenerator();
 		gen.clearAllTables();
-		
 		gen.standardData();
+		
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
 		Mockito.doReturn(Long.parseLong( "9000000012" ) ).when(mockSessionUtils).getSessionLoggedInMIDLong();
 		Mockito.doReturn(Long.parseLong( "2" )).when(mockSessionUtils).getCurrentPatientMIDLong();
+		mockSessionUtils.setSessionVariable( "pid", 2 );
+		Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 2 );
 		
-		controller = Mockito.spy( new ChildbirthVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils ) );
+		//controller = Mockito.spy( new ChildbirthVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils ) );
+		//form = Mockito.spy( new ChildbirthVisitForm( controller, mockSessionUtils ) );
+		
+		controller = new ChildbirthVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils );
 		form = new ChildbirthVisitForm( controller, mockSessionUtils );
 		
 		form.setAmtEpidural( "1" );
@@ -54,6 +59,7 @@ public class ChildbirthVisitFormTest {
 		form.setAmtNitrous( "1" );
 		form.setAmtPethidine( "1" );
 		form.setAmtPitocin( "1" );
+		form.setAmtRH( "1" );
 		form.setBabyDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
 		form.setBabyId( 1 );
 		form.setChildbirthID( 1 );
@@ -67,6 +73,7 @@ public class ChildbirthVisitFormTest {
 		form.setNumBabies( 0 );
 		form.setPid( 2 );
 		form.setSex( 'f' );
+		form.setBabyDeliveryType( "vaginal delivery" );
 		form.setTimeHour( "06" );
 		form.setTimeMinute( "30" );
 		form.setTimeMerridean( "pm" );
@@ -175,7 +182,7 @@ public class ChildbirthVisitFormTest {
 	@Test
 	public void testGetBabyDate() {
 		form.setBabyDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
-		assertEquals( Calendar.getInstance().getTimeInMillis(), form.getDate().getTime() );
+		assertEquals( Calendar.getInstance().getTimeInMillis(), form.getDate().getTime(), 4 );
 	}
 
 	/**
@@ -255,9 +262,8 @@ public class ChildbirthVisitFormTest {
 	 */
 	@Test
 	public void testGetBabies() {
-		Baby b = new Baby();
-		b.setChildbirthId( 1 );
-		controller.addBaby( b );
+		form.submitChildbirthVisit();
+		form.submitBaby();
 		assertEquals( 1, form.getBabies().size() );
 	}
 	
@@ -275,7 +281,7 @@ public class ChildbirthVisitFormTest {
 	 */
 	@Test
 	public void testSubmitChildbirthVisit() {
-		form.setPid( 2 );
+		//form.setPid( 2 );
 		form.setChildbirthID( 0 );
 		form.submitChildbirthVisit();
 		assertEquals( 1, controller.getChildbirthsForPatient( 2 ).size() );
