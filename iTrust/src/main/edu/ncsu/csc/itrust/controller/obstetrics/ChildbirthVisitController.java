@@ -47,6 +47,7 @@ public class ChildbirthVisitController extends iTrustController {
 	private SessionUtils sessionUtils;
 	private boolean erBirth;
 	private PatientDAO patientDAO;
+	private ObstetricsPregnancyData sql;
 	
 	/**
 	 * Constructor for controller in application
@@ -58,6 +59,12 @@ public class ChildbirthVisitController extends iTrustController {
 		this.patientDAO = factory.getPatientDAO();
 		try {
 			this.childbirthSQL = new ChildbirthMySQL();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.sql = new ObstetricsMySQL();
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,6 +83,12 @@ public class ChildbirthVisitController extends iTrustController {
 		this.patientDAO = factory.getPatientDAO();
 		this.childbirthSQL = new ChildbirthMySQL( ds );
 		erBirth = false;
+		try {
+			sql = new ObstetricsMySQL( ds );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -85,14 +98,7 @@ public class ChildbirthVisitController extends iTrustController {
 	 */
 	public long addReturnGeneratedId( Childbirth cb ) {
 		long ret = 0;
-		ObstetricsPregnancyData sql = null;
-		try {
-			sql = new ObstetricsMySQL();
-			logTransaction( TransactionType.CREATE_CHILDBIRTH_VISIT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
-		} catch (DBException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+
 		ObstetricsPregnancy op = null;
 		try {
 			op = sql.getCurrentObstetricsPregnancy( sessionUtils.getCurrentPatientMIDLong() );
@@ -122,13 +128,7 @@ public class ChildbirthVisitController extends iTrustController {
 	 * @param Childbirth visit to add
 	 */
 	public void addChildbirth(Childbirth cb) {
-		ObstetricsPregnancyData sql = null;
-		try {
-			sql = new ObstetricsMySQL();
-		} catch (DBException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		
 		ObstetricsPregnancy op = null;
 		try {
 			op = sql.getCurrentObstetricsPregnancy( sessionUtils.getCurrentPatientMIDLong() );

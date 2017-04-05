@@ -41,6 +41,7 @@ public class ChildbirthVisitControllerTest {
 		birth.setAmtPethidine( "0" );
 		birth.setAmtPitocin( "0" );
 		birth.setPid( 2 );
+		birth.setAmtRH( "0" );
 	}
 
 	@Test
