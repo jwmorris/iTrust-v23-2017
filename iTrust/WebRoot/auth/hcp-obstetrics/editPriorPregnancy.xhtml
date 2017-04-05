@@ -30,7 +30,7 @@
 				<br/>
 				<p>EDD: #{obstetrics_controller.getPriorPregnancy().edd}</p>
 				<br/>
-				<p>Weeks Pregnant of Recording: <h:inputText type="text" id="expectedWeeksPregnant" name="expectedWeeksPregnant" value="#{obstetrics_controller.getPriorPregnancy().weeksPregnant}" /></p>
+				<p>Weeks Pregnant of Recording: <h:outputText type="text" id="expectedWeeksPregnant" name="expectedWeeksPregnant" value="#{obstetrics_controller.getPriorPregnancy().getWeeksPregnant()}" /></p>
 				<br/>
 				<p>Year of Conception: <h:inputText type="text" id="concepYear" name="concepYear" value="#{obstetrics_controller.getPriorPregnancy().concepYear}" /></p>
 				<br/>

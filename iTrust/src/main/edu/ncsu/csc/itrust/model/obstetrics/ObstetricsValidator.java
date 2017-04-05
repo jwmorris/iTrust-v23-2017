@@ -159,7 +159,7 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 				}
 			}
 			if ( !valid )
-				errorList.addIfNotNull( "Invalid Delivery Type" );
+				errorList.addIfNotNull( "Invalid Delivery Type. Enter one of the following: Vaginal Delivery, Vaginal Delivery Vacuum Assist, Vaginal Deviery Forceps Assist, Caesarean Section, Miscarriage" );
 		}
 		
 		
