@@ -62,7 +62,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			
 			this.factory = TestDAOFactory.getTestInstance();
 			this.utils = Mockito.mock(SessionUtils.class);
-			//Mockito.doReturn( 2 ).when( utils ).getCurrentPatientMIDLong();
+			Mockito.doReturn( Long.parseLong("1") ).when( utils ).getCurrentPatientMIDLong();
 			this.gen = new TestDataGenerator();
 			this.ds = ConverterDAO.getDataSource();
 			try {
@@ -77,7 +77,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			this.oovData = new ObstetricsOfficeVisitMySQL(ds);
 			//this.oc = new ObstetricsController();
 			this.ovc = new ObstetricsVisitController(ds, factory, utils);
-			this.ovf = new ObstetricsVisitForm(ovc);
+			this.ovf = new ObstetricsVisitForm(ovc, utils);
 			preg = new ObstetricsPregnancy();
 			input = new ObstetricsOfficeVisit();
 			

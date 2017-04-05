@@ -10,8 +10,8 @@
 		<h:panelGrid id="visitDetails" columns="4">
             
             <h:outputLabel value="Weeks Pregnant:"/>
-			<h:inputText style="width:100%;" id="weeksPregnant" value="#{obstetrics_visit_form.weeksPregnant}">
-			</h:inputText>
+			<h:outputText style="width:100%;" id="weeksPregnant" value="#{obstetrics_visit_form.getWeeksPregnant()}">
+			</h:outputText>
 			
 			<h:outputLabel value="Weight (lbs):"/>
 			<h:inputText style="width:100%;" id="weight" value="#{obstetrics_visit_form.weight}">

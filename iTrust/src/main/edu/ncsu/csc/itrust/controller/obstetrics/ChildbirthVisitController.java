@@ -385,12 +385,12 @@ public class ChildbirthVisitController extends iTrustController {
 	}
 	
 	private void logDrugs( Childbirth cb ) {
-		if( !cb.getAmtEpidural().equals( 0 ) 
-				|| !cb.getAmtMagnesium().equals( 0 )
-				|| !cb.getAmtNitrous().equals( 0 ) 
-				|| !cb.getAmtPethidine().equals( 0 )
-				|| !cb.getAmtPitocin().equals( 0 )
-				|| !cb.getAmtRH().equals( 0 ) ) {
+		if( !cb.getAmtEpidural().equals( "0" ) 
+				|| !cb.getAmtMagnesium().equals( "0" )
+				|| !cb.getAmtNitrous().equals( "0" ) 
+				|| !cb.getAmtPethidine().equals( "0" )
+				|| !cb.getAmtPitocin().equals( "0" )
+				|| !cb.getAmtRH().equals( "0" ) ) {
 			logTransaction( TransactionType.ADD_CHILDBIRTH_DRUGS, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 		}
 	}
