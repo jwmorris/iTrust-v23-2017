@@ -71,6 +71,7 @@ public class ChildbirthMySQLTest {
 		baby.setDeliveryType( "Vaginal" );
 		baby.setSex( 'm' );
 		baby.setTime( "21:00" );
+		baby.setName( "Kiddo" );
 		
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
