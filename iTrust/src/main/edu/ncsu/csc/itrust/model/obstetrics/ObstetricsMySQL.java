@@ -37,8 +37,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	/** data source */
 	private DataSource ds;
 	
-	/** database connection */
-	private Connection conn;
 	
 	/** validates input from forms */
 	private ObstetricsValidator validator;
@@ -60,11 +58,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
-		try{
-			conn = ds.getConnection();
-		} catch(Exception e) {
-			throw new DBException(new SQLException("Can't get connection"));
-		}
+		
 		validator = new ObstetricsValidator( this.ds );
 	}
 	
@@ -78,11 +72,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public ObstetricsMySQL( DataSource ds ) throws DBException {
 		loader = new ObstetricsSQLLoader();
 		this.ds = ds;
-		try {
-			conn = ds.getConnection();
-		} catch (SQLException e) {
-			throw new DBException(new SQLException("Can't get connection"));
-		}
+		
 		validator = new ObstetricsValidator( this.ds );
 	}
 
@@ -92,12 +82,14 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public List<ObstetricsPregnancy> getAll() throws DBException {
 		List<ObstetricsPregnancy> ret;
-		//Connection conn = null;
+		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
+			conn = ds.getConnection();
 			ps = conn.prepareStatement( "SELECT * FROM obstetricsData" );
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? loader.loadList( rs ) : null;
+			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
 		}
@@ -109,12 +101,15 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	 */
 	@Override
 	public ObstetricsPregnancy getByID( long id ) throws DBException {
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE id = ?" );
 			ps.setLong( 1, id );
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
+			conn.close();
 			return op;
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -128,13 +123,15 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public boolean add( ObstetricsPregnancy op ) throws FormValidationException, DBException {
 		PreparedStatement ps = null;
 		validator.validate( op );
-		try { 
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
 					+ "multiplePregnancy, babyCount, current, rhFlag) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
 			
 			ps.executeUpdate();
-
+			conn.close();
 			return true;
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -149,13 +146,15 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public boolean update( ObstetricsPregnancy op ) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
 		validator.validate( op );
-		System.out.println("updating");
 		
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE id = ?" ), op, false );
 			ps.executeUpdate();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -166,7 +165,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	public void updatePriorPregnancy(ObstetricsPregnancy op, String date) throws DBException, FormValidationException {
 		PreparedStatement ps = null;
 		validator.validate( op );
-		System.out.println("updating");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date sqldate = null;
 		try {
@@ -176,11 +174,14 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			e1.printStackTrace();
 		}
 		String d = sdf.format(sqldate);
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
 			ps.executeUpdate();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -202,13 +203,16 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			e.printStackTrace();
 		}
 		
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid = ? and initDate = ?" );
 			ps.setLong( 1, pid );
 			ps.setDate( 2, dateInit );
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
+			conn.close();
 			return op;
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -221,13 +225,17 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	@Override
 	public List<ObstetricsPregnancy> getPastObstetricsPregnanciesForPatient( long pid ) throws DBException {
 		List<ObstetricsPregnancy> res;
-		try (
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=? ORDER BY initDate DESC" ) ) {
+		PreparedStatement ps = null;
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=? ORDER BY initDate DESC");
 				ps.setLong( 1, pid );
 				ps.setBoolean( 2, false );
 				ResultSet rs = ps.executeQuery();
 				res = rs.next() ? loader.loadList( rs ) : null;
 				rs.close();
+				conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -240,7 +248,9 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 	 */
 	@Override
 	public ObstetricsPregnancy getCurrentObstetricsPregnancy( long pid ) throws DBException {
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsData WHERE pid=? AND current=?" );
 			ps.setLong( 1, pid );
 			ps.setBoolean( 2, true );
@@ -250,8 +260,10 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 				op = new ObstetricsPregnancy();
 			}
 			rs.close();
+			conn.close();
 			return op;
 		} catch ( SQLException e ) {
+			e.printStackTrace();
 			throw new DBException( e );
 		}
 	}

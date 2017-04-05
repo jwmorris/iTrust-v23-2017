@@ -155,6 +155,7 @@ public class ChildbirthHospitalVisitStepDefs {
     	peachRegForm.setTimeMinute( "00" );
     	peachRegForm.setTimeMerridean( "pm" );
     	peachRegForm.setTime();
+    	peachRegForm.setName( "Kiddo" );
     	peachRegForm.submitChildbirthVisit();
     	peachRegForm.submitBaby();
     	Assert.assertEquals( 1, peachRegForm.getBabies().size() );

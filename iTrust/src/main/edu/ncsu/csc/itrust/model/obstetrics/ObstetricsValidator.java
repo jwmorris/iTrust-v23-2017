@@ -92,9 +92,9 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 		}
 		
 		if ( !op.getTotalWeeksPregnant().equals( "" ) ) {
-			int totalWeeks = 0;
+			double totalWeeks = 0;
 			try {
-				totalWeeks = Integer.parseInt( op.getTotalWeeksPregnant() );
+				totalWeeks = Double.parseDouble( op.getTotalWeeksPregnant() );
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Total Weeks Pregnant must be numeric" );
 			}
@@ -118,9 +118,9 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 		}
 		
 		if ( !op.getWeightGain().equals( "" ) ) {
-			int weight = 0;
+			double weight = 0;
 			try {
-				weight = Integer.parseInt( op.getWeightGain() );
+				weight = Double.parseDouble( op.getWeightGain() );
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Weight Gained must be numeric" );
 			}
@@ -159,7 +159,7 @@ public class ObstetricsValidator extends POJOValidator<ObstetricsPregnancy> {
 				}
 			}
 			if ( !valid )
-				errorList.addIfNotNull( "Invalid Delivery Type" );
+				errorList.addIfNotNull( "Invalid Delivery Type. Enter one of the following: Vaginal Delivery, Vaginal Delivery Vacuum Assist, Vaginal Deviery Forceps Assist, Caesarean Section, Miscarriage" );
 		}
 		
 		

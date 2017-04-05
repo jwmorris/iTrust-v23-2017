@@ -134,8 +134,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setBoolean( i++, op.getCurrent() );
 			ps.setBoolean( i++, op.getrhFlag() );
 			
-			ps.setLong(i++, op.getPid());
-			ps.setBoolean(i++, op.getCurrent());
+			ps.setLong(i++, op.getId());
 		}
 		
 		return ps;

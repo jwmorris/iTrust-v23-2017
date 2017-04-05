@@ -324,7 +324,7 @@ public class ObstetricsController extends iTrustController {
 		this.priorPregnancy = op;
 	}
 	public List<ObstetricsPregnancy> getPriors() {
-		return priorPregnancies;
+		return getPriorPregnancies();
 	}
 	
 	public ObstetricsPregnancy getNewPriorPregnancy() {

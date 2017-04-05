@@ -1,9 +1,14 @@
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
@@ -48,6 +53,9 @@ public class ChildbirthVisitController extends iTrustController {
 	private boolean erBirth;
 	private PatientDAO patientDAO;
 	private ObstetricsPregnancyData sql;
+	private ObstetricsOfficeVisitData ovSQL;
+	private String hoursLabor;
+	private String yearConception;
 	
 	/**
 	 * Constructor for controller in application
@@ -65,12 +73,15 @@ public class ChildbirthVisitController extends iTrustController {
 		}
 		try {
 			this.sql = new ObstetricsMySQL();
+			this.ovSQL = new ObstetricsOfficeVisitMySQL();
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		erBirth = false;
+		hoursLabor = "";
+		yearConception = "";
 	}
 	
 	/**
@@ -85,10 +96,13 @@ public class ChildbirthVisitController extends iTrustController {
 		erBirth = false;
 		try {
 			sql = new ObstetricsMySQL( ds );
+			this.ovSQL = new ObstetricsOfficeVisitMySQL(ds);
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		hoursLabor = "";
+		yearConception = "";
 	}
 	
 	/**
@@ -263,7 +277,11 @@ public class ChildbirthVisitController extends iTrustController {
 			PatientBean parent = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean pb = new PatientBean();
 			pb.setEmail( parent.getEmail() );
-			pb.setFirstName( "Baby" );
+			if (b.getName().equals("") || b.getName().equals(null)) {
+				pb.setFirstName( "Baby" );
+			} else {
+				pb.setFirstName( b.getName() );
+			}
 			pb.setLastName( parent.getLastName() );
 			pb.setDateOfBirthStr( b.getDate() );
 			pb.setMotherMID( sessionUtils.getCurrentPatientMID() );
@@ -393,5 +411,175 @@ public class ChildbirthVisitController extends iTrustController {
 				|| !cb.getAmtRH().equals( "0" ) ) {
 			logTransaction( TransactionType.ADD_CHILDBIRTH_DRUGS, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 		}
+	}
+	
+	public String getHoursLabor() {
+		return hoursLabor;
+	}
+
+	public void setHoursLabor(String hoursLabor) {
+		this.hoursLabor = hoursLabor;
+	}
+
+	public String getYearConception() {
+		return yearConception;
+	}
+
+	public void setYearConception(String yearConception) {
+		this.yearConception = yearConception;
+	}
+	
+	public void finishPregnancy() {
+		try {
+			if (Double.parseDouble(hoursLabor) < 0) {
+				throw new NumberFormatException();
+			}
+		} catch(NumberFormatException e) {
+			//TODO: Print Error
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "Invalid Hours Labor", "Invalid Hours Labor: should be a non-zero number", null );
+			System.out.println("hourLabor EXCEPTION");
+			return;
+		}
+		
+		try {
+			if (yearConception.length() != 4 || Integer.parseInt(yearConception) < 0 || String.valueOf(Integer.parseInt(yearConception)).length() != 4) {
+				throw new NumberFormatException();				
+			}
+		} catch(NumberFormatException e) {
+			//TODO: Print Error 
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "Invalid Conception Year", "Invalid Conception Year: should be a non-zero four-digit number", null );
+			System.out.println("yearConception EXCEPTION");
+			return;
+		}
+
+		ObstetricsPregnancy current = null;
+		try {
+			current = sql.getCurrentObstetricsPregnancy(sessionUtils.getCurrentPatientMIDLong());
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "No Current Pregnancy", "No Current Pregnancy: first create a current pregnancy", null );
+			e.printStackTrace();
+			return;
+		}
+		if (current == null) {
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "No Current Pregnancy", "No Current Pregnancy: first create a current pregnancy", null );
+			return;
+		}
+		
+		current.setConcepYear(yearConception);
+		current.setHoursLabor(hoursLabor);
+		
+		Childbirth childVisit = null;
+		try {
+			childVisit = childbirthSQL.getChildbirthVisitForInitId(sessionUtils.getCurrentPatientMIDLong(), current.getId());
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "No Childbirth Visit", "No Childbirth Visit: first create a childbirth visit", null );
+			e.printStackTrace();
+			return;
+		}
+		
+		if (childVisit == null) {
+			//TODO: print Error
+			printFacesMessage( FacesMessage.SEVERITY_INFO, "No Childbirth Visit", "No Childbirth Visit: first create a childbirth visit", null );
+			System.out.println("childVisit == null");
+			return;
+		}
+		
+		List<Baby> currentBabies = getBabies(childVisit.getChildbirthId());
+		int babyCount = 0;
+		if (currentBabies != null) {
+			babyCount = currentBabies.size();
+		}
+		current.setBabyCount(String.valueOf(babyCount));
+		current.setMultiplePregnancy(babyCount > 1);
+		current.setDeliveryType(childVisit.getDeliveryType());
+		current.setCurrent(false);
+		current.setTotalWeeksPregnant(calculateWeeksPreg(current.getLmp(), childVisit.getDate()));
+		current.setWeightGain(calculateWeightGain(current.getId()));
+		try {
+			sql.update(current);
+		} catch (DBException | FormValidationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hoursLabor = "";
+		yearConception = "";
+		
+	}
+	
+	private String calculateWeeksPreg( String lmp, Date visitDate) {
+		Date lmpDate = null;
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			lmpDate = DATE_FORMAT.parse( lmp );
+		} catch( ParseException e ) {
+			e.printStackTrace();
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime( lmpDate );
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime( visitDate );
+		
+		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int totalDays = Math.abs(initDays - lmpDays );
+		int weeks = totalDays / 7;
+		int days = totalDays - (weeks * 7);
+		StringBuilder sb = new StringBuilder();
+		sb.append( Integer.toString( weeks ) );
+		sb.append( "." );
+		sb.append( Integer.toString( days ) );
+		return sb.toString();
+
+	}
+	
+	private String calculateWeightGain(Long currentPregnancy) {
+		List<ObstetricsOfficeVisit> visits = null;
+		try {
+			visits = ovSQL.getOfficeVisitsByPidAndInitId(sessionUtils.getCurrentPatientMIDLong(), currentPregnancy);
+		} catch (DBException e) {
+			//printFacesMessage( FacesMessage.SEVERITY_INFO, "No Obstetrics Visit", "No Obstetrics Visit: first create a Obstetric visit", null );
+			return "";
+		}
+		
+		if (visits == null || visits.size() == 0) {
+			//printFacesMessage( FacesMessage.SEVERITY_INFO, "No Obstetrics Visit", "No Obstetrics Visit: first create a Obstetric visit", null );
+			return "";
+		}
+		
+		String strInitialWeight = "";
+		for (int i = 0; i < visits.size(); i++) {
+			if (!visits.get(i).getWeight().equals("")) {
+				strInitialWeight = visits.get(i).getWeight();
+				break;
+			}
+		}
+		
+		String strCurrentWeight = "";
+		for (int i = visits.size() - 1; i >= 0; i--) {
+			if (!visits.get(i).getWeight().equals("")) {
+				strCurrentWeight = visits.get(i).getWeight();
+				break;
+			}
+		}
+		
+		if (strInitialWeight.equals("") || strCurrentWeight.equals("")) {
+			return "";
+		}
+		
+		double initialWeight;
+		double currentWeight;
+		try {
+			initialWeight = Double.parseDouble(strInitialWeight);
+			currentWeight = Double.parseDouble(strCurrentWeight);
+		} catch (NumberFormatException e) {
+			return "";
+		}
+		double weightGain = currentWeight - initialWeight;
+		
+		System.out.println(String.valueOf(weightGain));
+		return String.valueOf(weightGain);
 	}
 }

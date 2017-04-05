@@ -59,6 +59,7 @@ public class ChildbirthVisitForm {
 	private String timeMerridean;
 	private String babyDeliveryType;
 	private char sex;
+	private String name;
 
 	// id of the baby
 	private int multiNum;
@@ -101,6 +102,7 @@ public class ChildbirthVisitForm {
 			timeMinute = "00";
 			timeMerridean = "am";
 			babyDeliveryType = deliveryType;
+			name="";
 		} catch (Exception e) {
 //			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 //					"Obstetrics Visit Controller Error");
@@ -136,6 +138,7 @@ public class ChildbirthVisitForm {
 			timeMinute = "00";
 			timeMerridean = "am";
 			babyDeliveryType = deliveryType;
+			name="";
 		} catch ( Exception e ) {
 			//do nothing
 		}
@@ -408,6 +411,20 @@ public class ChildbirthVisitForm {
 	public void setSex(char sex) {
 		this.sex = sex;
 	}
+	
+	/**
+	 * @return the babies name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the baby name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * @return the multiNum
@@ -508,6 +525,7 @@ public class ChildbirthVisitForm {
 		}
 		babyDeliveryType = selected.getDeliveryType();
 		sex = selected.getSex();
+		name = selected.getName();
 		multiNum = selected.getMultiNum();
 		editBaby = true;
 	}
@@ -560,6 +578,7 @@ public class ChildbirthVisitForm {
 		baby.setChildbirthId(childbirthID);
 		baby.setSex(sex);
 		baby.setTime(time);
+		baby.setName(name);
 		if ( er )
 			estimateDate = true;
 		else
@@ -581,6 +600,7 @@ public class ChildbirthVisitForm {
 		
 		babyDate = null;
 		sex = 'm';
+		name = "";
 		babyDeliveryType = deliveryType;
 		time = "12:00 am";
 		timeHour = "12";

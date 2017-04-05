@@ -31,6 +31,7 @@ public class BabyTest {
 		baby.setDeliveryType( "Vaginal Delivery" );
 		baby.setSex( 'm' );
 		baby.setTime( "21:00" );
+		baby.setName( "Kiddo" );
 	}
 
 	/**
@@ -84,6 +85,11 @@ public class BabyTest {
 	@Test
 	public void testGetMultiNum() {
 		assertEquals( 0, baby.getMultiNum() );
+	}
+	
+	@Test
+	public void getName() {
+		assertTrue( baby.getName().equals( "Kiddo" ) );
 	}
 
 }

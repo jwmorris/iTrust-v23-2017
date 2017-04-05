@@ -46,6 +46,7 @@ public class BabyLoaderMySQL implements SQLLoader<Baby> {
 		baby.setDeliveryType( rs.getString( "deliveryType" ) );
 		baby.setSex( ( char )( rs.getInt( "sex" ) ) );
 		baby.setMultiNum( rs.getInt( "multiNum" ) );
+		baby.setName( rs.getString( "name" ));
 	}
 
 	@Override
@@ -68,6 +69,7 @@ public class BabyLoaderMySQL implements SQLLoader<Baby> {
 			ps.setString( i++, baby.getDeliveryType() );
 			ps.setInt( i++, baby.getSex() );
 			ps.setInt( i++, baby.getMultiNum() );
+			ps.setString( i++, baby.getName());
 		}
 		
 		if ( !newInstance ) {
@@ -76,7 +78,7 @@ public class BabyLoaderMySQL implements SQLLoader<Baby> {
 			ps.setBoolean( i++, baby.isEstimateDate() );
 			ps.setString( i++, baby.getDeliveryType() );
 			ps.setInt( i++, baby.getSex() );
-			
+			ps.setString(i++, baby.getName());
 			ps.setLong( i++, baby.getChildbirthId() );
 			ps.setInt( i++, baby.getMultiNum() );
 		}

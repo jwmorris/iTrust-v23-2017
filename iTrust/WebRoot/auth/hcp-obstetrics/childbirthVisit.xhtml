@@ -38,10 +38,30 @@
 						#{current.weeksPregnant}
 					</h:column>
 				</h:dataTable>
-			</h:form>
+			
 			<br/>
+			<c:if test="#{childbirth_visit_controller.isOBGYN()}">
+				
+					<h:message for=""/>
+					<h:panelGrid id="currentToPriorForm" columns="5">
+						<h:outputText value="Hours in Labor:"/>
+						<h:inputText value="#{childbirth_visit_controller.hoursLabor}"/>
+						<h:outputText value="Year of Conception(yyyy):"/>
+						<h:inputText value="#{childbirth_visit_controller.yearConception}"/>
+						<h:commandButton value="Finish Pregnancy" id="convert" action="#{childbirth_visit_controller.finishPregnancy()}" update="priorPregs">
+							<!-- <f:ajax event="action" render="form"/> -->
+						</h:commandButton>
+					</h:panelGrid>
+				
+			</c:if>
+			<br/>
+			<br/>
+		
+			
+
+		
 			<h4>Prior Pregnancies</h4>   		
-    			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
+    			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior" id="priorPregs">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
 						#{prior.dateInit}
@@ -93,7 +113,7 @@
 						#{prior.babyCount}
 					</h:column>
 				</h:dataTable>
-				
+				</h:form>
 				<br/>
 				
 				<br/>

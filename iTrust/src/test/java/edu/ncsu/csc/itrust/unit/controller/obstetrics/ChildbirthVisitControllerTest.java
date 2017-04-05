@@ -4,12 +4,18 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.obstetrics.ChildbirthVisitController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsMySQL;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
+import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Baby;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Childbirth;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
@@ -22,6 +28,7 @@ public class ChildbirthVisitControllerTest {
 	private ChildbirthVisitController con;
 	private SessionUtils mockSessionUtils;
 	private Childbirth birth;
+	private DataSource ds;
 
 	@Before
 	public void setUp() throws Exception {
@@ -32,8 +39,8 @@ public class ChildbirthVisitControllerTest {
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
 		Mockito.doReturn(Long.parseLong( "9000000012" ) ).when(mockSessionUtils).getSessionLoggedInMIDLong();
 		Mockito.doReturn(Long.parseLong( "2" )).when(mockSessionUtils).getCurrentPatientMIDLong();
-		
-		con = new ChildbirthVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils );
+		ds = ConverterDAO.getDataSource();
+		con = new ChildbirthVisitController( ds, TestDAOFactory.getTestInstance(), mockSessionUtils );
 		birth = new Childbirth();
 		birth.setAmtEpidural( "3" );
 		birth.setAmtMagnesium( "4" );
@@ -339,6 +346,23 @@ public class ChildbirthVisitControllerTest {
 		assertFalse( con.isErBirth() );
 		con.setErBirth( true );
 		assertTrue( con.isErBirth() );
+	}
+	
+	@Test
+	public void testFinishPregnancy() throws DBException {
+		con.addChildbirth( birth );
+		Baby baby = new Baby();
+		baby.setChildbirthId( 1 );
+		baby.setDeliveryType( "vaginal delivery" );
+		baby.setName( "Kiddo" );
+		baby.setSex( 'm' );
+		baby.setTime( "6:00 pm" );
+		con.addBaby( baby );
+		con.setHoursLabor( "4" );
+		con.setYearConception( "2016" );
+		con.finishPregnancy();
+		ObstetricsPregnancyData opSql = new ObstetricsMySQL( ds );
+		assertTrue( opSql.getCurrentObstetricsPregnancy( 2 ).getConcepYear().equals( "" ) );
 	}
 
 	@Test

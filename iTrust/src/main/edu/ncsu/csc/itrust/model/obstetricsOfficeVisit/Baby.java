@@ -23,6 +23,8 @@ public class Baby {
 	
 	private int multiNum;
 	
+	private String name;
+	
 	public Baby() {
 		childbirthId = 0;
 		date = "";
@@ -31,6 +33,7 @@ public class Baby {
 		deliveryType = "";
 		sex = 0;
 		multiNum = 0;
+		name = "";
 	}
 
 	/**
@@ -136,6 +139,14 @@ public class Baby {
 	 */
 	public void setMultiNum(int multiNum) {
 		this.multiNum = multiNum;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
