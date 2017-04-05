@@ -245,7 +245,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		try { 
 			conn = ds.getConnection();
 			ps = babyLoader.loadParameters( conn, conn.prepareStatement("INSERT INTO babyData (childbirthId, birthDate, "
-					+ "birthTime, estimatedDate, deliveryType, sex, multiNum)VALUES(?,?,?,?,?,?,?)"), baby, true );
+					+ "birthTime, estimatedDate, deliveryType, sex, multiNum, name)VALUES(?,?,?,?,?,?,?,?)"), baby, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -265,7 +265,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 		try {
 			conn = ds.getConnection();
 			ps = babyLoader.loadParameters( conn, conn.prepareStatement("UPDATE babyData SET birthDate=?"
-					+ ", birthTime=?, estimatedDate=?, deliveryType=?, sex=? WHERE childbirthId=? AND multiNum=?" ), baby, false );
+					+ ", birthTime=?, estimatedDate=?, deliveryType=?, sex=?, name=? WHERE childbirthId=? AND multiNum=?" ), baby, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
