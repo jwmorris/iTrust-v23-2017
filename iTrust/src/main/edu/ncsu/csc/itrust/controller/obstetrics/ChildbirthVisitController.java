@@ -499,6 +499,8 @@ public class ChildbirthVisitController extends iTrustController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		hoursLabor = "";
+		yearConception = "";
 		
 	}
 	

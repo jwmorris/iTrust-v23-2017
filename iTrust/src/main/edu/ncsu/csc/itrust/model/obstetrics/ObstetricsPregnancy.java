@@ -14,7 +14,7 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name="obstetrics_pregnancy")
 public class ObstetricsPregnancy {
-	
+	// unique db ID
 	private long id;
 	/** mid of the obstetrics patient */
 	private long pid;
@@ -131,7 +131,7 @@ public class ObstetricsPregnancy {
 		}
 		this.lmp = lmp;
 		if(!lmp.equals("") && lmp != null) {
-			System.out.println( "settingLMP" );
+
 			this.edd = calculateEdd( lmp );
 			this.weeksPregnant = calculateWeeksPreg( lmp );
 		}
