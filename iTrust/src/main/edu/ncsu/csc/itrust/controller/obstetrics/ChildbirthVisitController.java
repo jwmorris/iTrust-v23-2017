@@ -277,7 +277,11 @@ public class ChildbirthVisitController extends iTrustController {
 			PatientBean parent = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean pb = new PatientBean();
 			pb.setEmail( parent.getEmail() );
-			pb.setFirstName( "Baby" );
+			if (b.getName().equals("") || b.getName().equals(null)) {
+				pb.setFirstName( "Baby" );
+			} else {
+				pb.setFirstName( b.getName() );
+			}
 			pb.setLastName( parent.getLastName() );
 			pb.setDateOfBirthStr( b.getDate() );
 			pb.setMotherMID( sessionUtils.getCurrentPatientMID() );
