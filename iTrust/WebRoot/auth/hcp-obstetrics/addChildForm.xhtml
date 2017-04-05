@@ -108,7 +108,7 @@
 			<h:outputLabel value="Delivery Type:"/>
 			<c:choose>
 				<c:when test="#{!childbirth_visit_controller.isErBirth()}">
-					<h:selectOneMenu  value="#{childbirth_visit_form.babyDeliveryType}">
+					<h:selectOneMenu id="deliveryPicker" value="#{childbirth_visit_form.babyDeliveryType}">
 						<f:selectItem itemValue="Vaginal Delivery" itemLabel="Vaginal Delivery"/>
 						<f:selectItem itemValue="Vaginal Delivery Vacuum Assist" itemLabel="Vaginal Delivery Vacuum Assist"/>
 						<f:selectItem itemValue="Vaginal Deviery Forceps Assist" itemLabel="Vaginal Deviery Forceps Assist"/>
