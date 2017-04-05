@@ -5,37 +5,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:itrust="/WEB-INF/tags.tld">
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 <f:view
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageTitle">iTrust - Patient Initialization Record</ui:define>
+		<ui:define name="pageTitle">iTrust - Childbirth Visit</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
 		<ui:define name="mainContent">
-			<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
-			<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
-				<h:form id="obstetric">
-				<h4>#{mid} is not eligible for Obstetrics care. Please choose a new patient or activate #{mid} for obstetrics.</h4>
-				<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
-				<h:commandButton value="Activate" id="activate" name="activate" action="#{obstetrics_controller.activatePatient()}"/>
-				</h:form>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
-			<h3>Patient Initialization Records <small>of #{mid}</small></h3>
-			
-			<br/>
-			<h:form id="currentPregnancy">
-			<h:message for="addNewPregnancy" globalOnly="true"/>
-			<br/>
-			<h:commandButton id="addNewPregnancy" type="" value="Add New Pregnancy" action="#{obstetrics_controller.addCurrentPregnancy()}"></h:commandButton>
-			</h:form>
-			<br/>
-			<br/>
-			<h4>Current Pregnancy</h4>
+		<c:set var="mid" scope="view" value="#{user.getUserNameForID(session.getAttribute('pid'))}" />
+		<h4>Current Pregnancy</h4>
 			<h:form id="table">
 				<h:dataTable value="#{obstetrics_controller.currentPregnancy}" var="current">
 					<h:column>
@@ -57,28 +39,8 @@
 					</h:column>
 				</h:dataTable>
 			</h:form>
-			<h:form id="editCurrentForm">
-			<h:message for="editCurrentPregnancy" />
 			<br/>
-			<h:commandButton id="editCurrentPregnancy" type="" value="Edit Current Pregnancy" action="#{obstetrics_controller.editCurrentButton()}"></h:commandButton>
-			</h:form>
-			<br/>
-			<h4>Prior Pregnancies</h4>
-			<br/>
-			<h:form id="editPriorForm">
-				<h:selectOneMenu id="priorDates" style="width:100px" value="#{obstetrics_controller.selectedDate}">
-					<f:selectItems value="#{obstetrics_controller.getPriors()}" var="p" 
-						itemLabel="#{p.dateInit}" itemValue="#{p.dateInit}"/>
-				</h:selectOneMenu>
-				<h:commandButton id="editPriorPregnancy" value="Edit Prior Pregnancy" action="#{obstetrics_controller.editPriorPregnancyButton()}"/>
-    			<h:message for="editPriorPregnancy" globalOnly="true"/>
-    		</h:form>    		
-    		<br/>
-    		<h:form id="addPriorForm">
-				<h:commandButton id="addPriorPregnancy" value="Add Prior Pregnancy" action="#{obstetrics_controller.addPriorPregnancyButton()}"/>
-    			<h:message for="addPriorPregnancy" globalOnly="true"/>
-    		</h:form>    		
-    		<br/>
+			<h4>Prior Pregnancies</h4>   		
     			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
 					<h:column>
 						<f:facet name = "header">Date Initialized</f:facet>
@@ -131,9 +93,77 @@
 						#{prior.babyCount}
 					</h:column>
 				</h:dataTable>
-			</h:panelGroup>
-			
-		</ui:define> 
+				
+				<br/>
+				
+				<br/>
+				<c:if test="#{childbirth_visit_controller.isOBGYN() &amp;&amp; childbirth_visit_controller.canAddChildVisit()}">
+					<h:form>
+						<h:outputLabel value="Emergency:"></h:outputLabel>
+						<h:selectBooleanCheckbox value="#{childbirth_visit_controller.erBirth}"></h:selectBooleanCheckbox>
+						<h:commandButton type="submit" action="childbirthVisitForm.xhtml" value="Create Childbirth Visit"/>
+				</h:form>
+				</c:if>
+				<c:if test="#{!childbirth_visit_controller.canAddChildVisit()}">
+					<p>Cannot add a childbirth visit. There is either no current pregnancy or there is already a childbirth visit created.</p>
+				</c:if>
+				
+
+				<c:set var="obgyn" value="#{childbirth_visit_controller.isOBGYN()}"/>
+				<c:choose>
+					<c:when test="#{childbirth_visit_controller.currentPatientHasVisits()}">
+						<div align="center">
+							<br />
+							<br />
+							<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit</h2>
+							<h:dataTable id="previousVisits" styleClass="fTable" value="#{childbirth_visit_controller.getChildbirthsForCurrentPatient()}" 
+								var="cb"  border="1">
+								<br/>
+								<h:column>
+									<c:if test="#{obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to Edit"/>
+										</f:facet>
+								   		<h:link outcome="/auth/hcp-obstetrics/childbirthVisitForm.xhtml" value="Edit">
+			      						 	<f:param name="childbirthID" value="#{cb.getChildbirthId()}" />
+			   							</h:link>
+									</c:if>
+									<c:if test="#{!obgyn}">
+										<f:facet name="header">
+											<h:outputText value="Click to View"/>
+										</f:facet>
+										<h:link outcome="/auth/hcp-obstetrics/childbirthVisitForm.xhtml" value="View">
+											<f:param name="childbirthID" value="#{cb.getChildbirthId()}"/>
+										</h:link>
+									</c:if>
+								</h:column>	
+				
+			 					<h:column>
+									<f:facet name="header">
+										<h:outputText value="Date"/>
+									</f:facet>
+									<h:outputText value="#{cb.getDate()}">
+										<!-- <f:converter converterId="localDateTimeConverter"/>-->
+									</h:outputText>
+								</h:column>	 
+							</h:dataTable>	
+						</div>
+						<br />
+						<br />
+					</c:when>
+					<c:otherwise>
+						<br />
+						<br />
+						<div align="center">
+						<h2 style="font-size: 175%; font-weight: bold;">No Childbirth Visits on Record for this Patient!</h2>
+						</div>
+						<br />
+						<br />
+					</c:otherwise>
+					
+				</c:choose>
+
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>

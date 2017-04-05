@@ -104,12 +104,6 @@ public class ObstetricsPregnancy {
 		return dateInit;
 	}
 
-//	/**
-//	 * @param dateInitialization the dateInitialization to set
-//	 */
-//	public void setDateInit( Date dateInitialization ) {
-//		this.dateInit = dateInitialization;
-//	}
 	
 	/**
 	 * @param dateInitialization the dateInitialization to set
@@ -125,13 +119,6 @@ public class ObstetricsPregnancy {
 		return lmp;
 	}
 
-	/**
-	 * @param lmp the lmp to set
-	 */
-//	public void setLmp( Date lmp ) {
-//		this.lmp = lmp;
-////		calculateAndSetEddWeeksPreg( lmp );
-//	}
 	
 	/**
 	 * @param lmp the lmp to set
@@ -144,7 +131,9 @@ public class ObstetricsPregnancy {
 		}
 		this.lmp = lmp;
 		if(!lmp.equals("") && lmp != null) {
-			calculateAndSetEddWeeksPreg(lmp);
+			System.out.println( "settingLMP" );
+			this.edd = calculateEdd( lmp );
+			this.weeksPregnant = calculateWeeksPreg( lmp );
 		}
 	}
 
@@ -160,26 +149,13 @@ public class ObstetricsPregnancy {
 	 */
 	public void setEdd() {
 		if(!lmp.equals("") && lmp != null) {
-			calculateAndSetEddWeeksPreg(lmp);
+			this.edd = calculateEdd( lmp );
 		}
 		
 	}
+
 	
-	public void assignEdd(String edd){
-		this.edd = edd;
-	}
-	/**
-	 * @param edd the edd to set
-	 */
-//	public void setEdd( String edd ) {
-//		try {
-//			this.edd = new Date( DATE_FORMAT.parse( edd ).getTime() );
-//		} catch ( ParseException e ) {
-//			this.edd = null;
-//		}
-//	}
-	
-	private void calculateAndSetEddWeeksPreg( String lmp ) {
+	private String calculateEdd( String lmp ) {
 		if ( lmp.equals("") || lmp == null)
 			lmp = this.lmp;
 		Date lmpDate = null;
@@ -192,9 +168,22 @@ public class ObstetricsPregnancy {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime( lmpDate );
 		cal.add( Calendar.DAY_OF_YEAR, 280 );
-		assignEdd( DATE_FORMAT.format(new Date( cal.getTimeInMillis() )) );
+		return DATE_FORMAT.format( new Date( cal.getTimeInMillis() ) );
 		
-		cal = Calendar.getInstance();
+		
+	}
+	
+	private String calculateWeeksPreg( String lmp ) {
+		Date lmpDate = null;
+		if ( lmp.equals("") || lmp == null)
+			lmp = this.lmp;
+		try {
+			lmpDate = DATE_FORMAT.parse( lmp );
+		} catch( ParseException e ) {
+			e.printStackTrace();
+		}
+		
+		Calendar cal = Calendar.getInstance();
 		cal.setTime( lmpDate );
 		Calendar cal2 = Calendar.getInstance();
 		try {
@@ -203,15 +192,26 @@ public class ObstetricsPregnancy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
-		/*
-		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
+//		int w = cal2.get( Calendar.WEEK_OF_YEAR ) - cal.get( Calendar.WEEK_OF_YEAR );
+//		
+//		int days = ( cal2.get( Calendar.DAY_OF_YEAR ) - cal.get( Calendar.DAY_OF_YEAR) ) % w;
+		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
+		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
+//		int totalDays = Math.abs((int)( (cal2.getTime().getTime() - cal.getTime().getTime()) / (1000 * 60 * 60 * 24)));
+		int totalDays = Math.abs(initDays - lmpDays );
+		System.out.println("Total Days: " + totalDays);
+		int weeks = totalDays / 7;
+		System.out.println("Week(s): " + weeks);
+		int days = totalDays - (weeks * 7);
+		System.out.println("Day(s): " + days);
 		StringBuilder sb = new StringBuilder();
-		sb.append( Integer.toString( w ) );
+		sb.append( Integer.toString( weeks ) );
+		sb.append( "." );
 		sb.append( Integer.toString( days ) );
-		setWeeksPregnant( Integer.parseInt( sb.toString() ) );
-		*/
-		setWeeksPregnant( String.valueOf(w) );
+		System.out.println("calc " + lmp);
+		System.out.println("calc " + sb.toString() );
+		return sb.toString();
+
 	}
 
 	/**
@@ -224,8 +224,10 @@ public class ObstetricsPregnancy {
 	/**
 	 * @param weeksPregnant weeksPregnant to set
 	 */
-	public void setWeeksPregnant( String weeksPregnant ) {
-		this.weeksPregnant = weeksPregnant;
+	public void setWeeksPregnant( ) {
+		if(!lmp.equals("") && lmp != null) {
+			this.weeksPregnant = calculateWeeksPreg( lmp );
+		}
 	}
 	
 	/**

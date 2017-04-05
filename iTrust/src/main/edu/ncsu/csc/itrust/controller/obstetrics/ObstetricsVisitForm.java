@@ -800,7 +800,7 @@ public class ObstetricsVisitForm {
             	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
             	
-            	if ( dateNow.before(startTime) || dateLater.before(startTime) || dateNow.after(endTime) || dateLater.after(endTime) ) {
+            	if ( !(dateNow.before(startTime) && dateLater.before(startTime)) && !(dateNow.after(endTime) && dateLater.after(endTime)) ) {
             		System.out.println("YOU ARE AFTER THE EXPECTED TIME!!!");
             		available = false;
             		break;

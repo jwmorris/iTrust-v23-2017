@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	
+	<div align="center">
+		<p>Please enter the drug information for this emergency childbirth visit. After you save, you will be given the ability to add baby information.</p>
+
+	</div>
+	<div align="center">
+	<h:message for="" style="color:red;"/>
+		<h:form>
+		<h:panelGrid columns="7" border="1" styleClass="drugTable">
+		
+			<h:outputLabel value="Delivery Type:"></h:outputLabel>
+			
+			
+			<h:outputLabel value="Pitocin Amount:"/>
+			
+			
+			<h:outputLabel value="Nitrous Oxide Amount:"/>
+				
+			<h:outputLabel value="Pethidine Amount:"/>
+
+			
+			<h:outputLabel value="Epidural Anaesthesia Amount:"/>
+
+			
+			<h:outputLabel value="Magnesium Sulfate Amount:"/>
+			
+			<h:outputLabel value="RH Immune Globulin:"/>
+			
+			<h:outputText value="Vaginal Delivery"></h:outputText>
+			
+			<h:inputText value="#{childbirth_visit_form.amtPitocin}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtNitrous}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtPethidine}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtEpidural}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtMagnesium}" style="width:50px;"/>
+			<h:inputText value="#{childbirth_visit_form.amtRH}" style="width:50px;"/>
+		</h:panelGrid>
+		<h:outputText value="#{childbirth_visit_form.setErString( 'true' ) }" />
+		<h:outputText value="#{childbirth_visit_form.setDeliveryType( 'Vaginal Delivery' )}" />
+		<br/>
+		<div class="form-group  form-button-group">
+			<c:set var="obgyn" value="#{childbirth_visit_controller.isOBGYN()}"/>
+		
+			<c:if test="#{obgyn}">
+				<h:commandButton value="Save Childbirth Information" action="#{childbirth_visit_form.submitChildbirthVisit()}"/>		
+			</c:if>			
+			<h:commandButton id="cancelVisitButton" value="Cancel" action="/auth/hcp-obstetrics/childbirthVisit.xhtml" immediate="true" />
+		</div>
+
+	</h:form>
+	</div>
+	
+	<br/>
+	<br/>
+	<br/>
+	<c:if test="#{childbirth_visit_form.getChildbirthID() != 0}" >
+		<ui:include src="/auth/hcp-obstetrics/addChildForm.xhtml"></ui:include>
+	</c:if>
+	
+	
+</html>

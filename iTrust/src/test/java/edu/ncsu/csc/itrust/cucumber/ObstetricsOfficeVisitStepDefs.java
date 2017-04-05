@@ -233,7 +233,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			preg.setrhFlag(true);
 			preg.setDateInit("02/01/2017");
 			preg.setLmp("01/25/2017");
-			preg.setWeeksPregnant("30");
+			preg.setWeeksPregnant();
 			//preg.setBabyCount( "1" );
 			sql.add(preg);
 		}

@@ -101,3 +101,9 @@ ALTER TABLE obstetricsOfficeVisitData AUTO_INCREMENT = 0;
 
 DELETE FROM fetusData;
 ALTER TABLE fetusData AUTO_INCREMENT = 0;
+
+DELETE FROM childbirthData;
+ALTER TABLE childbirthData AUTO_INCREMENT = 0;
+
+DELETE FROM babyData;
+ALTER TABLE babyData AUTO_INCREMENT = 0;
