@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:itrust="/WEB-INF/tags.tld">
+<f:view
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+<h:body>
+	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageTitle">iTrust - Childbirth Visit</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+		
+		<h:panelGroup rendered="#{!obstetrics_report.hasCurrentPregnancy()}">
+			<h:form>
+			<h4>This patient does not have a current pregnancy.</h4>
+			<br/>
+			<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
+			
+			</h:form>
+			
+		</h:panelGroup>
+		<h:panelGroup rendered="#{obstetrics_report.hasCurrentPregnancy()}">
+		<h:form id="table">	
+			<c:choose>
+				<c:when test="#{obstetrics_report.hasPriorPregnancies()}">
+					<h4>Prior Pregnancies</h4>   		
+    			<h:dataTable value="#{obstetrics_report.priors}" var="prior" id="priorPregs" border="1">
+
+					<h:column>
+						<f:facet name = "header">Year of Conception</f:facet>
+						#{prior.concepYear}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Total Weeks Pregnant (Weeks.Days)</f:facet>
+						#{prior.totalWeeksPregnant}
+					</h:column>
+					<h:column>
+						<f:facet name = "header">Delivery Type</f:facet>
+						#{prior.deliveryType}
+					</h:column>
+				</h:dataTable>
+				</c:when>
+				<c:otherwise>
+					<h4>No Prior Pregnancies</h4>
+				</c:otherwise>
+			</c:choose>
+			
+				</h:form>
+				<br/>
+				
+				<h:outputLabel value="Estimated Delivery Date: "/>
+				<h:outputText value="#{obstetrics_report.edd}" />
+				<br/>
+				
+				<h:outputLabel value="Patient Blood Type:" />
+				<h:outputText value="#{obstetrics_report.bloodType}"/>
+				<br/>
+				
+				<c:choose>
+					<c:when test="#{obstetrics_report.hasOfficeVisits()}">
+						<h4>Patient Office Visits</h4>   		
+    			<h:dataTable value="#{obstetrics_report.officeVisits}" var="ov" id="officeVisits" border = "1">
+
+					<h:column>
+						<f:facet name = "header">Date</f:facet>
+						#{ov.getVisitDate()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Weeks Pregnant at Office Visit(Weeks.Days)</f:facet>
+						#{ov.getWeeksPregnant()}
+					</h:column>
+					<h:column>
+						<f:facet name = "header">Weight</f:facet>
+						#{ov.getWeight()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Blood Pressure</f:facet>
+						#{ov.getBp()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Fetal Heart Rate</f:facet>
+						#{ov.getFhr()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Multiple Pregnancy</f:facet>
+						#{ov.isMultiplePregnancy()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Low Lying Placenta</f:facet>
+						#{ov.isLowLying()}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Complications</f:facet>
+						
+					</h:column>
+				</h:dataTable>
+					</c:when>
+					
+					<c:otherwise>
+						<h4>There are no Obstetrics Office Visits</h4>
+					</c:otherwise>
+				</c:choose>
+				
+
+				<!-- <h4>Complication Risks</h4>   		
+    			<h:dataTable value="" var="ov" id="complicationTable" border="1">
+
+					<h:column>
+						<f:facet name = "header">RH</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">High Blood Pressure</f:facet>
+						
+					</h:column>
+					<h:column>
+						<f:facet name = "header">Advanced Maternal Age</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Preexisting Condition</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Maternal Allergies</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Low Lying Placenta</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">High Potential For Miscarriage</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Abnormal Fetal Heart Rate</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Multiple Current Pregnancy</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Atypical Weight Change</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Hyperemesis Gravidarum</f:facet>
+						
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Hypothyroidism</f:facet>
+						
+					</h:column>
+				</h:dataTable>
+				 -->
+				<c:choose>
+					<c:when test="#{obstetrics_report.hasAllergies()}">
+						<h4>Relevant Allergies</h4>
+						<h:dataTable value="#{obstetrics_report.allergies}" var="a">
+							<h:column>
+								<f:facet name = "header">Allergy Name</f:facet>
+								#{a.getDescription()}
+							</h:column>
+						</h:dataTable>
+					</c:when>
+					
+					<c:otherwise>
+						<h4>No Relevant Allergies</h4>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test="#{obstetrics_report.hasDiagnoses()}">
+						<h4>Relevant Allergies</h4>
+						<h:dataTable value="#{obstetrics_report.diagnoses}" var="d">
+							<h:column>
+								<f:facet name = "header">Relevant Pre-existing Condition</f:facet>
+								
+							</h:column>
+						</h:dataTable>
+					</c:when>
+					
+					<c:otherwise>
+						<h4>No Relevant Pre-existing Conditions</h4>
+					</c:otherwise>
+				</c:choose>
+		</h:panelGroup>		
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
