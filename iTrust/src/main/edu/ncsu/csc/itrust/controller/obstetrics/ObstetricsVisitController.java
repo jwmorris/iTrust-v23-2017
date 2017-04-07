@@ -179,6 +179,16 @@ public class ObstetricsVisitController extends iTrustController {
 		return getVisitByID(visitID);
 	}
 	
+	public List<ObstetricsOfficeVisit> getOfficeVisitsForInitId( long pid, long id ) {
+		List<ObstetricsOfficeVisit> visits = null;
+		try {
+			visits = obstetricsVisitData.getOfficeVisitsByPidAndInitId( pid, id );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return visits;
+	}
 	/**
 	 * Checks if the patient has any office visits
 	 * @param mid

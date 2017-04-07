@@ -15,18 +15,6 @@
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
 		<ui:define name="mainContent">
-		
-		<h:panelGroup rendered="#{!obstetrics_report.hasCurrentPregnancy()}">
-			<h:form>
-			<h4>This patient does not have a current pregnancy.</h4>
-			<br/>
-			<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
-			
-			</h:form>
-			
-		</h:panelGroup>
-		<h:panelGroup rendered="#{obstetrics_report.hasCurrentPregnancy()}">
-		<h:form id="table">	
 			<c:choose>
 				<c:when test="#{obstetrics_report.hasPriorPregnancies()}">
 					<h4>Prior Pregnancies</h4>   		
@@ -45,15 +33,14 @@
 						<f:facet name = "header">Delivery Type</f:facet>
 						#{prior.deliveryType}
 					</h:column>
+			
 				</h:dataTable>
 				</c:when>
 				<c:otherwise>
 					<h4>No Prior Pregnancies</h4>
 				</c:otherwise>
 			</c:choose>
-			
-				</h:form>
-				<br/>
+
 				
 				<h:outputLabel value="Estimated Delivery Date: "/>
 				<h:outputText value="#{obstetrics_report.edd}" />
@@ -181,7 +168,7 @@
 				<c:choose>
 					<c:when test="#{obstetrics_report.hasAllergies()}">
 						<h4>Relevant Allergies</h4>
-						<h:dataTable value="#{obstetrics_report.allergies}" var="a">
+						<h:dataTable value="#{obstetrics_report.allergies}" var="a" border="1">
 							<h:column>
 								<f:facet name = "header">Allergy Name</f:facet>
 								#{a.getDescription()}
@@ -209,7 +196,7 @@
 						<h4>No Relevant Pre-existing Conditions</h4>
 					</c:otherwise>
 				</c:choose>
-		</h:panelGroup>		
+
 			
 		</ui:define>
 	</ui:composition>
