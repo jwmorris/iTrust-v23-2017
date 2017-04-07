@@ -43,17 +43,24 @@ public class ObstetricsOfficeVisitValidator extends POJOValidator<ObstetricsOffi
 				errorList.addIfNotNull( "Weight cannot be negative" );
 		}
 
-		int bp = 0;
+		int bpOne = 0;
+		int bpTwo = 0;
 		if ( ov.getBp().equals( "" ) )
 			errorList.addIfNotNull( "Blood Pressure cannot be empty" );
+		if(!ov.getBp().contains("/"))
+			errorList.addIfNotNull("Blood Pressure is invalid.");
 		else {
+			String[] bpNum = ov.getBp().split("/");
+			String bpFirst = bpNum[0];
+			String bpSecond = bpNum[1];
 			try {
-				bp = Integer.parseInt( ov.getBp() );
+				bpOne = Integer.parseInt( bpFirst );
+				bpTwo = Integer.parseInt(bpSecond);
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Blood Pressure must be numeric" );
 			}
 			
-			if ( bp < 0 )
+			if ( bpOne < 0 || bpTwo < 0 )
 				errorList.addIfNotNull( "Blood Pressure cannot be negative" );
 		}
 		
@@ -111,15 +118,22 @@ public class ObstetricsOfficeVisitValidator extends POJOValidator<ObstetricsOffi
 				errorList.addIfNotNull( "Weight cannot be negative" );
 		}
 
-		int bp = 0;
+		int bpOne = 0;
+		int bpTwo = 0;
 		if (! ov.getBp().equals( "" ) ) {
+			if(!ov.getBp().contains("/"))
+				errorList.addIfNotNull("Blood Pressure is invalid.");
+			String[] bpNum = ov.getBp().split("/");
+			String bpFirst = bpNum[0];
+			String bpSecond = bpNum[1];
 			try {
-				bp = Integer.parseInt( ov.getBp() );
+				bpOne = Integer.parseInt( bpFirst );
+				bpTwo = Integer.parseInt(bpSecond);
 			} catch ( Exception e ) {
 				errorList.addIfNotNull( "Blood Pressure must be numeric" );
 			}
 			
-			if ( bp < 0 )
+			if ( bpOne < 0 || bpTwo < 0)
 				errorList.addIfNotNull( "Blood Pressure cannot be negative" );
 		}
 		
