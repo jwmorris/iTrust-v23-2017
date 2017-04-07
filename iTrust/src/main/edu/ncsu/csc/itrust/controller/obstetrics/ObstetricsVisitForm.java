@@ -717,6 +717,7 @@ public class ObstetricsVisitForm {
 		} catch (DBException | SQLException e) {
 			e.printStackTrace();
 		}
+		controller.logScheduleNextVisit(pid, visitID, apptBean.getApptID());
 	}
 	
 	public String getNullAppointmentDay(String weeksPregnant) {
