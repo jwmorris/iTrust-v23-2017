@@ -511,17 +511,12 @@ public class ObstetricsVisitForm {
 		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
 		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
 		int totalDays = Math.abs(initDays - lmpDays );
-		System.out.println("Total Days: " + totalDays);
 		int weeks = totalDays / 7;
-		System.out.println("Week(s): " + weeks);
 		int days = totalDays - (weeks * 7);
-		System.out.println("Day(s): " + days);
 		StringBuilder sb = new StringBuilder();
 		sb.append( Integer.toString( weeks ) );
 		sb.append( "." );
 		sb.append( Integer.toString( days ) );
-		System.out.println("calc " + lmp);
-		System.out.println("calc " + sb.toString() );
 		return sb.toString();
 
 	}
@@ -724,10 +719,10 @@ public class ObstetricsVisitForm {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
 		
 		int deltaDays = 0;
-		apptType = "ObstetricsOfficeVisit";
-		if (Integer.parseInt(weeksPregnant) <= 13) {
+		apptType = "Obstetrics Office Visit";
+		if (Double.parseDouble(weeksPregnant) <= 13) {
 			deltaDays = 28;
-		} else if (Integer.parseInt(weeksPregnant) <= 28) {
+		} else if (Double.parseDouble(weeksPregnant) <= 28) {
 			deltaDays = 14;
 		} else {
 			deltaDays = 7;
@@ -744,17 +739,17 @@ public class ObstetricsVisitForm {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'");
 		
 		int deltaDays = 0;
-		apptType = "ObstetricsOfficeVisit";
-		if (Integer.parseInt(weeksPregnant) <= 13) {
+		apptType = "Obstetrics Office Visit";
+		if (Double.parseDouble(weeksPregnant) <= 13) {
 			deltaDays = 28;
-		} else if (Integer.parseInt(weeksPregnant) <= 28) {
+		} else if (Double.parseDouble(weeksPregnant) <= 28) {
 			deltaDays = 14;
-		} else if (Integer.parseInt(weeksPregnant) <= 39) {
+		} else if (Double.parseDouble(weeksPregnant) <= 39) {
 			deltaDays = 7;
-		} else if (Integer.parseInt(weeksPregnant) <= 41) {
+		} else if (Double.parseDouble(weeksPregnant) <= 41) {
 			deltaDays = 2;
-		} else if (Integer.parseInt(weeksPregnant) >= 42) {
-			apptType = "ChildbirthVisit";
+		} else if (Double.parseDouble(weeksPregnant) >= 42) {
+			apptType = "Childbirth Visit";
 			deltaDays = 2;
 		}
 		
