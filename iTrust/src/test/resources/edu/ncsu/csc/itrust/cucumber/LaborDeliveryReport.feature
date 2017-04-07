@@ -6,9 +6,9 @@ Feature: Labor and Delivery Report
 Scenario: Invalid Patient
 	Given Kathyrn Evans searchs for Princess Leach
 	When Kathyrn Evans correctly enters Princess Peach
-	Then Kathyrn Evans fully documents a childbirth hospital visit
+	Then Kathyrn Evans recieves a full report of pregnany info
 
 Scenario: Not an Obstetrics Patient
 	Given Kathyrn Evans searchs for Baby Programmer
-	When Kathyrn Evans attempts to run a report fot Baby Programmer
+	When Kathyrn Evans attempts to run a report for Baby Programmer
 	Then the report is not generated as Baby Programmer is not an obstetrics patient
