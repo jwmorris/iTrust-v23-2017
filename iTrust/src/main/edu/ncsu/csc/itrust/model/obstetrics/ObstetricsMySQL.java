@@ -128,7 +128,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO obstetricsData (pid, initDate, lmp"
 					+ ", edd, weeksPregnant, concepYear, totalWeeks, hrsLabor, weightGain, deliveryType, "
-					+ "multiplePregnancy, babyCount, current, rhFlag) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
+					+ "multiplePregnancy, babyCount, current, rhFlag, hpMiscarriage) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
 			
 			ps.executeUpdate();
 			conn.close();
@@ -152,7 +152,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE id = ?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=?, hpMiscarriage=? WHERE id = ?" ), op, false );
 			ps.executeUpdate();
 			conn.close();
 		} catch ( SQLException e ) {
@@ -179,7 +179,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=?, hpMiscarriage=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
 			ps.executeUpdate();
 			conn.close();
 		} catch ( SQLException e ) {

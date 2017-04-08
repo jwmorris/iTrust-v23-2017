@@ -57,6 +57,8 @@ public class ObstetricsPregnancy {
 	
 	private boolean rhFlag;
 	
+	private boolean hpMiscarriage;
+	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -76,6 +78,7 @@ public class ObstetricsPregnancy {
 		current = true;
 		rhFlag = false;
 		id = 0;
+		hpMiscarriage = false;
 	}
 	
 	/**
@@ -384,12 +387,21 @@ public class ObstetricsPregnancy {
 		this.rhFlag = rhFlag;
 	}
 	
+	public boolean gethpMiscarriage() {
+		return hpMiscarriage;
+	}
+	
+	public void sethpMiscarriage( boolean hpMiscarriage ) {
+		this.hpMiscarriage = hpMiscarriage;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		ObstetricsPregnancy op = (ObstetricsPregnancy) o;
 		return this.babyCount.equals(op.getBabyCount())
 				&& this.current == op.getCurrent()
 				&& this.rhFlag == op.getrhFlag()
+				&& this.hpMiscarriage == op.gethpMiscarriage()
 				&& this.multiplePregnancy == op.getMultiplePregnancy()
 				&& this.concepYear.equals(op.getConcepYear())
 				&& this.dateInit.equals(op.getDateInit())
