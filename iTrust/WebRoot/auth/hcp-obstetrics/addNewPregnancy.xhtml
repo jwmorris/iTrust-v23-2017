@@ -29,6 +29,10 @@
 				<br/> -->
 				<p> RH - Flag: </p>
 				<h:selectBooleanCheckbox  value="#{obstetrics_controller.makeNewPregnancy().rhFlag}" id="rhFlag"/>
+				<br/>
+				<p> High Potential For Miscarriage: </p>
+				<h:selectBooleanCheckbox  value="#{obstetrics_controller.makeNewPregnancy().hpMiscarriage}" id="hpMiscarriage"/>
+				
 			
 				<p><h:commandButton type="submit" id="Save" name="Save" value="Save" action="#{obstetrics_controller.initializePregnancy()}"/></p>
 				</h:form> 

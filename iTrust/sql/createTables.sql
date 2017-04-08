@@ -546,6 +546,7 @@ CREATE TABLE obstetricsData
 	babyCount		VARCHAR(20) default '',
 	current			BOOLEAN NOT NULL default true,
 	rhFlag			BOOLEAN NOT NULL default false,
+	hpMiscarriage	BOOLEAN NOT NULL default false,
 	PRIMARY KEY (id),
 	FOREIGN KEY (pid) 	REFERENCES patients(MID),
 	CONSTRAINT pid_date UNIQUE (pid, initDate)
