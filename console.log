@@ -1,0 +1,78 @@
+Apr 08, 2017 6:17:03 PM org.apache.tomcat.util.digester.SetPropertiesRule begin
+WARNING: [SetPropertiesRule]{Server/Service/Engine/Host/Context} Setting property 'source' to 'org.eclipse.jst.jee.server:iTrust' did not find a matching property.
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server version:        Apache Tomcat/9.0.0.M15
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server built:          Dec 5 2016 13:44:25 UTC
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server number:         9.0.0.0
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Name:               Windows 10
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Version:            10.0
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Architecture:          amd64
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Java Home:             C:\Program Files\Java\jre1.8.0_112
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Version:           1.8.0_112-b15
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Vendor:            Oracle Corporation
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_BASE:         C:\Users\famat\Documents\CSC326\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_HOME:         C:\Users\famat\Documents\CSC326\development\apache-tomcat-9.0.0.M15
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.base=C:\Users\famat\Documents\CSC326\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.home=C:\Users\famat\Documents\CSC326\development\apache-tomcat-9.0.0.M15
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dwtp.deploy=C:\Users\famat\Documents\CSC326\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.endorsed.dirs=C:\Users\famat\Documents\CSC326\development\apache-tomcat-9.0.0.M15\endorsed
+Apr 08, 2017 6:17:03 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dfile.encoding=Cp1252
+Apr 08, 2017 6:17:03 PM org.apache.catalina.core.AprLifecycleListener lifecycleEvent
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files\Java\jre1.8.0_112\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre1.8.0_112/bin/server;C:/Program Files/Java/jre1.8.0_112/bin;C:/Program Files/Java/jre1.8.0_112/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_112\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Skype\Phone\;C:\Users\famat\AppData\Local\Microsoft\WindowsApps;;C:\Users\famat\Documents\CSC326\development\eclipse;;.
+Apr 08, 2017 6:17:03 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-nio-8080"]
+Apr 08, 2017 6:17:04 PM org.apache.tomcat.util.net.NioSelectorPool getSharedSelector
+INFO: Using a shared selector for servlet write/read
+Apr 08, 2017 6:17:04 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["ajp-nio-8009"]
+Apr 08, 2017 6:17:04 PM org.apache.tomcat.util.net.NioSelectorPool getSharedSelector
+INFO: Using a shared selector for servlet write/read
+Apr 08, 2017 6:17:04 PM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 1569 ms
+Apr 08, 2017 6:17:04 PM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Catalina
+Apr 08, 2017 6:17:04 PM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/9.0.0.M15
+Apr 08, 2017 6:17:09 PM org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory getObjectInstance
+INFO: Name = itrust Ignoring unknown property: value of "60" for "validationInterval" property
+Apr 08, 2017 6:17:09 PM org.apache.jasper.servlet.TldScanner scanJars
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+Apr 08, 2017 6:17:10 PM com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra 2.2.13 ( 20160203-1910 unable to get svn info) for context '/iTrust'
+Apr 08, 2017 6:17:10 PM com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+Apr 08, 2017 6:17:11 PM org.primefaces.webapp.PostConstructApplicationEventListener processEvent
+INFO: Running on PrimeFaces 6.0
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: No Configuration for this context. Initializing.
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: configuring cewolf app..
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: using storage class de.laures.cewolf.storage.TransientSessionStorage
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: using overlibURL overlib.js
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: debugging is turned off
+Apr 08, 2017 6:17:11 PM org.apache.catalina.core.ApplicationContext log
+INFO: ...done.
+Apr 08, 2017 6:17:11 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler [http-nio-8080]
+Apr 08, 2017 6:17:11 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler [ajp-nio-8009]
+Apr 08, 2017 6:17:11 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 7731 ms

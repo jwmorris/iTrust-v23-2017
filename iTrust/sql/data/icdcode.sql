@@ -998,6 +998,7 @@ INSERT INTO icdcode (code, name, is_chronic) VALUES
 ('B889', 'Infestation', 0),
 ('B89', 'Unspecified parasitic disease', 0),
 ('B900', 'Sequelae of central nervous sy', 1),
+('B901', 'Sequelae of genitourinary tube', 1),
 ('E08', 'Diabetes mellitus due to underlying condition', 0),
 ('E09', 'Drug or chemical induced diabetes mellitus', 0),
 ('E10', 'Type 1 diabetes mellitus', 0),
@@ -1043,7 +1044,7 @@ INSERT INTO icdcode (code, name, is_chronic) VALUES
 ('C40', 'Malignant neoplasm of bone and articular cartilage of limbs', 0),
 ('C41', 'Malignant neoplasm of bone and articular cartilage of other and unspecified sites', 0),
 ('C43', 'Malignant melanoma of skin', 0),
-('C44', 'Other and unspecified malignant neoplasm of skin', ),
+('C44', 'Other and unspecified malignant neoplasm of skin', 0),
 ('C45', 'Mesothelioma', 0),
 ('C46', 'Kaposis sarcoma', 0),
 ('C47', 'Malignant neoplasm of peripheral nerves and autonomic nervous system', 0),
@@ -1108,6 +1109,5 @@ INSERT INTO icdcode (code, name, is_chronic) VALUES
 ('A60', 'Anogenital herpesviral [herpes simplex] infections', 0),
 ('A63', 'Other predominantly sexually transmitted diseases, not elsewhere classified', 0),
 ('A64', 'Unspecified sexually transmitted disease', 0),
-('A70', 'Chlamydia psittaci infections', 0),
-('B901', 'Sequelae of genitourinary tube', 1)
+('A70', 'Chlamydia psittaci infections', 0) 
 ON duplicate key update code=code;

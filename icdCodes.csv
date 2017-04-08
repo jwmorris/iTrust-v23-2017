@@ -1,4 +1,4 @@
-﻿code,name,is_chronic
+code,name,is_chronic
 E08,Diabetes mellitus due to underlying condition,0
 E09,Drug or chemical induced diabetes mellitus,0
 E10,Type 1 diabetes mellitus,0
@@ -44,7 +44,7 @@ C39,Malignant neoplasm of other and ill-defined sites in the respiratory system 
 C40,Malignant neoplasm of bone and articular cartilage of limbs,0
 C41,Malignant neoplasm of bone and articular cartilage of other and unspecified sites,0
 C43,Malignant melanoma of skin,0
-C44,Other and unspecified malignant neoplasm of skin,
+C44,Other and unspecified malignant neoplasm of skin,0
 C45,Mesothelioma,0
 C46,Kaposi's sarcoma,0
 C47,Malignant neoplasm of peripheral nerves and autonomic nervous system,0
