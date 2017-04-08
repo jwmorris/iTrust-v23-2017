@@ -3,6 +3,7 @@
  */
 package edu.ncsu.csc.itrust.controller.obstetrics;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,5 +194,16 @@ public class ObstetricsReportController extends iTrustController {
 		}
 		
 		return null;
+	}
+
+	public String getDOB() {
+		PatientBean p = null;
+		try {
+			p = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return p.getDateOfBirthStr();
 	}
 }

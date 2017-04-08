@@ -88,11 +88,6 @@
 						<f:facet name = "header">Low Lying Placenta</f:facet>
 						#{ov.isLowLying()}
 					</h:column>
-					
-					<h:column>
-						<f:facet name = "header">Complications</f:facet>
-						
-					</h:column>
 				</h:dataTable>
 					</c:when>
 					
@@ -102,69 +97,69 @@
 				</c:choose>
 				
 
-				<!-- <h4>Complication Risks</h4>   		
-    			<h:dataTable value="" var="ov" id="complicationTable" border="1">
+				<h4>Complication Risks</h4>   		
+    			<h:dataTable value="#{obstetrics_report.getComplications()}" var="comp" id="complicationTable" border="1">
 
 					<h:column>
 						<f:facet name = "header">RH</f:facet>
-						
+						#{comp.getRh()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">High Blood Pressure</f:facet>
-						
+						#{comp.getBp()}
 					</h:column>
 					<h:column>
 						<f:facet name = "header">Advanced Maternal Age</f:facet>
-						
+						#{comp.getOld()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Preexisting Condition</f:facet>
-						
+						#{comp.getPreExisting()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Maternal Allergies</f:facet>
-						
+						#{comp.getAllergies()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Low Lying Placenta</f:facet>
-						
+						#{comp.getPlacenta()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">High Potential For Miscarriage</f:facet>
-						
+						#{comp.getMiscarriage()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Abnormal Fetal Heart Rate</f:facet>
-						
+						#{comp.getAbnormalFhr()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Multiple Current Pregnancy</f:facet>
-						
+						#{comp.getMultiple()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Atypical Weight Change</f:facet>
-						
+						#{comp.getAbnormalWeightChange()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Hyperemesis Gravidarum</f:facet>
-						
+						#{comp.getHyperemesis()}
 					</h:column>
 					
 					<h:column>
 						<f:facet name = "header">Hypothyroidism</f:facet>
-						
+						#{comp.getHypothyroidism()}
 					</h:column>
 				</h:dataTable>
-				 -->
+				
 				<c:choose>
 					<c:when test="#{obstetrics_report.hasAllergies()}">
 						<h4>Relevant Allergies</h4>
