@@ -500,6 +500,8 @@ public enum TransactionType {
 	CREATE_OBSTETRIC_OFFICE_VISIT(9400, "Create Obstetric Office Visit", "Create Obstetric Office Visit", true),
 	VIEW_OBSTETRIC_OFFICE_VISIT(9401, "View Obstetric Office Visit", "View Obstetric Office Visit", true),
 	EDIT_OBSTETRIC_OFFICE_VISIT(9402, "Edit Obstetric Office Visit", "Edit Obstetric Office Visit", true),
+	SCHEDULE_NEXT_OFFICE_VISIT(9404, "Automatically Schedule Next Obstetric Office Visit", "Automatically Schedule Next Obstetric Office Visit", true),
+	SCHEDULE_CHILDBIRTH(9405, "Automatically Schedule Next Childbirth Visit", "Automatically Schedule Next Childbirth Visit", true),
 	ULTRASOUND(9403, "Ultrasound", "Ultrasound", true ),
 	CREATE_CHILDBIRTH_VISIT( 9600, "Create Childbirth Visit", "Create Childbirth Visit", true ),
 	ADD_CHILDBIRTH_DRUGS( 9601, "Add childbirth drugs", "Add childbirth drugs", true ),

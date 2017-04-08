@@ -712,7 +712,26 @@ public class ObstetricsVisitForm {
 		} catch (DBException | SQLException e) {
 			e.printStackTrace();
 		}
-		controller.logScheduleNextVisit(pid, visitID, apptBean.getApptID());
+		int apptID = 0;
+		try {
+			List<ApptBean> apptList = appointmentDAO.getApptsFor(apptBean.getPatient());
+			for (int i = 0; i < apptList.size(); i++) {
+				ApptBean tempAppt = apptList.get(i);
+				if ( tempAppt.getApptType().equals( apptBean.getApptType() ) && tempAppt.getDate().equals( apptBean.getDate() ) ) {
+					apptID = tempAppt.getApptID();
+					System.out.println("THE APPT ID IS: " + String.valueOf(apptID));
+					break;
+				}
+			}
+		} catch (DBException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (apptBean.getApptType().equals("Childbirth Visit")) {
+			controller.logChildbirthVisit(pid, visitID, apptID);
+		} else {
+			controller.logScheduleNextVisit(pid, visitID, apptID);
+		}
 	}
 	
 	public String getNullAppointmentDay(String weeksPregnant) {
