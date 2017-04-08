@@ -111,6 +111,24 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 	}
 
 	@Override
+	public List<ObstetricsOfficeVisit> getOfficeVisitsByPidAndInitId( long id, long initId ) throws DBException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsOfficeVisitData WHERE pid = ? AND initId = ?" );
+			ps.setLong( 1, id );
+			ps.setLong(2, initId);
+			ResultSet rs = ps.executeQuery();
+			List<ObstetricsOfficeVisit> ov = rs.next() ? ovLoader.loadList( rs ) : null;
+			rs.close();
+			conn.close();
+			return ov;
+		} catch ( SQLException e ) {
+			throw new DBException( e );
+		}
+	}
+
+	@Override
 	public boolean add( ObstetricsOfficeVisit ov ) throws FormValidationException, DBException {
 		ovValidator.validate( ov );
 		Connection conn = null;

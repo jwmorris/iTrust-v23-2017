@@ -154,7 +154,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 		try {
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsData SET initDate=?, lmp=?, edd=?, "
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
-					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE pid=? and current=?" ), op, false );
+					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=? WHERE id = ?" ), op, false );
 			ps.executeUpdate();
 		} catch ( SQLException e ) {
 			e.printStackTrace();

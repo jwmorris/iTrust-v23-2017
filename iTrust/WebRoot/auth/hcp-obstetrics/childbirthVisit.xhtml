@@ -40,6 +40,20 @@
 				</h:dataTable>
 			</h:form>
 			<br/>
+			<c:if test="#{childbirth_visit_controller.isOBGYN()}">
+				<h:form>
+					<h:message for=""/>
+					<h:panelGrid id="currentToPriorForm" columns="5">
+						<h:outputText value="Hours in Labor:"/>
+						<h:inputText value="#{childbirth_visit_controller.hoursLabor}"/>
+						<h:outputText value="Year of Conception(yyyy):"/>
+						<h:inputText value="#{childbirth_visit_controller.yearConception}"/>
+						<h:commandButton value="Finish Pregnancy" action="#{childbirth_visit_controller.finishPregnancy()}" update="@All"/>
+					</h:panelGrid>
+				</h:form>
+			</c:if>
+			<br/>
+			<br/>
 			<h4>Prior Pregnancies</h4>   		
     			<h:dataTable value="#{obstetrics_controller.getPriors()}" var="prior">
 					<h:column>
