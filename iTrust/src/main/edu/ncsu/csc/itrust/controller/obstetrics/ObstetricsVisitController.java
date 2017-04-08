@@ -440,4 +440,12 @@ public class ObstetricsVisitController extends iTrustController {
 		}
 		return lmp;
 	}
+	
+	public void logScheduleNextVisit(long patientMID, long currentID, int nextID) {
+		logTransaction(TransactionType.SCHEDULE_NEXT_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), patientMID, String.valueOf(currentID) + "," + String.valueOf(nextID));
+	}
+	
+	public void logChildbirthVisit(long patientMID, long currentID, int nextID) {
+		logTransaction(TransactionType.SCHEDULE_CHILDBIRTH, sessionUtils.getSessionLoggedInMIDLong(), patientMID, String.valueOf(currentID) + "," + String.valueOf(nextID));
+	}
 }
