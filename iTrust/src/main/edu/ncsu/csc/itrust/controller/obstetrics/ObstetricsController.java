@@ -334,4 +334,16 @@ public class ObstetricsController extends iTrustController {
 	public void setDate(String date) {
 		this.selectedDate = date;
 	}
+	
+	public ObstetricsPregnancy getPregnancyByID( String id ) {
+		ObstetricsPregnancy op = null;
+		try {
+			op = sql.getByID( Long.parseLong( id ) );
+		} catch (NumberFormatException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return op;
+	}
 }
