@@ -94,7 +94,6 @@ public class FitbitParser implements FitnessParser {
 	}
 
 	private void processLine(String line, String pid) throws IOException {
-		System.out.println( "Line: " + line );
 		Scanner l = new Scanner( line );
 		l.useDelimiter( "," );
 		Fitness f = new Fitness();

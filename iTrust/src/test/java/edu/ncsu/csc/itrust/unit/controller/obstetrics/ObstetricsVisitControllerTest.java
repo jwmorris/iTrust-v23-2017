@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsVisitController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
@@ -55,8 +56,8 @@ public class ObstetricsVisitControllerTest {
 	public void testObstetricsVisitController() {
 		try {
 			new ObstetricsVisitController();
-			//fail("Should throw an exception");
-		} catch( Exception e ) {
+			fail( "Should throw an exception" );
+		} catch( DBException e ) {
 			//pass
 		}
 	}

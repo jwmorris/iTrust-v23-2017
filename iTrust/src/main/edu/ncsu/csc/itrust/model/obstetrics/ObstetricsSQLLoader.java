@@ -121,8 +121,6 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setDate( i++, dateInit );
 			ps.setDate( i++, lmp );
 			ps.setDate( i++, edd );
-			System.out.println( lmp );
-			System.out.println( dateInit );
 			ps.setString( i++,  op.getWeeksPregnant() );
 			ps.setString( i++, op.getConcepYear() );
 			ps.setString( i++, op.getTotalWeeksPregnant() );

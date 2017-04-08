@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
@@ -33,7 +34,8 @@ public class ObstetricsControllerTest {
 	public void testObstetricsController() {
 		try {
 			new ObstetricsController();
-		} catch (Exception e) {
+			fail();
+		} catch ( DBException e ) {
 			//pass
 		}
 	}

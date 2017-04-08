@@ -148,7 +148,7 @@ public class ObstetricsVisitForm {
 			pid = ov.getPid();// ? null : 
 			if ( pid == 0 )
 				pid = SessionUtils.getInstance().getCurrentPatientMIDLong();
-			System.out.println("Pid: " + pid);
+
 			date = ov.getVisitDate();
 			weeksPregnant = calculateWeeksPreg(date);
 			weight = ov.getWeight();
@@ -161,7 +161,6 @@ public class ObstetricsVisitForm {
 			numFeti = (f == null) ? 0 : f.size();
 			editFetus = false;
 		} catch (Exception e) {
-			e.printStackTrace();
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Obsetrics Visit Controller Error",
 					"Obstetrics Visit Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
@@ -480,9 +479,7 @@ public class ObstetricsVisitForm {
 		ov.setPid( pid );
 		if ( ov.getVisitDate() == null )
 			ov.setVisitDate( new Date( Calendar.getInstance().getTimeInMillis() ) );
-		System.out.println("Office Visit Date: " + ov.getVisitDate().toString());
-		System.out.println("Office Weeks Pregnant: " + calculateWeeksPreg(ov.getVisitDate()));
-		System.out.println("PID: "+ pid);
+
 		ov.setWeeksPregnant(calculateWeeksPreg(ov.getVisitDate()));
 //		ov.setWeeksPregnant( weeksPregnant );
 		ov.setWeight( weight );
@@ -496,7 +493,7 @@ public class ObstetricsVisitForm {
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 		String lmp = "";
 		lmp = controller.getLmp(pid);
-		System.out.println("Office Visit LMP: " + lmp);
+
 		java.util.Date lmpDate = null;
 		try {
 			lmpDate = DATE_FORMAT.parse( lmp );
@@ -511,17 +508,16 @@ public class ObstetricsVisitForm {
 		int initDays = (int)(cal2.getTime().getTime() / (1000 * 60 * 60 * 24));
 		int lmpDays = (int)(cal.getTime().getTime() / (1000 * 60 * 60 * 24));
 		int totalDays = Math.abs(initDays - lmpDays );
-		System.out.println("Total Days: " + totalDays);
+
 		int weeks = totalDays / 7;
-		System.out.println("Week(s): " + weeks);
+
 		int days = totalDays - (weeks * 7);
-		System.out.println("Day(s): " + days);
+
 		StringBuilder sb = new StringBuilder();
 		sb.append( Integer.toString( weeks ) );
 		sb.append( "." );
 		sb.append( Integer.toString( days ) );
-		System.out.println("calc " + lmp);
-		System.out.println("calc " + sb.toString() );
+
 		return sb.toString();
 
 	}
@@ -657,7 +653,6 @@ public class ObstetricsVisitForm {
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
 		String stringAppointmentDay = getNextAppointmentDay(weeksPregnant);
 		if(calendarEmail == null || calendarEmail.equals("")) {
-			System.out.println("Empty entry for calendarEmail");
 			stringAppointmentDay = getNullAppointmentDay(weeksPregnant);
 		}
 		String stringTimeMin = stringAppointmentDay + "09:00:00-0400";
@@ -672,8 +667,6 @@ public class ObstetricsVisitForm {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Full Day: " + dateFormat.format(timeMin) + " TO " + dateFormat.format(timeMax));
-		
 		String goodTime = null;
 		Date nextAppt = null;
 
@@ -681,7 +674,6 @@ public class ObstetricsVisitForm {
 		try {	
 			if(calendarEmail != null && !calendarEmail.equals("")) {
 				goodTime = checkEvents(timeMin, timeMax);
-				System.out.println("Good Time for Appointment: " + goodTime);
 	
 				if (goodTime == null) {
 					// Schedule next day at same time
@@ -704,7 +696,7 @@ public class ObstetricsVisitForm {
 		} catch( ParseException e) {
 			nextAppt = new Date(Calendar.getInstance().getTimeInMillis());
 		}
-		System.out.println("Found Good Time for Appointment to be: " + dateFormat.format(nextAppt));
+
 		ApptBean apptBean = new ApptBean();
 		apptBean.setHcp(SessionUtils.getInstance().getSessionLoggedInMIDLong());
 		apptBean.setPatient(pid);
@@ -757,8 +749,6 @@ public class ObstetricsVisitForm {
 			deltaDays = 2;
 		}
 		
-//		System.out.println("deltaDays: " + deltaDays);
-		
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, deltaDays);
 		String appointmentDay = dateFormat.format(new Date(cal.getTimeInMillis()));
@@ -767,7 +757,6 @@ public class ObstetricsVisitForm {
 	}
 	
 	public String checkEvents(Date timeMin, Date timeMax) {
-		System.out.println("Calendar Email: " + calendarEmail);
 		DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
 		
 		String stringTimeMin = dateFormat.format(timeMin);
@@ -787,10 +776,8 @@ public class ObstetricsVisitForm {
 			dateLater = new Date(cal.getTimeInMillis());
 			e1.printStackTrace();
 		}
-		System.out.println(dateFormat.format(dateNow) + " COMAPARED TO " + dateFormat.format(dateLater));
     	
     	if (checkHolidays(dateNow)) {
-    		System.out.println("////////////////////////////////////////////////////\r\nIT'S A HOLIDAY\r\n/////////////////////////////////////////");
     		return null;
     	}
     	
@@ -806,15 +793,10 @@ public class ObstetricsVisitForm {
 			URL url = new URL(stringURL);
 		    conn = (HttpURLConnection) url.openConnection();
 		    conn.setRequestMethod("GET");
-
-		    System.out.println(conn.getURL());
 		    
 		    if ( conn.getResponseCode() < 200 || conn.getResponseCode() >= 300 ) {
-		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
 		    	return null;
-		    } else {
-		    	System.out.println(conn.getResponseCode() + ": " + conn.getResponseMessage());
-		    }
+		    } 
 		    
 		    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder stringJSON = new StringBuilder();
@@ -824,12 +806,9 @@ public class ObstetricsVisitForm {
             }
             br.close();
             
-            System.out.println(stringJSON.toString());
-            
             JSONObject wholeResponse = new JSONObject(stringJSON.toString());
             JSONArray items = wholeResponse.getJSONArray("items");
             
-            System.out.println("length: " + items.length());
             for (int i = 0; i < items.length(); i++) {
             	JSONObject event = items.getJSONObject(i);
             	JSONObject startTimeObj = event.getJSONObject("start");
@@ -843,7 +822,6 @@ public class ObstetricsVisitForm {
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
             	
             	if ( !(dateNow.before(startTime) && dateLater.before(startTime)) && !(dateNow.after(endTime) && dateLater.after(endTime)) ) {
-            		System.out.println("YOU ARE AFTER THE EXPECTED TIME!!!");
             		available = false;
             		break;
             	}
@@ -867,8 +845,6 @@ public class ObstetricsVisitForm {
             	Date startTime, endTime;
             	startTime = new Date(dateFormat.parse(stringStartTime).getTime());
             	endTime = new Date(dateFormat.parse(stringEndTime).getTime());
-            	
-            	System.out.println("Event Time: " + stringStartTime + " TO " + stringEndTime);
             	
             	Date timeMinOneHour = timeMin;
             	cal.setTime(timeMinOneHour);

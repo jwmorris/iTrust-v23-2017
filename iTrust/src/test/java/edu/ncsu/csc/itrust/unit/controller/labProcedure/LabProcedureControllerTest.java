@@ -496,8 +496,12 @@ public class LabProcedureControllerTest {
 	 */
 	@Test
 	public void testLabProcedure() {
-		controller = new LabProcedureController();
-		Assert.assertNotNull(controller);
+		try {
+			controller = new LabProcedureController();
+			fail( "Exception should be thrown" );
+		} catch ( DBException e ) {
+			//Should be thrown
+		}
 	}
 
 	@Test

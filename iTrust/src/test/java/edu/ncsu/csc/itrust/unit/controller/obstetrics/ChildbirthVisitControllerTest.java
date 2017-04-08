@@ -57,7 +57,8 @@ public class ChildbirthVisitControllerTest {
 		
 		try {
 			con = new ChildbirthVisitController();
-		} catch( Exception e ) {
+			fail();
+		} catch( DBException e ) {
 			//pass
 		}
 	}

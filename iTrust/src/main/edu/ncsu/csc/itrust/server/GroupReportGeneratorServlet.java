@@ -68,7 +68,7 @@ public class GroupReportGeneratorServlet extends HttpServlet{
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(source, result);
 		}catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}			
 	}
 }
