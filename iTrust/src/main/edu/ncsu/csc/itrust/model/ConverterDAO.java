@@ -48,9 +48,16 @@ public class ConverterDAO {
 			ds.setUsername(getAttribute(document, "@username"));
 			ds.setPassword(getAttribute(document, "@password"));
 			ds.setUrl(getAttribute(document, "@url"));
-			ds.setMaxTotal(15);
+			ds.setMaxTotal( 15 ); //was 15
+			ds.setMaxIdle( 7 );
 			
-			ds.setPoolPreparedStatements(true);
+			//ds.setMaxWaitMillis( 250 );
+			
+			ds.setTimeBetweenEvictionRunsMillis( 250 );
+			ds.setMinEvictableIdleTimeMillis( 45000 );
+			
+			ds.setPoolPreparedStatements( false );
+			//ds.setMaxOpenPreparedStatements( 3 );
 			
 		} catch (Exception e) {
 			e.printStackTrace();

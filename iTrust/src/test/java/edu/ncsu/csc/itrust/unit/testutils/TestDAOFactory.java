@@ -52,11 +52,21 @@ public class TestDAOFactory extends DAOFactory implements IConnectionDriver {
 			dataSource.setUsername(getAttribute(document, "@username"));
 			dataSource.setPassword(getAttribute(document, "@password"));
 			dataSource.setUrl(getAttribute(document, "@url"));
-			dataSource.setMaxTotal(3); // only allow three connections open at
+			dataSource.setMaxTotal( 3 ); // only allow three connections open at
+			dataSource.setMaxIdle( 2 );
 										// a time
-			dataSource.setMaxWaitMillis(250); // wait 250ms until throwing an
+			dataSource.setMaxWaitMillis( 250 ); // wait 250ms until throwing an
+			
+			dataSource.setTimeBetweenEvictionRunsMillis( 250 );
+			dataSource.setMinEvictableIdleTimeMillis( 10000 );
 										// exception
-			dataSource.setPoolPreparedStatements(true);
+			dataSource.setRemoveAbandonedOnBorrow( true );
+			dataSource.setRemoveAbandonedOnMaintenance( true );
+
+			dataSource.setPoolPreparedStatements( false );
+			//dataSource.setMaxOpenPreparedStatements( 5 );
+
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

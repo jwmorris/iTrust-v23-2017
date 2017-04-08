@@ -69,8 +69,9 @@ public class ReviewsDAO {
 				PreparedStatement ps = conn.prepareStatement("SELECT * FROM reviews WHERE pid=?")) {
 			ps.setLong(1, pid);
 			ResultSet rs = ps.executeQuery();
-
-			return loader.loadList(rs);
+			List<ReviewsBean> res = loader.loadList( rs );
+			rs.close();
+			return res;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}
@@ -90,6 +91,7 @@ public class ReviewsDAO {
 				PreparedStatement ps = conn.prepareStatement("SELECT * FROM reviews");
 				ResultSet rs = ps.executeQuery()) {
 			List<ReviewsBean> records = loader.loadList(rs);
+			rs.close();
 			return records;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -112,6 +114,7 @@ public class ReviewsDAO {
 			ps.setLong(1, pid);
 			ResultSet rs = ps.executeQuery();
 			List<ReviewsBean> records = loader.loadList(rs);
+			rs.close();
 			return records;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -163,6 +166,7 @@ public class ReviewsDAO {
 			ps.setLong(2, pid);
 			ResultSet rs = ps.executeQuery();
 			boolean isRatable = rs.next();
+			rs.close();
 			return isRatable;
 		} catch (SQLException e) {
 			throw new DBException(e);

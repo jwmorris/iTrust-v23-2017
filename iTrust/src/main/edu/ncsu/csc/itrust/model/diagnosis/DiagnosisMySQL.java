@@ -63,7 +63,9 @@ public class DiagnosisMySQL implements DiagnosisData {
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = conn.prepareStatement("SELECT * FROM diagnosis, icdcode where icdcode = code");
 				ResultSet rs = ps.executeQuery()) {
-			return loader.loadList(rs);
+			List<Diagnosis> res = loader.loadList( rs );
+			rs.close();
+			return res;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}
@@ -77,7 +79,9 @@ public class DiagnosisMySQL implements DiagnosisData {
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = createGetByIdStatement(conn, id);
 				ResultSet rs = ps.executeQuery()) {
-			return rs.next() ? loader.loadSingle(rs) : null;
+			Diagnosis res = rs.next() ? loader.loadSingle(rs) : null;
+			rs.close();
+			return res;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}
@@ -156,7 +160,9 @@ public class DiagnosisMySQL implements DiagnosisData {
 		try (Connection conn = ds.getConnection();
 			PreparedStatement statement = createEmergencyDiagnosisPreparedStatement(conn, mid);
 			ResultSet resultSet = statement.executeQuery()) {
-			return loader.loadList(resultSet);
+			List<Diagnosis> res = loader.loadList( resultSet );
+			resultSet.close();
+			return res;
 		}
 	}
 	
@@ -175,7 +181,9 @@ public class DiagnosisMySQL implements DiagnosisData {
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = createGetByOfficeVisitStatement(conn, visitId);
 				ResultSet rs = ps.executeQuery()) {
-			return loader.loadList(rs);
+			List<Diagnosis> res = loader.loadList( rs );
+			rs.close();
+			return res;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}

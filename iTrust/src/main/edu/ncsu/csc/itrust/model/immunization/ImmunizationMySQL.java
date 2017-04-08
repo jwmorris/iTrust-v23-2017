@@ -56,6 +56,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 				PreparedStatement pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE code=cptcode");
 				ResultSet results = pstring.executeQuery()) {
 			List<Immunization> list = loader.loadList(results);
+			results.close();
 			return list;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -72,8 +73,10 @@ public class ImmunizationMySQL implements ImmunizationData {
 			ResultSet resultSet = statement.executeQuery()) {
 			List<Immunization> immunizationList = loader.loadList(resultSet);
 			if (immunizationList.size() > 0) {
+				resultSet.close();
 				return immunizationList.get(0);
 			} else {
+				resultSet.close();
 				return null;
 			}
 		} catch (SQLException e) {
@@ -129,6 +132,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 			PreparedStatement statement = createImmunizationPreparedStatement(conn, mid);
 			ResultSet resultSet = statement.executeQuery()) {
 			List<Immunization> list = loader.loadList(resultSet);
+			resultSet.close();
 			return list;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -172,7 +176,9 @@ public class ImmunizationMySQL implements ImmunizationData {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createOVPreparedStatement(conn, officeVisitId);
                 ResultSet results = pstring.executeQuery()){
-            return loader.loadList(results);
+        	List<Immunization> res = loader.loadList(results);
+        	results.close();
+            return res;
         }
     }
 
@@ -187,7 +193,9 @@ public class ImmunizationMySQL implements ImmunizationData {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createGetByMIDStatement(conn, mid);
                 ResultSet results = pstring.executeQuery()) {
-            return loader.loadList(results);
+        	List<Immunization> res = loader.loadList(results);
+        	results.close();
+            return res;
         }
     }
 
@@ -207,10 +215,13 @@ public class ImmunizationMySQL implements ImmunizationData {
                 PreparedStatement pstring = createGetCodeNamePreparedStatement(conn, code);
                 ResultSet rs = pstring.executeQuery()){
             
-            if (!rs.next()) 
+            if (!rs.next()) {
+            	rs.close();
                 return "";
-
-            return rs.getString("name");
+            }
+            String res = rs.getString("name");
+            rs.close();
+            return res;
         }
     }
 

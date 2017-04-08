@@ -71,7 +71,9 @@ public class EmergencyRecordMySQL {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createPreparedStatement(conn, patientMID);
                 ResultSet results = pstring.executeQuery()){
-            return loadRecord(results);
+        	EmergencyRecord res = loadRecord(results);
+        	results.close();
+            return res;
         } catch (SQLException e){
             throw new DBException(e);
         }
@@ -109,6 +111,7 @@ public class EmergencyRecordMySQL {
         newRecord.setAllergies(allergyData.getAllergies(mid));
         newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
         newRecord.setImmunizations(immunizationData.getAllImmunizations(mid));
+        rs.close();
         return newRecord;
     }
     

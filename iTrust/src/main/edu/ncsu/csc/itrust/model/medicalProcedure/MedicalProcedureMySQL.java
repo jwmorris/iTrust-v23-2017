@@ -82,8 +82,10 @@ public class MedicalProcedureMySQL {
             loadedProc.setId(results.getLong("id"));
             loadedProc.setOfficeVisitId(results.getLong("visitId"));
             loadedProc.setCptCode(new CPTCode(results.getString("code"), results.getString("name")));
+            results.close();
             return loadedProc;
         } else {
+        	results.close();
             return null;
         }
     }
@@ -145,6 +147,7 @@ public class MedicalProcedureMySQL {
             temp.setCptCode(new CPTCode(results.getString("cptCode"), results.getString("name")));
             list.add(temp);
         }
+        results.close();
         return list;
     }
 

@@ -53,6 +53,7 @@ public class HospitalsDAO {
 				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM hospitals ORDER BY HospitalName");
 				ResultSet rs = stmt.executeQuery()) {
 			List<HospitalBean> loadlist = hospitalLoader.loadList(rs);
+			rs.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -245,6 +246,7 @@ public class HospitalsDAO {
 				hospitalIDs.add(rs.getString("hosID"));
 			}
 			if (hospitalIDs.size() == 0) {
+				rs.close();
 				return null;
 			}
 			for (String hID : hospitalIDs) {

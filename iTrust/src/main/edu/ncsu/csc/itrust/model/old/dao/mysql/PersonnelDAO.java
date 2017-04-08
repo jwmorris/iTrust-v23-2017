@@ -420,6 +420,7 @@ public class PersonnelDAO {
 						.prepareStatement("SELECT * FROM personnel WHERE UPPER(specialty) = 'NUTRITIONIST'; ");
 				ResultSet rs = ps.executeQuery()) {
 			List<PersonnelBean> loadList = personnelLoader.loadList(rs);
+			rs.close();
 			return loadList;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -440,6 +441,7 @@ public class PersonnelDAO {
 						+ "WHERE specialty = 'Optometrist' or specialty = 'Ophthalmologist'; ");
 				ResultSet rs = ps.executeQuery()) {
 			List<PersonnelBean> allOpthamologyPersonnel = personnelLoader.loadList(rs);
+			rs.close();
 			return allOpthamologyPersonnel;
 		} catch (SQLException e) {
 			throw new DBException(e);

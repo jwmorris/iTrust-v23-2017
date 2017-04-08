@@ -44,10 +44,8 @@ public class ObstetricsOfficeVisitStepDefs {
 	private PatientDataShared patientData;
 	private PatientBean patient;
 	private ObstetricsOfficeVisitMySQL oovData;
-	private ObstetricsController oc;
-	private ObstetricsVisitForm ovf;
 	private ObstetricsVisitController ovc;
-	private DAOFactory factory;
+	//private DAOFactory factory;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
 	private ObstetricsPregnancyData sql;
@@ -60,7 +58,7 @@ public class ObstetricsOfficeVisitStepDefs {
 	
 		public ObstetricsOfficeVisitStepDefs(){
 			
-			this.factory = TestDAOFactory.getTestInstance();
+			//this.factory = TestDAOFactory.getTestInstance();
 			this.utils = Mockito.mock(SessionUtils.class);
 			Mockito.doReturn( Long.parseLong("1") ).when( utils ).getCurrentPatientMIDLong();
 			this.gen = new TestDataGenerator();
@@ -72,12 +70,11 @@ public class ObstetricsOfficeVisitStepDefs {
 				
 			}
 			//this.patientData = currentPatient;
-			this.patientDAO = factory.getPatientDAO();
-			this.personnelDAO = factory.getPersonnelDAO();
+			this.patientDAO = new PatientDAO( TestDAOFactory.getTestInstance() );
+			this.personnelDAO = new PersonnelDAO( TestDAOFactory.getTestInstance() );
 			this.oovData = new ObstetricsOfficeVisitMySQL(ds);
 			//this.oc = new ObstetricsController();
-			this.ovc = new ObstetricsVisitController(ds, factory, utils);
-			this.ovf = new ObstetricsVisitForm(ovc, utils);
+			this.ovc = new ObstetricsVisitController(ds, TestDAOFactory.getTestInstance(), utils);
 			preg = new ObstetricsPregnancy();
 			input = new ObstetricsOfficeVisit();
 			
