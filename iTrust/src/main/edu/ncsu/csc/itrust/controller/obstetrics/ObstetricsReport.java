@@ -67,7 +67,7 @@ public class ObstetricsReport extends iTrustController {
 		complications.hyperemesis = checkHyperemesis() || complications.hyperemesis;
 		complications.hypothyroidism = checkHypothyroidism() || complications.hypothyroidism;
 		complications.preExisting = hasDiagnoses() || complications.preExisting;
-		complications.miscarriage = false || complications.miscarriage;
+		complications.miscarriage = selected.gethpMiscarriage() || complications.miscarriage;
 		if( officeVisits != null ) {
 			for( int i = 0; i < officeVisits.size(); i++ ) {
 				if( i == 0 ) {
