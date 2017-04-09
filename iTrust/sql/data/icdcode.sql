@@ -999,6 +999,7 @@ INSERT INTO icdcode (code, name, is_chronic) VALUES
 ('B89', 'Unspecified parasitic disease', 0),
 ('B900', 'Sequelae of central nervous sy', 1),
 ('B901', 'Sequelae of genitourinary tube', 1),
+('E03', 'Hypothyroidism', 0),
 ('E08', 'Diabetes mellitus due to underlying condition', 0),
 ('E09', 'Drug or chemical induced diabetes mellitus', 0),
 ('E10', 'Type 1 diabetes mellitus', 0),
@@ -1109,5 +1110,7 @@ INSERT INTO icdcode (code, name, is_chronic) VALUES
 ('A60', 'Anogenital herpesviral [herpes simplex] infections', 0),
 ('A63', 'Other predominantly sexually transmitted diseases, not elsewhere classified', 0),
 ('A64', 'Unspecified sexually transmitted disease', 0),
-('A70', 'Chlamydia psittaci infections', 0) 
+('A70', 'Chlamydia psittaci infections', 0),
+('D899', 'Unspecified Autoimmune disease', 1),
+('O21', 'Hyperemesis Gravidarum', 0)
 ON duplicate key update code=code;

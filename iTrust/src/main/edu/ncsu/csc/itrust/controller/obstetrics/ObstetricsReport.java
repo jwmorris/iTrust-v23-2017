@@ -229,11 +229,25 @@ public class ObstetricsReport extends iTrustController {
 	}
 	
 	private boolean checkHypothyroidism() {
-		return false;
+		List<Diagnosis> diag = obc.getRelevantDiagnoses();
+		boolean ret = false;
+		for(int i = 0; i < diag.size(); i++) {
+			if(diag.get(i).getCode().equals("E03")) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
 	
 	private boolean checkHyperemesis() {
-		return false;
+		List<Diagnosis> diag = obc.getRelevantDiagnoses();
+		boolean ret = false;
+		for(int i = 0; i < diag.size(); i++) {
+			if(diag.get(i).getCode().equals("O21")) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
 	
 	public class Complications {

@@ -139,10 +139,10 @@ public class ObstetricsReportController extends iTrustController {
 		for( AllergyBean a : allAllergies ) {
 			String aName = a.getDescription();
 			if( aName.equals( "Penicillin" ) 
-					|| aName.equals( "Sulfa Drugs" ) 
+					|| aName.equals( "Bactrim" ) 
 					|| aName.equals( "Tetracycline" ) 
 					|| aName.equals( "Codeine" ) 
-					|| aName.equals( "NSAIDs" ) ) {
+					|| aName.equals( "Ibuprofen" ) ) {
 				ret.add( a );
 			}
 		}
@@ -154,7 +154,28 @@ public class ObstetricsReportController extends iTrustController {
 		List<Diagnosis> ret = new ArrayList<Diagnosis>();
 		List<Diagnosis> allDiagnosis = record.getDiagnoses();
 		for( Diagnosis d : allDiagnosis ) {
-			d.getIcdCode();
+			if( d.getCode().startsWith( "E" ) 
+				|| d.getCode().startsWith( "O" ) 
+				|| d.getCode().startsWith( "C" ) 
+				|| d.getCode().startsWith( "A5" ) 
+				|| d.getCode().startsWith( "A60" )
+				|| d.getCode().startsWith( "A63" )
+				|| d.getCode().startsWith( "A64" )
+				|| d.getCode().startsWith( "A70" )
+				|| d.getCode().startsWith( "A74" )
+				|| d.getCode().startsWith( "D" )
+				|| d.getIcdCode().isChronic()) {
+				boolean notAdded = true;
+				for(int j = 0; j < ret.size(); j++) {
+					if(ret.get(j).getCode().equals(d.getCode())) {
+						notAdded = false;
+						break;
+					}
+				}
+				if(notAdded) {
+					ret.add(d);
+				}
+			}
 		}
 		return ret;
 	}

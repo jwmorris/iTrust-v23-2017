@@ -178,11 +178,11 @@
 				
 				<c:choose>
 					<c:when test="#{obstetrics_report.hasDiagnoses()}">
-						<h4>Relevant Allergies</h4>
-						<h:dataTable value="#{obstetrics_report.diagnoses}" var="d">
+						<h4>Relevant Diagnosis</h4>
+						<h:dataTable value="#{obstetrics_report.diagnoses}" var="d" border="1">
 							<h:column>
 								<f:facet name = "header">Relevant Pre-existing Condition</f:facet>
-								
+									#{d.getIcdCode().getName()}
 							</h:column>
 						</h:dataTable>
 					</c:when>
