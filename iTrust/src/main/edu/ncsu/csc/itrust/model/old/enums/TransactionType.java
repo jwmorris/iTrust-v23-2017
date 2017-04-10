@@ -507,7 +507,8 @@ public enum TransactionType {
 	ADD_CHILDBIRTH_DRUGS( 9601, "Add childbirth drugs", "Add childbirth drugs", true ),
 	A_BABY_IS_BORN( 9602, "A baby is born", "A baby is born", true ),
 	CREATE_BABY_RECORD( 9603, "Create baby record", "Create baby record", true ),
-	EDIT_CHILDBIRTH_VISIT( 9604, "Edit childbirth visit", "Edit childbirth visit", true )
+	EDIT_CHILDBIRTH_VISIT( 9604, "Edit childbirth visit", "Edit childbirth visit", true ),
+	LABOR_AND_DELIVERY_REPORT( 9500, "Labor and Delivery Report", "Labor and Delivery Report", true )
 	;
 	/**
 	 * This string is used in the SQL statement associated with pulling events for

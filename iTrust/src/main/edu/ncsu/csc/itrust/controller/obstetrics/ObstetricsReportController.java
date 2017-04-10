@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
@@ -26,6 +27,7 @@ import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.enums.BloodType;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
@@ -61,6 +63,25 @@ public class ObstetricsReportController extends iTrustController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public ObstetricsReportController( DataSource ds, DAOFactory factory, SessionUtils utils ) {
+		this.sessionUtils = utils;
+		this.factory = factory;
+		this.patientDAO = factory.getPatientDAO();
+		try {
+			erCon = new EmergencyRecordController( ds, factory.getAllergyDAO() );
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			this.obstretricsData = new ObstetricsMySQL( ds );
+			this.officeData = new ObstetricsOfficeVisitMySQL( ds );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -226,5 +247,9 @@ public class ObstetricsReportController extends iTrustController {
 			e.printStackTrace();
 		}
 		return p.getDateOfBirthStr();
+	}
+	
+	public void logViewReport() {
+		logTransaction( TransactionType.LABOR_AND_DELIVERY_REPORT, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
 	}
 }

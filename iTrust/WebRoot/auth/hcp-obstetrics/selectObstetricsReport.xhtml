@@ -16,16 +16,16 @@
 		</ui:define>
 		<ui:define name="mainContent">
 		
-		<h:panelGroup rendered="false">
+		<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
 			<h:form>
-			<h4>This patient does not have a current pregnancy.</h4>
+			<h4>This patient is not an obstetrics patient. Please choose a new patient.</h4>
 			<br/>
 			<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
 			
 			</h:form>
 			
 		</h:panelGroup>
-		<h:panelGroup rendered="true">
+		<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
 		
 				<h4>Current Pregnancy</h4>   		
     			<h:dataTable value="#{obstetrics_controller.getCurrentPregnancy()}" var="curr" id="currentPregnancy" border="1">

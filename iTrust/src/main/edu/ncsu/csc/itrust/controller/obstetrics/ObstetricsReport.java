@@ -13,12 +13,15 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ViewScoped
 @ManagedBean( name="obstetrics_report" )
@@ -33,21 +36,8 @@ public class ObstetricsReport extends iTrustController {
 	private ObstetricsReportController obc;
 	private ObstetricsPregnancy selected;
 	private String bloodType;
-	//private List< Boolean > complications;
 	private Complications complications;
-	
-	private static final int RH_INDEX = 0;
-	private static final int HIGH_BP_INDEX = 1;
-	private static final int OLD_INDEX = 2;
-	private static final int PRE_INDEX = 3;
-	private static final int ALLERGIES_INDEX = 4;
-	private static final int PLACENTA_INDEX = 5;
-	private static final int MISCARRIAGE_INDEX = 6;
-	private static final int ABNORM_FHR_INDEX = 7;
-	private static final int MULTIPLES_INDEX = 8;
-	private static final int WEIGHT_CHANGE_INDEX = 9;
-	private static final int HYPEREMESIS_INDEX = 10;
-	private static final int HYPOTHYROIDISM_INDEX = 11;
+
 	
 	
 	
@@ -60,14 +50,13 @@ public class ObstetricsReport extends iTrustController {
 		this.diagnoses = obc.getRelevantDiagnoses();
 		this.bloodType = obc.getCurrentPatientBloodType();
 		this.edd = selected.getEdd();
-		/*this.complications = new ArrayList< Boolean >( 12 );*/
 		this.complications = new Complications();
-		complications.rh = selected.getrhFlag() || complications.rh;
-		complications.allergies = hasAllergies() || complications.allergies;
-		complications.hyperemesis = checkHyperemesis() || complications.hyperemesis;
-		complications.hypothyroidism = checkHypothyroidism() || complications.hypothyroidism;
-		complications.preExisting = hasDiagnoses() || complications.preExisting;
-		complications.miscarriage = selected.gethpMiscarriage() || complications.miscarriage;
+		complications.rh = selected.getrhFlag();
+		complications.allergies = hasAllergies();
+		complications.hyperemesis = checkHyperemesis();
+		complications.hypothyroidism = checkHypothyroidism();
+		complications.preExisting = hasDiagnoses();
+		complications.miscarriage = selected.gethpMiscarriage();
 		if( officeVisits != null ) {
 			for( int i = 0; i < officeVisits.size(); i++ ) {
 				if( i == 0 ) {
@@ -77,7 +66,36 @@ public class ObstetricsReport extends iTrustController {
 				}
 			}
 		}
+		obc.logViewReport();
 		
+	}
+	
+	public ObstetricsReport( DataSource ds, DAOFactory factory, SessionUtils utils ) {
+		this.obc = new ObstetricsReportController( ds, factory, utils );
+		this.selected = obc.getSelectedVisit();
+		this.priors = obc.getPriorPregnancies();
+		this.officeVisits = obc.getOfficeVisitsForVisit( selected.getId() );
+		this.allergies = obc.getRelevantAllergies();
+		this.diagnoses = obc.getRelevantDiagnoses();
+		this.bloodType = obc.getCurrentPatientBloodType();
+		this.edd = selected.getEdd();
+		this.complications = new Complications();
+		complications.rh = selected.getrhFlag();
+		complications.allergies = hasAllergies();
+		complications.hyperemesis = checkHyperemesis();
+		complications.hypothyroidism = checkHypothyroidism();
+		complications.preExisting = hasDiagnoses();
+		complications.miscarriage = selected.gethpMiscarriage();
+		if( officeVisits != null ) {
+			for( int i = 0; i < officeVisits.size(); i++ ) {
+				if( i == 0 ) {
+					getComplicationsForVisit( null, officeVisits.get( i ) );
+				} else {
+					getComplicationsForVisit( officeVisits.get( i - 1 ), officeVisits.get( i ) );
+				}
+			}
+		}
+		obc.logViewReport();
 	}
 
 
@@ -112,12 +130,6 @@ public class ObstetricsReport extends iTrustController {
 
 
 	/**
-	 * @return the obc
-	 */
-	public ObstetricsReportController getObc() { return obc; }
-
-
-	/**
 	 * @return the selected
 	 */
 	public ObstetricsPregnancy getSelected() { return selected; }
@@ -149,19 +161,6 @@ public class ObstetricsReport extends iTrustController {
 	}
 	
 	public void getComplicationsForVisit( ObstetricsOfficeVisit pastVisit, ObstetricsOfficeVisit visit ) {
-		/*complications.set( RH_INDEX, selected.getrhFlag() || complications.get( RH_INDEX ) );
-		complications.set( HIGH_BP_INDEX, checkBloodPressure( visit ) || complications.get( HIGH_BP_INDEX ) );
-		complications.set( OLD_INDEX, calculateAge( visit ) || complications.get( OLD_INDEX ) );
-		complications.set( ALLERGIES_INDEX, hasAllergies() || complications.get( ALLERGIES_INDEX ) );
-		complications.set( PRE_INDEX, hasDiagnoses() || complications.get( PRE_INDEX ) );
-		complications.set( PLACENTA_INDEX, visit.isLowLying() || complications.get( PLACENTA_INDEX ) );
-		complications.set( MISCARRIAGE_INDEX, false );
-		complications.set( ABNORM_FHR_INDEX, abnormalFhr( visit ) || complications.get( ABNORM_FHR_INDEX ) );
-		complications.set( MULTIPLES_INDEX, visit.isMultiplePregnancy() || complications.get( MULTIPLES_INDEX ) );
-		complications.set( WEIGHT_CHANGE_INDEX, abnormalWeight( pastVisit, visit ) || complications.get( WEIGHT_CHANGE_INDEX ) );
-		complications.set( HYPEREMESIS_INDEX, checkHyperemesis() );
-		complications.set( HYPOTHYROIDISM_INDEX, checkHypothyroidism() );*/
-		
 		complications.abnormalFhr = abnormalFhr( visit ) || complications.abnormalFhr;
 		complications.abnormalWeightChange = abnormalWeight( pastVisit, visit ) || complications.abnormalWeightChange;
 		complications.bp = checkBloodPressure( visit ) || complications.bp;
