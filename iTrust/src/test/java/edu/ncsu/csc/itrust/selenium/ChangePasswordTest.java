@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class ChangePasswordTest extends iTrustSeleniumTest {
@@ -18,7 +20,7 @@ public class ChangePasswordTest extends iTrustSeleniumTest {
 	@Before
 	public void setUp() throws Exception {
 		// Create a new instance of the driver
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		super.setUp();
 		gen.clearAllTables();
 		gen.standardData();

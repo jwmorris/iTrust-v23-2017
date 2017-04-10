@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import org.junit.*;
 
 public class ConsultationTest extends iTrustSeleniumTest {
@@ -16,7 +19,7 @@ public class ConsultationTest extends iTrustSeleniumTest {
 		super.setUp();
 		gen.standardData();
 		// Create a new instance of the html unit driver
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		// Navigate to desired web page
 		driver.get("http://localhost:8080/iTrust/");

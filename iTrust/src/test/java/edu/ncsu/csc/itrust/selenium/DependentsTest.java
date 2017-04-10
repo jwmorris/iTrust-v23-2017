@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class DependentsTest extends iTrustSeleniumTest {
@@ -29,7 +31,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 	 */
 	public void testEditDependentRepresentative() throws Exception {
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000000", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 9000000000L, 0L, "");
 
@@ -63,7 +65,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc58();
 
 		// Try to log in (dependents can't).
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.get("http://localhost:8080/iTrust/");
 
 		WebElement elem = driver.findElement(By.name("j_username"));
@@ -87,7 +89,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc58();
 
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000000", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 9000000000L, 0L, "");
 
@@ -149,7 +151,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc59();
 
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("750", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 750L, 0L, "");
 
@@ -208,7 +210,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc59();
 
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("750", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 750L, 0L, "");
 
@@ -266,7 +268,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc59();
 
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000000", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 9000000000L, 0L, "");
 
@@ -309,7 +311,7 @@ public class DependentsTest extends iTrustSeleniumTest {
 		gen.uc59();
 
 		// Log in.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("750", "pw");
 		assertLogged(TransactionType.HOME_VIEW, 750L, 0L, "");
 

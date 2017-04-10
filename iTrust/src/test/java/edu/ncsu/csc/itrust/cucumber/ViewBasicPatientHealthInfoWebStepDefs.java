@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -29,7 +31,7 @@ public class ViewBasicPatientHealthInfoWebStepDefs {
 	
 	@Given("^an HCP user is logged in$")
 	public void hcp_user_logged_in() throws Throwable{
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		// Implicitly wait at most 2 seconds for each element to load
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);

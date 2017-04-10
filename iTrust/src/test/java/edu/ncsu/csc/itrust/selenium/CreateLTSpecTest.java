@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
@@ -31,7 +33,7 @@ public class CreateLTSpecTest extends iTrustSeleniumTest {
 	 */
 	public void testSpecialtyOnForm() throws Exception {
 		// login admin
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000001", "pw");
 		assertEquals("iTrust - Admin Home", driver.getTitle());
 		assertLogged(TransactionType.HOME_VIEW, 9000000001L, 0L, "");

@@ -6,6 +6,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 import org.junit.Test;
@@ -24,7 +26,7 @@ public class EditPatientTest extends iTrustSeleniumTest {
 	@Test
 	public void testViewDemographicsTest() throws Exception {
 		// set up for the start location and driver
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		baseUrl = "http://localhost:8080/iTrust/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get(baseUrl + "auth/forwardUser.jsp");
@@ -70,7 +72,7 @@ public class EditPatientTest extends iTrustSeleniumTest {
 	@Test
 	public void testMFWithPersonnelMID() throws Exception {
 		// set up for the start location and driver
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		baseUrl = "http://localhost:8080/iTrust/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get(baseUrl + "auth/forwardUser.jsp");
@@ -116,7 +118,7 @@ public class EditPatientTest extends iTrustSeleniumTest {
 	@Test
 	public void testMisspellings() throws Exception {
 		// set up for the start location and driver
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		baseUrl = "http://localhost:8080/iTrust/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get(baseUrl + "auth/forwardUser.jsp");

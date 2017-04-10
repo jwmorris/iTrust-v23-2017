@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -23,7 +25,7 @@ public class ObstetricsInitilizationStepDefs {
 	private final String ADDRESS = "http://localhost:8080/iTrust/";
 	
 	@Before public void loginOBGYN() {
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		TestHooks.testPrep();
 		// Implicitly wait at most 2 seconds for each element to load

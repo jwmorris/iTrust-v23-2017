@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.selenium.iTrustSeleniumTest;
 
@@ -18,7 +20,7 @@ public class CalendarTest extends iTrustSeleniumTest {
 	@Override
 	protected void setUp() throws Exception {
 		// Create a new instance of the driver
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		super.setUp(); // clear tables is called in super
 		gen.clearAllTables();
