@@ -76,7 +76,7 @@ public class LaborDeliveryReportStepDefs {
  		gen.standardData();
  		driver.findElement(By.name("UID_PATIENTID")).clear();
 		driver.findElement(By.name("UID_PATIENTID")).sendKeys("5");
-		driver.findElement(By.xpath("//input[@value='5']")).submit();		
+		//driver.findElement(By.xpath("//input[@value='5']")).submit();		
  		/*Assert.assertEquals( 1, patientDAO.searchForPatientsWithName( "Programmer" , "Baby" ).size() );
  		utils.setSessionVariable( "pid", 5 );
 		Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 5 );
@@ -87,9 +87,9 @@ public class LaborDeliveryReportStepDefs {
     @When("^Kathyrn Evans correctly enters Princess Peach$")
     public void kathyrn_evans_correctly_enters_princess_peach() throws Throwable {
     	driver.findElement(By.name("UID_PATIENTID")).clear();
-		driver.findElement(By.name("UID_PATIENTID")).sendKeys("21");
-		driver.findElement(By.xpath("//input[@value='21']")).submit();
-		Assert.assertEquals("iTrust - Report", driver.getTitle());
+		driver.findElement(By.name("UID_PATIENTID")).sendKeys("2");
+		driver.findElement(By.xpath("//input[@value='2']")).submit();
+		Assert.assertEquals("iTrust - Select Obstetrics Report", driver.getTitle());
 			
     	/*utils.setSessionVariable( "pid", 21 );
 		Mockito.mock( SessionUtils.class ).setSessionVariable( "pid", 21 );
@@ -105,16 +105,16 @@ public class LaborDeliveryReportStepDefs {
     @Then("^Kathyrn Evans recieves a full report of pregnany info$")
     public void kathyrn_evans_recieves_a_full_report_of_pregnancy_info() throws Throwable {
         //check to make sure report is there
-    	driver.findElement(By.cssSelector("report")).click();
-    	Assert.assertEquals("iTrust - CorrectReport", driver.getTitle());
+    	driver.findElement(By.linkText("View Report")).click();
+    	Assert.assertEquals("iTrust - Obstetrics Report", driver.getTitle());
     	
     }
 
     @Then("^the report is not generated as Baby Programmer is not an obstetrics patient$")
     public void the_report_is_not_generated_as_baby_programmer_is_not_an_obstetrics_patient() throws Throwable {
         //check to make sure on not obstetrics page
-    	Assert.assertFalse(driver.getTitle().equals("iTrust - Report"));
-    	Assert.assertEquals("iTrust - NotObstetrics", driver.getTitle());
+    	//Assert.assertFalse(driver.getTitle().equals("iTrust - Report"));
+    	Assert.assertEquals("iTrust - Need Obstetrics Patient", driver.getTitle());
     }
 
 }
