@@ -468,7 +468,7 @@ CREATE TABLE immunization (
 CREATE TABLE icdCode
 (
 	code VARCHAR(8),
-	name VARCHAR(30) NOT NULL,
+	name VARCHAR(100) NOT NULL,
 	is_chronic TINYINT(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (code)
 ) ENGINE=MyISAM;
@@ -546,6 +546,7 @@ CREATE TABLE obstetricsData
 	babyCount		VARCHAR(20) default '',
 	current			BOOLEAN NOT NULL default true,
 	rhFlag			BOOLEAN NOT NULL default false,
+	hpMiscarriage	BOOLEAN NOT NULL default false,
 	PRIMARY KEY (id),
 	FOREIGN KEY (pid) 	REFERENCES patients(MID),
 	CONSTRAINT pid_date UNIQUE (pid, initDate)

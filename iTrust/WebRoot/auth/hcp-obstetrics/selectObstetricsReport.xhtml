@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:itrust="/WEB-INF/tags.tld">
+<f:view
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+<h:body>
+	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageTitle">iTrust - Select Obstetrics Report</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+		
+		<h:panelGroup rendered="#{!obstetrics_controller.checkPatientEligibility()}">
+			<h:form>
+			<h4>This patient is not an obstetrics patient. Please choose a new patient.</h4>
+			<br/>
+			<h:commandButton name = "New Patient" value="New Patient" action="#{navigation_controller.updatePatient}"/>
+			
+			</h:form>
+			
+		</h:panelGroup>
+		<h:panelGroup rendered="#{obstetrics_controller.checkPatientEligibility()}">
+		
+				<h4>Current Pregnancy</h4>   		
+    			<h:dataTable value="#{obstetrics_controller.getCurrentPregnancy()}" var="curr" id="currentPregnancy" border="1">
+
+					<h:column>
+						<f:facet name = "header">Year of Conception</f:facet>
+						#{curr.lmp}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Total Weeks Pregnant (Weeks.Days)</f:facet>
+						#{curr.weeksPregnant}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">View Report</f:facet>
+						<h:link outcome="obstetricsReport" value="View Report">
+			      			<f:param name="id" value="#{curr.getId()}" />
+			      		</h:link>
+					</h:column>
+				</h:dataTable>
+	
+			
+
+		
+		
+					<h4>Prior Pregnancies</h4>   		
+    			<h:dataTable value="#{obstetrics_controller.getPriorPregnancies()}" var="prior" id="priorPregs" border="1">
+
+					<h:column>
+						<f:facet name = "header">Year of Conception</f:facet>
+						#{prior.concepYear}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">Total Weeks Pregnant (Weeks.Days)</f:facet>
+						#{prior.totalWeeksPregnant}
+					</h:column>
+					<h:column>
+						<f:facet name = "header">Delivery Type</f:facet>
+						#{prior.deliveryType}
+					</h:column>
+					
+					<h:column>
+						<f:facet name = "header">View Report</f:facet>
+						<h:link outcome="obstetricsReport" value="View Report">
+			      			<f:param name="id" value="#{prior.getId()}" />
+			      			</h:link>
+					</h:column>
+				</h:dataTable>
+	
+		</h:panelGroup>		
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

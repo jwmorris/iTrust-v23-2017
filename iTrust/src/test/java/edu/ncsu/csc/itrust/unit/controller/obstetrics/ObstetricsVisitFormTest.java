@@ -313,7 +313,7 @@ public class ObstetricsVisitFormTest {
 	public void testSubmitVisitInfo() {
 		
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );
@@ -329,7 +329,7 @@ public class ObstetricsVisitFormTest {
 	@Test
 	public void testSubmitFetusInfo() {
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );
@@ -363,7 +363,7 @@ public class ObstetricsVisitFormTest {
 	public void testSubmitUltrasound() {
 
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );
@@ -399,7 +399,7 @@ public class ObstetricsVisitFormTest {
 	public void testLogViewObstetricsVisit() {
 
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );
@@ -421,7 +421,7 @@ public class ObstetricsVisitFormTest {
 	@Test
 	public void testEditFetus() {
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );
@@ -478,7 +478,7 @@ public class ObstetricsVisitFormTest {
 	@Test
 	public void testDeleteUltrasound() {
 		form.setBabyNum( "1" );
-		form.setBloodPressure( "1" );
+		form.setBloodPressure( "1/1" );
 		form.setMultiplePregnancy( false );
 		form.setFtr( "23" );
 		form.setPlacenta( true );

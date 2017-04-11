@@ -1,0 +1,112 @@
+code,name,is_chronic
+E08,Diabetes mellitus due to underlying condition,0
+E09,Drug or chemical induced diabetes mellitus,0
+E10,Type 1 diabetes mellitus,0
+E11,Type 2 diabetes mellitus,0
+E13,Other specified diabetes mellitus,0
+D59,Acquired hemolytic anemia,0
+D89,"Other disorders involving the immune mechanism, not elsewhere classified",0
+C00,Malignanat neoplasm of lip,0
+C01,Malignant neoplasm of base of tongue,0
+C02,Malignant neoplasm of other and unspecified parts of tongue,0
+C03,Malignant neoplasm of gum,0
+C04,Malignant neoplasm of floor of mouth,0
+C05,Malignant neoplasm of palate,0
+C06,Malignant neoplasm of other and unspecified parts of mouth,0
+C07,Malignant neoplasm of parotid gland,0
+C08,Malignant neoplasm of other and unspecified major salivary glands,0
+C09,Malignant neoplasm of tonsil,0
+C10,Malignant neoplasm of oropharynx,0
+C11,Malignant neoplasm of nasopharynx,0
+C12,Malignant neoplasm of pyriform sinus,0
+C13,Malignant neoplasm of hypopharynx,0
+C14,"Malignant neoplasm of other and ill-defined sites in the lip, oral cavity and pharynx",0
+C15,Malignant neoplasm of esophagus,0
+C16,Malignant neoplasm of stomach,0
+C17,Malignant neoplasm of small intestine,0
+C18,Malignant neoplasm of colon,0
+C19,Malignant neoplasm of rectosigmoid junction,0
+C20,Malignant neoplasm of rectum,0
+C21,Malignant neoplasm of anus and anal canal,0
+C22,Malignant neoplasm of liver and intrahepatic bile ducts,0
+C23,Malignant neoplasm of gallbladder,0
+C24,Malignant neoplasm of other and unspecified parts of biliary tract,0
+C25,Malignant neoplasm of pancreas,0
+C26,Malignant neoplasm of other and ill-defined digestive organs,0
+C30,Malignant neoplasm of nasal cavity and middle ear,0
+C31,Malignant neoplasm of accessory sinuses,0
+C32,Malignant neoplasm of larynx,0
+C33,Malignant neoplasm of trachea,0
+C34,Malignant neoplasm of bronchus and lung,0
+C37,Malignant neoplasm of thymus,0
+C38,"Malignant neoplasm of heart, mediastinum and pleura",0
+C39,Malignant neoplasm of other and ill-defined sites in the respiratory system and intrathoracic organs,0
+C40,Malignant neoplasm of bone and articular cartilage of limbs,0
+C41,Malignant neoplasm of bone and articular cartilage of other and unspecified sites,0
+C43,Malignant melanoma of skin,0
+C44,Other and unspecified malignant neoplasm of skin,0
+C45,Mesothelioma,0
+C46,Kaposi's sarcoma,0
+C47,Malignant neoplasm of peripheral nerves and autonomic nervous system,0
+C48,Malignant neoplasm of retroperitoneum and peritoneum,0
+C49,Malignant neoplasm of other connective and soft tissue,0
+C50,Malignant neoplasm of breast,0
+C51,Malignant neoplasm of vulva,0
+C52,Malignant neoplasm of vagina,0
+C53,Malignant neoplasm of cervix uteri,0
+C54,Malignant neoplasm of corpus uteri,0
+C55,"Malignant neoplasm of uterus, part unspecified",0
+C56,Malignant neoplasm of ovary,0
+C57,Malignant neoplasm of other and unspecified female genital organs,0
+C58,Malignant neoplasm of placenta,0
+C60,Malignant neoplasm of penis,0
+C61,Malignant neoplasm of prostate,0
+C62,Malignant neoplasm of testis,0
+C63,Malignant neoplasm of other and unspecified male genital organs,0
+C64,"Malignant neoplasm of kidney, except renal pelvis",0
+C65,Malignant neoplasm of renal pelvis,0
+C66,Malignant neoplasm of ureter,0
+C67,Malignant neoplasm of bladder,0
+C68,Malignant neoplasm of other and unspecified urinary organs,0
+C69,Malignant neoplasm of eye and adnexa,0
+C70,Malignant neoplasm of meninges,0
+C71,Malignant neoplasm of brain,0
+C72,"Malignant neoplasm of spinal cord, cranial nerves and other parts of central nervous system",0
+C73,Malignant neoplasm of thyroid gland,0
+C74,Malignant neoplasm of adrenal gland,0
+C75,Malignant neoplasm of other endocrine glands and related structures,0
+C76,Malignant neoplasm of other and ill-defined sites,0
+C77,Secondary and unspecified malignant neoplasm of lymph nodes,0
+C78,Secondary malignant neoplasm of respiratory and digestive organs,0
+C79,Secondary malignant neoplasm of other and unspecified sites,0
+C80,Malignant neoplasm without specification of site,0
+C81,Hodgkin lymphoma,0
+C82,Follicular lymphoma,0
+C83,Non-follicular lymphoma,0
+C84,Mature T/NK-cell lymphomas,0
+C85,Other specified and unspecified types of non-Hodgkin lymphoma,0
+C86,Other specified types of T/NK-cell lymphoma,0
+C88,Malignant immunoproliferative diseases and certain other B-cell lymphomas,0
+C90,Multiple myeloma and malignant plasma cell neoplasms,0
+C91,Lymphoid leukemia,0
+C92,Myeloid leukemia,0
+C93,Monocytic leukemia,0
+C94,Other leukemias of specified cell type,0
+C95,Leukemia of unspecified cell type,0
+C96,"Other and unspecified malignant neoplasms of lymphoid, hematopoietic and related tissue",0
+C7A,Malignant neuroendocrine tumors,0
+C4A,Merkel cell carcinoma,0
+A50,Congenital syphilis,0
+A51,Early syphilis,0
+A52,Late syphilis,0
+A53,Other and unspecified syphilis,0
+A54,Gonococcal infection,0
+A55,Chlamydial lymphogranuloma (venereum),0
+A56,Other sexually transmitted chlamydial diseases,0
+A57,Chancroid,0
+A58,Granuloma inguinale,0
+A59,Trichomoniasis,0
+A60,Anogenital herpesviral [herpes simplex] infections,0
+A63,"Other predominantly sexually transmitted diseases, not elsewhere classified",0
+A64,Unspecified sexually transmitted disease,0
+A70,Chlamydia psittaci infections,0
