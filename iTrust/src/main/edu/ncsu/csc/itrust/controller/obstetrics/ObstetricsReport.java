@@ -70,9 +70,10 @@ public class ObstetricsReport extends iTrustController {
 		
 	}
 	
-	public ObstetricsReport( DataSource ds, DAOFactory factory, SessionUtils utils ) {
+	public ObstetricsReport( DataSource ds, DAOFactory factory, SessionUtils utils, ObstetricsPregnancy selected ) {
+		
 		this.obc = new ObstetricsReportController( ds, factory, utils );
-		this.selected = obc.getSelectedVisit();
+		this.selected = selected;
 		this.priors = obc.getPriorPregnancies();
 		this.officeVisits = obc.getOfficeVisitsForVisit( selected.getId() );
 		this.allergies = obc.getRelevantAllergies();

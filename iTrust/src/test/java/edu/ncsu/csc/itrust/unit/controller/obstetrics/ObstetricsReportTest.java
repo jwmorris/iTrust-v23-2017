@@ -5,6 +5,7 @@ package edu.ncsu.csc.itrust.unit.controller.obstetrics;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,9 +14,12 @@ import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReport;
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReport.Complications;
+import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReportController;
+import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsVisitController;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
+import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
@@ -29,6 +33,7 @@ public class ObstetricsReportTest {
 	
 	private SessionUtils mockSessionUtils;
 	private ObstetricsReport report;
+	private ObstetricsReportController con;
 
 	/**
 	 * @throws java.lang.Exception
@@ -44,8 +49,11 @@ public class ObstetricsReportTest {
 		Mockito.doReturn(Long.parseLong( "2" )).when(mockSessionUtils).getCurrentPatientMIDLong();
 		Mockito.doReturn( "2" ).when(mockSessionUtils).getCurrentPatientMID();
 		Mockito.doReturn( "1" ).when( mockSessionUtils ).getRequestParameter( "id" );
-		report = new ObstetricsReport( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils );
+		
+		con = new ObstetricsReportController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils );
+		report = new ObstetricsReport( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils, con.getCurrentPregnancy() );
 	}
+
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReport#ObstetricsReport()}.
@@ -58,6 +66,44 @@ public class ObstetricsReportTest {
 			//pass
 		}
 	}
+	
+	@Test
+	public void testObstetricsReportOfficeVisits() {
+		ObstetricsPregnancy op = con.getCurrentPregnancy();
+		ObstetricsVisitController ovc = new ObstetricsVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils );
+		ObstetricsOfficeVisit ov = new ObstetricsOfficeVisit();
+		ov.setBp( "120/40" );
+		ov.setFhr( "120" );
+		ov.setLowLying( false );
+		ov.setMultiplePregnancy( false );
+		ov.setNumBabies( "1" );
+		ov.setWeight( "120" );
+		ov.setInitID( op.getId() ); 
+		ov.setPid( 2 );
+		ov.setVisitDate( new java.sql.Date( Calendar.getInstance().getTime().getTime() ) );
+		ovc.add( ov );
+		
+		ov = new ObstetricsOfficeVisit();
+		ov.setBp( "120/40" );
+		ov.setFhr( "120" );
+		ov.setLowLying( false );
+		ov.setMultiplePregnancy( false );
+		ov.setNumBabies( "1" );
+		ov.setWeight( "120" );
+		ov.setInitID( op.getId() );
+		ov.setVisitDate( new java.sql.Date( Calendar.getInstance().getTime().getTime() ) );
+		ov.setPid( 2 );
+		ovc.add( ov );
+	
+		List<ObstetricsOfficeVisit> l = ovc.getOfficeVisitsForInitId( 2, op.getId() );
+		assertNotNull( l );
+		assertEquals( 2, l.size() );
+		
+		report = new ObstetricsReport( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils, con.getCurrentPregnancy() );
+		
+	}
+	
+	
 
 	/**
 	 * Test method for {@link edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReport#getPriors()}.
