@@ -10,7 +10,7 @@
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageTitle">iTrust - Childbirth Visit</ui:define>
+		<ui:define name="pageTitle">iTrust - Select Obstetrics Report</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
@@ -20,7 +20,7 @@
 			<h:form>
 			<h4>This patient is not an obstetrics patient. Please choose a new patient.</h4>
 			<br/>
-			<h:commandButton value="New Patient" action="#{navigation_controller.updatePatient}"/>
+			<h:commandButton name = "New Patient" value="New Patient" action="#{navigation_controller.updatePatient}"/>
 			
 			</h:form>
 			

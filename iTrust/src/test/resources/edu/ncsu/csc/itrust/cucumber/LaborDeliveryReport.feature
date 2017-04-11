@@ -4,8 +4,8 @@ Feature: Labor and Delivery Report
 	So that I can have a complete report detailing their pregnancy medical history
 
 Scenario: Invalid Patient
-	Given Kathyrn Evans searchs for Princess Leach
-	When Kathyrn Evans correctly enters Princess Peach
+	Given Kathyrn Evans types in Princess Leach
+	When Kathyrn Evans then enters Princess Peach
 	Then Kathyrn Evans recieves a full report of pregnany info
 
 Scenario: Not an Obstetrics Patient
