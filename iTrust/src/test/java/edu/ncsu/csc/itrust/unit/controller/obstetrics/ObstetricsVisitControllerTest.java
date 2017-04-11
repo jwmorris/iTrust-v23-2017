@@ -267,5 +267,26 @@ public class ObstetricsVisitControllerTest {
 		assertEquals( 1, list.size() );
 		assertEquals( us.getPicPath(), list.get( 0 ).getPicPath() );
 	}
+	
+	@Test
+	public void testDownload() {
+		long id = controller.addReturnGeneratedId( ov );
+		Ultrasound us = new Ultrasound();
+		Date d = new Date( Calendar.getInstance().getTimeInMillis() );
+		us.setDateCreated( d );
+		us.setPicPath( "image.jpg" );
+		us.setPid( 2 );
+		us.setId( id );
+		InputStream s = Mockito.mock(InputStream.class);
+		us.setImg( s );
+		us.setOvId( id );
+		controller.addUltrasound( us );
+		List<Ultrasound> list = controller.getUltrasounds( id );
+		try{
+			controller.download( "image.jpg", id);
+		} catch ( Exception e ) {
+			//do nothing
+		}
+	}
 
 }

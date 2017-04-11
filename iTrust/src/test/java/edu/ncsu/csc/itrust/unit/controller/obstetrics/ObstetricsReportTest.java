@@ -224,5 +224,22 @@ public class ObstetricsReportTest {
 			
 		}
 	}
+	
+	@Test
+	public void testComplications() {
+		Complications c = report.new Complications();
+		assertFalse( c.getAbnormalFhr() );
+		assertFalse( c.getAbnormalWeightChange() );
+		assertFalse( c.getAllergies() );
+		assertFalse( c.getBp() );
+		assertFalse( c.getHyperemesis() );
+		assertFalse( c.getHypothyroidism() );
+		assertFalse( c.getMiscarriage() );
+		assertFalse( c.getMultiple() );
+		assertFalse( c.getOld() );
+		assertFalse( c.getPlacenta() );
+		assertFalse( c.getPreExisting() );
+		assertFalse( c.getRh() );
+	}
 
 }

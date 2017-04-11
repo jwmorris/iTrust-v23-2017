@@ -390,6 +390,7 @@ public class ObstetricsVisitController extends iTrustController {
 			size = is.available();
 			name = us.getPicPath();
 			
+			
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
