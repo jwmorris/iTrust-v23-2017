@@ -5,7 +5,7 @@ Feature: Labor and Delivery Report
 
 Scenario: Invalid Patient
 	Given Kathyrn Evans types in Princess Leach
-	When Kathyrn Evans then enters Princess Peach
+	When Kathyrn Evans then enters Andy Programmer
 	Then Kathyrn Evans recieves a full report of pregnany info
 
 Scenario: Not an Obstetrics Patient
