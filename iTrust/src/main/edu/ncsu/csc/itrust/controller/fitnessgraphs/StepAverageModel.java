@@ -30,16 +30,12 @@ public class StepAverageModel implements GraphDisplayModel {
 		try {
 			fitnessController = new FitnessController();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		List<Fitness> fitnessInfo = null;
 		try {
 			fitnessInfo = fitnessController.getFitnessDateRange(sdf.format(startDate), sdf.format(endDate), pid);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		LineChartSeries series = new LineChartSeries();
