@@ -63,33 +63,14 @@ public class FitnessController extends iTrustController {
 		validate = new FitnessValidator();
 	}
 	
-	public FitnessController( DataSource ds ) throws DBException {
-		fitnessData = new FitnessMySQL();
-		sessionUtils = SessionUtils.getInstance();
+	public FitnessController( DataSource ds, SessionUtils utils ) throws DBException {
+		fitnessData = new FitnessMySQL( ds );
+		sessionUtils = utils;
 		this.ds = ds;
+		validate = new FitnessValidator();
 	}
 	
-	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage( Severity severity, String summary, String detail, String clientId ) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages( true );
-		ctx.addMessage( clientId, new FacesMessage( severity, summary, detail ) );
-	}
+
 
 	/**
 	 * add fitness data to database
@@ -99,7 +80,6 @@ public class FitnessController extends iTrustController {
 	 * @throws SQLException 
 	 */
 	public boolean add( Fitness f ) throws SQLException {
-		boolean res = false;
 		if ( f.getPid() == null ) {
 			f.setPid( sessionUtils.getCurrentPatientMID() );
 		}
@@ -108,7 +88,6 @@ public class FitnessController extends iTrustController {
 			validate.validate(f);
 		} catch(FormValidationException e) {
 			List<String> errorList = e.getErrorList();
-			String errorString = "";
 			for(String s : errorList) {
 				printFacesMessage(FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_ADDED, s, null);
 			}
@@ -117,18 +96,16 @@ public class FitnessController extends iTrustController {
 		}
 
 		try {
-			res = fitnessData.add( f );
+			fitnessData.add( f );
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_ADDED, e.getExtendedMessage(),
 					null);
 			return false;
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_ADDED,
-					FITNESS_DATA_CANNOT_BE_ADDED, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_ADDED,FITNESS_DATA_CANNOT_BE_ADDED, null);
 			return false;
 		}
-		printFacesMessage(FacesMessage.SEVERITY_INFO, FITNESS_DATA_SUCCESSFULLY_ADDED,
-					FITNESS_DATA_SUCCESSFULLY_ADDED, null);
+		printFacesMessage(FacesMessage.SEVERITY_INFO, FITNESS_DATA_SUCCESSFULLY_ADDED,FITNESS_DATA_SUCCESSFULLY_ADDED, null);
 		return true;
 	}
 
@@ -149,8 +126,7 @@ public class FitnessController extends iTrustController {
 				ret =  fitnessData.getFitnessDataForPatient( pid );
 			} catch ( Exception e ) {
 				e.printStackTrace();
-				printFacesMessage( FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Fitness Data",
-						"Unable to Retrieve Fitness Data", null );
+				printFacesMessage( FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Fitness Data","Unable to Retrieve Fitness Data", null );
 			}
 		} else {
 			pid = sessionUtils.getCurrentPatientMID();
@@ -158,8 +134,7 @@ public class FitnessController extends iTrustController {
 				ret = fitnessData.getFitnessDataForPatient( pid );
 			} catch ( DBException e) {
 				e.printStackTrace();
-				printFacesMessage( FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Fitness Data",
-						"Unable to Retrieve Fitness Data", null );
+				printFacesMessage( FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Fitness Data","Unable to Retrieve Fitness Data", null );
 			}
 		}
 		return ret;
@@ -181,31 +156,27 @@ public class FitnessController extends iTrustController {
 	}
 	
 	public boolean edit( Fitness f ) {
-		boolean res = false;
 
 		try {
 			validate.validate(f);
 		} catch(FormValidationException e) {
 			List<String> errorList = e.getErrorList();
-			String errorString = "";
 			for(String s : errorList) {
 				printFacesMessage(FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_ADDED, s, null);
 			}
 			return false;
 		}
 		try {
-			res = fitnessData.update( f );
+			fitnessData.update( f );
 		} catch (DBException e) {
 			printFacesMessage( FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_UPDATED, e.getExtendedMessage(),
 					null );
 			return false;
 		} catch (Exception e) {
-			printFacesMessage( FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_UPDATED,
-					FITNESS_DATA_CANNOT_BE_UPDATED, null );
+			printFacesMessage( FacesMessage.SEVERITY_ERROR, FITNESS_DATA_CANNOT_BE_UPDATED,	FITNESS_DATA_CANNOT_BE_UPDATED, null );
 			return false;
 		}
-		printFacesMessage( FacesMessage.SEVERITY_INFO, FITNESS_DATA_SUCCESSFULLY_UPDATED,
-				FITNESS_DATA_SUCCESSFULLY_UPDATED, null );
+		printFacesMessage( FacesMessage.SEVERITY_INFO, FITNESS_DATA_SUCCESSFULLY_UPDATED,FITNESS_DATA_SUCCESSFULLY_UPDATED, null );
 		return true;
 	}
 }

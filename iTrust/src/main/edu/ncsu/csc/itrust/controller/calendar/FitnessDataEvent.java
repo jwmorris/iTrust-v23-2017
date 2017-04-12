@@ -333,10 +333,7 @@ public class FitnessDataEvent implements ScheduleEvent, Serializable {
 		return this.startDate;
 	}
 
-	@Override
-	public String getStyleClass() {
-		return this.styleClass;
-	}
+	
 
 	@Override
 	public String getTitle() {
@@ -379,6 +376,12 @@ public class FitnessDataEvent implements ScheduleEvent, Serializable {
 	private void showMessage( String message ) {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	@Override
+	public String getStyleClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
