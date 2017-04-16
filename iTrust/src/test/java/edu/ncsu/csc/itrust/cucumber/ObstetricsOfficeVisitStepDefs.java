@@ -167,7 +167,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			//document visit
 			//make visit object
 			//input = new ObstetricsOfficeVisit();
-			input.setBp("110");
+			input.setBp("110/110");
 			input.setFhr("110");
 			//input.setId(9);
 			input.setLowLying(false);
@@ -255,7 +255,7 @@ public class ObstetricsOfficeVisitStepDefs {
 		public void edit_visit() throws FormValidationException, DBException {
 			//edit and check to make sure of edit
 			//input = new ObstetricsOfficeVisit();
-			input.setBp("110");
+			input.setBp("110/110");
 			input.setFhr("110");
 			//input.setId(9);
 			input.setLowLying(false);
@@ -293,7 +293,7 @@ public class ObstetricsOfficeVisitStepDefs {
 			//utils.setSessionVariable( "loggedInMID", 9000000012L );
 			//Mockito.mock( SessionUtils.class ).setSessionVariable( "loggedInMID", 9000000012L );
 			
-			input.setBp("110");
+			input.setBp("110/110");
 			input.setFhr("110");
 			input.setInitID( preg.getId() );
 			//input.setId(9);

@@ -168,6 +168,16 @@ public class ObstetricsVisitController extends iTrustController {
 		return getVisitByID(visitID);
 	}
 	
+	public List<ObstetricsOfficeVisit> getOfficeVisitsForInitId( long pid, long id ) {
+		List<ObstetricsOfficeVisit> visits = null;
+		try {
+			visits = obstetricsVisitData.getOfficeVisitsByPidAndInitId( pid, id );
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return visits;
+	}
 	/**
 	 * Checks if the patient has any office visits
 	 * @param mid
@@ -368,6 +378,7 @@ public class ObstetricsVisitController extends iTrustController {
 			size = is.available();
 			name = us.getPicPath();
 			
+			
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -417,5 +428,13 @@ public class ObstetricsVisitController extends iTrustController {
 			e.printStackTrace();
 		}
 		return lmp;
+	}
+	
+	public void logScheduleNextVisit(long patientMID, long currentID, int nextID) {
+		logTransaction(TransactionType.SCHEDULE_NEXT_OFFICE_VISIT, sessionUtils.getSessionLoggedInMIDLong(), patientMID, String.valueOf(currentID) + "," + String.valueOf(nextID));
+	}
+	
+	public void logChildbirthVisit(long patientMID, long currentID, int nextID) {
+		logTransaction(TransactionType.SCHEDULE_CHILDBIRTH, sessionUtils.getSessionLoggedInMIDLong(), patientMID, String.valueOf(currentID) + "," + String.valueOf(nextID));
 	}
 }

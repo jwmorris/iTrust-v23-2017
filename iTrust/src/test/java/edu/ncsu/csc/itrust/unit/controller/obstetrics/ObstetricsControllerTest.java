@@ -232,4 +232,28 @@ public class ObstetricsControllerTest {
 		obc.setDate("03/21/2017");
 		assertEquals("03/21/2017", obc.getSelectedDate());
 	}
+	
+	@Test
+	public void testEditPriorPregnancy() {
+		try {
+			obc.editPriorPregnancy();
+		} catch( Exception e ) {
+			//do nothing
+		}
+	}
+	
+	@Test
+	public void testGetPregnancyByID() {
+		ObstetricsPregnancy op = obc.getCurrentPregnancy();
+		ObstetricsPregnancy op2 = obc.getPregnancyByID( Long.toString( op.getId() ) );
+	}
+	
+	@Test
+	public void addPriorPregnancy() {
+		try {
+			obc.addPriorPregnancy();
+		} catch( Exception e ) {
+			//do nothing 
+		}
+	}
 }

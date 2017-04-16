@@ -74,6 +74,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 		op.setBabyCount( rs.getString( "babyCount" ) );
 		op.setCurrent( rs.getBoolean( "current" ) );
 		op.setrhFlag( rs.getBoolean( "rhFlag" ) );
+		op.sethpMiscarriage( rs.getBoolean( "hpMiscarriage" ) );
 	}
 
 	@Override
@@ -116,6 +117,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setString( i++, op.getBabyCount() );
 			ps.setBoolean( i++, op.getCurrent() );
 			ps.setBoolean( i++, op.getrhFlag() );
+			ps.setBoolean( i++, op.gethpMiscarriage() );
 		}
 		if(!newInstance) {
 			ps.setDate( i++, dateInit );
@@ -131,7 +133,7 @@ public class ObstetricsSQLLoader implements SQLLoader<ObstetricsPregnancy> {
 			ps.setString( i++, op.getBabyCount() );
 			ps.setBoolean( i++, op.getCurrent() );
 			ps.setBoolean( i++, op.getrhFlag() );
-			
+			ps.setBoolean( i++, op.gethpMiscarriage() );
 			ps.setLong(i++, op.getId());
 		}
 		

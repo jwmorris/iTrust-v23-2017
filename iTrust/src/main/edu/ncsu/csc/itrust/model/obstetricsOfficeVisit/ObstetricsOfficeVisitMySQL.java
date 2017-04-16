@@ -116,7 +116,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsOfficeVisitData WHERE pid = ? AND initId = ?" );
+			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM obstetricsOfficeVisitData WHERE pid = ? AND initId = ? ORDER BY visitDate DESC" );
 			ps.setLong( 1, id );
 			ps.setLong(2, initId);
 			ResultSet rs = ps.executeQuery();

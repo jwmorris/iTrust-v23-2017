@@ -58,7 +58,7 @@ public class ObstetricsOfficeVisitMySQLTest {
 		sql = new ObstetricsOfficeVisitMySQL( ds );
 		
 		ov = new ObstetricsOfficeVisit();
-		ov.setBp( "1" );
+		ov.setBp( "120/80" );
 		ov.setFhr( "1" );
 		ov.setNumBabies( "1" );
 		ov.setPid( 2 );
@@ -126,9 +126,11 @@ public class ObstetricsOfficeVisitMySQLTest {
 			sql.add( ov );
 			ObstetricsOfficeVisit ret = null;
 			ret = sql.getByID( 1 );
-			assertTrue( ret.getBp().equals( "1" ) );
-		} catch ( DBException | FormValidationException e ) {
-			fail();
+			assertTrue( ret.getBp().equals( "120/80" ) );
+		} catch ( DBException e ) {
+			fail( "DB Exception" );
+		} catch (FormValidationException e) {
+			fail( e.toString() );
 		}
 	}
 
@@ -141,7 +143,7 @@ public class ObstetricsOfficeVisitMySQLTest {
 			sql.add( ov );
 			ObstetricsOfficeVisit ret = null;
 			ret = sql.getByID( 1 );
-			assertTrue( ret.getBp().equals( "1" ) );
+			assertTrue( ret.getBp().equals( "120/80" ) );
 		} catch ( DBException | FormValidationException e ) {
 			fail();
 		}
@@ -167,11 +169,11 @@ public class ObstetricsOfficeVisitMySQLTest {
 	public void testUpdate() {
 		try {
 			ov.setId( sql.addReturnsGeneratedId( ov ) );
-			ov.setBp( "30" );
+			ov.setBp( "120/90" );
 			sql.update( ov );
 			ObstetricsOfficeVisit ret = null;
 			ret = sql.getByID( 1 );
-			assertTrue( ret.getBp().equals( "30" ) );
+			assertTrue( ret.getBp().equals( "120/90" ) );
 		} catch ( DBException | FormValidationException e ) {
 			fail();
 		}
@@ -201,7 +203,7 @@ public class ObstetricsOfficeVisitMySQLTest {
 			sql.add( ov );
 			ObstetricsOfficeVisit ret = null;
 			ret = sql.getByID( 1 );
-			assertTrue( ret.getBp().equals( "1" ) );
+			assertTrue( ret.getBp().equals( "120/80" ) );
 		} catch ( DBException | FormValidationException e ) {
 			fail();
 		}

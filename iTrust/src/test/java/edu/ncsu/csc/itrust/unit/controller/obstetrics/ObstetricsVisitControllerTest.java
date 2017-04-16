@@ -41,7 +41,7 @@ public class ObstetricsVisitControllerTest {
 		
 		controller = Mockito.spy( new ObstetricsVisitController( ConverterDAO.getDataSource(), TestDAOFactory.getTestInstance(), mockSessionUtils ) );
 		ov = new ObstetricsOfficeVisit();
-		ov.setBp( "80" );
+		ov.setBp( "80/120" );
 		ov.setFhr( "145" );
 		ov.setPid( 2 );
 		ov.setLowLying( false );
@@ -88,7 +88,7 @@ public class ObstetricsVisitControllerTest {
 		List<ObstetricsOfficeVisit> visits = controller.getObstetricsVisitsForPatient( (long)2 );
 		assertNotNull( visits );
 		assertEquals( 1, visits.size() );
-		assertEquals( "80", visits.get( 0 ).getBp() );
+		assertEquals( "80/120", visits.get( 0 ).getBp() );
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class ObstetricsVisitControllerTest {
 	public void testEdit() {
 		long id = controller.addReturnGeneratedId( ov );
 		ov.setId( id );
-		ov.setBp( "90" );
+		ov.setBp( "90/120" );
 		controller.edit( ov );
 		ObstetricsOfficeVisit visit = controller.getVisitByID( Long.toString( id ) );
 		assertNotNull( visit );
@@ -267,6 +267,27 @@ public class ObstetricsVisitControllerTest {
 		assertNotNull( list );
 		assertEquals( 1, list.size() );
 		assertEquals( us.getPicPath(), list.get( 0 ).getPicPath() );
+	}
+	
+	@Test
+	public void testDownload() {
+		long id = controller.addReturnGeneratedId( ov );
+		Ultrasound us = new Ultrasound();
+		Date d = new Date( Calendar.getInstance().getTimeInMillis() );
+		us.setDateCreated( d );
+		us.setPicPath( "image.jpg" );
+		us.setPid( 2 );
+		us.setId( id );
+		InputStream s = Mockito.mock(InputStream.class);
+		us.setImg( s );
+		us.setOvId( id );
+		controller.addUltrasound( us );
+		List<Ultrasound> list = controller.getUltrasounds( id );
+		try{
+			controller.download( "image.jpg", id);
+		} catch ( Exception e ) {
+			//do nothing
+		}
 	}
 
 }
