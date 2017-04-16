@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.selenium.iTrustSeleniumTest;
 
@@ -18,7 +20,7 @@ public class ViewAccessLogTest extends iTrustSeleniumTest {
 
 	@Override
 	protected void setUp() throws Exception {
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		super.setUp();
 		gen.clearAllTables();

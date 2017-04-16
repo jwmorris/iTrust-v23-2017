@@ -54,9 +54,8 @@ public class XmlGeneratorTest extends TestCase {
 		Document two = XmlGenerator.generateXml(headers, testdata);
 
 		Node head = two.getFirstChild(); // document
-		System.out.println(head.getNodeName());
+
 		NodeList list = head.getChildNodes();
-		System.out.println(list.getLength() + " " + list.item(0).getNodeName() + " ");
 
 		assertEquals(2, list.getLength());
 		assertEquals("Patient", list.item(0).getNodeName());

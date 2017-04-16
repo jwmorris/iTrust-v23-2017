@@ -58,7 +58,9 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = conn.prepareStatement("SELECT * FROM loincCode;");
 				ResultSet rs = ps.executeQuery();) {
-			return loader.loadList(rs);
+			List<LOINCCode> res = loader.loadList(rs);
+			rs.close();
+			return res;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}
@@ -76,8 +78,11 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 				PreparedStatement ps = conn.prepareStatement(String.format("SELECT * FROM loincCode WHERE code='%s';", code));
 				ResultSet rs = ps.executeQuery();) {
 			while (rs.next()) {
-				return loader.loadSingle(rs);
+				LOINCCode res = loader.loadSingle(rs);
+				rs.close();
+				return res;
 			}
+			rs.close();
 			return null;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -127,7 +132,9 @@ public class LOINCCodeMySQL implements LOINCCodeData {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filterString);
                 ResultSet rs = pstring.executeQuery()){
-            return loader.loadList(rs);
+        	List<LOINCCode> res = loader.loadList(rs);
+			rs.close();
+			return res;
         }
     }
 

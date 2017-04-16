@@ -149,6 +149,7 @@ public class NDCCodeMySQL {
             newNDCode.setDescription(rs.getString("Description"));
             codes.add(newNDCode);
         }
+        rs.close();
         return codes;
     }
     
@@ -173,6 +174,7 @@ public class NDCCodeMySQL {
             code.setCode(rs.getString("Code"));
             code.setDescription(rs.getString("Description"));
         }
+        rs.close();
         return code;
     }
     

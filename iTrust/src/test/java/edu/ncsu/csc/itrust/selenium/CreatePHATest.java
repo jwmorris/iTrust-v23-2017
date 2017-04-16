@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class CreatePHATest extends iTrustSeleniumTest {
@@ -20,7 +22,7 @@ public class CreatePHATest extends iTrustSeleniumTest {
 
 	public void testCreateNullPHA() throws Exception {
 		// Log in as an Admin.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000001", "pw");
 
 		assertLogged(TransactionType.HOME_VIEW, 9000000001L, 0L, "");

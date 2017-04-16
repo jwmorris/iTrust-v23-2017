@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class PersonnelUseCaseTest extends iTrustSeleniumTest {
@@ -27,7 +29,7 @@ public class PersonnelUseCaseTest extends iTrustSeleniumTest {
 		// Create a new instance of the html unit driver
 		// Notice that the remainder of the code relies on the interface,
 		// not the implementation.
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		// And now use this to visit iTrust
 		driver.get(ADDRESS);

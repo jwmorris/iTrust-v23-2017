@@ -55,11 +55,14 @@ public class AccessDAO {
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				int returnVal = rs.getInt("Value");
+				rs.close();
 				return returnVal;
 			} else {
 				insertDefaultTimeout(20);
+				rs.close();
 				return 20;
 			}
+			
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}

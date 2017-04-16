@@ -64,7 +64,8 @@ public class ICDCodeMySQL {
 	    try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createGetAllPreparedStatement(conn);
                 ResultSet rs = pstring.executeQuery()){
-            return loadResults(rs);
+
+            return loadResults( rs );
         }
 	}
 
@@ -82,6 +83,7 @@ public class ICDCodeMySQL {
             boolean newChronic = rs.getBoolean("is_chronic");
             icdList.add(new ICDCode(newCode, newName, newChronic));
         }
+        rs.close();
         return icdList;
     }
 
@@ -122,6 +124,7 @@ public class ICDCodeMySQL {
         if (rs.next()){
             loadedCode = new ICDCode(rs.getString("code"), rs.getString("name"), rs.getBoolean("is_chronic"));
         }
+        rs.close();
         return loadedCode;
     }
 

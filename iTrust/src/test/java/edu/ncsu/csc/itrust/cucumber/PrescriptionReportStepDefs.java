@@ -137,7 +137,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(0).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -154,7 +153,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(0).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -171,7 +169,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(1).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -188,7 +185,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(2).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}

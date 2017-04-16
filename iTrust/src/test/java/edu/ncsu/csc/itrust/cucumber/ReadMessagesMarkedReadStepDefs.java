@@ -65,8 +65,6 @@ public class ReadMessagesMarkedReadStepDefs {
 	@Then("the read message is no longer bolded")
 	public void read_message_not_bold(){
 		List<WebElement> ums = webDriver.findElements(unreadMessages);
-		System.out.println(unreadMessageCount);
-		System.out.println(ums.size());
 		Assert.assertEquals(unreadMessageCount-1, ums.size());
 		try{
 			Assert.assertTrue(webDriver.checkHeader(inboxUrl, "Cache-Control", "must-revalidate, no-store, no-cache, private"));

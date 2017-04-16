@@ -57,6 +57,7 @@ public class NDCodesDAO {
 				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ndcodes ORDER BY CODE");
 				ResultSet rs = stmt.executeQuery()) {
 			List<MedicationBean> loadlist = medicationLoader.loadList(rs);
+			rs.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);

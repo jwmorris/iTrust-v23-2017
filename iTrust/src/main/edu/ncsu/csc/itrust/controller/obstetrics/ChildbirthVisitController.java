@@ -60,24 +60,14 @@ public class ChildbirthVisitController extends iTrustController {
 	/**
 	 * Constructor for controller in application
 	 */
-	public ChildbirthVisitController(){
+	public ChildbirthVisitController() throws DBException {
 		this.sessionUtils = SessionUtils.getInstance();
 		factory = DAOFactory.getProductionInstance();
 		personnelDAO = factory.getPersonnelDAO();
 		this.patientDAO = factory.getPatientDAO();
-		try {
-			this.childbirthSQL = new ChildbirthMySQL();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			this.sql = new ObstetricsMySQL();
-			this.ovSQL = new ObstetricsOfficeVisitMySQL();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.childbirthSQL = new ChildbirthMySQL();
+		this.sql = new ObstetricsMySQL();
+		this.ovSQL = new ObstetricsOfficeVisitMySQL();
 
 		erBirth = false;
 		hoursLabor = "";
@@ -87,7 +77,7 @@ public class ChildbirthVisitController extends iTrustController {
 	/**
 	 * Test constructor
 	 */
-	public ChildbirthVisitController(DataSource ds, DAOFactory factory, SessionUtils utils){
+	public ChildbirthVisitController(DataSource ds, DAOFactory factory, SessionUtils utils) {
 		this.sessionUtils = utils;
 		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
@@ -132,7 +122,6 @@ public class ChildbirthVisitController extends iTrustController {
 		} catch ( FormValidationException e ) {
 
 			printFacesMessage( FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage(), null );
-			System.out.println( e.getMessage() );
 		}
 		return ret;
 	}
@@ -273,7 +262,7 @@ public class ChildbirthVisitController extends iTrustController {
 		try {
 			childbirthSQL.addBaby(b);
 			logTransaction( TransactionType.A_BABY_IS_BORN, sessionUtils.getSessionLoggedInMIDLong(), sessionUtils.getCurrentPatientMIDLong(), "" );
-			AddPatientAction addPatientAction = new AddPatientAction( DAOFactory.getProductionInstance(), sessionUtils.getCurrentPatientMIDLong() );
+			AddPatientAction addPatientAction = new AddPatientAction( factory, sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean parent = patientDAO.getPatient( sessionUtils.getCurrentPatientMIDLong() );
 			PatientBean pb = new PatientBean();
 			pb.setEmail( parent.getEmail() );
@@ -389,7 +378,6 @@ public class ChildbirthVisitController extends iTrustController {
 			return false;
 		}
 		Childbirth cbv = null;
-		System.out.println( "ID:" + op.getId() );
 		try {
 			cbv = childbirthSQL.getChildbirthVisitForInitId( sessionUtils.getCurrentPatientMIDLong(), op.getId() );
 		} catch (DBException e) {
@@ -437,7 +425,6 @@ public class ChildbirthVisitController extends iTrustController {
 		} catch(NumberFormatException e) {
 			//TODO: Print Error
 			printFacesMessage( FacesMessage.SEVERITY_INFO, "Invalid Hours Labor", "Invalid Hours Labor: should be a non-zero number", null );
-			System.out.println("hourLabor EXCEPTION");
 			return;
 		}
 		
@@ -448,7 +435,6 @@ public class ChildbirthVisitController extends iTrustController {
 		} catch(NumberFormatException e) {
 			//TODO: Print Error 
 			printFacesMessage( FacesMessage.SEVERITY_INFO, "Invalid Conception Year", "Invalid Conception Year: should be a non-zero four-digit number", null );
-			System.out.println("yearConception EXCEPTION");
 			return;
 		}
 
@@ -482,7 +468,6 @@ public class ChildbirthVisitController extends iTrustController {
 		if (childVisit == null) {
 			//TODO: print Error
 			printFacesMessage( FacesMessage.SEVERITY_INFO, "No Childbirth Visit", "No Childbirth Visit: first create a childbirth visit", null );
-			System.out.println("childVisit == null");
 			return;
 		}
 		
@@ -579,7 +564,6 @@ public class ChildbirthVisitController extends iTrustController {
 		}
 		double weightGain = currentWeight - initialWeight;
 		
-		System.out.println(String.valueOf(weightGain));
 		return String.valueOf(weightGain);
 	}
 }

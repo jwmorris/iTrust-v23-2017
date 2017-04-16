@@ -122,7 +122,8 @@ public class RemoteMonitoringDAO {
 					dataList.add(new RemoteMonitoringDataBean(Long.parseLong(patientList.get(idx1))));
 				}
 			}
-
+			dataRS.close();
+			patientRS.close();
 			return dataList;
 		} catch (SQLException e) {
 			throw new DBException(e);

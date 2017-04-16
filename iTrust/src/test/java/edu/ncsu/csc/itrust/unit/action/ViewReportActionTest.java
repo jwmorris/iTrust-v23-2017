@@ -13,8 +13,8 @@ import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class ViewReportActionTest extends TestCase {
 
-	private DAOFactory factory = TestDAOFactory.getTestInstance();
-	private ViewReportAction action = new ViewReportAction(factory, 2L);
+	private DAOFactory factory;
+	private ViewReportAction action;
 	private TestDataGenerator gen;
 
 	@Override
@@ -23,6 +23,8 @@ public class ViewReportActionTest extends TestCase {
 		gen.clearAllTables();
 		gen.hcp0();
 		gen.patient2();
+		factory = TestDAOFactory.getTestInstance();
+		action = new ViewReportAction(factory, 2L);
 	}
 
 	public void testGetDeclaredHCPs() throws Exception {

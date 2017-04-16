@@ -8,6 +8,9 @@ import junit.framework.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.beans.TransactionBean;
@@ -58,7 +61,7 @@ abstract public class iTrustSeleniumTest extends TestCase {
 	 */
 	public WebDriver login(String username, String password) throws Exception {
 		// begin at the iTrust home page
-		WebDriver wd = new Driver();
+		WebDriver wd = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 
 		// Implicitly wait at most 2 seconds for each element to load
 		wd.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);

@@ -85,7 +85,6 @@ public class MaintainStandardsListStepDefs {
 			e.printStackTrace();
 		} catch (DBException e) {
 			fail();
-			System.out.println(e.toString());
 		}
 		
 	}
@@ -130,8 +129,6 @@ public class MaintainStandardsListStepDefs {
 			fail();
 			e.printStackTrace();
 		} catch (FormValidationException e) {
-			System.out.println(e.toString());
-			System.out.println(code);
 			fail();
 			
 		}
@@ -163,8 +160,6 @@ public class MaintainStandardsListStepDefs {
 			fail();
 			e.printStackTrace();
 		} catch (FormValidationException e) {
-			System.out.println(code);
-			System.out.println(e.toString());
 			fail();
 			
 		}
@@ -272,7 +267,6 @@ public class MaintainStandardsListStepDefs {
 	@Then("^After the update, message displays - Success 1 row updated and (.*) has (.*) selected$")
 	public void rowsAndChronic(String code, String chronicYesNo) throws SQLException {
 		ICDCode icd = null;
-		System.out.println(code);
 		icd = icdSQL.getByCode(code);
 		Assert.assertEquals(Boolean.parseBoolean(chronicYesNo), icd.isChronic());
 		Assert.assertEquals(code, icd.getCode());

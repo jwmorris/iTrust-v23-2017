@@ -18,6 +18,7 @@ import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancyData;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Baby;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.Childbirth;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
@@ -56,7 +57,8 @@ public class ChildbirthVisitControllerTest {
 		
 		try {
 			con = new ChildbirthVisitController();
-		} catch( Exception e ) {
+			fail();
+		} catch( DBException e ) {
 			//pass
 		}
 	}

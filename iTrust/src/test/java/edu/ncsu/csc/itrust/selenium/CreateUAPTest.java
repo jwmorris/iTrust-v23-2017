@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 /**
  * Test class for iTrust creation of UAP's.
  */
@@ -26,7 +28,7 @@ public class CreateUAPTest extends iTrustSeleniumTest {
 	 * Test creating a standard UAP. The form should submit without any issues.
 	 */
 	public void testCreateUAP1() throws Exception {
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("9000000000", "pw");
 		driver.findElement(By.linkText("UAP")).click();
 		assertEquals("iTrust - Add UAP", driver.getTitle());

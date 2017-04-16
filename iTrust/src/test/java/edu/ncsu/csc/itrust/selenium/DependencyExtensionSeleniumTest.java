@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
 /**
@@ -32,7 +34,7 @@ public class DependencyExtensionSeleniumTest extends iTrustSeleniumTest {
 		gen.doBaby();
 
 		// login
-		WebDriver driver = new HtmlUnitDriver();
+		WebDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver = login("2", "pw");
 
 		// make sure you can see baby

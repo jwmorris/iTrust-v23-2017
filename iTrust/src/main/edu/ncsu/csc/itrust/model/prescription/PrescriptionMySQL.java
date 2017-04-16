@@ -66,7 +66,9 @@ public class PrescriptionMySQL {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createERPreparedStatement(conn, mid, endDate);
                 ResultSet results = pstring.executeQuery()){
-            return loadRecords(results);
+        	List<Prescription> res = loadRecords(results);
+        	results.close();
+            return res;
         }
     }
     
@@ -94,6 +96,7 @@ public class PrescriptionMySQL {
     			PreparedStatement pstring = createGetStatement(conn, id);
     			ResultSet results = pstring.executeQuery()) {
     		List<Prescription> list = loadRecords(results);
+    		results.close();
     		return list.isEmpty() ? null : list.get(0);
     	}
     }
@@ -110,7 +113,9 @@ public class PrescriptionMySQL {
     	try (Connection conn = ds.getConnection();
     			PreparedStatement pstring = createGetByMIDStatement(conn, mid);
     			ResultSet results = pstring.executeQuery()) {
-    		return loadRecords(results);
+    		List<Prescription> res = loadRecords(results);
+        	results.close();
+            return res;
     	}
     }
     
@@ -193,7 +198,9 @@ public class PrescriptionMySQL {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createOVPreparedStatement(conn, officeVisitId);
                 ResultSet results = pstring.executeQuery()){
-            return loadRecords(results);
+        	List<Prescription> res = loadRecords(results);
+        	results.close();
+            return res;
         }
     }
     
@@ -208,7 +215,9 @@ public class PrescriptionMySQL {
     	try (Connection conn = ds.getConnection();
     			PreparedStatement pstring = createListOfRepsPreparedStatement(conn, pid);
     			ResultSet rs = pstring.executeQuery()){
-    		return new PatientLoader().loadList(rs);
+    		List<PatientBean> res = new PatientLoader().loadList(rs);
+    		rs.close();
+    		return res;
     	}
     }
     
@@ -241,10 +250,14 @@ public class PrescriptionMySQL {
     			PreparedStatement pstring = createGetCodeNamePreparedStatement(conn, code);
     			ResultSet rs = pstring.executeQuery()){
     		
-    		if (!rs.next()) 
+    		if (!rs.next()) {
+    			rs.close();
 				return "";
-
-    		return rs.getString("Description");
+    		}
+    		
+    		String res = rs.getString("Description");
+    		rs.close();
+    		return res;
     	}
     }
     

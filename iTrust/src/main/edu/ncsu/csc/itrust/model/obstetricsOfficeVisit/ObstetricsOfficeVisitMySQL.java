@@ -56,7 +56,6 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			Context ctx = new InitialContext();
 			this.ds = ( ( DataSource ) ( ( ( Context ) ctx.lookup( "java:comp/env" ) ) ).lookup( "jdbc/itrust" ) );
 		} catch ( NamingException e ) {
-			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
 		ovValidator = new ObstetricsOfficeVisitValidator( ds );
@@ -86,6 +85,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? ovLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -103,6 +103,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			ObstetricsOfficeVisit ov = rs.next() ? ovLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return ov;
 		} catch ( SQLException e ) {
@@ -121,6 +122,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			List<ObstetricsOfficeVisit> ov = rs.next() ? ovLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return ov;
 		} catch ( SQLException e ) {
@@ -142,6 +144,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 					ov, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -168,6 +171,8 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			
 			if ( genKeys.next() )
 				ret = genKeys.getLong( 1 );
+			genKeys.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -187,6 +192,8 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ps = ovLoader.loadParameters( conn, conn.prepareStatement("UPDATE obstetricsOfficeVisitData SET weeksPregnant=?, weight=?"
 					+ ", bp=?, fhr=?, multiPregnancy=?, numBabies=?, lowPlacenta=? WHERE id=?" ), ov, false );
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -205,6 +212,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			res = rs.next() ? ovLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -224,6 +232,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			ObstetricsOfficeVisit ov = rs.next() ? ovLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return ov;
 		} catch ( SQLException e ) {
@@ -242,6 +251,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			Fetus f = rs.next() ? fetusLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return f;
 		} catch ( SQLException e ) {
@@ -279,6 +289,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			res = rs.next() ? fetusLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -298,6 +309,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			Fetus f = rs.next() ? fetusLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return f;
 		} catch ( SQLException e ) {
@@ -317,6 +329,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			res = rs.next() ? usLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -336,6 +349,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			res = rs.next() ? usLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return res;
 		} catch ( SQLException e ) {
@@ -355,6 +369,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return us;
 		} catch ( SQLException e ) {
@@ -373,6 +388,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ResultSet rs = ps.executeQuery();
 			Ultrasound us = rs.next() ? usLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return us;
 		} catch ( SQLException e ) {
@@ -393,6 +409,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 					f, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -412,6 +429,8 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ps = fetusLoader.loadParameters( conn, conn.prepareStatement("UPDATE fetusData SET crl=?, bpd=?, hc=?, fl=?"
 					+ ", ofd=?, ac=?, hl=?, efw=? WHERE ovId=? and multiNum=?" ), f, false );
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -429,6 +448,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 					+ ", picPath, img, ovId) VALUES(?,?,?,?,?)"), us, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -446,6 +466,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			conn = ds.getConnection();
 			ps = usLoader.loadParameters( conn, conn.prepareStatement("UPDATE ultrasoundData SET picPath=?, img=? WHERE ovId=?" ), us, false );
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -464,6 +485,7 @@ public class ObstetricsOfficeVisitMySQL implements ObstetricsOfficeVisitData, Se
 			ps.setString( 1, name );
 			ps.setLong( 2, visitID );
 			ps.execute();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();

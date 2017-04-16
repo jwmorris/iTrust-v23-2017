@@ -572,6 +572,7 @@ public class AuthDAO {
 			stmt.setLong(1, mid);
 			ResultSet rs = stmt.executeQuery();
 			result = rs.next() ? rs.getString(1) : generateRandomSalt();
+			rs.close();
 		} catch (SQLException e) {
 			result = generateRandomSalt();
 		}

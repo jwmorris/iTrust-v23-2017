@@ -6,6 +6,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 public class ExpertReviewsTest extends iTrustSeleniumTest {
 	private WebDriver driver;
 	private StringBuffer verificationErrors = new StringBuffer();
@@ -16,7 +18,7 @@ public class ExpertReviewsTest extends iTrustSeleniumTest {
 		super.setUp();
 		gen.standardData();
 		gen.reviews();
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 

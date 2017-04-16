@@ -37,7 +37,7 @@ public class SurveyBean {
 			setSurveyDate(new SimpleDateFormat(dateFormat).parse(s));
 		}
 		catch (ParseException ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	public Date getSurveyDate() {
