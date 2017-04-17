@@ -45,23 +45,13 @@ public class ObstetricsReportController extends iTrustController {
 	private EmergencyRecordController erCon;
 	
 	
-	public ObstetricsReportController() {
+	public ObstetricsReportController() throws DBException {
 		this.sessionUtils = SessionUtils.getInstance();
-		factory = DAOFactory.getProductionInstance();
+		this.factory = DAOFactory.getProductionInstance();
 		this.patientDAO = factory.getPatientDAO();
-		try {
-			erCon = new EmergencyRecordController();
-		} catch (DBException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			this.obstretricsData = new ObstetricsMySQL();
-			this.officeData = new ObstetricsOfficeVisitMySQL();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.erCon = new EmergencyRecordController();
+		this.obstretricsData = new ObstetricsMySQL();
+		this.officeData = new ObstetricsOfficeVisitMySQL();
 		
 	}
 	

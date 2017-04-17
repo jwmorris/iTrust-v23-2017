@@ -45,7 +45,6 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			Context ctx = new InitialContext();
 			this.ds = ( ( DataSource ) ( ( ( Context ) ctx.lookup( "java:comp/env" ) ) ).lookup( "jdbc/itrust" ) );
 		} catch ( NamingException e ) {
-			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
 		cbLoader = new ChildbirthLoaderMySQL();

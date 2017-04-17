@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.iTrustController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
 import edu.ncsu.csc.itrust.model.obstetricsOfficeVisit.ObstetricsOfficeVisit;
@@ -41,7 +42,7 @@ public class ObstetricsReport extends iTrustController {
 	
 	
 	
-	public ObstetricsReport () {
+	public ObstetricsReport () throws DBException {
 		this.obc = new ObstetricsReportController();
 		this.selected = obc.getSelectedVisit();
 		this.priors = obc.getPriorPregnancies();
