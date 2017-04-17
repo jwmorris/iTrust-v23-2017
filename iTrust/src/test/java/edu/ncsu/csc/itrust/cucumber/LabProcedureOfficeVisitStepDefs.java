@@ -65,7 +65,7 @@ import org.junit.Assert;
     		this.gen = new TestDataGenerator();
     		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
     		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
-    		this.oVisSQL = new OfficeVisitMySQL(ds);
+    		this.oVisSQL = new OfficeVisitMySQL(ds, TestDAOFactory.getTestInstance() );
     		this.oVis = new OfficeVisit();
     		this.preSQL = new PrescriptionMySQL(ds);	
     		this.labSQL = new LabProcedureMySQL(ds);

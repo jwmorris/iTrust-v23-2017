@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "immunization_controller")
@@ -28,8 +29,8 @@ public class ImmunizationController extends iTrustController {
         sql = new ImmunizationMySQL();
     }
     
-    public ImmunizationController(DataSource ds) {
-        super();
+    public ImmunizationController(DataSource ds, DAOFactory factory) {
+        super(null, null, factory);
         sql = new ImmunizationMySQL(ds);
     }
     

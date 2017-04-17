@@ -22,6 +22,7 @@ import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 
 /**
  * @author seelder
@@ -48,7 +49,7 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
-		validator = new OfficeVisitValidator(this.ds);
+		validator = new OfficeVisitValidator( this.ds, null );
 	}
 
 	/**
@@ -56,10 +57,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 	 * 
 	 * @param ds
 	 */
-	public OfficeVisitMySQL(DataSource ds) {
+	public OfficeVisitMySQL( DataSource ds, DAOFactory factory ) {
 		ovLoader = new OfficeVisitSQLLoader();
 		this.ds = ds;
-		validator = new OfficeVisitValidator(this.ds);
+		validator = new OfficeVisitValidator( this.ds, factory );
 	}
 
 	/**

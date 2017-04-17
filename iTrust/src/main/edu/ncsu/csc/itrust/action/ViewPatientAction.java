@@ -18,6 +18,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  */
 public class ViewPatientAction extends PatientBaseAction {
 
+	private DAOFactory factory;
 	/**patientDAO is the patientDAO that retrieves the users from the database*/
 	private PatientDAO patientDAO;
 	/**loggedInMID is the patient that is logged in.*/
@@ -36,10 +37,11 @@ public class ViewPatientAction extends PatientBaseAction {
 	public ViewPatientAction(DAOFactory factory, long loggedInMID, String pidString)
 			throws ITrustException {
 		super(factory, pidString);
+		this.factory = factory;
 		this.patientDAO = factory.getPatientDAO();
 		this.loggedInMID = loggedInMID;
 		this.viewer = patientDAO.getPatient(loggedInMID);
-		TransactionLogger.getInstance().logTransaction(TransactionType.ACTIVITY_FEED_VIEW, loggedInMID, 0L , "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.ACTIVITY_FEED_VIEW, loggedInMID, 0L , "");
 	}
 	
 	/**
@@ -85,10 +87,10 @@ public class ViewPatientAction extends PatientBaseAction {
 	}
 	
 	public void logViewDemographics(Long mid, Long secondaryMID) {
-		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_VIEW, mid, secondaryMID, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.DEMOGRAPHICS_VIEW, mid, secondaryMID, "");
 	}
 	
 	public void logEditDemographics(Long mid, Long secondaryMID) {
-		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_EDIT, mid, secondaryMID, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.DEMOGRAPHICS_EDIT, mid, secondaryMID, "");
 	}
 }

@@ -17,12 +17,14 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 public class ChangePasswordAction {
 
 	private AuthDAO authDAO;
+	private DAOFactory factory;
 
 	/**
 	 * Set up defaults
 	 * @param factory The DAOFactory used to create the DAOs used in this action.
 	 */
 	public ChangePasswordAction(DAOFactory factory) {
+		this.factory = factory;
 		this.authDAO = factory.getAuthDAO();
 	}
 
@@ -46,13 +48,13 @@ public class ChangePasswordAction {
 		
 		//Make sure old password is valid
 		if(!authDAO.authenticatePassword(mid, oldPass)) {
-		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
+		    TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		}
 		
 		//Make sure new passwords match
 		if (!newPass.equals(confirmPass)) {
-		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
+		    TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		}	
 			
@@ -60,10 +62,10 @@ public class ChangePasswordAction {
 		if(newPass.matches(containsLetter) && newPass.matches(containsNumber) && newPass.matches(fiveAlphanumeric)){
 			//Change the password
 			authDAO.resetPassword(mid, newPass);
-			TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE, mid, 0L, "");
+			TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PASSWORD_CHANGE, mid, 0L, "");
 			return "Password Changed.";
 		} else {
-		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
+		    TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		} 
 	}

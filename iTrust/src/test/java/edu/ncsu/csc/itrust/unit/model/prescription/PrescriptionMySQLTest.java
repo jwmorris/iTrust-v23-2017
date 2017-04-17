@@ -20,6 +20,7 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class PrescriptionMySQLTest extends TestCase {
@@ -93,7 +94,7 @@ public class PrescriptionMySQLTest extends TestCase {
 	
 	@Test
 	public void testGetPrescriptionsForOfficeVisit() throws DBException, SQLException{
-	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL(ds);
+	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 	    List<OfficeVisit> ovList = ovSQL.getVisitsForPatient(201L);
 	    Assert.assertEquals(3, ovList.size());
 	    
@@ -146,7 +147,7 @@ public class PrescriptionMySQLTest extends TestCase {
 	
 	@Test
 	public void testAddUpdateAndDelete() throws DBException, SQLException{
-	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL(ds);
+	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
         List<OfficeVisit> ovList = ovSQL.getVisitsForPatient(201L);
         Assert.assertEquals(3, ovList.size());
         

@@ -3,6 +3,7 @@ package edu.ncsu.csc.itrust.controller;
 import javax.faces.application.FacesMessage.Severity;
 
 import edu.ncsu.csc.itrust.logger.TransactionLogger;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -14,6 +15,7 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  */
 public class iTrustController {
 
+	private DAOFactory factory;
 	private SessionUtils sessionUtils;
 	private TransactionLogger logger;
 
@@ -24,7 +26,7 @@ public class iTrustController {
 	protected static final String GENERIC_ERROR = "Something went wrong and the action couldn't be completed.";
 
 	public iTrustController() {
-		this(null, null);
+		this(null, null, null);
 	}
 
 	/**
@@ -34,12 +36,18 @@ public class iTrustController {
 	 * @param sessionUtils
 	 * @param logger
 	 */
-	public iTrustController(SessionUtils sessionUtils, TransactionLogger logger) {
+	public iTrustController(SessionUtils sessionUtils, TransactionLogger logger, DAOFactory factory) {
+		this.factory = factory;
 		if (sessionUtils == null) {
 			sessionUtils = SessionUtils.getInstance();
 		}
+		
+		if (factory == null) {
+			factory = DAOFactory.getProductionInstance();
+		}
+		
 		if (logger == null) {
-			logger = TransactionLogger.getInstance();
+			logger = TransactionLogger.getInstance(factory);
 		}
 		setSessionUtils(sessionUtils);
 		setTransactionLogger(logger);
@@ -72,7 +80,7 @@ public class iTrustController {
 	 * @see {@link TransactionLogger#logTransaction(TransactionType, long, long, String)}
 	 */
 	public void logTransaction(TransactionType type, Long loggedInMID, Long secondaryMID, String addedInfo) {
-		TransactionLogger.getInstance().logTransaction(type, loggedInMID, secondaryMID, addedInfo);
+		TransactionLogger.getInstance(factory).logTransaction(type, loggedInMID, secondaryMID, addedInfo);
 	}
 
 	/**

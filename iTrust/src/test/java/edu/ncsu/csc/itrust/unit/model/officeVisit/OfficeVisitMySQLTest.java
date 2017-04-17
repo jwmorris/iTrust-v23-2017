@@ -19,6 +19,7 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class OfficeVisitMySQLTest extends TestCase {
@@ -40,13 +41,13 @@ public class OfficeVisitMySQLTest extends TestCase {
 	@Override
 	public void setUp() throws Exception {
 		ds = ConverterDAO.getDataSource();
-		ovsql = new OfficeVisitMySQL(ds);
+		ovsql = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.uc51();
 
 		mockDataSource = Mockito.mock(DataSource.class);
-		mockOvsql = new OfficeVisitMySQL(mockDataSource);
+		mockOvsql = new OfficeVisitMySQL( mockDataSource, TestDAOFactory.getTestInstance() );
 		
 		mockConnection = Mockito.mock(Connection.class);
 		mockResultSet = Mockito.mock(ResultSet.class);

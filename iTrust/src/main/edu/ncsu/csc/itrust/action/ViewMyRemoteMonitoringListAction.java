@@ -20,6 +20,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  * Handles retrieving the patient data for a certain HCP as used by viewTelemedicineData.jsp
  */
 public class ViewMyRemoteMonitoringListAction {
+	private DAOFactory factory;
 	private RemoteMonitoringDAO rmDAO;
 	private AuthDAO authDAO;
 	private long loggedInMID;
@@ -31,10 +32,11 @@ public class ViewMyRemoteMonitoringListAction {
 	 * @param loggedInMID The MID of the HCP retrieving the patient data.
 	 */
 	public ViewMyRemoteMonitoringListAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.loggedInMID = loggedInMID;
 		this.rmDAO = factory.getRemoteMonitoringDAO();
 		this.authDAO = factory.getAuthDAO();
-		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
 		
 	}
 
@@ -97,7 +99,7 @@ public class ViewMyRemoteMonitoringListAction {
 		if (!valid) {
 			throw new FormValidationException("Input must be a valid telemedicine data type!");
 		}
-		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
 		return rmDAO.getPatientDataByType(patientMID, dataType);
 	}
 	

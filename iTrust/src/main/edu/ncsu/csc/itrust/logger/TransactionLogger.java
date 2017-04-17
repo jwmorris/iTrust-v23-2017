@@ -6,7 +6,6 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.TransactionDAO;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
-import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 /**
  * Singleton provider of the transaction logging mechanism.
@@ -22,20 +21,16 @@ public class TransactionLogger {
 	/** The DAO which exposes logging functionality to the singleton */
 	TransactionDAO dao;
 
-	private TransactionLogger() {
-		dao = DAOFactory.getProductionInstance().getTransactionDAO();
-	}
-	
-	private TransactionLogger( int i ) {
-		dao = TestDAOFactory.getTestInstance().getTransactionDAO();
+	private TransactionLogger( DAOFactory factory ) {
+		dao = factory.getTransactionDAO();
 	}
 
 	/**
 	 * @return Singleton instance of this transaction logging mechanism.
 	 */
-	public static synchronized TransactionLogger getInstance() {
+	public static synchronized TransactionLogger getInstance( DAOFactory factory ) {
 		if (singleton == null)
-			singleton = new TransactionLogger();
+			singleton = new TransactionLogger( factory );
 		return singleton;
 	}
 
@@ -48,12 +43,7 @@ public class TransactionLogger {
 		try {
 			dao.logTransaction(type, loggedInMID, secondaryMID, addedInfo);
 		} catch ( DBException e ) {
-			try {
-				singleton = new TransactionLogger( 0 );
-				dao.logTransaction( type, loggedInMID, secondaryMID, addedInfo );
-			} catch ( DBException e1 ) {
-				return;
-			}
+			e.printStackTrace();
 			return;
 		}
 	}

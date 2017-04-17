@@ -25,6 +25,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  * 
  */
 public class ViewMyAccessLogAction {
+	private DAOFactory factory;
 	private TransactionDAO transDAO;
 	private PatientDAO patientDAO;
 	private long loggedInMID;
@@ -36,6 +37,7 @@ public class ViewMyAccessLogAction {
 	 * @param loggedInMID The MID of the person retrieving the logs.
 	 */
 	public ViewMyAccessLogAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.loggedInMID = loggedInMID;
 		this.transDAO = factory.getTransactionDAO();
 		this.patientDAO = factory.getPatientDAO();
@@ -161,6 +163,6 @@ public class ViewMyAccessLogAction {
 	}
 	
 	public void logViewAccessLog(Long mid) {
-		TransactionLogger.getInstance().logTransaction(TransactionType.ACCESS_LOG_VIEW, mid, null, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.ACCESS_LOG_VIEW, mid, null, "");
 	}
 }

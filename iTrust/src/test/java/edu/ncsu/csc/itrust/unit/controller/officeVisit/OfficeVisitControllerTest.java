@@ -29,8 +29,10 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
@@ -58,17 +60,19 @@ public class OfficeVisitControllerTest extends TestCase {
 	private LocalDateTime babyDate;
 	private LocalDateTime childDate;
 	private LocalDateTime adultDate;
+	private DAOFactory factory;
 
 	@Before
 	public void setUp() throws Exception {
 		ds = ConverterDAO.getDataSource();
+		factory = ((TestDAOFactory)TestDAOFactory.getTestInstance());
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
-		ovc = Mockito.spy(new OfficeVisitController(ds, mockSessionUtils));
+		ovc = Mockito.spy(new OfficeVisitController(ds, mockSessionUtils, factory));
 		Mockito.doNothing().when(ovc).printFacesMessage(Matchers.any(FacesMessage.Severity.class), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
 		Mockito.doNothing().when(ovc).redirectToBaseOfficeVisit();
 		apptData = new ApptTypeMySQLConverter(ds);
-		ovData = new OfficeVisitMySQL(ds);
+		ovData = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 		// remove when these modules are built and can be called
 		gen = new TestDataGenerator();
 		gen.appointmentType();
@@ -101,7 +105,7 @@ public class OfficeVisitControllerTest extends TestCase {
 		testOV.setDate(babyDate);
 
 		// Initialize a office visit controller with null data source
-		ovcWithNullDataSource = new OfficeVisitController(null, sessionUtils);
+		ovcWithNullDataSource = new OfficeVisitController(null, sessionUtils, factory);
 
 		// Mock HttpServletRequest
 		mockHttpServletRequest = Mockito.mock(HttpServletRequest.class);

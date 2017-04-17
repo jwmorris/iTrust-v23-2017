@@ -13,6 +13,7 @@ import org.junit.Test;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.TransactionDAO;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class TransactionLoggerTest {
 
@@ -22,8 +23,9 @@ public class TransactionLoggerTest {
 
 	@Test
 	public void testGetInstance() {
-		TransactionLogger first = TransactionLogger.getInstance();
-		TransactionLogger second = TransactionLogger.getInstance();
+		DAOFactory factory = TestDAOFactory.getTestInstance();
+		TransactionLogger first = TransactionLogger.getInstance(factory);
+		TransactionLogger second = TransactionLogger.getInstance(factory);
 		// Should be a singleton
 		Assert.assertEquals(first, second);
 	}

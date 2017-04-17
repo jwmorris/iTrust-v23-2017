@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 
 @ManagedBean(name = "cptcode_controller")
 @SessionScoped
@@ -39,7 +40,8 @@ public class CPTCodeController extends iTrustController {
 	 * @param ds
 	 *            The injected DataSource dependency
 	 */
-	public CPTCodeController(DataSource ds) {
+	public CPTCodeController(DataSource ds, DAOFactory factory) {
+		super(null,null,factory);
 		sql = new CPTCodeMySQL(ds);
 	}
 
