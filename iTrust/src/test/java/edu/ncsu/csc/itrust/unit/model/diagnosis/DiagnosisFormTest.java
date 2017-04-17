@@ -18,6 +18,7 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCodeMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
@@ -40,7 +41,7 @@ public class DiagnosisFormTest extends TestCase {
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
 		Mockito.doReturn(1L).when(mockSessionUtils).getCurrentOfficeVisitId();
 		
-		form = new DiagnosisForm(new DiagnosisController(ds), new ICDCodeMySQL(ds), mockSessionUtils, ds);
+		form = new DiagnosisForm( new DiagnosisController( ds, TestDAOFactory.getTestInstance() ), new ICDCodeMySQL( ds), mockSessionUtils, ds, TestDAOFactory.getTestInstance() );
 	}
 	
 	@Test
@@ -65,7 +66,7 @@ public class DiagnosisFormTest extends TestCase {
 		
 		ICDCodeMySQL icdSql = spy(new ICDCodeMySQL(ds));
 		when(icdSql.getAll()).thenThrow(new SQLException());
-		form = new DiagnosisForm(new DiagnosisController(ds), icdSql, mockSessionUtils, ds);
+		form = new DiagnosisForm( new DiagnosisController( ds, TestDAOFactory.getTestInstance() ), icdSql, mockSessionUtils, ds, TestDAOFactory.getTestInstance() );
 		form.getICDCodes();
 	}
 }

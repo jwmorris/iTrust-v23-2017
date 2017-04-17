@@ -15,6 +15,7 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class ImmunizationControllerTest extends TestCase {
@@ -28,7 +29,7 @@ public class ImmunizationControllerTest extends TestCase {
     
     @Test
     public void testDiabolicals() throws DBException, SQLException{
-        ImmunizationController controller = new ImmunizationController(ds);
+        ImmunizationController controller = new ImmunizationController( ds, TestDAOFactory.getTestInstance() );
         ImmunizationMySQL sql = spy(new ImmunizationMySQL(ds));
         controller.setSQL(sql);
         Immunization i = new Immunization();

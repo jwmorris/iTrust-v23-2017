@@ -45,7 +45,7 @@ public class PrescriptionFormTest extends TestCase {
         ds = ConverterDAO.getDataSource();
         factory = ((TestDAOFactory)TestDAOFactory.getTestInstance());
         gen = new TestDataGenerator();
-        ovSql = new OfficeVisitMySQL(ds);
+        ovSql = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
         gen.clearAllTables();
         gen.uc11();
         utils = spy(SessionUtils.getInstance());
@@ -63,7 +63,7 @@ public class PrescriptionFormTest extends TestCase {
         when(utils.getCurrentPatientMID()).thenReturn(Long.toString(patientMID));
         when(utils.getSessionLoggedInMIDLong()).thenReturn((Long) loggedInMID);
         form = new PrescriptionForm();
-        form = new PrescriptionForm(pc, nData, utils, ds);
+        form = new PrescriptionForm( pc, nData, utils, ds, TestDAOFactory.getTestInstance() );
         
         form.fillInput("0", new MedicationBean("1234", "good meds"), 80, LocalDate.parse("2016-11-17"), LocalDate.parse("2017-11-17"), "take a bunch");
         form.add();

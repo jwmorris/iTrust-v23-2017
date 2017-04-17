@@ -17,16 +17,19 @@ import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 
 public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	
 	private DataSource ds;
+	private DAOFactory factory;
 
 	/**
 	 * Default constructor for OfficeVisitValidator. 
 	 */
-	public OfficeVisitValidator(DataSource ds) {
+	public OfficeVisitValidator( DataSource ds, DAOFactory factory ) {
 		this.ds = ds;
+		this.factory = factory;
 	}
 
 	/**
@@ -41,7 +44,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	 */
 	@Override
 	public void validate(OfficeVisit obj) throws FormValidationException {
-		OfficeVisitController ovc = new OfficeVisitController(ds);
+		OfficeVisitController ovc = new OfficeVisitController( ds, factory );
 		ErrorList errorList = new ErrorList();
 		
 		LocalDateTime date = obj.getDate();

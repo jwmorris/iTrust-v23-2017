@@ -72,7 +72,7 @@ public class OfficeVisitControllerTest extends TestCase {
 				Mockito.anyString(), Mockito.anyString());
 		Mockito.doNothing().when(ovc).redirectToBaseOfficeVisit();
 		apptData = new ApptTypeMySQLConverter(ds);
-		ovData = new OfficeVisitMySQL(ds);
+		ovData = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 		// remove when these modules are built and can be called
 		gen = new TestDataGenerator();
 		gen.appointmentType();

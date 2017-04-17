@@ -82,7 +82,7 @@ public class OfficeVisitController extends iTrustController {
 	 */
 	public OfficeVisitController(DataSource ds, SessionUtils sessionUtils, DAOFactory factory) {
 		super(sessionUtils, null, factory);
-		officeVisitData = new OfficeVisitMySQL(ds);
+		officeVisitData = new OfficeVisitMySQL( ds, factory );
 		this.sessionUtils = sessionUtils;
 	}
 
@@ -94,7 +94,7 @@ public class OfficeVisitController extends iTrustController {
 	 */
 	public OfficeVisitController(DataSource ds, DAOFactory factory) {
 		super(null, null, factory);
-		officeVisitData = new OfficeVisitMySQL(ds);
+		officeVisitData = new OfficeVisitMySQL( ds, factory );
 		sessionUtils = SessionUtils.getInstance();
 	}
 

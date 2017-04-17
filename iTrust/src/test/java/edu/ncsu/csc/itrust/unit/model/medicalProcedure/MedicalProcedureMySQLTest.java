@@ -17,6 +17,7 @@ import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedure;
 import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedureMySQL;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class MedicalProcedureMySQLTest extends TestCase {
@@ -29,7 +30,7 @@ public class MedicalProcedureMySQLTest extends TestCase {
     public void setUp() throws FileNotFoundException, SQLException, IOException {
         ds = ConverterDAO.getDataSource();
         sql = new MedicalProcedureMySQL(ds);
-        ovSql = new OfficeVisitMySQL(ds);
+        ovSql = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
         gen = new TestDataGenerator();
         gen.clearAllTables();
         gen.uc11();

@@ -24,6 +24,7 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class OfficeVisitValidatorTest extends TestCase {
@@ -40,7 +41,7 @@ public class OfficeVisitValidatorTest extends TestCase {
 		apptData = new ApptTypeMySQLConverter(ds);
 		hData = new HospitalMySQLConverter(ds);
 		gen = new TestDataGenerator();
-		validator = new OfficeVisitValidator(ds);
+		validator = new OfficeVisitValidator( ds, TestDAOFactory.getTestInstance() );
 		gen.clearAllTables();
 		
 	}
