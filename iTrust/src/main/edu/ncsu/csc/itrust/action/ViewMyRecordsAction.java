@@ -31,6 +31,7 @@ public class ViewMyRecordsAction {
 	/** The number of months in a year */
 	public static final int MONTHS_IN_YEAR = 12;
 	
+	private DAOFactory factory;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
 	private AllergyDAO allergyDAO;
@@ -45,6 +46,7 @@ public class ViewMyRecordsAction {
 	 * @param loggedInMID The MID of the person viewing the records.
 	 */
 	public ViewMyRecordsAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.patientDAO = factory.getPatientDAO();
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.allergyDAO = factory.getAllergyDAO();
@@ -115,7 +117,7 @@ public class ViewMyRecordsAction {
 	 * @throws ITrustException
 	 */
 	public List<Email> getEmailHistory() throws ITrustException {
-		TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_HISTORY_VIEW, loggedInMID, (long)0, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.EMAIL_HISTORY_VIEW, loggedInMID, (long)0, "");
 		return emailDAO.getEmailsByPerson(getPatient().getEmail());
 	}
 
@@ -276,6 +278,6 @@ public class ViewMyRecordsAction {
 	}
 	
 	public void logViewMedicalRecords(Long mid, Long secondary) {
-		TransactionLogger.getInstance().logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
 	}
 }
