@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedure;
 import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "medical_procedure_controller")
@@ -26,8 +27,8 @@ public class MedicalProcedureController extends iTrustController {
         sql = new MedicalProcedureMySQL();
     }
     
-    public MedicalProcedureController(DataSource ds){
-        super();
+    public MedicalProcedureController(DataSource ds, DAOFactory factory){
+        super(null, null, factory);
         sql = new MedicalProcedureMySQL(ds);
     }
     

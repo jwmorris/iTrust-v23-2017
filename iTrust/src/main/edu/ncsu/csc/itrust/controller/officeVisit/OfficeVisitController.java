@@ -22,6 +22,7 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -79,7 +80,8 @@ public class OfficeVisitController extends iTrustController {
 	 * @param sessionUtils
 	 *            SessionUtils instance
 	 */
-	public OfficeVisitController(DataSource ds, SessionUtils sessionUtils) {
+	public OfficeVisitController(DataSource ds, SessionUtils sessionUtils, DAOFactory factory) {
+		super(sessionUtils, null, factory);
 		officeVisitData = new OfficeVisitMySQL(ds);
 		this.sessionUtils = sessionUtils;
 	}
@@ -90,7 +92,8 @@ public class OfficeVisitController extends iTrustController {
 	 * @param ds
 	 *            DataSource
 	 */
-	public OfficeVisitController(DataSource ds) {
+	public OfficeVisitController(DataSource ds, DAOFactory factory) {
+		super(null, null, factory);
 		officeVisitData = new OfficeVisitMySQL(ds);
 		sessionUtils = SessionUtils.getInstance();
 	}

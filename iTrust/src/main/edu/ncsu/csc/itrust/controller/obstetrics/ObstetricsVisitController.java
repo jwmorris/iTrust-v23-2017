@@ -66,6 +66,7 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @param ds
 	 */
 	public ObstetricsVisitController(DataSource ds, DAOFactory factory, SessionUtils utils) {
+		super(utils, null, factory);
 		this.sessionUtils = utils;
 		this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL(ds);
 		this.factory = factory;

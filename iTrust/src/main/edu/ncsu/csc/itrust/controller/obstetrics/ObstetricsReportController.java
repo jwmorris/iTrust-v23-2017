@@ -66,11 +66,12 @@ public class ObstetricsReportController extends iTrustController {
 	}
 	
 	public ObstetricsReportController( DataSource ds, DAOFactory factory, SessionUtils utils ) {
+		super(utils, null, factory);
 		this.sessionUtils = utils;
 		this.factory = factory;
 		this.patientDAO = factory.getPatientDAO();
 		try {
-			erCon = new EmergencyRecordController( ds, factory.getAllergyDAO() );
+			erCon = new EmergencyRecordController( ds, factory.getAllergyDAO(), factory );
 		} catch (DBException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

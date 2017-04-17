@@ -61,6 +61,7 @@ public class ObstetricsController extends iTrustController {
 	}
 	
 	public ObstetricsController(DataSource ds, Long pid, Long hcp, DAOFactory df) {
+		super(null, null, df);
 		try {
 			sql = new ObstetricsMySQL(ds);
 		} catch (DBException e) {

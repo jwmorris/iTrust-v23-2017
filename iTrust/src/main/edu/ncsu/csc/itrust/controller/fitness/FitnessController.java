@@ -18,6 +18,7 @@ import edu.ncsu.csc.itrust.model.fitnessData.Fitness;
 import edu.ncsu.csc.itrust.model.fitnessData.FitnessData;
 import edu.ncsu.csc.itrust.model.fitnessData.FitnessMySQL;
 import edu.ncsu.csc.itrust.model.fitnessData.FitnessValidator;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 public class FitnessController extends iTrustController {
@@ -63,7 +64,8 @@ public class FitnessController extends iTrustController {
 		validate = new FitnessValidator();
 	}
 	
-	public FitnessController( DataSource ds, SessionUtils utils ) throws DBException {
+	public FitnessController( DataSource ds, SessionUtils utils, DAOFactory factory ) throws DBException {
+		super(null, null, factory);
 		fitnessData = new FitnessMySQL( ds );
 		sessionUtils = utils;
 		this.ds = ds;

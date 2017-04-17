@@ -78,6 +78,7 @@ public class ChildbirthVisitController extends iTrustController {
 	 * Test constructor
 	 */
 	public ChildbirthVisitController(DataSource ds, DAOFactory factory, SessionUtils utils) {
+		super(utils, null, factory);
 		this.sessionUtils = utils;
 		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
