@@ -22,8 +22,10 @@ import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
@@ -35,17 +37,19 @@ public class PrescriptionFormTest extends TestCase {
     private PrescriptionController pc;
     private NDCCodeMySQL nData;
     private OfficeVisitMySQL ovSql;
+    private DAOFactory factory;
     
     
     @Override
     public void setUp() throws FileNotFoundException, SQLException, IOException, DBException{
         ds = ConverterDAO.getDataSource();
+        factory = ((TestDAOFactory)TestDAOFactory.getTestInstance());
         gen = new TestDataGenerator();
         ovSql = new OfficeVisitMySQL(ds);
         gen.clearAllTables();
         gen.uc11();
         utils = spy(SessionUtils.getInstance());
-        pc = spy(new PrescriptionController(ds));
+        pc = spy(new PrescriptionController(ds, factory));
         nData = spy(new NDCCodeMySQL(ds));
     }
     
