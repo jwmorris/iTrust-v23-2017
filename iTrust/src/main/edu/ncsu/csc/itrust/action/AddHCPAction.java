@@ -21,6 +21,7 @@ import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
  * 
  */
 public class AddHCPAction {
+	private DAOFactory factory;
     private PersonnelDAO personnelDAO;
     private AuthDAO authDAO;
     private long loggedInMID;
@@ -32,6 +33,7 @@ public class AddHCPAction {
 	 */	
 	
 	public AddHCPAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.loggedInMID = loggedInMID;
 		this.authDAO = factory.getAuthDAO();
@@ -52,7 +54,7 @@ public class AddHCPAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.HCP, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_CREATE, loggedInMID, p.getMID(), "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.LHCP_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 }

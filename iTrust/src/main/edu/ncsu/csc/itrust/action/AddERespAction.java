@@ -22,6 +22,7 @@ import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
  */
 
 public class AddERespAction {
+	private DAOFactory factory;
 	private PersonnelDAO personnelDAO;
 	private AuthDAO authDAO;
     private long loggedInMID;
@@ -34,6 +35,7 @@ public class AddERespAction {
  */	
 	
 	public AddERespAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.loggedInMID = loggedInMID;
 		this.authDAO = factory.getAuthDAO();
@@ -54,7 +56,7 @@ public class AddERespAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.ER, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.ER_CREATE, loggedInMID, p.getMID(), "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.ER_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 }

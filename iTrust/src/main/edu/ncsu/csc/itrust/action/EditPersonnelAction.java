@@ -21,7 +21,8 @@ import edu.ncsu.csc.itrust.model.old.validate.PersonnelValidator;
 public class EditPersonnelAction extends PersonnelBaseAction {
 	private PersonnelDAO personnelDAO;
 	private AuthDAO authDAO;
-	private PersonnelValidator validator = new PersonnelValidator();;
+	private PersonnelValidator validator = new PersonnelValidator();
+	private DAOFactory factory;
 
 	/**
 	 * Super class validates the patient id
@@ -35,6 +36,7 @@ public class EditPersonnelAction extends PersonnelBaseAction {
 		super(factory, pidString);
 
 		this.authDAO = factory.getAuthDAO();
+		this.factory = factory;
 		long pidlong = Long.parseLong(pidString);
 		Role editor = authDAO.getUserRole(loggedInMID);
 		Role editing = authDAO.getUserRole(pidlong);
@@ -46,7 +48,7 @@ public class EditPersonnelAction extends PersonnelBaseAction {
 			throw new ITrustException("You are not authorized to edit this record!");
 		}
 		this.personnelDAO = factory.getPersonnelDAO();
-		TransactionLogger.getInstance().logTransaction(TransactionType.PERSONNEL_VIEW, loggedInMID , pidlong, editing.getUserRolesString());
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PERSONNEL_VIEW, loggedInMID , pidlong, editing.getUserRolesString());
 	}
 
 	/**
@@ -64,15 +66,15 @@ public class EditPersonnelAction extends PersonnelBaseAction {
 		personnelDAO.editPersonnel(personnelForm);
 		
 		if(personnelForm.getRole() == Role.HCP) // If pid belongs to an HCP
-		    TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_EDIT, loggedInMID , personnelForm.getMID(), "");
+		    TransactionLogger.getInstance( factory ).logTransaction(TransactionType.LHCP_EDIT, loggedInMID , personnelForm.getMID(), "");
 		else if(personnelForm.getRole() == Role.UAP) // If pid belongs to a UAP
-            TransactionLogger.getInstance().logTransaction(TransactionType.UAP_EDIT, loggedInMID, personnelForm.getMID(), "");
+            TransactionLogger.getInstance( factory ).logTransaction(TransactionType.UAP_EDIT, loggedInMID, personnelForm.getMID(), "");
         else if(personnelForm.getRole() == Role.ER) // If pid belongs to a ER
-            TransactionLogger.getInstance().logTransaction(TransactionType.ER_EDIT, loggedInMID, personnelForm.getMID(), "");
+            TransactionLogger.getInstance( factory ).logTransaction(TransactionType.ER_EDIT, loggedInMID, personnelForm.getMID(), "");
         else if(personnelForm.getRole() == Role.PHA) // If pid belongs to a PHA
-            TransactionLogger.getInstance().logTransaction(TransactionType.PHA_EDIT, loggedInMID, personnelForm.getMID(), "");
+            TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PHA_EDIT, loggedInMID, personnelForm.getMID(), "");
         else if(personnelForm.getRole() == Role.LT) // If pid belongs to a LT
-            TransactionLogger.getInstance().logTransaction(TransactionType.LT_EDIT, loggedInMID, personnelForm.getMID(), "");
+            TransactionLogger.getInstance( factory ).logTransaction(TransactionType.LT_EDIT, loggedInMID, personnelForm.getMID(), "");
 		
 	}
 	

@@ -25,8 +25,10 @@ public class AddApptRequestAction {
 	private ApptDAO aDAO;
 	private ApptRequestDAO arDAO;
 	private ApptTypeDAO atDAO;
+	private DAOFactory factory;
 	
 	public AddApptRequestAction(DAOFactory factory) {
+		this.factory = factory;
 		aDAO = factory.getApptDAO();
 		arDAO = factory.getApptRequestDAO();
 		atDAO = factory.getApptTypeDAO();
@@ -47,7 +49,7 @@ public class AddApptRequestAction {
 
 		arDAO.addApptRequest(bean);
 		
-		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_SUBMITTED, loggedInMID, hcpid, "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.APPOINTMENT_REQUEST_SUBMITTED, loggedInMID, hcpid, "");
 
 		return "Your appointment request has been saved and is pending.";
 	}
