@@ -22,6 +22,7 @@ import edu.ncsu.csc.itrust.model.old.validate.AddPatientValidator;
  * 
  */
 public class AddPatientAction {
+	private DAOFactory factory;
 	private PatientDAO patientDAO;
 	private AuthDAO authDAO;
 	private long loggedInMID;
@@ -33,6 +34,7 @@ public class AddPatientAction {
 	 * @param loggedInMID
 	 */
 	public AddPatientAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
         this.patientDAO = factory.getPatientDAO();
         this.loggedInMID = loggedInMID;
         this.authDAO = factory.getAuthDAO();
@@ -59,7 +61,7 @@ public class AddPatientAction {
 		authDAO.setDependent(newMID, isDependent);
 		p.setPassword(pwd);
 		patientDAO.editPatient(p, loggedInMID);
-		TransactionLogger.getInstance().logTransaction(TransactionType.HCP_CREATED_DEPENDENT_PATIENT, loggedInMID, p.getMID(), "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.HCP_CREATED_DEPENDENT_PATIENT, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 	
@@ -70,7 +72,7 @@ public class AddPatientAction {
 		String pwd = authDAO.addUser(newMID, Role.PATIENT, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
 		patientDAO.editPatient(p, loggedInMID);
-		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_CREATE, loggedInMID, p.getMID(), "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PATIENT_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 }

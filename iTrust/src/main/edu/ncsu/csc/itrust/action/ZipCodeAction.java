@@ -18,7 +18,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  */
 public class ZipCodeAction 
 {
-//	private DAOFactory factory;
+	private DAOFactory factory;
 //	private long loggedInMID;
 	private ZipCodeDAO zipCodeDAO;
 //	private PersonnelDAO personnelDAO;
@@ -32,6 +32,7 @@ public class ZipCodeAction
 	 */
 	public ZipCodeAction(DAOFactory factory, long loggedInMID)
 	{
+		this.factory = factory;
 		this.zipCodeDAO = factory.getZipCodeDAO();
 		this.hospitalDAO = factory.getHospitalsDAO();
 		this.expertAction = new FindExpertAction(factory);
@@ -109,13 +110,13 @@ public class ZipCodeAction
 	 */
 	public List<PersonnelBean> getExperts(String specialty, String zipCode, String mileRange, Long loggedInMID) throws DBException
 	{
-		TransactionLogger.getInstance().logTransaction(TransactionType.FIND_EXPERT, loggedInMID, null , "Zip Code Used for Search");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.FIND_EXPERT, loggedInMID, null , "Zip Code Used for Search");
 		List<HospitalBean> hosptials = getHosptialsWithinCertainMileage(specialty, zipCode, mileRange);
 		return getExpertsForHospitals(specialty, hosptials);
 	}
 	
 	public void logError(Long loggedInMID){
-		TransactionLogger.getInstance().logTransaction(TransactionType.FIND_EXPERT_ZIP_ERROR, loggedInMID, null , "Zip Code Used for Search");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.FIND_EXPERT_ZIP_ERROR, loggedInMID, null , "Zip Code Used for Search");
 	}
 	
 	
