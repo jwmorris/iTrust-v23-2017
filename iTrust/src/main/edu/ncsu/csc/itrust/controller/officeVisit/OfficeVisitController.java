@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.controller.iTrustController;
+import edu.ncsu.csc.itrust.controller.utils.Utils;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
@@ -165,12 +166,14 @@ public class OfficeVisitController extends iTrustController {
 	 *            (if any)
 	 */
 	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+//		FacesContext ctx = FacesContext.getCurrentInstance();
+//		if (ctx == null) {
+//			return;
+//		}
+//		ctx.getExternalContext().getFlash().setKeepMessages(true);
+//		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+		Utils util = new Utils();
+		util.printFacesMessage(severity, summary, detail, clientId);
 	}
 
 	public void redirectToBaseOfficeVisit() throws IOException {
