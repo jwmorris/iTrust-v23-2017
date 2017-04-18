@@ -51,6 +51,7 @@ if (userRole.equals("hcp")) {
 	<a href="/iTrust/auth/hcp/visitReminders.jsp">Office Visit Reminders</a><br />
 	<a href="/iTrust/auth/surveyResults.jsp">Satisfaction Survey Results</a><br />
 	<a href="/iTrust/auth/hcp/viewPrescriptionRenewalNeeds.jsp">Potential Prescription-Renewals</a><br />
+	<a href="/iTrust/auth/lookAndFeel.jsp">Look and Feel Settings</a><br />
 </div>
 <%
 }

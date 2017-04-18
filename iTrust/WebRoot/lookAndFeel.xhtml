@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:itrust="/WEB-INF/tags.tld">
+
+<h:body>
+	<ui:composition template="/iTrust_template_prime.xhtml">
+		<ui:define name="pageTitle">iTrust - Look and Feel</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+			<h:form>          
+    			<h:panelGrid columns="2" cellpadding="5" style="margin-left: 20px">
+    				<h:outputText value="Primary Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Primary Background: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Left Menu Background: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+ 
+        			<h:outputText value="Navigation Bar Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Navigation Bar Background: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Welcome Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Footer Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />       
+        			
+        			<h:outputText value="Footer Background: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />       
+        			
+        			<h:outputText value="Table Heading Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Table Heading Background: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Table Row Background 1: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />   
+        			
+        			<h:outputText value="Table Row Background 2: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Selected Patient Information Popup: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			
+        			<h:outputText value="Error Text: " />
+        			<p:colorPicker value="#{colorView.colorPopup}" />          
+    			</h:panelGrid>
+ 
+   			 	<p:separator />
+   			 	 <p:commandButton value="Submit" style="margin-left: 20px" />
+   			 </h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

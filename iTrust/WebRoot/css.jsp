@@ -4,6 +4,20 @@
 
 <%@include file="./global.jsp" %>
 
+:root{
+    --sideMenuBackground:rgba(247, 247, 247, 0.59);
+    --footerBackground:rgba(247, 247, 247, 0.59);
+    --selectedPatientBackground:#D6D6D6;
+    --fontSize:13px;
+    --navColor:rgb(92, 92, 92);
+    --welcomeTextColor:rgb(255, 255, 255);
+    --tableBackground1:#f1f1f1;
+    --tableBackground2:#E7E7E7;
+    --tableHeadBackground:rgb(75, 75, 75);
+    --tableHeadText:white;
+    --errorTextColor:#cc0000;
+}
+
 html {
 	height: 100%;
 }
@@ -11,7 +25,7 @@ body {
 	height: 100%
 }
 label {
-	font-size: 13px;
+	font-size: var(--fontSize);
 	font-weight: normal;
 }
 .container-fluid {
@@ -26,7 +40,7 @@ label {
 	right: 5px;
 	z-index: 101;
 	padding: 10px;
-	background: #D6D6D6;
+	background:var(--selectedPatientBackground);
 	border-radius: 8px;
 	border: 1px solid #C0C0C0;
 	margin-left: 5px;
@@ -43,13 +57,13 @@ label {
 #iTrustFooter {
 	position: fixed;
 	bottom: 0;
-	background-color: rgba(247, 247, 247, 0.59);
+	background-color:var(--footerBackground);
 	font-size: .7em;
 	padding: 5px;
 }
 
 #iTrustMenu {
-	background-color:rgba(247, 247, 247, 0.59);
+	background-color:var(--sideMenuBackground);
 	padding:15px;
 }
 #sampleLoginTable td {
@@ -59,10 +73,10 @@ label {
 	padding-left: 20px;
 	font-size: 1.3em;
 	font-weight: bold;
-	color: rgb(92, 92, 92)
+	color: var(--navColor);
 }
 .welcome {
-	color: rgb(255, 255, 255) !important;
+	color:var(--welcomeTextColor) !important;
 	float: right;
 	padding: 12px;
 }
@@ -70,7 +84,7 @@ label {
 
 }
 .fTable tbody {
-	background-color: #f1f1f1;
+	background-color: var(--tableBackground1);
 	border: 1px solid #D5D5D5;
 	border-radius: 8px;
 }
@@ -79,11 +93,11 @@ label {
 }
 .fTable th {
 	text-align: left;
-	background-color: rgb(75, 75, 75);
-	color: white;
+	background-color: var(--tableHeadBackground);
+	color: var(--tableHeadText);
 }
 .fTable tbody tr:nth-child(odd) {
-   background-color: #E7E7E7;
+   background-color: var(--tableBackground2);
 }
 .navbar-brand img {
 	max-height: 26px;
@@ -170,7 +184,7 @@ label {
 	color: #3A3A3A;
 }
 .iTrustError {
-	color: #cc0000;
+	color: var(--errorTextColor);
 }
 .patient-navigation {
 	padding: 7px;
@@ -204,7 +218,7 @@ label {
 	background-color: #FAFAFA;
 }
 #calendarTable th {
-	background-color:#CCCCCC;
+	background-color: #CCCCCC;
 }
 #calendarTable td {
 	border: 1px solid rgb(155, 155, 155);
