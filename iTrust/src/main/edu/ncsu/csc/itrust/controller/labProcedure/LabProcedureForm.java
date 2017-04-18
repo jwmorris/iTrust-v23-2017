@@ -132,39 +132,41 @@ public class LabProcedureForm {
 	}
 
 	public boolean isReassignable(String idStr) {
-		try {
-			Long.parseLong(idStr);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		LabProcedure proc = controller.getLabProcedureByID(idStr);
-
-		LabProcedureStatus status = proc.getStatus();
-
-		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
-		boolean isReceived = status == LabProcedureStatus.RECEIVED;
-		boolean result = isInTransit || isReceived;
-		return result;
+//		try {
+//			Long.parseLong(idStr);
+//		} catch (NumberFormatException e) {
+//			return false;
+//		}
+//
+//		LabProcedure proc = controller.getLabProcedureByID(idStr);
+//
+//		LabProcedureStatus status = proc.getStatus();
+//
+//		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+//		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+//		boolean result = isInTransit || isReceived;
+//		return result;
+		return isChangeable(idStr);
 	}
 
 	public boolean isRemovable(String idStr) {
-		try {
-			Long.parseLong(idStr);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		LabProcedure proc = controller.getLabProcedureByID(idStr);
-
-		LabProcedureStatus status = proc.getStatus();
-
-		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
-		boolean isReceived = status == LabProcedureStatus.RECEIVED;
-		boolean result = isInTransit || isReceived;
-		return result;
+//		try {
+//			Long.parseLong(idStr);
+//		} catch (NumberFormatException e) {
+//			return false;
+//		}
+//
+//		LabProcedure proc = controller.getLabProcedureByID(idStr);
+//
+//		LabProcedureStatus status = proc.getStatus();
+//
+//		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+//		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+//		boolean result = isInTransit || isReceived;
+//		return result;
+		return isChangeable(idStr);
 	}
-
+	
 	public boolean isCommentable(String idStr) {
 		try {
 			Long.parseLong(idStr);
@@ -209,5 +211,22 @@ public class LabProcedureForm {
 					null);
 		}
 		return Collections.emptyList();
+	}
+	
+	public boolean isChangeable(String idStr){
+		try {
+			Long.parseLong(idStr);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
+
+		LabProcedureStatus status = proc.getStatus();
+
+		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+		boolean result = isInTransit || isReceived;
+		return result;
 	}
 }
