@@ -61,14 +61,26 @@
     			</h:panelGrid>
  
    			 	<p:separator />
-   			 	<p:commandButton value="Submit" oncomplete="updateColors()" update="grid" style="margin-left: 20px" />
+   			 	<p:commandButton process="@this grid" type="submit" value="Submit" oncomplete="updateColors( xhr, status, args )" style="margin-left: 20px" >
+   			 	</p:commandButton>
    			 
    			 	<script id="jsUpdate" type="text/javascript">
    			 		/*<![CDATA[*/
-					function updateColors() {
-							document.body.style.setProperty( '--sideMenuBackground', "#{colorBean.getLeftMenuBackground()}" );
-							window.alert( "#{colorBean.getLeftMenuBackground()}" );
-							window.alert( "#{colorBean.getPrimaryText()}" );
+					function updateColors( xhr, status, args ) {
+							document.body.style.setProperty( '--sideMenuBackground', args.lmb );
+							document.body.style.setProperty( '--mainTextColor', args.mtc );
+							document.body.style.setProperty( '--mainBackground', args.mbc );
+							document.body.style.setProperty( '--footerTextColor', args.ftc );
+							document.body.style.setProperty( '--navbarBackground', args.nbc );
+							document.body.style.setProperty( '--navbarText', args.ntc );
+							document.body.style.setProperty( '--footerBackground', args.fbc )
+							document.body.style.setProperty( '--selectedPatientBackground', args.spb );
+							document.body.style.setProperty( '--tableBackground1', args.tb1 );
+							document.body.style.setProperty( '--tableBackground2', args.tb2 );
+							document.body.style.setProperty( '--tableHeadBackground', args.thb );
+							document.body.style.setProperty( '--tableHeadText', args.tht );
+							document.body.style.setProperty( '--errorTextColor', args.etc );
+							document.body.style.setProperty( '--welcomeTextColor', args.wtc );
 					}
 					/*]]>*/
 				</script>
