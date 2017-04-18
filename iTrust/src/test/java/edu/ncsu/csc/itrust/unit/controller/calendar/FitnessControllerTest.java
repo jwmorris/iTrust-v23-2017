@@ -17,6 +17,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.fitnessData.Fitness;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
@@ -41,7 +42,7 @@ public class FitnessControllerTest {
 		Mockito.doReturn(Long.parseLong( "9000000012" ) ).when(mockSessionUtils).getSessionLoggedInMIDLong();
 		Mockito.doReturn(Long.parseLong( "2" )).when(mockSessionUtils).getCurrentPatientMIDLong();
 		Mockito.doReturn( "2" ).when(mockSessionUtils).getCurrentPatientMID();
-		con = new FitnessController( ConverterDAO.getDataSource(), mockSessionUtils );
+		con = new FitnessController( ConverterDAO.getDataSource(), mockSessionUtils, TestDAOFactory.getTestInstance() );
 		f = new Fitness();
 		f.setActiveCals( 100 );
 		f.setActiveHours( 5 );

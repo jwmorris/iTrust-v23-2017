@@ -23,6 +23,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  * Action class for ViewMyMessages.jsp
  */
 public class ViewMyMessagesAction {
+	private DAOFactory factory;
 	private long loggedInMID;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
@@ -37,12 +38,13 @@ public class ViewMyMessagesAction {
 	 * @throws DBException 
 	 */
 	public ViewMyMessagesAction(DAOFactory factory, long loggedInMID) throws DBException, SQLException {
+		this.factory = factory;
 		this.loggedInMID = loggedInMID;
 		this.patientDAO = factory.getPatientDAO();
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.messageDAO = factory.getMessageDAO();
-		TransactionLogger.getInstance().logTransaction(TransactionType.MESSAGE_VIEW, loggedInMID, 0L, "");                     
-		TransactionLogger.getInstance().logTransaction(TransactionType.NOTIFICATIONS_VIEW, loggedInMID, 0l, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.MESSAGE_VIEW, loggedInMID, 0L, "");                     
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.NOTIFICATIONS_VIEW, loggedInMID, 0l, "");
 	}
 	
 	/**
@@ -54,7 +56,7 @@ public class ViewMyMessagesAction {
 	 */
 	public List<MessageBean> getAllMyMessages() throws SQLException, DBException {
 
-		TransactionLogger.getInstance().logTransaction(TransactionType.INBOX_VIEW, loggedInMID, 0L, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.INBOX_VIEW, loggedInMID, 0L, "");
 		return messageDAO.getMessagesForMID(loggedInMID);
 	}
 	
@@ -101,7 +103,7 @@ public class ViewMyMessagesAction {
 	 * @throws SQLException
 	 */
 	public List<MessageBean> getAllMySentMessages() throws DBException, SQLException {
-		TransactionLogger.getInstance().logTransaction(TransactionType.OUTBOX_VIEW, loggedInMID, 0l, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.OUTBOX_VIEW, loggedInMID, 0l, "");
 		return messageDAO.getMessagesFrom(loggedInMID);
 	}
 	

@@ -45,21 +45,13 @@ public class ObstetricsController extends iTrustController {
 	private PersonnelDAO personnelDAO;
 	private String selectedDate;
 
-	public ObstetricsController () {
-		try {
-			sql = new ObstetricsMySQL();
-		} catch (DBException e) {
-			System.out.println("DB fail");
-			e.printStackTrace();
-		}
+	public ObstetricsController () throws DBException {
+		sql = new ObstetricsMySQL();
 		this.utils = SessionUtils.getInstance();
 		pid = utils.getCurrentPatientMIDLong();
 		this.hcp = utils.getSessionLoggedInMIDLong();
 		DAOFactory factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
-		if(patientDAO == null) {
-			System.out.println("error");
-		}
 		personnelDAO = factory.getPersonnelDAO();
 		priorPregnancies = getPriorPregnancies();
 		currentPregnancy = getCurrentPregnancy();
@@ -69,10 +61,10 @@ public class ObstetricsController extends iTrustController {
 	}
 	
 	public ObstetricsController(DataSource ds, Long pid, Long hcp, DAOFactory df) {
+		super(null, null, df);
 		try {
 			sql = new ObstetricsMySQL(ds);
 		} catch (DBException e) {
-			System.out.println("DB fail");
 			e.printStackTrace();
 		}
 		this.pid = pid;

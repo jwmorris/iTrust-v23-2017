@@ -21,6 +21,7 @@ public class EditApptAction extends ApptAction {
 	private long loggedInMID;
 	private long originalPatient;
 	private long originalApptID;
+	private DAOFactory factory;
 	
 	/**
 	 * EditApptAction
@@ -40,7 +41,7 @@ public class EditApptAction extends ApptAction {
 	}
 	
 	public void logViewAction() {
-		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_VIEW, loggedInMID, originalPatient, "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.APPOINTMENT_VIEW, loggedInMID, originalPatient, "");
 	}
 	
 	/**
@@ -53,6 +54,7 @@ public class EditApptAction extends ApptAction {
 		this.loggedInMID = loggedInMID;
 		this.originalPatient = originalPatient;
 		this.originalApptID = originalApptID;
+		this.factory = factory;
 	}
 	
 	/**
@@ -99,9 +101,9 @@ public class EditApptAction extends ApptAction {
 		
 		try {
 			apptDAO.editAppt(appt);
-			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_EDIT, loggedInMID, originalPatient, ""+appt.getApptID());
+			TransactionLogger.getInstance( factory ).logTransaction(TransactionType.APPOINTMENT_EDIT, loggedInMID, originalPatient, ""+appt.getApptID());
 			if(ignoreConflicts){
-				TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_CONFLICT_OVERRIDE, loggedInMID, originalPatient, "");
+				TransactionLogger.getInstance( factory ).logTransaction(TransactionType.APPOINTMENT_CONFLICT_OVERRIDE, loggedInMID, originalPatient, "");
 			}
 			return "Success: Appointment changed";
 		} catch (DBException e) {
@@ -122,7 +124,7 @@ public class EditApptAction extends ApptAction {
 	public String removeAppt(ApptBean appt) throws DBException, SQLException {
 		try {
 			apptDAO.removeAppt(appt);
-			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REMOVE, loggedInMID, originalPatient, ""+originalApptID);
+			TransactionLogger.getInstance( factory ).logTransaction(TransactionType.APPOINTMENT_REMOVE, loggedInMID, originalPatient, ""+originalApptID);
 			return "Success: Appointment removed";
 		} catch (SQLException e) {
 			

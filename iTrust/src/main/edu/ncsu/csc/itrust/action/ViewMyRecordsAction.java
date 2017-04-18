@@ -31,6 +31,7 @@ public class ViewMyRecordsAction {
 	/** The number of months in a year */
 	public static final int MONTHS_IN_YEAR = 12;
 	
+	private DAOFactory factory;
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
 	private AllergyDAO allergyDAO;
@@ -45,6 +46,7 @@ public class ViewMyRecordsAction {
 	 * @param loggedInMID The MID of the person viewing the records.
 	 */
 	public ViewMyRecordsAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.patientDAO = factory.getPatientDAO();
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.allergyDAO = factory.getAllergyDAO();
@@ -115,7 +117,7 @@ public class ViewMyRecordsAction {
 	 * @throws ITrustException
 	 */
 	public List<Email> getEmailHistory() throws ITrustException {
-		TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_HISTORY_VIEW, loggedInMID, (long)0, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.EMAIL_HISTORY_VIEW, loggedInMID, (long)0, "");
 		return emailDAO.getEmailsByPerson(getPatient().getEmail());
 	}
 
@@ -135,34 +137,35 @@ public class ViewMyRecordsAction {
 	 * @return list of FamilyMemberBeans
 	 */
 	public List<FamilyMemberBean> getFamily() throws ITrustException {
-		List<FamilyMemberBean> fam = new ArrayList<FamilyMemberBean>();
-		List<FamilyMemberBean> parents = null;
-		try {
-			parents = familyDAO.getParents(loggedInMID);
-			fam.addAll(parents);
-			fam.addAll(familyDAO.getSiblings(loggedInMID));
-			fam.addAll(familyDAO.getChildren(loggedInMID));
-		} catch (DBException e) {
-			throw new ITrustException(e.getMessage());
-		}
-		
-		if(parents != null) {
-			List<FamilyMemberBean> grandparents = new ArrayList<FamilyMemberBean>();
-			for(FamilyMemberBean parent : parents) {
-				try {
-					grandparents.addAll(familyDAO.getParents(parent.getMid()));
-				} catch (DBException e) {
-					throw new ITrustException(e.getMessage());
-				}
-			}
-			
-			fam.addAll(grandparents);
-			
-			for(FamilyMemberBean gp : grandparents) {
-				gp.setRelation("Grandparent");
-			}
-		}
-		return fam;
+//		List<FamilyMemberBean> fam = new ArrayList<FamilyMemberBean>();
+//		List<FamilyMemberBean> parents = null;
+//		try {
+//			parents = familyDAO.getParents(loggedInMID);
+//			fam.addAll(parents);
+//			fam.addAll(familyDAO.getSiblings(loggedInMID));
+//			fam.addAll(familyDAO.getChildren(loggedInMID));
+//		} catch (DBException e) {
+//			throw new ITrustException(e.getMessage());
+//		}
+//		
+//		if(parents != null) {
+//			List<FamilyMemberBean> grandparents = new ArrayList<FamilyMemberBean>();
+//			for(FamilyMemberBean parent : parents) {
+//				try {
+//					grandparents.addAll(familyDAO.getParents(parent.getMid()));
+//				} catch (DBException e) {
+//					throw new ITrustException(e.getMessage());
+//				}
+//			}
+//			
+//			fam.addAll(grandparents);
+//			
+//			for(FamilyMemberBean gp : grandparents) {
+//				gp.setRelation("Grandparent");
+//			}
+//		}
+//		return fam;
+		return family();
 	}
 	
 	/**
@@ -171,33 +174,34 @@ public class ViewMyRecordsAction {
 	 * @return list of FamilyMemberBeans
 	 */
 	public List<FamilyMemberBean> getFamilyHistory() throws ITrustException {
-		List<FamilyMemberBean> fam = new ArrayList<FamilyMemberBean>();
-		List<FamilyMemberBean> parents = null;
-		try {
-			parents = familyDAO.getParents(loggedInMID);
-			fam.addAll(parents);
-			fam.addAll(familyDAO.getSiblings(loggedInMID));
-		} catch (DBException e) {
-			throw new ITrustException(e.getMessage());
-		}
-		
-		if(parents != null) {
-			List<FamilyMemberBean> grandparents = new ArrayList<FamilyMemberBean>();
-			for(FamilyMemberBean parent : parents) {
-				try {
-					grandparents.addAll(familyDAO.getParents(parent.getMid()));
-				} catch (DBException e) {
-					throw new ITrustException(e.getMessage());
-				}
-			}
-			
-			fam.addAll(grandparents);
-			
-			for(FamilyMemberBean gp : grandparents) {
-				gp.setRelation("Grandparent");
-			}
-		}
-		return fam;
+//		List<FamilyMemberBean> fam = new ArrayList<FamilyMemberBean>();
+//		List<FamilyMemberBean> parents = null;
+//		try {
+//			parents = familyDAO.getParents(loggedInMID);
+//			fam.addAll(parents);
+//			fam.addAll(familyDAO.getSiblings(loggedInMID));
+//		} catch (DBException e) {
+//			throw new ITrustException(e.getMessage());
+//		}
+//		
+//		if(parents != null) {
+//			List<FamilyMemberBean> grandparents = new ArrayList<FamilyMemberBean>();
+//			for(FamilyMemberBean parent : parents) {
+//				try {
+//					grandparents.addAll(familyDAO.getParents(parent.getMid()));
+//				} catch (DBException e) {
+//					throw new ITrustException(e.getMessage());
+//				}
+//			}
+//			
+//			fam.addAll(grandparents);
+//			
+//			for(FamilyMemberBean gp : grandparents) {
+//				gp.setRelation("Grandparent");
+//			}
+//		}
+//		return fam;
+		return family();
 	}
 
 	
@@ -276,6 +280,36 @@ public class ViewMyRecordsAction {
 	}
 	
 	public void logViewMedicalRecords(Long mid, Long secondary) {
-		TransactionLogger.getInstance().logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
+	}
+	
+	public List<FamilyMemberBean> family() throws ITrustException {
+		List<FamilyMemberBean> fam = new ArrayList<FamilyMemberBean>();
+		List<FamilyMemberBean> parents = null;
+		try {
+			parents = familyDAO.getParents(loggedInMID);
+			fam.addAll(parents);
+			fam.addAll(familyDAO.getSiblings(loggedInMID));
+		} catch (DBException e) {
+			throw new ITrustException(e.getMessage());
+		}
+		
+		if(parents != null) {
+			List<FamilyMemberBean> grandparents = new ArrayList<FamilyMemberBean>();
+			for(FamilyMemberBean parent : parents) {
+				try {
+					grandparents.addAll(familyDAO.getParents(parent.getMid()));
+				} catch (DBException e) {
+					throw new ITrustException(e.getMessage());
+				}
+			}
+			
+			fam.addAll(grandparents);
+			
+			for(FamilyMemberBean gp : grandparents) {
+				gp.setRelation("Grandparent");
+			}
+		}
+		return fam;
 	}
 }

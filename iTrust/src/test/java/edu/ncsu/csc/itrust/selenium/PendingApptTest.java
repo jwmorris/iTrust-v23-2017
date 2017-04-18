@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 /**
  * Use Case 42
  */
@@ -25,7 +27,7 @@ public class PendingApptTest extends iTrustSeleniumTest {
 		gen.clearAllTables();
 		gen.standardData();
 		gen.pendingAppointmentAlert();
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		baseUrl = "http://localhost:8080";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}

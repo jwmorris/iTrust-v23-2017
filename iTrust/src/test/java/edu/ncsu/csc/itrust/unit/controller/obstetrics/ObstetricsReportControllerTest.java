@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.obstetrics.ObstetricsReportController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.obstetrics.ObstetricsPregnancy;
@@ -51,7 +52,7 @@ public class ObstetricsReportControllerTest {
 	public void testObstetricsReportController() {
 		try {
 			new ObstetricsReportController();
-		} catch ( Exception e ) {
+		} catch ( DBException e ) {
 			//pass;
 		}
 	}

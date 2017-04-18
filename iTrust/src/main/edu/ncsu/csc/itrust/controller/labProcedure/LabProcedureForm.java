@@ -18,6 +18,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -30,10 +31,10 @@ public class LabProcedureForm {
 	private SessionUtils sessionUtils;
 
 	public LabProcedureForm() {
-		this(null, null, SessionUtils.getInstance(), null);
+		this(null, null, SessionUtils.getInstance(), null, DAOFactory.getProductionInstance());
 	}
 
-	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils, DataSource ds) {
+	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils, DataSource ds, DAOFactory factory) {
 		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
 			if (ds == null) {
@@ -41,7 +42,7 @@ public class LabProcedureForm {
 				controller = (ovc == null) ? new LabProcedureController() : ovc;
 			} else {
 				loincData = (ldata == null) ? new LOINCCodeMySQL(ds) : ldata;
-				controller = (ovc == null) ? new LabProcedureController(ds) : ovc;
+				controller = (ovc == null) ? new LabProcedureController(ds, factory) : ovc;
 			}
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
@@ -131,39 +132,41 @@ public class LabProcedureForm {
 	}
 
 	public boolean isReassignable(String idStr) {
-		try {
-			Long.parseLong(idStr);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		LabProcedure proc = controller.getLabProcedureByID(idStr);
-
-		LabProcedureStatus status = proc.getStatus();
-
-		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
-		boolean isReceived = status == LabProcedureStatus.RECEIVED;
-		boolean result = isInTransit || isReceived;
-		return result;
+//		try {
+//			Long.parseLong(idStr);
+//		} catch (NumberFormatException e) {
+//			return false;
+//		}
+//
+//		LabProcedure proc = controller.getLabProcedureByID(idStr);
+//
+//		LabProcedureStatus status = proc.getStatus();
+//
+//		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+//		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+//		boolean result = isInTransit || isReceived;
+//		return result;
+		return isChangeable(idStr);
 	}
 
 	public boolean isRemovable(String idStr) {
-		try {
-			Long.parseLong(idStr);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		LabProcedure proc = controller.getLabProcedureByID(idStr);
-
-		LabProcedureStatus status = proc.getStatus();
-
-		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
-		boolean isReceived = status == LabProcedureStatus.RECEIVED;
-		boolean result = isInTransit || isReceived;
-		return result;
+//		try {
+//			Long.parseLong(idStr);
+//		} catch (NumberFormatException e) {
+//			return false;
+//		}
+//
+//		LabProcedure proc = controller.getLabProcedureByID(idStr);
+//
+//		LabProcedureStatus status = proc.getStatus();
+//
+//		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+//		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+//		boolean result = isInTransit || isReceived;
+//		return result;
+		return isChangeable(idStr);
 	}
-
+	
 	public boolean isCommentable(String idStr) {
 		try {
 			Long.parseLong(idStr);
@@ -208,5 +211,22 @@ public class LabProcedureForm {
 					null);
 		}
 		return Collections.emptyList();
+	}
+	
+	public boolean isChangeable(String idStr){
+		try {
+			Long.parseLong(idStr);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
+
+		LabProcedureStatus status = proc.getStatus();
+
+		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+		boolean result = isInTransit || isReceived;
+		return result;
 	}
 }

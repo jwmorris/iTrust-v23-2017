@@ -36,8 +36,6 @@ public class FitnessMySQL implements FitnessData, Serializable {
 	/** data source */
 	private DataSource ds;
 	
-	private Connection conn;
-	
 	/** formats date Strings */
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -52,33 +50,22 @@ public class FitnessMySQL implements FitnessData, Serializable {
 			Context ctx = new InitialContext();
 			this.ds = ( ( DataSource ) ( ( ( Context ) ctx.lookup( "java:comp/env" ) ) ).lookup( "jdbc/itrust" ) );
 		} catch ( NamingException e ) {
-			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
-		}
-		try{
-			conn = ds.getConnection();
-		} catch(Exception e) {
-			throw new DBException(new SQLException("Can't get connection"));
 		}
 	}
 	
 	public FitnessMySQL(DataSource ds) throws DBException {
 		loader = new FitnessSQLLoader();
 		this.ds = ds;
-		try {
-			conn = ds.getConnection();
-		} catch (SQLException e) {
-			throw new DBException(new SQLException("Can't get connection"));
-		}
 	}
 	
 	@Override
 	public List<Fitness> getAll() throws DBException {
 		List<Fitness> ret;
-		//Connection conn = null;
 		PreparedStatement ps = null;
+		Connection conn = null;
 		try {
-			//conn = ds.getConnection();
+			conn = ds.getConnection();
 			ps = conn.prepareStatement( "SELECT * FROM fitnessData" );
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? loader.loadList( rs ) : null;
@@ -99,7 +86,9 @@ public class FitnessMySQL implements FitnessData, Serializable {
 	@Override
 	public boolean add( Fitness f ) throws DBException {
 		PreparedStatement ps = null;
+		Connection conn = null;
 		try { 
+			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("INSERT INTO fitnessData (pid, calories, steps"
 					+ ", distance ,floors, minsSed, minsLA, minsFA, minsVA, activeCals, activeHours, hrLow," 
 					+ " hrHigh, hrAvg, uvExposure, fitnessDate) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) " 
@@ -108,7 +97,8 @@ public class FitnessMySQL implements FitnessData, Serializable {
 					, f, true );
 			
 			ps.executeUpdate();
-
+			ps.close();
+			conn.close();
 			return true;
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -117,16 +107,18 @@ public class FitnessMySQL implements FitnessData, Serializable {
 
 	@Override
 	public boolean update( Fitness f ) throws DBException, FormValidationException {
-		//Connection conn = null;
+		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			//conn = ds.getConnection();
+			conn = ds.getConnection();
 			ps = loader.loadParameters( conn, conn.prepareStatement("UPDATE fitnessData SET calories=?"
 					+ ", steps=?, distance=?, floors=?, minsSed=?, minsLA=?, minsFA=?, minsVA=?, activeCals=?, "
 					+ "hrLow=?, hrHigh=?, hrAvg=?, activeHours=?, uvExposure=?, fitnessDate=?" +
 					" where pid=? and fitnessDate=?")
 					, f, false );
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
 		}
@@ -135,7 +127,9 @@ public class FitnessMySQL implements FitnessData, Serializable {
 
 	@Override
 	public Fitness getFitnessData( String pid, String date ) throws DBException {
+		Connection conn = null;
 		try {
+			conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ? and fitnessDate = ?" );
 			Date dateSQL = null;
 			try {
@@ -153,6 +147,8 @@ public class FitnessMySQL implements FitnessData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			Fitness f = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
+			conn.close();
 			return f;
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -162,7 +158,7 @@ public class FitnessMySQL implements FitnessData, Serializable {
 	@Override
 	public List<Fitness> getFitnessDataForPatient( String pid ) throws DBException {
 		List<Fitness> res;
-		try ( //Connection conn = ds.getConnection();
+		try ( Connection conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ?" ) ) {
 				ps.setString( 1, pid );
 				ResultSet rs = ps.executeQuery();
@@ -177,7 +173,7 @@ public class FitnessMySQL implements FitnessData, Serializable {
 	@Override
 	public List<Fitness> getFitnessDataForPatientDates(String pid, String startDate, String endDate) throws DBException {
 		List<Fitness> res;
-		try (
+		try ( Connection conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement( "SELECT * FROM fitnessData WHERE PID = ? and fitnessDate BETWEEN ? and ? ORDER BY fitnessDate ASC" ) ) {
 				Date startDateSQL = null;
 				Date endDateSQL = null;

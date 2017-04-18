@@ -44,7 +44,7 @@ public class EmergencyRecordControllerTest extends TestCase {
 		ds = ConverterDAO.getDataSource();
 		AllergyDAO allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
-		c = new EmergencyRecordController(ds, allergyData);
+		c = new EmergencyRecordController( ds, allergyData , TestDAOFactory.getTestInstance() );
 		c = spy(c);
 		c.setSessionUtils(mockSessionUtils);
 		doNothing().when(c).logTransaction(any(), any());

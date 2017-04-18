@@ -57,6 +57,7 @@ public class DrugReactionOverrideCodesDAO {
 				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM drugreactionoverridecodes ORDER BY CODE");
 				ResultSet rs = stmt.executeQuery()) {
 			List<OverrideReasonBean> loadlist = orcLoader.loadList(rs);
+			rs.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);

@@ -45,7 +45,6 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			Context ctx = new InitialContext();
 			this.ds = ( ( DataSource ) ( ( ( Context ) ctx.lookup( "java:comp/env" ) ) ).lookup( "jdbc/itrust" ) );
 		} catch ( NamingException e ) {
-			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
 		cbLoader = new ChildbirthLoaderMySQL();
@@ -76,6 +75,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? cbLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -96,6 +96,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			Childbirth cb = rs.next() ? cbLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return cb;
 		} catch ( SQLException e ) {
@@ -119,6 +120,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 					+ "nitrous, pethidine, pitocin, amtRH)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"), cb, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -146,6 +148,8 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			
 			if ( genKeys.next() )
 				ret = genKeys.getLong( 1 );
+			genKeys.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -169,6 +173,8 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 					+ ", amtEpidural=?, amtMagnesium=?, amtNitrous=?, amtPethidine=?, amtPitocin=?, epidural=?, "
 					+ "magnesium=?, nitrous=?, pethidine=?, pitocin=?, amtRH=? WHERE id=?" ), cb, false );
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -188,6 +194,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? babyLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -207,6 +214,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? cbLoader.loadList( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -229,6 +237,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? babyLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -248,6 +257,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 					+ "birthTime, estimatedDate, deliveryType, sex, multiNum, name)VALUES(?,?,?,?,?,?,?,?)"), baby, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -267,6 +277,8 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ps = babyLoader.loadParameters( conn, conn.prepareStatement("UPDATE babyData SET birthDate=?"
 					+ ", birthTime=?, estimatedDate=?, deliveryType=?, sex=?, name=? WHERE childbirthId=? AND multiNum=?" ), baby, false );
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
 			throw new DBException( e );
@@ -285,6 +297,7 @@ public class ChildbirthMySQL implements ChildbirthData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			Childbirth cb = rs.next() ? cbLoader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return cb;
 		} catch ( SQLException e ) {

@@ -8,6 +8,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.meterware.httpunit.HttpUnitOptions;
 
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
@@ -51,7 +52,7 @@ public class LoginTest extends iTrustSeleniumTest {
 	 * NumberFormatException.
 	 */
 	public void testNonNumericLogin() {
-		HtmlUnitDriver driver = new HtmlUnitDriver();
+		HtmlUnitDriver driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.get(ADDRESS);
 		// log in using the given username and password

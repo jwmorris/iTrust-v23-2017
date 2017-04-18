@@ -55,7 +55,6 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			Context ctx = new InitialContext();
 			this.ds = ( ( DataSource ) ( ( ( Context ) ctx.lookup( "java:comp/env" ) ) ).lookup( "jdbc/itrust" ) );
 		} catch ( NamingException e ) {
-			System.out.println( "It's a naming exception" );
 			throw new DBException( new SQLException( "Context Lookup Naming Exception: " + e.getMessage() ) );
 		}
 		
@@ -89,6 +88,8 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			ps = conn.prepareStatement( "SELECT * FROM obstetricsData" );
 			ResultSet rs = ps.executeQuery();
 			ret = rs.next() ? loader.loadList( rs ) : null;
+			rs.close();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			throw new DBException( e );
@@ -109,6 +110,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return op;
 		} catch ( SQLException e ) {
@@ -131,6 +133,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 					+ "multiplePregnancy, babyCount, current, rhFlag, hpMiscarriage) VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") , op, true );
 			
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 			return true;
 		} catch ( SQLException e ) {
@@ -154,6 +157,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=?, hpMiscarriage=? WHERE id = ?" ), op, false );
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -181,6 +185,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 					+ "weeksPregnant=?, concepYear=?, totalWeeks=?, hrsLabor=?, weightGain=?, deliveryType=?, "
 					+ "multiplePregnancy=?, babyCount=?, current=?, rhFlag=?, hpMiscarriage=? WHERE pid=? and current=? and initDate='" + d + "'" ), op, false );
 			ps.executeUpdate();
+			ps.close();
 			conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -212,6 +217,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 			ResultSet rs = ps.executeQuery();
 			ObstetricsPregnancy op = rs.next() ? loader.loadSingle( rs ) : null;
 			rs.close();
+			ps.close();
 			conn.close();
 			return op;
 		} catch ( SQLException e ) {
@@ -235,6 +241,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 				ResultSet rs = ps.executeQuery();
 				res = rs.next() ? loader.loadList( rs ) : null;
 				rs.close();
+				ps.close();
 				conn.close();
 		} catch ( SQLException e ) {
 			e.printStackTrace();
@@ -260,6 +267,7 @@ public class ObstetricsMySQL implements ObstetricsPregnancyData, Serializable {
 				op = new ObstetricsPregnancy();
 			}
 			rs.close();
+			ps.close();
 			conn.close();
 			return op;
 		} catch ( SQLException e ) {

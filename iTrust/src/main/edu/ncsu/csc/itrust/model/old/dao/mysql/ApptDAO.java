@@ -32,6 +32,7 @@ public class ApptDAO {
 			stmt.setInt(1, apptID);
 			results = stmt.executeQuery();
 			final List<ApptBean> abList = this.abloader.loadList(results);
+			results.close();
 			return abList;
 		} catch (SQLException e) {
 			throw new DBException(e);

@@ -14,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class AppointmentTypeTest extends iTrustSeleniumTest {
@@ -23,7 +25,7 @@ public class AppointmentTypeTest extends iTrustSeleniumTest {
 	@Before
 	public void setUp() throws Exception {
 		// Create a new instance of the driver
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		super.setUp();
 		gen.clearAllTables();
 		gen.standardData();

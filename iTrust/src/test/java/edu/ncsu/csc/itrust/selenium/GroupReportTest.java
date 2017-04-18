@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.*;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -27,7 +29,7 @@ public class GroupReportTest extends iTrustSeleniumTest {
 		gen.clearAllTables();
 		gen.standardData();
 		gen.uc47SetUp();
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.get("http://localhost:8080/iTrust/");
 	}
 

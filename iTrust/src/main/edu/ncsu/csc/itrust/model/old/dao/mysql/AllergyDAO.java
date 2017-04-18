@@ -53,6 +53,7 @@ public class AllergyDAO {
 			stmt.setLong(1, pid);
 			final ResultSet results = stmt.executeQuery();
 			final List<AllergyBean> loadlist = allergyBeanLoader.loadList(results);
+			results.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);

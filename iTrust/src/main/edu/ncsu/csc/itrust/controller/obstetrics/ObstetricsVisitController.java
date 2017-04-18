@@ -51,24 +51,14 @@ public class ObstetricsVisitController extends iTrustController {
 	/**
 	 * Constructor used in application
 	 */
-	public ObstetricsVisitController() {
+	public ObstetricsVisitController() throws DBException {
 		
 		this.sessionUtils = SessionUtils.getInstance();
 		factory = DAOFactory.getProductionInstance();
 		patientDAO = factory.getPatientDAO();
 		personnelDAO = factory.getPersonnelDAO();
-		try {
-			this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			sql = new ObstetricsMySQL();
-		} catch (DBException e) {
-			e.printStackTrace();
-			
-		}
+		this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL();
+		sql = new ObstetricsMySQL();
 	}
 
 	/**
@@ -76,6 +66,7 @@ public class ObstetricsVisitController extends iTrustController {
 	 * @param ds
 	 */
 	public ObstetricsVisitController(DataSource ds, DAOFactory factory, SessionUtils utils) {
+		super(utils, null, factory);
 		this.sessionUtils = utils;
 		this.obstetricsVisitData = new ObstetricsOfficeVisitMySQL(ds);
 		this.factory = factory;
@@ -84,7 +75,6 @@ public class ObstetricsVisitController extends iTrustController {
 		try {
 			sql = new ObstetricsMySQL(ds);
 		} catch (DBException e) {
-			System.out.println("DB fail");
 			e.printStackTrace();
 		}
 	}
@@ -312,7 +302,6 @@ public class ObstetricsVisitController extends iTrustController {
 						rhWeeksRequired = false;
 					} else {
 						int weeksPrego = (int)Double.parseDouble(weeksPreg);
-						System.out.print("Weeks Prego: " + weeksPrego);
 						if(weeksPrego >= 28) {
 							rhWeeksRequired = true;
 						} else {

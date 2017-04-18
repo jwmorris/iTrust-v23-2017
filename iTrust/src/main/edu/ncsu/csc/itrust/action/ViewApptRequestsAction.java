@@ -21,6 +21,7 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
  * ViewApptRequestsAction
  */
 public class ViewApptRequestsAction {
+	private DAOFactory factory;
 	private ApptRequestDAO arDAO;
 	private ApptDAO aDAO;
 	private long hcpid;
@@ -33,12 +34,13 @@ public class ViewApptRequestsAction {
 	 * @param factory factory
 	 */
 	public ViewApptRequestsAction(long hcpid, DAOFactory factory) {
+		this.factory = factory;
 		arDAO = factory.getApptRequestDAO();
 		aDAO = factory.getApptDAO();
 		pnDAO = factory.getPersonnelDAO();
 		this.hcpid = hcpid;
 		msgAction = new SendMessageAction(factory, hcpid);
-		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_VIEW, hcpid, 0L, "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.APPOINTMENT_REQUEST_VIEW, hcpid, 0L, "");
 	}
 
 	/**
@@ -92,7 +94,7 @@ public class ViewApptRequestsAction {
 			} catch (Exception e) {
 				//TODO
 			}
-			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_APPROVED, loggedInMID, patientMID, "");
+			TransactionLogger.getInstance(factory).logTransaction(TransactionType.APPOINTMENT_REQUEST_APPROVED, loggedInMID, patientMID, "");
 			return "The appointment request you selected has been accepted and scheduled.";
 		} else {
 			return "The appointment request you selected has already been acted upon.";
@@ -122,7 +124,7 @@ public class ViewApptRequestsAction {
 			} catch (Exception e) {
 				//TODO
 			}
-			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_REJECTED,
+			TransactionLogger.getInstance(factory).logTransaction(TransactionType.APPOINTMENT_REQUEST_REJECTED,
 					loggedInMID, patientMID, "");
 			return "The appointment request you selected has been rejected.";
 		} else {

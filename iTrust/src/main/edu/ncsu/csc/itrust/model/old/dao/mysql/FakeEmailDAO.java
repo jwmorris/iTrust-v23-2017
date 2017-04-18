@@ -49,6 +49,7 @@ public class FakeEmailDAO {
 				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM fakeemail ORDER BY AddedDate DESC");
 				ResultSet rs = stmt.executeQuery()) {
 			List<Email> loadlist = emailBeanLoader.loadList(rs);
+			rs.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);
@@ -70,6 +71,7 @@ public class FakeEmailDAO {
 			stmt.setString(1, "%" + email + "%");
 			ResultSet rs = stmt.executeQuery();
 			List<Email> loadlist = emailBeanLoader.loadList(rs);
+			rs.close();
 			return loadlist;
 		} catch (SQLException e) {
 			throw new DBException(e);

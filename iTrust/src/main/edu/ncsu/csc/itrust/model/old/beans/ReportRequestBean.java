@@ -61,7 +61,7 @@ public class ReportRequestBean {
 		try {
 			setRequestedDate(new SimpleDateFormat(dateFormat).parse(s));
 		} catch (ParseException ex) {
-			System.out.println(ex.getMessage());
+			setRequestedDate( null );
 		}
 	}
 
@@ -83,7 +83,7 @@ public class ReportRequestBean {
 		try {
 			setViewedDate(new SimpleDateFormat(dateFormat).parse(s));
 		} catch (ParseException ex) {
-			System.out.println(ex.getMessage());
+			setViewedDate( null );
 		}
 	}
 

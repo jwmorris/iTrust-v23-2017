@@ -43,8 +43,8 @@ public class ViewHealthInfoStepDefs {
 	
 	public ViewHealthInfoStepDefs(PatientDataShared sharedPatient, OfficeVisit sharedVisit, UserDataShared sharedUser){
 		this.ds = ConverterDAO.getDataSource();
-		this.ovController = new OfficeVisitController(ds);
-		this.ovValidator = new OfficeVisitValidator(ds);
+		this.ovController = new OfficeVisitController( ds, TestDAOFactory.getTestInstance() );
+		this.ovValidator = new OfficeVisitValidator( ds, TestDAOFactory.getTestInstance() );
 		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
 		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
 		this.sharedPatient = sharedPatient;

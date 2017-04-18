@@ -29,16 +29,14 @@ public class ZipCodeActionTest extends TestCase {
 		System.out.println("Begin testGetExperts");
 		List<PersonnelBean> physicians = zipCodeAction.getExperts("Surgeon", "10453", "250", 0l);
 		assertEquals(0, physicians.size());
-		System.out.println(physicians.size());
 		for (PersonnelBean pb : physicians) {
 			System.out.println(pb.getFullName());
 		}
 		physicians = zipCodeAction.getExperts("Surgeon", "10453", "500", 0l);
-		System.out.println(physicians.size());
 		for (PersonnelBean pb : physicians) {
 			System.out.println(pb.getFullName());
 		}
-		System.out.println("End testGetExperts");
+
 		physicians.get(0).getFullName().equals("Kelly Doctor");
 	}
 }

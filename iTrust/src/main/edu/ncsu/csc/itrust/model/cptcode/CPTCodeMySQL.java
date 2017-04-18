@@ -51,7 +51,9 @@ public class CPTCodeMySQL {
 	    try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createGetAllPreparedStatement(conn);
                 ResultSet rs = pstring.executeQuery()){
-            return loadResults(rs);
+	    	List<CPTCode> res = loadResults( rs );
+	    	rs.close();
+            return res;
         }
 	}
 
@@ -67,6 +69,7 @@ public class CPTCodeMySQL {
             String newName = rs.getString("name");
             cptList.add(new CPTCode(newCode, newName));
         }
+        rs.close();
         return cptList;
     }
 
@@ -89,6 +92,7 @@ public class CPTCodeMySQL {
         if (rs.next()){
             returnCode = new CPTCode(rs.getString("Code"), rs.getString("name"));
         }
+        rs.close();
         return returnCode;
     }
 

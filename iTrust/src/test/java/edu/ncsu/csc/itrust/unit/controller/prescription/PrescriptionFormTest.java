@@ -22,8 +22,10 @@ import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
@@ -35,17 +37,19 @@ public class PrescriptionFormTest extends TestCase {
     private PrescriptionController pc;
     private NDCCodeMySQL nData;
     private OfficeVisitMySQL ovSql;
+    private DAOFactory factory;
     
     
     @Override
     public void setUp() throws FileNotFoundException, SQLException, IOException, DBException{
         ds = ConverterDAO.getDataSource();
+        factory = ((TestDAOFactory)TestDAOFactory.getTestInstance());
         gen = new TestDataGenerator();
-        ovSql = new OfficeVisitMySQL(ds);
+        ovSql = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
         gen.clearAllTables();
         gen.uc11();
         utils = spy(SessionUtils.getInstance());
-        pc = spy(new PrescriptionController(ds));
+        pc = spy(new PrescriptionController(ds, factory));
         nData = spy(new NDCCodeMySQL(ds));
     }
     
@@ -59,7 +63,7 @@ public class PrescriptionFormTest extends TestCase {
         when(utils.getCurrentPatientMID()).thenReturn(Long.toString(patientMID));
         when(utils.getSessionLoggedInMIDLong()).thenReturn((Long) loggedInMID);
         form = new PrescriptionForm();
-        form = new PrescriptionForm(pc, nData, utils, ds);
+        form = new PrescriptionForm( pc, nData, utils, ds, TestDAOFactory.getTestInstance() );
         
         form.fillInput("0", new MedicationBean("1234", "good meds"), 80, LocalDate.parse("2016-11-17"), LocalDate.parse("2017-11-17"), "take a bunch");
         form.add();

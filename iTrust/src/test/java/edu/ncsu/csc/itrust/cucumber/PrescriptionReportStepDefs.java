@@ -71,14 +71,14 @@ public class PrescriptionReportStepDefs {
 	public PrescriptionReportStepDefs(){
 		
 		this.ds = ConverterDAO.getDataSource();
-		this.ovController = new OfficeVisitController(ds);
-		this.ovValidator = new OfficeVisitValidator(ds);
+		this.ovController = new OfficeVisitController( ds, TestDAOFactory.getTestInstance() );
+		this.ovValidator = new OfficeVisitValidator( ds, TestDAOFactory.getTestInstance() );
 		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
 		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
 		this.gen = new TestDataGenerator();
 		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
 		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
-		this.oVisSQL = new OfficeVisitMySQL(ds);
+		this.oVisSQL = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 		this.labPSQL = new LabProcedureMySQL(ds);
 		this.cptSQL = new CPTCodeMySQL(ds);
 		this.icdSQL = new ICDCodeMySQL(ds);
@@ -137,7 +137,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(0).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -154,7 +153,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(0).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -171,7 +169,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(1).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}
@@ -188,7 +185,6 @@ public class PrescriptionReportStepDefs {
 			Assert.assertTrue(preList.get(2).getEndDate().toString().contains(endDate));
 		}
 		catch (NumberFormatException | DBException | SQLException e) {
-		    System.out.println(e.toString());
 		    fail();
 			
 		}

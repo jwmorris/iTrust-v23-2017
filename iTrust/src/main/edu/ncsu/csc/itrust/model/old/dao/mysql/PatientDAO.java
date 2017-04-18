@@ -120,6 +120,7 @@ public class PatientDAO {
 			ps.executeUpdate();
 			return DBUtil.getLastInsert(conn);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DBException(e);
 		}
 	}

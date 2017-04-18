@@ -23,6 +23,8 @@ public class AddPHAAction {
 	private PersonnelDAO personnelDAO;
 	private AuthDAO authDAO;
     private long loggedInMID;
+    private DAOFactory factory;
+    
 	/**
 	 * Sets up the defaults for the class
 	 * 
@@ -31,6 +33,7 @@ public class AddPHAAction {
 	 */	
 	
 	public AddPHAAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.loggedInMID = loggedInMID;
 		this.authDAO = factory.getAuthDAO();
@@ -51,7 +54,7 @@ public class AddPHAAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.PHA, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.PHA_CREATE, loggedInMID, p.getMID(), "");
+		TransactionLogger.getInstance( factory ).logTransaction(TransactionType.PHA_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 

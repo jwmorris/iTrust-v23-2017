@@ -17,6 +17,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "lab_procedure_controller")
@@ -26,13 +27,9 @@ public class LabProcedureController extends iTrustController {
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
 	private LabProcedureData labProcedureData;
 
-	public LabProcedureController() {
+	public LabProcedureController() throws DBException {
 		super();
-		try {
-			labProcedureData = new LabProcedureMySQL();
-		} catch (DBException e) {
-			e.printStackTrace();
-		}
+		labProcedureData = new LabProcedureMySQL();
 	}
 
 	/**
@@ -41,8 +38,8 @@ public class LabProcedureController extends iTrustController {
 	 * @param ds
 	 *            The injected DataSource dependency
 	 */
-	public LabProcedureController(DataSource ds) {
-		super();
+	public LabProcedureController(DataSource ds, DAOFactory factory) {
+		super(null, null, factory);
 		labProcedureData = new LabProcedureMySQL(ds);
 	}
 

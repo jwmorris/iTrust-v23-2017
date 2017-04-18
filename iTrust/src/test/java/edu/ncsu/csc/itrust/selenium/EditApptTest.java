@@ -7,6 +7,8 @@ import org.junit.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class EditApptTest extends iTrustSeleniumTest {
@@ -19,7 +21,7 @@ public class EditApptTest extends iTrustSeleniumTest {
 		super.setUp();
 		gen.clearAllTables();
 		gen.standardData();
-		driver = new HtmlUnitDriver();
+		driver = new HtmlUnitDriver( BrowserVersion.INTERNET_EXPLORER_11 );
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 

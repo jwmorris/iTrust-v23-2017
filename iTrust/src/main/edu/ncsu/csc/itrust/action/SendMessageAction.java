@@ -26,6 +26,7 @@ import edu.ncsu.csc.itrust.model.old.validate.MessageValidator;
  */
 
 public class SendMessageAction {
+	private DAOFactory factory;
 	private long loggedInMID;
 	private EmailUtil emailer;
 	private PatientDAO patientDAO;
@@ -41,6 +42,7 @@ public class SendMessageAction {
 	 * @param loggedInMID The MID of the user sending the message.
 	 */
 	public SendMessageAction(DAOFactory factory, long loggedInMID) {
+		this.factory = factory;
 		this.loggedInMID = loggedInMID;
 		this.patientDAO = factory.getPatientDAO();
 		this.personnelDAO = factory.getPersonnelDAO();
@@ -122,8 +124,8 @@ public class SendMessageAction {
 		email.setFrom(fromEmail);
 		email.setSubject(String.format("A new message from %s", senderName));
 		emailer.sendEmail(email);
-		TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_SEND, loggedInMID, mBean.getTo(), "");
-		TransactionLogger.getInstance().logTransaction(TransactionType.MESSAGE_SEND, loggedInMID, mBean.getTo(), "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.EMAIL_SEND, loggedInMID, mBean.getTo(), "");
+		TransactionLogger.getInstance(factory).logTransaction(TransactionType.MESSAGE_SEND, loggedInMID, mBean.getTo(), "");
 	}
 	
 	/**

@@ -41,7 +41,7 @@ public class EmergencyHealthRecordsStepDefs {
 		this.ds = ConverterDAO.getDataSource();
 		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
 		this.gen = new TestDataGenerator();
-		this.oVisSQL = new OfficeVisitMySQL(ds);
+		this.oVisSQL = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 	}
 
 	@Given("^I load uc21.sql$")

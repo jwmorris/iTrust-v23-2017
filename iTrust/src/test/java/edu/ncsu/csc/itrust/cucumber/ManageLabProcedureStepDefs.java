@@ -10,6 +10,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 import static org.junit.Assert.fail;
 
@@ -34,7 +35,7 @@ public class ManageLabProcedureStepDefs {
 		
 		this.ds = ConverterDAO.getDataSource();
 		this.gen = new TestDataGenerator();
-		this.oVisSQL = new OfficeVisitMySQL(ds);
+		this.oVisSQL = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
 		this.labPSQL = new LabProcedureMySQL(ds);
 	}
 	

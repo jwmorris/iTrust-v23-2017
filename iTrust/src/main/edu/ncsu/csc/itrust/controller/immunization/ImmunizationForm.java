@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "immunization_form")
@@ -24,10 +25,10 @@ public class ImmunizationForm {
     private CPTCodeMySQL cptData;
     
     public ImmunizationForm() {
-        this(null, null, SessionUtils.getInstance(), null);
+        this(null, null, SessionUtils.getInstance(), null, DAOFactory.getProductionInstance());
     }
     
-    public ImmunizationForm(ImmunizationController ic, CPTCodeMySQL cptData, SessionUtils sessionUtils, DataSource ds) {
+    public ImmunizationForm(ImmunizationController ic, CPTCodeMySQL cptData, SessionUtils sessionUtils, DataSource ds, DAOFactory factory) {
         this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
         try {
             if (ds == null) {
@@ -35,7 +36,7 @@ public class ImmunizationForm {
                 controller = (ic == null) ? new ImmunizationController() : ic;
             } else {
                 this.cptData = (cptData == null) ? new CPTCodeMySQL(ds) : cptData;
-                controller = (ic == null) ? new ImmunizationController(ds) : ic;
+                controller = (ic == null) ? new ImmunizationController(ds, factory) : ic;
             }
             clearFields();
             

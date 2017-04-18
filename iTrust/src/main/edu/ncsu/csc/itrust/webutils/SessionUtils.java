@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.controller.utils.Utils;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 
 /**
@@ -235,12 +236,14 @@ public class SessionUtils {
 	 *            (if any)
 	 */
 	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = getCurrentFacesContext();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+//		FacesContext ctx = getCurrentFacesContext();
+//		if (ctx == null) {
+//			return;
+//		}
+//		ctx.getExternalContext().getFlash().setKeepMessages(true);
+//		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+		Utils util = new Utils();
+		util.printFacesMessage(severity, summary, detail, clientId);
 	}
 	
 	/**

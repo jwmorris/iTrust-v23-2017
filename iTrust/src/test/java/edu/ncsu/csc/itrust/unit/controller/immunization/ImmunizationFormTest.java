@@ -21,6 +21,7 @@ import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
@@ -33,7 +34,7 @@ public class ImmunizationFormTest extends TestCase {
     @Override
     public void setUp() throws FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
-        ovSql = new OfficeVisitMySQL(ds);
+        ovSql = new OfficeVisitMySQL( ds, TestDAOFactory.getTestInstance() );
         utils = spy(SessionUtils.getInstance());
         gen = new TestDataGenerator();
         gen.clearAllTables();
@@ -47,8 +48,8 @@ public class ImmunizationFormTest extends TestCase {
         
         // make the form
         ImmunizationForm form = new ImmunizationForm();
-        form = new ImmunizationForm(null, null, utils, null);
-        form = new ImmunizationForm(null, null, utils, ds);
+        form = new ImmunizationForm(null, null, utils, null, TestDAOFactory.getTestInstance());
+        form = new ImmunizationForm(null, null, utils, ds, TestDAOFactory.getTestInstance());
         
         // fill input
         form.fillInput("0", new CPTCode("90717", "Typhoid Vaccine"));
@@ -78,9 +79,9 @@ public class ImmunizationFormTest extends TestCase {
         form.remove(Long.toString(form.getImmunization().getId()));
         Assert.assertEquals(0, form.getImmunizationsByOfficeVisit(Long.toString(ovID)).size());
         
-        ImmunizationController mockImmunizationController = spy(new ImmunizationController(ds));
+        ImmunizationController mockImmunizationController = spy( new ImmunizationController( ds, TestDAOFactory.getTestInstance() ) );
         CPTCodeMySQL mockCPTCodeSQL = spy(new CPTCodeMySQL(ds));
-        form = new ImmunizationForm(mockImmunizationController, mockCPTCodeSQL, utils, ds);
+        form = new ImmunizationForm( mockImmunizationController, mockCPTCodeSQL, utils, ds, TestDAOFactory.getTestInstance() );
         when(mockImmunizationController.getImmunizationsByOfficeVisit(Long.toString(ovID))).thenThrow(new DBException(new SQLException()));
         when(mockCPTCodeSQL.getAll()).thenThrow(new SQLException());
         

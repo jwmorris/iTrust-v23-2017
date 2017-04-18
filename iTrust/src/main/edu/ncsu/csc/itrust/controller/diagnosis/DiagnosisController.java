@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name="diagnosis_controller")
@@ -36,8 +37,8 @@ public class DiagnosisController extends iTrustController {
 	 * @param ds
 	 *            The injected DataSource dependency
 	 */
-	public DiagnosisController(DataSource ds) throws DBException {
-		super();
+	public DiagnosisController(DataSource ds, DAOFactory factory) throws DBException {
+		super(null, null, factory);
 		this.sql = new DiagnosisMySQL(ds);
 	}
 	

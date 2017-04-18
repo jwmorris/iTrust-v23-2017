@@ -22,6 +22,7 @@ import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 
 /**
  * @author seelder
@@ -48,7 +49,7 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
-		validator = new OfficeVisitValidator(this.ds);
+		validator = new OfficeVisitValidator( this.ds, null );
 	}
 
 	/**
@@ -56,10 +57,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 	 * 
 	 * @param ds
 	 */
-	public OfficeVisitMySQL(DataSource ds) {
+	public OfficeVisitMySQL( DataSource ds, DAOFactory factory ) {
 		ovLoader = new OfficeVisitSQLLoader();
 		this.ds = ds;
-		validator = new OfficeVisitValidator(this.ds);
+		validator = new OfficeVisitValidator( this.ds, factory );
 	}
 
 	/**
@@ -131,11 +132,11 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 				if(generatedKeys.next()) {
 					generatedId = generatedKeys.getLong(1);
 				}
+				generatedKeys.close();
+				DBUtil.closeConnection(conn, pstring);
 			}
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			DBUtil.closeConnection(conn, pstring);
 		}
 		return generatedId;
 	}
@@ -153,19 +154,11 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 			pstring = conn.prepareStatement("SELECT * FROM officeVisit");
 			results = pstring.executeQuery();
 			final List<OfficeVisit> visitList = ovLoader.loadList(results);
+			results.close();
+			DBUtil.closeConnection(conn, pstring);
 			return visitList;
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
-				DBUtil.closeConnection(conn, pstring);
-			}
 		}
 	}
 
@@ -192,19 +185,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 			if (visitList.size() > 0) {
 				ret = visitList.get(0);
 			}
+			results.close();
+			DBUtil.closeConnection(conn, pstring);
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
-
-				DBUtil.closeConnection(conn, pstring);
-			}
 		}
 		return ret;
 	}
@@ -228,11 +212,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 			conn = ds.getConnection();
 			pstring = ovLoader.loadParameters(conn, pstring, ov, false);
 			results = pstring.executeUpdate();
+			DBUtil.closeConnection(conn, pstring);
 			retval = (results > 0);
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			DBUtil.closeConnection(conn, pstring);
 		}
 		return retval;
 	}
@@ -254,18 +237,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 				return null;
 			}
 			patientDOB = results.getDate("DateOfBirth");
+			results.close();
+			DBUtil.closeConnection(conn, pstring);
 		} catch (SQLException e) {
 			return null;
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				return null;
-			} finally {
-				DBUtil.closeConnection(conn, pstring);
-			}
 		}
 
 		if (patientDOB == null) {
