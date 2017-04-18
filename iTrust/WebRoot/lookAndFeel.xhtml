@@ -15,56 +15,66 @@
 			<ui:include src="/auth/hcp/menu.xhtml" />
 		</ui:define>
 		<ui:define name="mainContent">
-			<h:form>          
-    			<h:panelGrid columns="2" cellpadding="5" style="margin-left: 20px">
+			<h:form id="colorsForm">          
+    			<h:panelGrid id="grid" columns="2" cellpadding="10" style="margin-left: 20px">
     				<h:outputText value="Primary Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker id="primaryText" value="#{colorBean.primaryText}" immediate="true" />
         			
         			<h:outputText value="Primary Background: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.primaryBackground}" />
         			
         			<h:outputText value="Left Menu Background: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker id="leftMenuBackground" value="#{colorBean.leftMenuBackground}" />
  
         			<h:outputText value="Navigation Bar Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.navigationBarText}" />
         			
         			<h:outputText value="Navigation Bar Background: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.navigationBarBackground}" />
         			
         			<h:outputText value="Welcome Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.welcomeText}" />
         			
         			<h:outputText value="Footer Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />       
+        			<p:colorPicker value="#{colorBean.footerText}" />       
         			
         			<h:outputText value="Footer Background: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />       
+        			<p:colorPicker value="#{colorBean.footerBackground}" />       
         			
         			<h:outputText value="Table Heading Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.tableHeadingText}" />
         			
         			<h:outputText value="Table Heading Background: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.tableHeadingBackground}" />
         			
         			<h:outputText value="Table Row Background 1: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />   
+        			<p:colorPicker value="#{colorBean.tableRowBackground1}" />   
         			
         			<h:outputText value="Table Row Background 2: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.tableRowBackground2}" />
         			
         			<h:outputText value="Selected Patient Information Popup: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />
+        			<p:colorPicker value="#{colorBean.selectedPatient}" />
         			
         			<h:outputText value="Error Text: " />
-        			<p:colorPicker value="#{colorView.colorPopup}" />          
+        			<p:colorPicker value="#{colorBean.errorText}" />          
     			</h:panelGrid>
  
    			 	<p:separator />
-   			 	 <p:commandButton value="Submit" style="margin-left: 20px" />
+   			 	<p:commandButton value="Submit" oncomplete="updateColors()" update="grid" style="margin-left: 20px" />
+   			 
+   			 	<script id="jsUpdate" type="text/javascript">
+   			 		/*<![CDATA[*/
+					function updateColors() {
+							document.body.style.setProperty( '--sideMenuBackground', "#{colorBean.getLeftMenuBackground()}" );
+							window.alert( "#{colorBean.getLeftMenuBackground()}" );
+							window.alert( "#{colorBean.getPrimaryText()}" );
+					}
+					/*]]>*/
+				</script>
    			 </h:form>
-			
 		</ui:define>
 	</ui:composition>
+	
 </h:body>
 </html>
