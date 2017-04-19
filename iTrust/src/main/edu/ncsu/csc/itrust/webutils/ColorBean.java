@@ -109,7 +109,7 @@ public class ColorBean {
 	 * @param primaryBackground the primaryBackground to set
 	 */
 	public void setPrimaryBackground( String primaryBackground ) {
-		if ( this.primaryBackground.charAt( 0 ) != '#' || primaryBackground.charAt( 0 ) != '#' )
+		if ( this.primaryBackground.charAt( 0 ) != '#' && primaryBackground.charAt( 0 ) != '#' )
 			this.primaryBackground = "#" + primaryBackground;
 		else
 			this.primaryBackground = primaryBackground;
@@ -130,7 +130,7 @@ public class ColorBean {
 	 * @param leftMenuBackground the leftMenuBackground to set
 	 */
 	public void setLeftMenuBackground( String leftMenuBackground ) {
-		if ( this.leftMenuBackground.charAt( 0 ) != '#' )
+		if ( this.leftMenuBackground.charAt( 0 ) != '#' && leftMenuBackground.charAt( 0 ) != '#' )
 			this.leftMenuBackground = "#" + leftMenuBackground;
 		else if ( leftMenuBackground.charAt( 0 ) != '#' )
 			this.leftMenuBackground = "#" + leftMenuBackground;

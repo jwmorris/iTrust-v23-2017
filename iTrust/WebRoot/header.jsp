@@ -23,6 +23,8 @@
 				loggedInMID, loggedInMID, "");
 		session.removeAttribute("loginFlag");
 	}
+	if ( loggedInMID == null )
+		loggedInMID = 0L;
 	bean = sql.getColorBean( loggedInMID );
 	if ( bean == null ) {
 		bean = new ColorBean();
