@@ -259,7 +259,6 @@ public class ColorController {
 	}
 	
 	public void getColor() {
-		System.out.println( "Called" );
 		long mid = 0;
 		if ( utils.getSessionLoggedInMIDLong() != null )
 			mid = utils.getSessionLoggedInMIDLong();
