@@ -25,7 +25,28 @@
 	<script src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js" type="text/javascript" ></script>
 	
 </h:head>
-<body>
+<body window.onload = "updateColors( xhr, status, args )">
+	
+	<script id="jsUpdate" type="text/javascript">
+   			 		/*<![CDATA[*/
+					function updateColors( xhr, status, args ) {
+							document.body.style.setProperty( '--sideMenuBackground', '#00ff00' );
+							document.body.style.setProperty( '--mainTextColor', args.mtc );
+							document.body.style.setProperty( '--mainBackground', args.mbc );
+							document.body.style.setProperty( '--footerTextColor', args.ftc );
+							document.body.style.setProperty( '--navbarBackground', args.nbc );
+							document.body.style.setProperty( '--navbarText', args.ntc );
+							document.body.style.setProperty( '--footerBackground', args.fbc )
+							document.body.style.setProperty( '--selectedPatientBackground', args.spb );
+							document.body.style.setProperty( '--tableBackground1', args.tb1 );
+							document.body.style.setProperty( '--tableBackground2', args.tb2 );
+							document.body.style.setProperty( '--tableHeadBackground', args.thb );
+							document.body.style.setProperty( '--tableHeadText', args.tht );
+							document.body.style.setProperty( '--errorTextColor', args.etc );
+							document.body.style.setProperty( '--welcomeTextColor', args.wtc );
+					}
+					/*]]>*/
+				</script>
 		<div class="navbar navbar-inverse navbar-fixed-top top-border" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">

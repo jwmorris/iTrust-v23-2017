@@ -22,16 +22,13 @@
 		loggingAction.logEvent(TransactionType.LOGIN_SUCCESS,
 				loggedInMID, loggedInMID, "");
 		session.removeAttribute("loginFlag");
-		bean = sql.getColorBean( loggedInMID );
-		if ( bean == null ) {
-			bean = new ColorBean();
-			bean.setPid( loggedInMID );
-			sql.add( bean );
-		}
-	} else {
-		bean = new ColorBean();
 	}
-	
+	bean = sql.getColorBean( loggedInMID );
+	if ( bean == null ) {
+		bean = new ColorBean();
+		bean.setPid( loggedInMID );
+		sql.add( bean );
+	}
 	
 
 	if (request.getRequestURI().contains("home.jsp")) {

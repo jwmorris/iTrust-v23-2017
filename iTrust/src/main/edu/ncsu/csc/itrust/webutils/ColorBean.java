@@ -51,7 +51,7 @@ public class ColorBean {
 		leftMenuBackground = "rgba(247, 247, 247, 0.59)";
 		navigationBarText = "#999";
 		navigationBarBackground = "#222";
-		welcomeText = "rgb(255, 255, 255)";
+		welcomeText = "#FFFFFF";
 		footerText = "#E04646";
 		footerBackground = "rgba(247, 247, 247, 0.59)";
 		tableHeadingText = "white";
@@ -95,6 +95,7 @@ public class ColorBean {
 		RequestContext ctx = RequestContext.getCurrentInstance();
 		if ( ctx != null )
 			ctx.addCallbackParam( "mtc", this.primaryText );
+			
 	}
 
 	/**

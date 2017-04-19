@@ -9,6 +9,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import org.primefaces.context.RequestContext;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
@@ -50,6 +52,10 @@ public class ColorController {
 	 */
 	public void setPrimaryText( String primaryText ) {
 		this.bean.setPrimaryText( primaryText );
+		
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "mtc", this.bean.getPrimaryText() );
 	}
 
 	/**
@@ -247,6 +253,24 @@ public class ColorController {
 			sql.update( bean );
 		} catch (DBException | FormValidationException e) {
 			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( "Couldn't load custom color scheme" ) );
+		}
+	}
+	
+	public void getColor() {
+		System.out.println( "Called" );
+		try {
+			bean = sql.getColorBean( utils.getSessionLoggedInMIDLong() );
+		} catch (DBException e) {
+			bean = null;
+		}
+		if ( bean == null )
+			bean = new ColorBean();
+		
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null ) {
+			ctx.addCallbackParam( "mbc", this.bean.getPrimaryBackground() );
+			ctx.addCallbackParam( "lmb", this.bean.getLeftMenuBackground() );
+			ctx.addCallbackParam( "mtx", this.bean.getPrimaryText() );
 		}
 	}
 }
