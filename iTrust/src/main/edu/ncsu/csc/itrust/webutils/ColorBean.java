@@ -13,8 +13,9 @@ import org.primefaces.context.RequestContext;
  * @author wyattmaxey
  */
 @ManagedBean(name="colorBean")
-@ViewScoped
 public class ColorBean {
+	private long pid;
+	
 	private String primaryText;
 	
 	private String primaryBackground;
@@ -44,8 +45,9 @@ public class ColorBean {
 	private String errorText;
 	
 	public ColorBean() {
-		primaryText = "#ffffff";
-		primaryBackground = "#333";
+		pid = 0;
+		primaryText = "#333";
+		primaryBackground = "#fff";
 		leftMenuBackground = "rgba(247, 247, 247, 0.59)";
 		navigationBarText = "#999";
 		navigationBarBackground = "#222";
@@ -58,6 +60,20 @@ public class ColorBean {
 		tableRowBackground2 = "#E7E7E7";
 		selectedPatient = "#D6D6D6";
 		errorText = "#cc0000";
+	}
+
+	/**
+	 * @return the pid
+	 */
+	public long getPid() {
+		return pid;
+	}
+
+	/**
+	 * @param pid the pid to set
+	 */
+	public void setPid( long pid ) {
+		this.pid = pid;
 	}
 
 	/**
@@ -76,7 +92,9 @@ public class ColorBean {
 		else
 			this.primaryText = primaryText;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "mtc", this.primaryText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "mtc", this.primaryText );
 	}
 
 	/**
@@ -95,7 +113,9 @@ public class ColorBean {
 		else
 			this.primaryBackground = primaryBackground;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "mbc", this.primaryText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "mbc", this.primaryBackground );
 	}
 
 	/**
@@ -116,7 +136,9 @@ public class ColorBean {
 		else
 			this.leftMenuBackground = leftMenuBackground;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "lmb", this.leftMenuBackground );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "lmb", this.leftMenuBackground );
 	}
 
 	/**
@@ -137,7 +159,9 @@ public class ColorBean {
 		else
 			this.navigationBarText = navigationBarText;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "nbt", this.navigationBarText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "nbt", this.navigationBarText );
 	}
 
 	/**
@@ -158,7 +182,9 @@ public class ColorBean {
 		else
 			this.navigationBarBackground = navigationBarBackground;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "nbc", this.navigationBarBackground );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "nbc", this.navigationBarBackground );
 	}
 
 	/**
@@ -179,7 +205,9 @@ public class ColorBean {
 		else
 			this.welcomeText = welcomeText;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "wtc", this.welcomeText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "wtc", this.welcomeText );
 	}
 
 	/**
@@ -200,7 +228,9 @@ public class ColorBean {
 		else
 			this.footerText = footerText;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "ftc", this.footerText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "ftc", this.footerText );
 	}
 
 	/**
@@ -221,7 +251,9 @@ public class ColorBean {
 		else
 			this.footerBackground = footerBackground;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "fbc", this.footerBackground );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "fbc", this.footerBackground );
 	}
 
 	/**
@@ -242,7 +274,9 @@ public class ColorBean {
 		else
 			this.tableHeadingText = tableHeadingText;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "tht", this.tableHeadingText );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "tht", this.tableHeadingText );
 	}
 
 	/**
@@ -263,7 +297,9 @@ public class ColorBean {
 		else
 			this.tableHeadingBackground = tableHeadingBackground;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "thb", this.tableHeadingBackground );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "thb", this.tableHeadingBackground );
 	}
 
 	/**
@@ -284,7 +320,9 @@ public class ColorBean {
 		else
 			this.tableRowBackground1 = tableRowBackground1;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "tb1", this.tableRowBackground1 );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "tb1", this.tableRowBackground1 );
 	}
 
 	/**
@@ -305,7 +343,9 @@ public class ColorBean {
 		else
 			this.tableRowBackground2 = tableRowBackground2;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "tb2", this.tableRowBackground2 );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "tb2", this.tableRowBackground2 );
 	}
 
 	/**
@@ -326,7 +366,9 @@ public class ColorBean {
 		else
 			this.selectedPatient = selectedPatient;
 		
-		RequestContext.getCurrentInstance().addCallbackParam( "spb", this.selectedPatient );
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "spb", this.selectedPatient );
 	}
 
 	/**
@@ -346,11 +388,9 @@ public class ColorBean {
 			this.errorText = "#" + errorText;
 		else
 			this.errorText = errorText;
-		
-		RequestContext.getCurrentInstance().addCallbackParam( "etc", this.errorText );
-	}
-	
-	public void submit() {
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		if ( ctx != null )
+			ctx.addCallbackParam( "etc", this.errorText );
 		
 	}
 }

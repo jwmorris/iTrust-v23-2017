@@ -636,3 +636,25 @@ CREATE TABLE babyData
 	PRIMARY KEY (id),
 	FOREIGN KEY (childbirthId) 	REFERENCES childbirthData(id)
 ) ENGINE=MyISAM;
+
+CREATE TABLE colorData
+(
+	id 				BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	pid				BIGINT(20) NOT NULL,
+	lmb				VARCHAR(40) default "rgba(247, 247, 247, 0.59)",
+	mtc				VARCHAR(40) default "#fff",
+	mbc				VARCHAR(40) default "#333",
+	ftc				VARCHAR(40) default "#E04646",
+	nbc				VARCHAR(40) default "#222",
+	ntc				VARCHAR(40) default "#999",
+	fbc				VARCHAR(40) default "rgba(247, 247, 247, 0.59)",
+	spb				VARCHAR(40) default "#D6D6D6",
+	tb1				VARCHAR(40) default "#f1f1f1",
+	tb2				VARCHAR(40) default "#E7E7E7",
+	thb				VARCHAR(40) default "rgb(75, 75, 75)",
+	tht				VARCHAR(40) default "white",
+	etc				VARCHAR(40) default "#cc0000",
+	wtc				VARCHAR(40) default "rgb(255, 255, 255)",
+	PRIMARY KEY (id),
+	FOREIGN KEY (pid) 	REFERENCES patients(MID)
+) ENGINE=MyISAM;

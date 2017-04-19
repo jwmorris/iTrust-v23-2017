@@ -21,47 +21,47 @@
         			<p:colorPicker id="primaryText" value="#{colorBean.primaryText}" immediate="true" />
         			
         			<h:outputText value="Primary Background: " />
-        			<p:colorPicker value="#{colorBean.primaryBackground}" />
+        			<p:colorPicker value="#{color_controller.primaryBackground}" />
         			
         			<h:outputText value="Left Menu Background: " />
-        			<p:colorPicker id="leftMenuBackground" value="#{colorBean.leftMenuBackground}" />
+        			<p:colorPicker id="leftMenuBackground" value="#{color_controller.leftMenuBackground}" />
  
         			<h:outputText value="Navigation Bar Text: " />
-        			<p:colorPicker value="#{colorBean.navigationBarText}" />
+        			<p:colorPicker value="#{color_controller.navigationBarText}" />
         			
         			<h:outputText value="Navigation Bar Background: " />
-        			<p:colorPicker value="#{colorBean.navigationBarBackground}" />
+        			<p:colorPicker value="#{color_controller.navigationBarBackground}" />
         			
         			<h:outputText value="Welcome Text: " />
-        			<p:colorPicker value="#{colorBean.welcomeText}" />
+        			<p:colorPicker value="#{color_controller.welcomeText}" />
         			
         			<h:outputText value="Footer Text: " />
-        			<p:colorPicker value="#{colorBean.footerText}" />       
+        			<p:colorPicker value="#{color_controller.footerText}" />       
         			
         			<h:outputText value="Footer Background: " />
-        			<p:colorPicker value="#{colorBean.footerBackground}" />       
+        			<p:colorPicker value="#{color_controller.footerBackground}" />       
         			
         			<h:outputText value="Table Heading Text: " />
-        			<p:colorPicker value="#{colorBean.tableHeadingText}" />
+        			<p:colorPicker value="#{color_controller.tableHeadingText}" />
         			
         			<h:outputText value="Table Heading Background: " />
-        			<p:colorPicker value="#{colorBean.tableHeadingBackground}" />
+        			<p:colorPicker value="#{color_controller.tableHeadingBackground}" />
         			
         			<h:outputText value="Table Row Background 1: " />
-        			<p:colorPicker value="#{colorBean.tableRowBackground1}" />   
+        			<p:colorPicker value="#{color_controller.tableRowBackground1}" />   
         			
         			<h:outputText value="Table Row Background 2: " />
-        			<p:colorPicker value="#{colorBean.tableRowBackground2}" />
+        			<p:colorPicker value="#{color_controller.tableRowBackground2}" />
         			
         			<h:outputText value="Selected Patient Information Popup: " />
-        			<p:colorPicker value="#{colorBean.selectedPatient}" />
+        			<p:colorPicker value="#{color_controller.selectedPatient}" />
         			
         			<h:outputText value="Error Text: " />
-        			<p:colorPicker value="#{colorBean.errorText}" />          
+        			<p:colorPicker value="#{color_controller.errorText}" />          
     			</h:panelGrid>
  
    			 	<p:separator />
-   			 	<p:commandButton process="@this grid" type="submit" value="Submit" oncomplete="updateColors( xhr, status, args )" style="margin-left: 20px" >
+   			 	<p:commandButton process="@this grid" type="submit" value="Submit" action="#{color_controller.addCustomColor()}" oncomplete="updateColors( xhr, status, args )" style="margin-left: 20px" >
    			 	</p:commandButton>
    			 
    			 	<script id="jsUpdate" type="text/javascript">
