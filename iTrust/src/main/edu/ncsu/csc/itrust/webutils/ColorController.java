@@ -266,11 +266,28 @@ public class ColorController {
 		if ( bean == null )
 			bean = new ColorBean();
 		
-		RequestContext ctx = RequestContext.getCurrentInstance();
+		/*RequestContext ctx = RequestContext.getCurrentInstance();
 		if ( ctx != null ) {
 			ctx.addCallbackParam( "mbc", this.bean.getPrimaryBackground() );
 			ctx.addCallbackParam( "lmb", this.bean.getLeftMenuBackground() );
 			ctx.addCallbackParam( "mtx", this.bean.getPrimaryText() );
-		}
+		}*/
+		
+		RequestContext requestContext = RequestContext.getCurrentInstance();  
+		String javascriptColorChange = "document.body.style.setProperty( '--sideMenuBackground', " + bean.getLeftMenuBackground() + " );"
+							 + "document.body.style.setProperty( '--mainTextColor', " + bean.getPrimaryText() +" );"
+							 + "document.body.style.setProperty( '--mainBackground', " + bean.getPrimaryBackground() +" );"
+							 + "document.body.style.setProperty( '--footerTextColor', " + bean.getFooterText() +" );"
+							 + "document.body.style.setProperty( '--navbarBackground', " + bean.getNavigationBarBackground() +" );"
+							 + "document.body.style.setProperty( '--navbarText', " + bean.getNavigationBarText() +" );"
+							 + "document.body.style.setProperty( '--footerBackground', " + bean.getFooterBackground() +" )"
+							 + "document.body.style.setProperty( '--selectedPatientBackground', " + bean.getSelectedPatient() +" );"
+							 + "document.body.style.setProperty( '--tableBackground1', " + bean.getTableRowBackground1() +" );"
+							 + "document.body.style.setProperty( '--tableBackground2', " + bean.getTableRowBackground2() +" );"
+							 + "document.body.style.setProperty( '--tableHeadBackground', " + bean.getTableHeadingBackground() +" );"
+							 + "document.body.style.setProperty( '--tableHeadText', " + bean.getTableHeadingText() +" );"
+							 + "document.body.style.setProperty( '--errorTextColor', " + bean.getErrorText() +" );"
+							 + "document.body.style.setProperty( '--welcomeTextColor', " + bean.getWelcomeText() +");";
+		 requestContext.execute( javascriptColorChange );
 	}
 }
