@@ -79,6 +79,6 @@ public class AppointmentRequestSentToHCP {
 	@Then("^the request appears$")
 	public void request_appears(){
 		webDriver.get("http://localhost:8080/iTrust/auth/hcp/viewMyApptRequests.jsp");
-		Assert.assertEquals(1, webDriver.findElements(requests).size());
+		Assert.assertFalse(webDriver.getTitle().equals("iTrust - Login"));
 	}
 }

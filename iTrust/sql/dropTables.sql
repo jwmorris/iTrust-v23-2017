@@ -58,3 +58,4 @@ DROP TABLE IF EXISTS obstetricsOfficeVisitData;
 DROP TABLE IF EXISTS fetusData;
 DROP TABLE IF EXISTS childbirthData;
 DROP TABLE IF EXISTS babyData;
+DROP TABLE IF EXISTS colorData;

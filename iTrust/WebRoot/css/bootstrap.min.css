@@ -5,6 +5,14 @@
  */
 
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
+:root{
+	--mainBackground:#fff;
+	--mainTextColor:#333;
+	--footerTextColor:#E04646;
+	--navbarBackground:#222;
+	--navbarText:#999
+}
+
 html {
 	font-family: sans-serif;
 	-ms-text-size-adjust: 100%;
@@ -280,8 +288,8 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.42857143;
-	color: #333;
-	background-color: #fff
+	color: var( --mainTextColor );
+	background-color: var( --mainBackground );
 }
 
 input,button,select,textarea {
@@ -291,7 +299,7 @@ input,button,select,textarea {
 }
 
 a {
-	color: #E04646;;
+	color: var( --footerTextColor );
 	text-decoration: none
 }
 
@@ -4281,7 +4289,7 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 }
 
 .navbar-inverse {
-	background-color: #222;
+	background-color: var( --navbarBackground );
 	border-color: #080808
 }
 
@@ -4300,7 +4308,7 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 }
 
 .navbar-inverse .navbar-nav>li>a {
-	color: #999
+	color: var( --navbarText )
 }
 
 .navbar-inverse .navbar-nav>li>a:hover,.navbar-inverse .navbar-nav>li>a:focus

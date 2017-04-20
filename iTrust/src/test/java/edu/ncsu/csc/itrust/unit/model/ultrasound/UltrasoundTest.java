@@ -79,7 +79,7 @@ public class UltrasoundTest {
 	 */
 	@Test
 	public void testGetDateCreated() {
-		assertTrue( us.getDateCreated().equals( new Date( Calendar.getInstance().getTimeInMillis() ) ) );
+		assertEquals( us.getDateCreated().getTime(), Calendar.getInstance().getTimeInMillis(), 1000 );
 	}
 
 	/**
