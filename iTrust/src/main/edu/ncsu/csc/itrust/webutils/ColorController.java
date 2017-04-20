@@ -36,13 +36,13 @@ public class ColorController {
 		bean.setPid( mid );
 	}
 	
-	public ColorController( DataSource ds ) {
+	public ColorController( DataSource ds, SessionUtils utils ) {
 		sql = new ColorMySQL( ds );
 		bean = new ColorBean();
-		utils = SessionUtils.getInstance();
+		this.utils = utils;
 		long mid = 0;
-		if ( utils.getSessionLoggedInMIDLong() != null )
-			mid = utils.getSessionLoggedInMIDLong();
+		if ( this.utils.getSessionLoggedInMIDLong() != null )
+			mid = this.utils.getSessionLoggedInMIDLong();
 		bean.setPid( mid );
 	}
 
@@ -259,7 +259,6 @@ public class ColorController {
 	}
 	
 	public void getColor() {
-		System.out.println( "Called" );
 		long mid = 0;
 		if ( utils.getSessionLoggedInMIDLong() != null )
 			mid = utils.getSessionLoggedInMIDLong();
