@@ -14,7 +14,7 @@
 	}
 
 	ColorMySQL sql = new ColorMySQL();
-	ColorBean bean = null;
+	ColorBean colorBean = null;
 
 	if (loggedInMID != null
 			&& session.getAttribute("loginFlag") != null
@@ -25,11 +25,11 @@
 	}
 	if ( loggedInMID == null )
 		loggedInMID = 0L;
-	bean = sql.getColorBean( loggedInMID );
-	if ( bean == null ) {
-		bean = new ColorBean();
-		bean.setPid( loggedInMID );
-		sql.add( bean );
+	colorBean = sql.getColorBean( loggedInMID );
+	if ( colorBean == null ) {
+		colorBean = new ColorBean();
+		colorBean.setPid( loggedInMID );
+		sql.add( colorBean );
 	}
 	
 
@@ -54,20 +54,20 @@
 </head>
 <body>
 	<script type="text/javascript">
-		document.body.style.setProperty( '--sideMenuBackground', "<%=bean.getLeftMenuBackground()%>" );
-		document.body.style.setProperty( '--mainTextColor', "<%=bean.getPrimaryText()%>" );
-		document.body.style.setProperty( '--mainBackground', "<%=bean.getPrimaryBackground()%>" );
-		document.body.style.setProperty( '--footerTextColor', "<%=bean.getFooterText()%>" );
-		document.body.style.setProperty( '--navbarBackground', "<%=bean.getNavigationBarBackground()%>" );
-		document.body.style.setProperty( '--navbarText', "<%=bean.getNavigationBarText()%>" );
-		document.body.style.setProperty( '--footerBackground', "<%=bean.getFooterBackground()%>" )
-		document.body.style.setProperty( '--selectedPatientBackground', "<%=bean.getSelectedPatient()%>" );
-		document.body.style.setProperty( '--tableBackground1', "<%=bean.getTableRowBackground1()%>" );
-		document.body.style.setProperty( '--tableBackground2', "<%=bean.getTableRowBackground2()%>" );
-		document.body.style.setProperty( '--tableHeadBackground', "<%=bean.getTableHeadingBackground()%>" );
-		document.body.style.setProperty( '--tableHeadText', "<%=bean.getTableHeadingText()%>" );
-		document.body.style.setProperty( '--errorTextColor', "<%=bean.getErrorText()%>" );
-		document.body.style.setProperty( '--welcomeTextColor', "<%=bean.getWelcomeText()%>" );
+	document.body.style.setProperty( '--sideMenuBackground', "<%=colorBean.getLeftMenuBackground()%>" );
+	document.body.style.setProperty( '--mainTextColor', "<%=colorBean.getPrimaryText()%>" );
+	document.body.style.setProperty( '--mainBackground', "<%=colorBean.getPrimaryBackground()%>" );
+	document.body.style.setProperty( '--footerTextColor', "<%=colorBean.getFooterText()%>" );
+	document.body.style.setProperty( '--navbarBackground', "<%=colorBean.getNavigationBarBackground()%>" );
+	document.body.style.setProperty( '--navbarText', "<%=colorBean.getNavigationBarText()%>" );
+	document.body.style.setProperty( '--footerBackground', "<%=colorBean.getFooterBackground()%>" )
+	document.body.style.setProperty( '--selectedPatientBackground', "<%=colorBean.getSelectedPatient()%>" );
+	document.body.style.setProperty( '--tableBackground1', "<%=colorBean.getTableRowBackground1()%>" );
+	document.body.style.setProperty( '--tableBackground2', "<%=colorBean.getTableRowBackground2()%>" );
+	document.body.style.setProperty( '--tableHeadBackground', "<%=colorBean.getTableHeadingBackground()%>" );
+	document.body.style.setProperty( '--tableHeadText', "<%=colorBean.getTableHeadingText()%>" );
+	document.body.style.setProperty( '--errorTextColor', "<%=colorBean.getErrorText()%>" );
+	document.body.style.setProperty( '--welcomeTextColor', "<%=colorBean.getWelcomeText()%>" );
 	</script>
 		<div class="navbar navbar-inverse navbar-fixed-top top-border" role="navigation">
 			<div class="container-fluid">

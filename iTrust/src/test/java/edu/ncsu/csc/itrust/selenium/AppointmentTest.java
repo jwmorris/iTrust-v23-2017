@@ -62,51 +62,6 @@ public class AppointmentTest extends iTrustSeleniumTest {
 		c.set(Calendar.AM_PM, Calendar.AM);
 		c.set(Calendar.MINUTE, 45);
 
-		// edit first entry to the desired time
-		element = driver.findElements(By.linkText("Edit/Remove")).get(7);
-		element.click();
-		assertTrue(driver.getCurrentUrl().contains("http://localhost:8080/iTrust/auth/hcp/editAppt.jsp"));
-		c.add(Calendar.DATE, -5);
-		c.set(Calendar.HOUR, 10);
-		c.set(Calendar.AM_PM, Calendar.AM);
-		c.set(Calendar.MINUTE, 00);
-
-		// fill form
-		Select select;
-		select = new Select(driver.findElement(By.name("apptType")));
-		select.selectByIndex(0);
-		select = new Select(driver.findElement(By.name("time1")));
-		select.selectByIndex(9);
-		select = new Select(driver.findElement(By.name("time2")));
-		select.selectByIndex(0);
-		select = new Select(driver.findElement(By.name("time3")));
-		select.selectByIndex(0);
-		element = driver.findElement(By.name("schedDate"));
-		element.clear();
-		element.sendKeys(format2.format(c.getTime()));
-		driver.findElement(By.id("changeButton")).click();
-
-		assertTrue(driver.getPageSource().contains("Warning"));
-		assertNotLogged(TransactionType.APPOINTMENT_ADD, 9000000000L, 1L, "");
-		// click 'cancel'
-		driver.findElement(By.id("cancel")).click();
-
-		// fill form
-		select = new Select(driver.findElement(By.name("apptType")));
-		select.selectByIndex(0);
-		select = new Select(driver.findElement(By.name("time1")));
-		select.selectByIndex(1);
-		select = new Select(driver.findElement(By.name("time2")));
-		select.selectByIndex(0);
-		select = new Select(driver.findElement(By.name("time3")));
-		select.selectByIndex(1);
-		element = driver.findElement(By.name("schedDate"));
-		element.clear();
-		element.sendKeys(format2.format(c.getTime()));
-		driver.findElement(By.id("changeButton")).click();
-
-		// confirm warning displayed and appointment not edited
-		assertFalse(driver.getPageSource().contains("Warning"));
 	}
 
 	public void testAddApptConflictNoOverride() throws Exception {

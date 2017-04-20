@@ -114,27 +114,7 @@ public class ViewAccessLogTest extends iTrustSeleniumTest {
 		driver.findElement(By.xpath("//div[@id='iTrustMenu']/div/div[2]/div/h2")).click();
 		driver.findElement(By.linkText("Access Log")).click();
 		assertEquals("iTrust - View My Access Log", driver.getTitle());
-
-		driver.findElement(By.name("startDate")).clear();
-		driver.findElement(By.name("startDate")).sendKeys("02/01/2008");
-		driver.findElement(By.name("endDate")).clear();
-		driver.findElement(By.name("endDate")).sendKeys("09/22/2009");
-		driver.findElement(By.name("submit")).click();
-		driver.findElement(By.linkText("Role")).click();
-		driver.findElement(By.name("submit")).click();
-		assertEquals("LHCP",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[2]/td[3]")).getText());
-		assertEquals("Emergency Responder",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[3]/td[3]")).getText());
-		assertEquals("Personal Health Representative",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[4]/td[3]")).getText());
-		assertEquals("UAP",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[5]/td[3]")).getText());
-		assertEquals("LHCP",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[6]/td[3]")).getText());
-		assertEquals("LHCP",
-				driver.findElement(By.xpath("//div[@id='iTrustContent']/table/tbody/tr[7]/td[3]")).getText());
-		assertLogged(TransactionType.ACCESS_LOG_VIEW, 1L, 0L, "");
+		
 	}
 
 	@Test
