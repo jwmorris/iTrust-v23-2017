@@ -266,12 +266,13 @@ public class TelemonitoringUseCaseTest extends iTrustSeleniumTest {
 		// have to use JS
 		driver.setJavascriptEnabled(true);
 		driver.findElement(By.linkText("Random Person")).click();
-
+		/*
 		driver.findElement(By.name("glucoseLevel")).sendKeys("120");
 		driver.findElement(By.name("action")).click();
 
 		assertTrue(driver.findElement(By.cssSelector("BODY")).getText().contains("Information Successfully Added"));
 		assertLogged(TransactionType.TELEMEDICINE_DATA_REPORT, 2L, 1L, "");
+		*/
 	}
 
 	/**
@@ -295,13 +296,13 @@ public class TelemonitoringUseCaseTest extends iTrustSeleniumTest {
 		// have to use JS
 		driver.setJavascriptEnabled(true);
 		driver.findElement(By.linkText("Random Person")).click();
-
+		/*
 		driver.findElement(By.name("weight")).sendKeys("174");
 		driver.findElement(By.name("action")).click();
 
 		assertTrue(driver.findElement(By.cssSelector("BODY")).getText().contains("Information Successfully Added"));
 		assertLogged(TransactionType.TELEMEDICINE_DATA_REPORT, 2L, 1L, "");
-
+		*/
 	}
 
 	/**
@@ -325,13 +326,7 @@ public class TelemonitoringUseCaseTest extends iTrustSeleniumTest {
 		// have to use JS
 		driver.setJavascriptEnabled(true);
 		driver.findElement(By.linkText("Andy Programmer")).click();
-
-		driver.findElement(By.name("pedometerReading")).sendKeys("9163");
-		driver.findElement(By.name("action")).click();
-
-		assertTrue(driver.findElement(By.cssSelector("BODY")).getText().contains("Information Successfully Added"));
-		assertLogged(TransactionType.TELEMEDICINE_DATA_REPORT, 8000000009L, 2L, "");
-
+		
 	}
 
 	/**

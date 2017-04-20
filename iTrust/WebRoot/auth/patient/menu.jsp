@@ -85,6 +85,7 @@
 			<ul class="nav nav-sidebar">
 			    <li><a href="/iTrust/auth/patient/expertNameSearch.jsp">Expert&apos;s Reviews</a></li>
 				<li><a href="/iTrust/auth/patient/showEmailHistory.jsp">Show Email History</a></li>
+				<li><a href="/iTrust/lookAndFeel.xhtml">Look and Feel Settings</a></li>
 			</ul>
 		</div>
 	</div>
