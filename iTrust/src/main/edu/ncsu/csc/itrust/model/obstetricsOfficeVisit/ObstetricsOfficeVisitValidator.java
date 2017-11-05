@@ -29,20 +29,6 @@ public class ObstetricsOfficeVisitValidator extends POJOValidator<ObstetricsOffi
 	public void validate( ObstetricsOfficeVisit ov ) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
 		
-		int weeksPreg = 0;
-		if ( ov.getWeeksPregnant().equals( "" ) )
-			errorList.addIfNotNull( "Weeks Pregnant cannot be empty" );
-		else {
-			try {
-				weeksPreg = Integer.parseInt( ov.getWeeksPregnant() );
-			} catch ( Exception e ) {
-				errorList.addIfNotNull( "Weeks Pregnant must be numeric" );
-			}
-			
-			if ( weeksPreg < 0 || weeksPreg > MAX_WEEKS_PREGNANT )
-				errorList.addIfNotNull( "The value entered for Weeks Pregnant is invalid" );
-		}
-		
 		int weight = 0;
 		if ( ov.getWeight().equals( "" ) )
 			errorList.addIfNotNull( "Weight cannot be empty" );
@@ -112,19 +98,7 @@ public class ObstetricsOfficeVisitValidator extends POJOValidator<ObstetricsOffi
 	
 	public void validateEdit( ObstetricsOfficeVisit ov ) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
-		
-		if ( !ov.getWeeksPregnant().equals( "" ) ) {
-			int weeksPreg = 0;
-			try {
-				weeksPreg = Integer.parseInt( ov.getWeeksPregnant() );
-			} catch ( Exception e ) {
-				errorList.addIfNotNull( "Weeks Pregnant must be numeric" );
-			}
-			
-			if ( weeksPreg < 0 || weeksPreg > MAX_WEEKS_PREGNANT )
-				errorList.addIfNotNull( "The value entered for Weeks Pregnant is invalid" );
-		}
-		
+				
 		int weight = 0;
 		if ( !ov.getWeight().equals( "" ) ) {
 			try {

@@ -45,7 +45,7 @@ public class ObstetricsVisitController extends iTrustController {
 	private DAOFactory factory;
 	private ObstetricsOfficeVisitData obstetricsVisitData;
 	private SessionUtils sessionUtils;
-	private ObstetricsPregnancyData sql;
+	public ObstetricsPregnancyData sql;
 	private long currentPregnancyID;
 	
 	/**
@@ -295,14 +295,14 @@ public class ObstetricsVisitController extends iTrustController {
 			try {
 				allDates = obstetricsVisitData.getOfficeVistsForPatient(pid);
 				rhFlag = sql.getCurrentObstetricsPregnancy(pid).getrhFlag();
-				rhFlag = true;
 				if(allDates != null) {
 					ObstetricsOfficeVisit mostCurrentDate = allDates.get(allDates.size() - 1);
 					String weeksPreg = mostCurrentDate.getWeeksPregnant();
 					if(weeksPreg.equals("") || weeksPreg.equals(null)) {
 						rhWeeksRequired = false;
 					} else {
-						int weeksPrego = Integer.parseInt(weeksPreg);
+						int weeksPrego = (int)Double.parseDouble(weeksPreg);
+						System.out.print("Weeks Prego: " + weeksPrego);
 						if(weeksPrego >= 28) {
 							rhWeeksRequired = true;
 						} else {
@@ -419,5 +419,15 @@ public class ObstetricsVisitController extends iTrustController {
 		
 		fc.responseComplete();
 	}
-	
+
+	public String getLmp(long pid){
+		String lmp = "";
+		try {
+			lmp = sql.getCurrentObstetricsPregnancy(pid).getLmp();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lmp;
+	}
 }

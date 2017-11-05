@@ -237,7 +237,7 @@ public class ObstetricsVisitControllerTest {
 	@Test
 	public void testIsRHChecked() {
 		controller.add( ov );
-		assertTrue( controller.isRHChecked() );
+		assertFalse( controller.isRHChecked() );
 		
 	}
 
